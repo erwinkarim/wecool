@@ -1,0 +1,9 @@
+<p>index here</p>
+<% if persona_signed_in? then %>
+  <p> Welcome, <%= current_persona.screen_name %>  </p>
+  <p> <%= link_to 'Sign Out', destroy_persona_session_path, :method=>:delete %></p>
+  <p> <%= link_to 'Upload Photos', new_photo_path %> </p>
+<% else %>
+  <%= link_to 'Sign In', new_persona_session_path %> or <%= link_to 'Sign Up', new_persona_registration_path %>
+<% end %>
+

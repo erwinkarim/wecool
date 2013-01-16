@@ -1,0 +1,14 @@
+<p>
+  Upload photo here
+</p>
+<% if persona_signed_in? then %>
+  <p>Display Upload box</p>
+  <div>
+    <%= form_for @photo do |f| %>
+      <%= f.file_field :avatar %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+<% else %>
+  <p>You need to <%= link_to 'Sign In', new_persona_session_path %> or <%= link_to 'Sign Up', new_persona_registration_path %></p>
+<% end %>

@@ -1,0 +1,21 @@
+<%- model_class = Photo -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<div>
+  <% @photos.each do |photo| %>
+    <div>
+      <%= image_tag photo.avatar %>
+      <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
+        by
+        <% this_persona = Persona.find(photo.persona_id).screen_name %>
+        <%= link_to this_persona, persona_path(this_persona) %>
+    </div>
+  <% end %> 
+  
+</div>
+<% if persona_signed_in? then %>
+<div>
+  <%= link_to 'Upload Yours', new_persona_photo_path(current_persona.screen_name)  %>
+</div>
+<% end %>
