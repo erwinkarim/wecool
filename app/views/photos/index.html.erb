@@ -5,7 +5,7 @@
 <div>
   <% @photos.each do |photo| %>
     <div>
-      <%= image_tag photo.avatar %>
+      <%= link_to image_tag(photo.avatar.medium), photo_path(photo.id) %>
       <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
         by
         <% this_persona = Persona.find(photo.persona_id).screen_name %>
