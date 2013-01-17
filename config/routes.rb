@@ -3,6 +3,7 @@ Wecool::Application.routes.draw do
 
   resources :photos do
     get "upload"
+    get "versions"
   end
 
   resources :personas do

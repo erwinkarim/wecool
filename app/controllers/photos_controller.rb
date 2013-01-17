@@ -14,6 +14,7 @@ class PhotosController < ApplicationController
   # GET /photos/1.json
   def show
     @photo = Photo.find(params[:id])
+    @persona = Persona.find(@photo.persona_id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -82,5 +83,31 @@ class PhotosController < ApplicationController
   end
   
   def upload
+  end
+  
+  def versions
+    @photo = Photo.find(params[:photo_id])
+
+    @avatar = nil
+    if params.has_key? :size then
+        case params[:size]
+          when 'xlarge'
+            @avatar = @photo.avatar.xlarge
+          when 'large'
+            @avatar = @photo.avatar.large
+          when 'medium'
+            @avatar = @photo.avatar.medium
+          when 'small'
+            @avatar = @photo.avatar.small
+          when 'tiny'
+            @avatar = @photo.avatar.tiny
+          when 'original'
+            @avatar = @photo.avatar
+          else
+            @avatar = nil
+        end
+      else
+        @avatar = @photo.avatar.xlarge  
+    end
   end
 end
