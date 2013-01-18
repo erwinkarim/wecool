@@ -1,0 +1,50 @@
+<%- model_class = Photo -%>
+<div class="page-header">
+  <h1><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
+</div>
+
+<div>
+  <div>
+    <ul>
+      <li><%= link_to 'Other Versions', photo_version_path(@persona.screen_name, @photo.id) %></li>
+      <li><%= link_to 'Edit This', photo_editor_path(@photo.id) %></li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <% if @photo_prev.nil? then %>
+        <li>This is First Photo</li>
+      <% else %>
+        <li><%= link_to image_tag(@photo_prev.avatar.tiny), photo_view_path(@persona.screen_name, @photo_prev.id) %>
+      <% end %>
+      <% if @photo_next.nil? then %>
+        <li>This is Last Photo</li>
+      <% else %>
+        <li><%= link_to image_tag(@photo_next.avatar.tiny), photo_view_path(@persona.screen_name, @photo_next.id) %>
+      <% end %>
+    </ul>
+  </div>
+  <div>
+    <%= image_tag @photo.avatar.xlarge %>
+  </div>
+  <div>
+    by <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
+  </div>
+  <div>
+    <p><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
+  </div>
+</div>
+
+<% if persona_signed_in? && @persona.id == current_persona.id then %>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                photos_path, :class => 'btn'  %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_photo_path(@photo), :class => 'btn' %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                photo_path(@photo),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+  </div>
+<% end %>

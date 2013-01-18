@@ -3,13 +3,16 @@ Wecool::Application.routes.draw do
 
   resources :photos do
     get "upload"
-    get "versions"
+    get "editor"
+  end
+
+  controller :photos do 
+    match '/photos/:persona_id/view/:id' => :view, :via => :get, :as => 'photo_view'
+    match '/photos/:persona_id/version/:photo_id' => :version, :via => :get, :as => 'photo_version'
+    match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
   end
 
   resources :personas do
-    resources :photos do
-      get "upload"
-    end
   end
 
   # The priority is based upon order of creation:
