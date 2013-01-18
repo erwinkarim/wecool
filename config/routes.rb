@@ -1,9 +1,10 @@
 Wecool::Application.routes.draw do
   devise_for :personas
+  resources :personas do
+  end
 
   resources :photos do
     get "upload"
-    get "editor"
   end
 
   controller :photos do 
@@ -12,8 +13,6 @@ Wecool::Application.routes.draw do
     match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
   end
 
-  resources :personas do
-  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

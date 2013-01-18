@@ -43,6 +43,7 @@ gem 'twitter-bootstrap-rails'
 gem 'carrierwave'
 gem 'devise'
 gem 'rmagick'
+gem 'jquery-fileupload-rails'
 
 gem 'omniauth'
 #gem 'omniauth-facebook'

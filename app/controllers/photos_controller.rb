@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.find(:all, :limit=> 10)
+    @photos = Photo.find(:all, :limit=> 10, :order => 'id desc')
 
     respond_to do |format|
       format.html # index.html.erb
