@@ -7,7 +7,7 @@
     <div>
       <% this_persona = Persona.find(photo.persona_id).screen_name %>
       <%= link_to image_tag(photo.avatar.medium), photo_view_path(this_persona, photo.id) %>
-      <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
+      <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_view_path(this_persona, photo.id) %> 
         by
         <%= link_to this_persona, photo_path(this_persona) %>
     </div>
