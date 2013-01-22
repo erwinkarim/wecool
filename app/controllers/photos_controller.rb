@@ -45,6 +45,7 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = current_persona.photos.new(params[:photo])
+    @photo.title = @photo.avatar.to_s.split('/').last
 
     respond_to do |format|
       if @photo.save
