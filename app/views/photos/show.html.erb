@@ -11,8 +11,7 @@
       <div>
         <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
           by
-          <% this_persona = Persona.find(photo.persona_id).screen_name %>
-          <%= link_to this_persona, persona_path(this_persona) %>
+          <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
           , uploaded on <%= photo.created_at.localtime %>
       </div>
     </div>

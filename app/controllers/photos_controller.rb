@@ -2,10 +2,12 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    @photos = Photo.find(:all, :limit=> 10, :order => 'id desc')
+    #show recent 20
+    @photos = Photo.find(:all, :limit=> 20, :order => 'id desc')
 
     respond_to do |format|
       format.html # index.html.erb
+      #format.html { render :action => 'show' }
       format.json { render json: @photos }
     end
   end
@@ -15,7 +17,11 @@ class PhotosController < ApplicationController
   def show
     #show photos uploaded by persona
      
-    @persona = Persona.find(:all, :conditions => { :screen_name => params[:id]}, :limit => 1 ).first
+    if params[:id] == 'everyone' then
+      @persona = Persona.new(:screen_name => 'everyone')
+    else
+      @persona = Persona.find(:all, :conditions => { :screen_name => params[:id]}, :limit => 1 ).first
+    end
     @page_count = (@persona.photos.count.to_f/10).ceil
 
     if params.has_key? :page_id then
@@ -151,6 +157,19 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html # view.html.erb
+      format.json { render json: @photo }
+    end
+  end
+
+  # GET /photos/:persona_id/view/:id/exif(.:format)
+  def view_exif
+    #view exif data of this photo
+    @photo = Photo.find(params[:id])
+    @persona = Persona.find(@photo.persona_id)
+    @exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+
+    respond_to do |format|
+      format.html # view_exif.html.erb
       format.json { render json: @photo }
     end
   end

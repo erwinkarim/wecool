@@ -43,6 +43,7 @@ gem 'twitter-bootstrap-rails'
 gem 'carrierwave'
 gem 'devise'
 gem 'rmagick'
+gem 'exifr'
 
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
