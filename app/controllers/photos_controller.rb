@@ -10,13 +10,25 @@ class PhotosController < ApplicationController
     end
   end
 
-  # GET /photos/1
-  # GET /photos/1.json
+  # GET /photos/:persona_id
+  # GET /photos/:persona_id.json
   def show
     #show photos uploaded by persona
      
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:id]}, :limit => 1 ).first
-    @photos = Photo.find(:all, :conditions=> { :persona_id => @persona.id}, :limit => 20 ).reverse
+    @page_count = (@persona.photos.count.to_f/10).ceil
+
+    if params.has_key? :page_id then
+      #show the current page in the set/album
+      @photos = Photo.find(:all, 
+        :conditions=> { :persona_id => @persona.id}, :limit => 10, 
+          :offset => (params[:page_id].to_i-1) * 10 ,  :order=> 'id desc' )
+      @current_page = params[:page_id].to_i
+    else
+      @photos = Photo.find(:all, 
+        :conditions=> { :persona_id => @persona.id}, :limit => 10, :order=> 'id desc' )
+      @current_page = 1
+    end
 
     respond_to do |format|
       format.html # show.html.erb

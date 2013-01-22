@@ -4,13 +4,34 @@
 </div>
 <div>
   <% @photos.each do |photo| %>
-    <div>
-      <%= link_to image_tag(photo.avatar.medium), photo_view_path(@persona.screen_name, photo.id) %>
-      <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
-        by
-        <% this_persona = Persona.find(photo.persona_id).screen_name %>
-        <%= link_to this_persona, persona_path(this_persona) %>
+    <div class="container">
+      <div>
+        <%= link_to image_tag(photo.avatar.medium), photo_view_path(@persona.screen_name, photo.id) %>
+      </div>
+      <div>
+        <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
+          by
+          <% this_persona = Persona.find(photo.persona_id).screen_name %>
+          <%= link_to this_persona, persona_path(this_persona) %>
+          , uploaded on <%= photo.created_at.localtime %>
+      </div>
     </div>
   <% end %> 
-  
+  <div class="container">
+    <div class="pagination pagination-large pagination-centered">
+      <ul>
+        <li>
+          <%= link_to 'Prev', @current_page == 1 ? '#' : photo_page_path(@persona.screen_name, @current_page - 1) %>
+        </li>
+        <% for page in 1..@page_count %>
+          <li <%= (params[:page_id].nil? && page == 1)||  page == params[:page_id].to_i ? 'class=active' : ''  %>>
+            <%= link_to page, photo_page_path(@persona.screen_name, page) %>
+          </li>
+        <% end %> 
+        <li>
+          <%= link_to 'Next', @current_page == @page_count ? '#' : photo_page_path(@persona.screen_name, @current_page + 1) %>
+        </li>
+      </ul>
+    </div>
+  </div> 
 </div>
