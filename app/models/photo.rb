@@ -10,9 +10,12 @@ class Photo < ActiveRecord::Base
     {
       "name" => self.avatar.to_s.split('/').last, 
       "size" => self.avatar.size,
-      "url" => self.avatar, 
+      "url" => self.avatar.url, 
+      "thumbnail_url" => self.avatar.tiny.url,
       "delete_url" => photo_path(self),
-      "delete_type" => "DELETE" 
+      "delete_type" => "DELETE",
+      "persona_screen_name" => Persona.find(self.persona_id).screen_name,
+      "photo_id" => self.id
     }
   end
 end
