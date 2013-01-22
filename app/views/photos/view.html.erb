@@ -36,18 +36,20 @@
     
   <div class="span3">
     <!-- sidebar -->
-    <ul>
-      <% if @photo_prev.nil? then %>
-        <li>This is First Photo</li>
-      <% else %>
-        <li><%= link_to image_tag(@photo_prev.avatar.tiny), photo_view_path(@persona.screen_name, @photo_prev.id) %>
-      <% end %>
-      <% if @photo_next.nil? then %>
-        <li>This is Last Photo</li>
-      <% else %>
-        <li><%= link_to image_tag(@photo_next.avatar.tiny), photo_view_path(@persona.screen_name, @photo_next.id) %>
-      <% end %>
-    </ul>
+    <div class="pagination">
+      <ul>
+        <% if @photo_prev.nil? then %>
+          <li><a href="#">First</a></li>
+        <% else %>
+          <li><%= link_to image_tag(@photo_prev.avatar.thumb100), photo_view_path(@persona.screen_name, @photo_prev.id) %>
+        <% end %>
+        <% if @photo_next.nil? then %>
+          <li><a href="#">Last</a></li>
+        <% else %>
+          <li><%= link_to image_tag(@photo_next.avatar.thumb100), photo_view_path(@persona.screen_name, @photo_next.id) %>
+        <% end %>
+      </ul>
+    </div>
   </div><!-- span3 -->
 </div><!-- row -->
 
