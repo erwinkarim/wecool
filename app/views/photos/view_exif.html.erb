@@ -2,20 +2,32 @@
   <h1><%= @photo.title %> Exif data</h1>
 </div>
 
-<div>
-  <%= image_tag @photo.avatar.medium  %>
-</div>
-<div>
-  <% if @exif.nil? then %>
-    <p>No exif data</p>
-  <% else %>
-    <table class="span6 table table-striped">
-    <% @exif.to_hash.each_pair do |key,value| %>
-      <tr>
-        <td><strong><%= key %></strong></td>
-        <td><%= value %></td>
-      <tr>
-    <% end %>
-    </table>
+<div class="row-fluid">
+  <div class="span9">
+  <div>
+    <%= image_tag @photo.avatar.large  %>
+  </div>
+  <div>
+    <% if @exif.nil? then %>
+      <table class="table">
+        <tr><td>No Exif data</td></tr>
+      </table>
+    <% else %>
+      <dl class="dl-horizontal">
+      <% @exif.to_hash.each_pair do |key,value| %>
+        <dt><strong><%= key %></strong></dt>
+        <dd><%= value.nil? ? 'No value' : value.to_s.html_safe %></dd>
+      <% end %>
+
+      </dl>
   <% end %>
+  </div>
+  </div><!-- span9 -->
+</div><!-- row -->
+
+<div class="row-fluid">
+  <div class="span9 form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                photo_view_path(@persona.screen_name, @photo.id), :class => 'btn'  %>
+  </div>
 </div>
