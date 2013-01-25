@@ -1,6 +1,13 @@
 <%- model_class = Photo -%>
-<div class="page-header" id="photo-title">
-  <h1><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
+<div class="page-header">
+  <h1 id="photo-title"><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
+  <% if persona_signed_in? && current_persona.id == @persona.id then %>
+    <%= form_for @photo, :html => { :id => 'photo-title-form', :class => 'form-horizontal'}  do |f| %>
+      <%= f.text_field  :title, :class=> 'span6 input-large' %>
+      <%= link_to 'Cancel', '#', :id => 'photo-title-cancel-btn', :class=>'btn' %>
+      <%= f.submit 'Update title',:class=>'btn btn-primary' %>
+    <% end %>
+  <% end %>
 </div>
 
 <div class="row-fluid">
@@ -28,8 +35,16 @@
       <div>
         by <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
       </div>
-      <div id="photo-description">
-        <p><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
+      <div
+        <p id="photo-desc"><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
+        <% if persona_signed_in? && current_persona.id = @persona.id then %>
+          <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
+            <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
+            <br />
+            <%= link_to 'Cancel', '#', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+            <%= f.submit nil, :class=>'btn btn-primary' %>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div><!-- span9 -->
@@ -76,12 +91,24 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function(){
+    //hide all the forms
+    $("#photo-title-form").hide();
+    $("#photo-desc-form").hide();
+    
+    //click event
     $("#photo-title").click(function (event){
-      alert("clicked on title");
-      //show form to update title
+      $("#photo-title").hide("slow");
+      $("#photo-title-form").show("slow");
     });
-    $("#photo-description").click(function (event){
-      alert("click on description");
+    $("#photo-title-cancel-btn").click(function (event){
+      $("#photo-title").show("slow");
+      $("#photo-title-form").hide("slow");
+    });
+    $("#photo-desc").click(function (event){
+      $("#photo-desc-form").show("slow"); 
+    });
+    $("#photo-desc-cancel-btn").click(function (event){
+      $("#photo-desc-form").hide("slow"); 
     });
   });
 </script>
