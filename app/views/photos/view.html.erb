@@ -1,5 +1,5 @@
 <%- model_class = Photo -%>
-<div class="page-header">
+<div class="page-header" id="photo-title">
   <h1><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
 </div>
 
@@ -28,7 +28,7 @@
       <div>
         by <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
       </div>
-      <div>
+      <div id="photo-description">
         <p><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
       </div>
     </div>
@@ -74,4 +74,16 @@
                 :class => 'btn btn-danger' %>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#photo-title").click(function (event){
+      alert("clicked on title");
+      //show form to update title
+    });
+    $("#photo-description").click(function (event){
+      alert("click on description");
+    });
+  });
+</script>
+
 <% end %>
