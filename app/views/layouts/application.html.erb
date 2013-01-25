@@ -52,6 +52,7 @@
             <ul class="nav">
               <li><%= link_to "Photos", photos_path  %></li>
               <% if persona_signed_in? then %>
+                <li><%= link_to 'My Photos', photo_path(current_persona.screen_name) %></li>
                 <li><%= link_to "Upload", new_photo_path  %></li>
               <% end %>
             </ul>

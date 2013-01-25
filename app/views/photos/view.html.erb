@@ -35,13 +35,13 @@
       <div>
         by <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
       </div>
-      <div
+      <div>
         <p id="photo-desc"><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
         <% if persona_signed_in? && current_persona.id = @persona.id then %>
           <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
             <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
             <br />
-            <%= link_to 'Cancel', '#', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+            <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
             <%= f.submit nil, :class=>'btn btn-primary' %>
           <% end %>
         <% end %>
