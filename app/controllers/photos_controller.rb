@@ -131,6 +131,10 @@ class PhotosController < ApplicationController
             @avatar = @photo.avatar.small
           when 'tiny'
             @avatar = @photo.avatar.tiny
+          when 'thumb50'
+            @avatar = @photo.avatar.thumb50
+          when 'thumb100'
+            @avatar = @photo.avatar.thumb100
           when 'original'
             @avatar = @photo.avatar
           else

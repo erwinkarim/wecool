@@ -1,5 +1,7 @@
 <div>
   <ul class="nav nav-pills">
+    <li class="<%= params[:size] == 'thumb50' ? 'active' : ''%>"><%= link_to 'Thumb50', photo_version_path(@photo.id, :size => 'thumb50') %></li>
+    <li class="<%= params[:size] == 'thumb100' ? 'active' : ''%>"><%= link_to 'Thumb100', photo_version_path(@photo.id, :size => 'thumb100') %></li>
     <li class="<%= params[:size] == 'tiny' ? 'active' : ''%>"><%= link_to 'Tiny', photo_version_path(@photo.id, :size => 'tiny') %></li>
     <li class="<%= params[:size] == 'small' ? 'active' : ''%>"><%= link_to 'Small', photo_version_path(@photo.id, :size => 'small') %></li>
     <li class="<%= params[:size] == 'medium' ? 'active' : ''%>"><%= link_to 'Medium', photo_version_path(@photo.id, :size => 'medium') %></li>
