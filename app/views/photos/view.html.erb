@@ -22,11 +22,13 @@
                 <li><%= link_to 'Other Versions', photo_version_path(@persona.screen_name, @photo.id) %></li>
                 <li><%= link_to 'Launch Editor', photo_editor_path(@photo.id) %></li>
                 <li><%= link_to 'Exif Data', photo_view_exif_path(@persona.screen_name, @photo.id) %></li>
+                <% if persona_signed_in? && current_persona.id == @persona.id then %>
                 <li class="divider"></li>
                 <li><%= link_to 'Delete this photo', photo_path(@photo), 
                   :method => 'delete', 
                   :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
                   %></li>
+                <% end %>
               </ul>
           </li>
         </ul>
@@ -42,7 +44,7 @@
       </div>
       <div>
         <p id="photo-desc"><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
-        <% if persona_signed_in? && current_persona.id = @persona.id then %>
+        <% if persona_signed_in? && current_persona.id == @persona.id then %>
           <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
             <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
             <br />
@@ -81,43 +83,44 @@
 </div>
 
 <% if persona_signed_in? && @persona.id == current_persona.id then %>
-<div class="row-fluid">
-  <div class="span9 form-actions">
-    <%= link_to t('.back', :default => t("helpers.links.back")),
-                photo_path(@persona.screen_name), :class => 'btn'  %>
-    <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                edit_photo_path(@photo), :class => 'btn' %>
-    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                photo_path(@photo),
-                :method => 'delete',
-                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                :class => 'btn btn-danger' %>
+  <div class="row-fluid">
+    <div class="span9 form-actions">
+      <%= link_to t('.back', :default => t("helpers.links.back")),
+                  photo_path(@persona.screen_name), :class => 'btn'  %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                  edit_photo_path(@photo), :class => 'btn' %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  photo_path(@photo),
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                  :class => 'btn btn-danger' %>
+    </div>
   </div>
-</div>
-<script type="text/javascript">
-  $(document).ready(function(){
-    //hide all the forms
-    $("#photo-title-form").hide();
-    $("#photo-desc-form").hide();
-    
-    //click event
-    $("#photo-title").click(function (event){
-      $("#photo-title").hide("slow");
-      $("#photo-title-form").show("slow");
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      //hide all the forms
+      $("#photo-title-form").hide();
+      $("#photo-desc-form").hide();
+      
+      //click event
+      $("#photo-title").click(function (event){
+        $("#photo-title").hide("slow");
+        $("#photo-title-form").show("slow");
+      });
+      $("#photo-title-cancel-btn").click(function (event){
+        $("#photo-title").show("slow");
+        $("#photo-title-form").hide("slow");
+      });
+      $("#photo-desc").click(function (event){
+        $("#photo-desc").hide("slow");
+        $("#photo-desc-form").show("slow"); 
+      });
+      $("#photo-desc-cancel-btn").click(function (event){
+        $("#photo-desc").show("slow");
+        $("#photo-desc-form").hide("slow"); 
+      });
     });
-    $("#photo-title-cancel-btn").click(function (event){
-      $("#photo-title").show("slow");
-      $("#photo-title-form").hide("slow");
-    });
-    $("#photo-desc").click(function (event){
-      $("#photo-desc").hide("slow");
-      $("#photo-desc-form").show("slow"); 
-    });
-    $("#photo-desc-cancel-btn").click(function (event){
-      $("#photo-desc").show("slow");
-      $("#photo-desc-form").hide("slow"); 
-    });
-  });
-</script>
+  </script>
 
 <% end %>

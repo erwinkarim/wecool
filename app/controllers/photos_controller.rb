@@ -86,6 +86,8 @@ class PhotosController < ApplicationController
   # PUT /photos/1
   # PUT /photos/1.json
   def update
+    #todo
+    # Ensure that updates is allowed by the owner
     @photo = Photo.find(params[:id])
 
     respond_to do |format|
@@ -102,6 +104,9 @@ class PhotosController < ApplicationController
   # DELETE /photos/1
   # DELETE /photos/1.json
   def destroy
+    #todo
+    # Ensure that updates is allowed by the owner
+    
     @photo = Photo.find(params[:id])
     @photo.destroy
 
@@ -147,6 +152,7 @@ class PhotosController < ApplicationController
 
   def editor
     @photo = Photo.find(params[:photo_id])
+    @persona = Persona.find(@photo.persona_id)
   end
 
   def view
