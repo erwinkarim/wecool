@@ -1,6 +1,3 @@
-
-
-
 //this is photo_editor.js
 var brightnessValue = 0;
 var contrastValue = 0;
@@ -20,10 +17,25 @@ function copyImageData( canvas, imageContext, sourceImageData){
   return imageData;
 } 
 
-function setBrightness ( newBrightnessValue, sourceImageData){
+function setBrightness ( brightnessDelta, sourceImageData){
+  brightnessValue = brightnessValue + brightnessDelta;
+  if (brightnessValue < -150) brightnessValue = 0;
+  if (brightnessValue > 150) brightnessValue = 150;
+  
+  var imageData = sourceImageData.data 
+  for(var i=0; i < imageData.length; i+=4){
+    imageData[i] = setNewColor(imageData[i]+brightnessValue);
+    imageData[i+1] = setNewColor(imageData[i+1]+brightnessValue);
+    imageData[i+2] = setNewColor(imageData[i+2]+brightnessValue);
+  }
+
+  
+  sourceImageData.data = imageData;
+  return sourceImageData;
+  
 }
 
-function setContrast ( newContrastValue, sourceImageData){
+function setContrast ( contrastDelta, sourceImageData){
 }
 
 //ready for the buttons
@@ -51,35 +63,22 @@ $(document).ready( function(){
   });
 
   $("#brightness-minus").click(function (event) {
-    //adjust brighness value
-    if(brightnessValue > -150) brightnessValue -= 1;
-    
     //copy image data  
     var imageData = copyImageData( canvas, ctx, origImageData);
 
     //update value    
-    for(var i=0; i < imageData.data.length; i+=4){
-      imageData.data[i] = setNewColor(imageData.data[i]+brightnessValue);     //red
-      imageData.data[i+1] = setNewColor(imageData.data[i+1]+brightnessValue); //green
-      imageData.data[i+2] = setNewColor(imageData.data[i+2]+brightnessValue); //blue
-    } 
+    imageData = setBrightness ( -1, imageData);
 
     ctx.putImageData(imageData, 0,0);
   });
 
   $("#brightness-plus").click(function (event) {
-    //adjust brighness value
-    if(brightnessValue < 150) brightnessValue += 1;
 
     //copy image data  
     var imageData = copyImageData( canvas, ctx, origImageData);
 
     //update value    
-    for(var i=0; i < imageData.data.length; i+=4){
-      imageData.data[i] = setNewColor(imageData.data[i]+brightnessValue);     //red
-      imageData.data[i+1] = setNewColor(imageData.data[i+1]+brightnessValue); //green
-      imageData.data[i+2] = setNewColor(imageData.data[i+2]+brightnessValue); //blue
-    } 
+    imageData = setBrightness ( +1, imageData);
 
     ctx.putImageData(imageData, 0,0);
   });
