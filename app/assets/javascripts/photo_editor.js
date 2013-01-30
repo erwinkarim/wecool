@@ -20,6 +20,12 @@ function copyImageData( canvas, imageContext, sourceImageData){
   return imageData;
 } 
 
+function setBrightness ( newBrightnessValue, sourceImageData){
+}
+
+function setContrast ( newContrastValue, sourceImageData){
+}
+
 //ready for the buttons
 $(document).ready( function(){
   //for the buttons
@@ -45,48 +51,37 @@ $(document).ready( function(){
   });
 
   $("#brightness-minus").click(function (event) {
-    //copy image data  
-    var imageData = ctx.createImageData(canvas.width, canvas.height);
-    for(var i=0; i < imageData.data.length; i++){
-        imageData.data[i] = origImageData.data[i];
-    }
-
     //adjust brighness value
-    if(brightnessValue == -150) brightnessValue -= 1;
+    if(brightnessValue > -150) brightnessValue -= 1;
     
-    var data = imageData.data;
-    for(var i=0; i < data.length; i+=4){
-      for(var x=0; x<3; x++){
-        var colorValue = data[i+x];
-        var newColor = data[i+x]+brightnessValue;
-        if(newColor < 0) newColor = 0;
-        if(newColor > 255) newColor = 255;
-        data[i+x]=newColor;
-      }
+    //copy image data  
+    var imageData = copyImageData( canvas, ctx, origImageData);
+
+    //update value    
+    for(var i=0; i < imageData.data.length; i+=4){
+      imageData.data[i] = setNewColor(imageData.data[i]+brightnessValue);     //red
+      imageData.data[i+1] = setNewColor(imageData.data[i+1]+brightnessValue); //green
+      imageData.data[i+2] = setNewColor(imageData.data[i+2]+brightnessValue); //blue
     } 
+
     ctx.putImageData(imageData, 0,0);
   });
 
   $("#brightness-plus").click(function (event) {
-    //copy image data  
-    var imageData = ctx.createImageData(canvas.width, canvas.height);
-    for(var i=0; i < imageData.data.length; i++){
-        imageData.data[i] = origImageData.data[i];
-    }
-
     //adjust brighness value
-    if(brightnessValue == 150) brightnessValue += 1;
-    
-    var data = imageData.data;
-    for(var i=0; i < data.length; i+=4){
-      for(var x=0; x<3; x++){
-        var colorValue = data[i+x];
-        var newColor = data[i+x]+brightnessValue;
-        if(newColor < 0) newColor = 0;
-        if(newColor > 255) newColor = 255;
-        data[i+x]=newColor;
-      }
+    if(brightnessValue < 150) brightnessValue += 1;
+
+    //copy image data  
+    var imageData = copyImageData( canvas, ctx, origImageData);
+
+    //update value    
+    for(var i=0; i < imageData.data.length; i+=4){
+      imageData.data[i] = setNewColor(imageData.data[i]+brightnessValue);     //red
+      imageData.data[i+1] = setNewColor(imageData.data[i+1]+brightnessValue); //green
+      imageData.data[i+2] = setNewColor(imageData.data[i+2]+brightnessValue); //blue
     } 
+
+    ctx.putImageData(imageData, 0,0);
   });
 
   $("#contrast-minus").click(function (event) {
@@ -105,7 +100,6 @@ $(document).ready( function(){
       }
     }
 
-    console.log('data:' + imageData.data[10000] + ', contrastValue:'+contrastValue);
     ctx.putImageData(imageData, 0,0);
   });
 
@@ -125,7 +119,6 @@ $(document).ready( function(){
       }
     }
 
-    console.log('data:' + imageData.data[10000] + ', contrastValue:'+contrastValue);
     ctx.putImageData(imageData, 0,0);
     
   });
