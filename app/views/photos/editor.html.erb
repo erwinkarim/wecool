@@ -29,22 +29,18 @@
         <script type="text/javascript">
           var canvas = document.getElementById('theCanvas');
           var ctx = canvas.getContext('2d');
-          var img = new Image();
-          var brightnessValue = 0;
-          var contrastValue = 0;
-          var origImageData ;
+          var origImageData;
 
+          var img = new Image();
           img.src = "<%= @photo.avatar.large.url %>";
+
+          //load the image to the canvas
           img.onload = function(){
             ctx.translate(canvas.width/2, canvas.height/2);
             ctx.drawImage(img, img.width/-2, img.height/-2);
             ctx.translate(canvas.width/-2, canvas.height/-2);
-
+            origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
           }
-
-          //save original image data, so when making adjustment, adjust in relative to original image data
-          var origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
-
         </script>
         <!-- the rest of the script goes here -->
         <%= javascript_include_tag "photo_editor.js" %>
