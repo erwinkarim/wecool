@@ -17,25 +17,69 @@ function copyImageData( canvas, imageContext, sourceImageData){
   return imageData;
 } 
 
-function setBrightness ( brightnessDelta, sourceImageData){
-  brightnessValue = brightnessValue + brightnessDelta;
-  if (brightnessValue < -150) brightnessValue = 0;
+function setBrightness(brightnessDelta){
+  brightnessValue += brightnessDelta;
+  if (brightnessValue < -150) brightnessValue = -150;
   if (brightnessValue > 150) brightnessValue = 150;
-  
-  var imageData = sourceImageData.data 
-  for(var i=0; i < imageData.length; i+=4){
-    imageData[i] = setNewColor(imageData[i]+brightnessValue);
-    imageData[i+1] = setNewColor(imageData[i+1]+brightnessValue);
-    imageData[i+2] = setNewColor(imageData[i+2]+brightnessValue);
+
+  //update brightness value label
+  $("#brightness-value").text(brightnessValue);
+}
+
+//returns a ImageData object with adjusted brightness in relation to the sourceImageData object
+function brightnessFilter ( sourceImageData){
+  //build imageData
+  var returnImageData = ctx.createImageData(canvas.width, canvas.height);
+  var imageDataArray = returnImageData.data;
+  for(var i=0; i < sourceImageData.data.length; i+=4){
+    imageDataArray[i] = setNewColor(sourceImageData.data[i] + brightnessValue);
+    imageDataArray[i+1] = setNewColor(sourceImageData.data[i+1] + brightnessValue);
+    imageDataArray[i+2] = setNewColor(sourceImageData.data[i+2] + brightnessValue);
+    imageDataArray[i+3] = sourceImageData.data[i+3];
   }
 
-  
-  sourceImageData.data = imageData;
-  return sourceImageData;
+  returnImageData.data = imageDataArray;
+
+  return returnImageData;
   
 }
 
-function setContrast ( contrastDelta, sourceImageData){
+function setContrast ( contrastDelta ){
+  contrastValue += contrastDelta;
+
+  if (contrastValue < -128) contrastValue = -128;
+  if (contrastValue > 128) contrastValue = 128;
+
+  //update contrast value label
+  $("#contrast-value").text(contrastValue);
+}
+
+function contrastFilter ( sourceImageData){
+  //calculate contrast factor
+  var contrastFactor = (259 * (contrastValue + 255))/(255 * (259 - contrastValue));
+
+  //update pixel value
+  for(var i=0; i< sourceImageData.data.length; i+=4){
+    for(var x=0; x<3; x++){
+      sourceImageData.data[i+x] = setNewColor(contrastFactor * ( sourceImageData.data[i+x] - 128) + 128); 
+    }
+  }
+
+  return sourceImageData;
+}
+//redraw the canvas with adjusted value
+function reDraw(sourceImageData){
+
+  //get empty ImageData object
+  //apply brightness filter first
+  imageData = brightnessFilter(sourceImageData); 
+
+  //apply contrast filter
+  imageData = contrastFilter(imageData);
+
+  //redraw the canvas
+  ctx.putImageData(imageData, 0,0);
+
 }
 
 //ready for the buttons
@@ -63,62 +107,26 @@ $(document).ready( function(){
   });
 
   $("#brightness-minus").click(function (event) {
-    //copy image data  
-    var imageData = copyImageData( canvas, ctx, origImageData);
-
-    //update value    
-    imageData = setBrightness ( -1, imageData);
-
-    ctx.putImageData(imageData, 0,0);
+    setBrightness( -5 );
+ 
+    reDraw(origImageData); 
   });
 
   $("#brightness-plus").click(function (event) {
 
-    //copy image data  
-    var imageData = copyImageData( canvas, ctx, origImageData);
+    setBrightness( +5 );
 
-    //update value    
-    imageData = setBrightness ( +1, imageData);
-
-    ctx.putImageData(imageData, 0,0);
+    reDraw(origImageData); 
   });
 
   $("#contrast-minus").click(function (event) {
-    //calculate contrast factor
-    if (contrastValue != -128) contrastValue -= 1;
-    var contrastFactor = (259 * (contrastValue + 255))/(255 * (259 - contrastValue));
-
-    //copy image data from original and update
-    var imageData = copyImageData( canvas, ctx, origImageData);
-  
-    //update value
-    for(var i=0; i < imageData.data.length; i+=4){
-      for(var x=0; x<3; x++){
-        var colorValue = imageData.data[i+x];
-        imageData.data[i+x] = setNewColor(contrastFactor * (colorValue-128) + 128);
-      }
-    }
-
-    ctx.putImageData(imageData, 0,0);
+      setContrast(-4);
+      reDraw(origImageData);
   });
 
   $("#contrast-plus").click(function (event) {
-    //calculate contrast factor
-    if (contrastValue != 128) contrastValue += 1;
-    var contrastFactor = (259 * (contrastValue + 255))/(255 * (259 - contrastValue));
-
-    //copy image data from original and update
-    var imageData = copyImageData( canvas, ctx, origImageData);
-  
-    //update value
-    for(var i=0; i < imageData.data.length; i+=4){
-      for(var x=0; x<3; x++){
-        var colorValue = imageData.data[i+x];
-        imageData.data[i+x] = setNewColor(contrastFactor * (colorValue-128) + 128);
-      }
-    }
-
-    ctx.putImageData(imageData, 0,0);
+    setContrast(+4);
+    reDraw(origImageData);
     
   });
 });
