@@ -3,19 +3,11 @@ var brightnessValue = 0;
 var contrastValue = 0;
 
 function setNewColor(newValue){
+    newValue = Math.round(newValue);
     if (newValue > 255) newValue=255;
     if (newValue < 0) newValue=0; 
     return newValue;
 }
-
-function copyImageData( canvas, imageContext, sourceImageData){
-  var imageData = imageContext.createImageData(canvas.width, canvas.height);
-  for(var i=0; i < imageData.data.length; i++){
-    imageData.data[i] = sourceImageData.data[i];
-  }
-
-  return imageData;
-} 
 
 function setBrightness(brightnessDelta){
   brightnessValue += brightnessDelta;
@@ -54,6 +46,7 @@ function setContrast ( contrastDelta ){
   $("#contrast-value").text(contrastValue);
 }
 
+//returns a contrastFilter with adjusted contrast value in relation to sourceImageData
 function contrastFilter ( sourceImageData){
   //calculate contrast factor
   var contrastFactor = (259 * (contrastValue + 255))/(255 * (259 - contrastValue));
@@ -127,6 +120,11 @@ $(document).ready( function(){
   $("#contrast-plus").click(function (event) {
     setContrast(+4);
     reDraw(origImageData);
-    
+  });
+
+  $("#reset-image").click(function (event) {
+    setContrast(-contrastValue);
+    setBrightness(-brightnessValue);
+    ctx.putImageData(origImageData, 0,0);
   });
 });
