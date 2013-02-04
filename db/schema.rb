@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115071512) do
+ActiveRecord::Schema.define(:version => 20130204043334) do
+
+  create_table "mediasets", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "persona_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "mediasets", ["persona_id"], :name => "index_mediasets_on_persona_id"
 
   create_table "personas", :force => true do |t|
     t.string   "realname"

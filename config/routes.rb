@@ -1,4 +1,6 @@
 Wecool::Application.routes.draw do
+  resources :mediasets
+
   devise_for :personas
   resources :personas do
   end
