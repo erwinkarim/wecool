@@ -147,6 +147,7 @@ class PhotosController < ApplicationController
         end
       else
         @avatar = @photo.avatar.xlarge  
+        params[:size] = 'xlarge'
     end
   end
 

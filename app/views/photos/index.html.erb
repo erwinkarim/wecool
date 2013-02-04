@@ -2,20 +2,4 @@
 <div class="page-header">
   <h1><%=t '.title', :default => 'Most Recent '+ model_class.model_name.human.pluralize %></h1>
 </div>
-<div>
-  <% @photos.each do |photo| %>
-    <div>
-      <% this_persona = Persona.find(photo.persona_id).screen_name %>
-      <%= link_to image_tag(photo.avatar.medium), photo_view_path(this_persona, photo.id) %>
-      <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_view_path(this_persona, photo.id) %> 
-        by
-        <%= link_to this_persona, photo_path(this_persona) %>
-    </div>
-  <% end %> 
-  
-</div>
-<% if persona_signed_in? then %>
-<div>
-  <%= link_to 'Upload Yours', new_photo_path  %>
-</div>
-<% end %>
+<%= render "recent" %>
