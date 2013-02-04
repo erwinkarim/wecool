@@ -1,0 +1,19 @@
+<h2><%= @mediaset.title %></h2>
+<p><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
+
+<div>
+  <% if  @mediaset_photos.empty? then %>
+    'Empty set'
+  <% else %>
+    <ul>
+      <% @mediaset_photos.each do |photo| %>
+        <li><%= image_tag photo.avatar.tiny %></li>
+      <% end %>
+    </ul>
+  <% end %>  
+</div>
+<div class="form-actions">
+  <%= link_to 'Edit', edit_mediaset_path(params[:persona_id], params[:id]), :class => 'btn' %>
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              mediaset_path(params[:persona_id]), :class => 'btn'  %>
+</div>

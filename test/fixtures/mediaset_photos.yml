@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  Photo: 
+  Mediaset: 
+  order: 1
+
+two:
+  Photo: 
+  Mediaset: 
+  order: 1

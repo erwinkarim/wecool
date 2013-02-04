@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204043334) do
+ActiveRecord::Schema.define(:version => 20130204065554) do
+
+  create_table "mediaset_photos", :force => true do |t|
+    t.integer  "Photo_id"
+    t.integer  "Mediaset_id"
+    t.integer  "order"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "mediaset_photos", ["Mediaset_id"], :name => "index_mediaset_photos_on_Mediaset_id"
+  add_index "mediaset_photos", ["Photo_id"], :name => "index_mediaset_photos_on_Photo_id"
 
   create_table "mediasets", :force => true do |t|
     t.string   "title"

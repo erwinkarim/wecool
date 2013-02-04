@@ -1,8 +1,15 @@
 Wecool::Application.routes.draw do
-  resources :mediasets
 
   devise_for :personas
   resources :personas do
+  end
+
+  resources :mediasets, :except => :edit do
+  end
+
+  controller :mediasets do
+    match '/mediasets/:persona_id/view/:id' => :view, :via => :get, :as => 'view_sets' 
+    match '/mediasets/:persona_id/edit/:id' => :edit, :via => :get, :as => 'edit_mediaset'
   end
 
   resources :photos do

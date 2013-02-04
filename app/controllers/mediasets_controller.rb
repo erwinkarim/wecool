@@ -14,7 +14,8 @@ class MediasetsController < ApplicationController
   # GET /mediasets/persona_id.json
   def show
     #@mediaset = Mediaset.find(params[:id])
-    @mediaset = Mediaset.find(:all, :conditions => (:persona_id == params[:id]))
+    @persona = Persona.find(:all, :conditions => (:screen_name == params[:id])).first 
+    @mediasets = Mediaset.find(:all, :conditions => (:persona_id == @persona.id))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +26,11 @@ class MediasetsController < ApplicationController
   # GET /mediasets/new
   # GET /mediasets/new.json
   def new
-    @mediaset = Mediaset.new
+    
+    #@mediaset = Mediaset.new
+    if persona_signed_in? then
+      @mediaset = current_persona.mediasets.new
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,7 +46,10 @@ class MediasetsController < ApplicationController
   # POST /mediasets
   # POST /mediasets.json
   def create
-    @mediaset = Mediaset.new(params[:mediaset])
+    #@mediaset = Mediaset.new(params[:mediaset])
+    if persona_signed_in? then
+      @mediaset = current_persona.mediasets.new(params[:mediaset])
+    end
 
     respond_to do |format|
       if @mediaset.save
@@ -80,5 +88,11 @@ class MediasetsController < ApplicationController
       format.html { redirect_to mediasets_url }
       format.json { head :no_content }
     end
+  end
+
+  def view
+    @persona = Persona.find(:all, :conditions => ( :screen_name == params[:persona_id])).first
+    @mediaset = @persona.mediasets.find(params[:id])
+    @mediaset_photos = MediasetPhoto.find(:all, :conditions => {:mediaset_id => @mediaset.id})
   end
 end
