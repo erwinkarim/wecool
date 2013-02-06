@@ -22,16 +22,20 @@
 <div id="piclist">
   <%= form_tag mediaset_update_photos_path(@mediaset) do %>
     <h3>Click to choose</h3>
-    <% @photos.each do |photo| %>
-      <% if @mediaset_photos.include?(photo) then %>
-        <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s  %>
-        <%= image_tag photo.avatar.thumb100.url, :id => photo.id, :class => 'checked' %>
-      <% else %>
-        <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s  %>
-        <%= image_tag photo.avatar.thumb100.url, :id => photo.id %>
+    <div class="control-group">
+      <% @photos.each do |photo| %>
+        <% if @mediaset_photos.include?(photo) then %>
+          <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s  %>
+          <%= image_tag photo.avatar.thumb100.url, :id => photo.id, :class => 'checked' %>
+        <% else %>
+          <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s  %>
+          <%= image_tag photo.avatar.thumb100.url, :id => photo.id %>
+        <% end %>
       <% end %>
-    <% end %>
-    <%= submit_tag 'Update photo selection', :class=>'btn btn-primary' %>
+    </div>
+    <div class="form-actions">  
+      <%= submit_tag 'Update photo selection', :class=>'btn btn-primary' %>
+    </div>
   <% end %>
 </div>
 <% end %>

@@ -15,7 +15,7 @@ class MediasetsController < ApplicationController
   def show
     #@mediaset = Mediaset.find(params[:id])
     @persona = Persona.find(:all, :conditions => (:screen_name == params[:id])).first 
-    @mediasets = Mediaset.find(:all, :conditions => (:persona_id == @persona.id))
+    @mediasets = Mediaset.find(:all, :order => 'id desc', :conditions => (:persona_id == @persona.id))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -43,7 +43,7 @@ class MediasetsController < ApplicationController
   def edit
     @mediaset = Mediaset.find(params[:id])
     @mediaset_photos = @mediaset.photos
-    @photos = Photo.find(:all, :conditions => {
+    @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
       :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
     })
   end
@@ -109,7 +109,7 @@ class MediasetsController < ApplicationController
       end
     end
 
-    redirect_to view_sets_path(current_persona.screen_name, @mediaset)
+    redirect_to view_sets_path(current_persona.screen_name, @mediaset), notice: 'Mediaset Updated'
   end
 
   # DELETE /mediasets/1
@@ -127,6 +127,6 @@ class MediasetsController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => ( :screen_name == params[:persona_id])).first
     @mediaset = @persona.mediasets.find(params[:id])
-    @mediaset_photos = @mediaset.photos
+    @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc')
   end
 end

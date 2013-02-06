@@ -6,7 +6,14 @@
 <ul>
   <li><%= link_to 'Default', photo_path(@persona.screen_name) %></li>
   <% @mediasets.each do |mediaset| %>
-      <li><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %> </li>
+      <li>
+        <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3> 
+        <ul class="thumbnails">
+          <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
+            <li><%= link_to image_tag(photo.avatar.small.url, :class=>'img-polaroid'), photo_view_path(@persona.screen_name, photo.id), :clas=> 'thumbnail' %></li>
+          <% end %>
+        </ul>
+      </li>
   <% end %>
 </ul>
 
