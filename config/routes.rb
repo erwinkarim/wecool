@@ -4,7 +4,8 @@ Wecool::Application.routes.draw do
   resources :personas do
   end
 
-  resources :mediasets, :except => :edit do
+  resources :mediasets, :except => [ :edit ] do
+    post 'update_photos'
   end
 
   controller :mediasets do

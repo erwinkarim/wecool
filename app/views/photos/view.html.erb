@@ -76,6 +76,15 @@
         <% end %>
       </ul>
     </div>
+    <div>
+      Belongs to set:-
+      <ul>
+        <li><%= link_to 'Default', photo_path(@persona.screen_name)  %></li>
+        <% @photo.mediasets.each do |mediaset| %>
+          <li><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></li>
+        <% end %>
+      </ul>
+    </div>
   </div><!-- span3 -->
 </div><!-- row -->
 

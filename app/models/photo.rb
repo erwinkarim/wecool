@@ -3,6 +3,8 @@ class Photo < ActiveRecord::Base
   belongs_to :persona
   attr_accessible :description, :title, :avatar
   mount_uploader :avatar,AvatarUploader
+  has_many :mediaset_photos
+  has_many :mediasets, :through => :mediaset_photos
 
   include Rails.application.routes.url_helpers
 

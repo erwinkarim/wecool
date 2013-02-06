@@ -39,8 +39,13 @@ class MediasetsController < ApplicationController
   end
 
   # GET /mediasets/1/edit
+  # GET /mediasets/:persona_id/edit/:id(.:format)
   def edit
     @mediaset = Mediaset.find(params[:id])
+    @mediaset_photos = @mediaset.photos
+    @photos = Photo.find(:all, :conditions => {
+      :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
+    })
   end
 
   # POST /mediasets
@@ -78,6 +83,35 @@ class MediasetsController < ApplicationController
     end
   end
 
+  # POST /mediasets/:mediaset_id/update_photos(.:format)
+  def update_photos
+    @mediaset = Mediaset.find(params[:mediaset_id]) 
+    @current_selection = @mediaset.photos
+    @new_selection = Photo.find(params[:photo])
+
+    if @current_selection.empty? then
+      @new_selection.each do |photo|
+        @mediaset.mediaset_photos.create(:photo_id => photo.id)
+      end
+    else
+      #add new selections
+      @new_selection.each do |photo|
+        if !@current_selection.include?(photo) then
+          @mediaset.mediaset_photos.create(:photo_id => photo.id)
+        end
+      end
+
+      #delete the ones that was once there, but not selected anymore
+      @current_selection.each do |photo|
+        if !@new_selection.include?(photo) then
+          @mediaset.mediaset_photos.destroy(@mediaset.mediaset_photos.find(:all, :conditions => {:photo_id => photo.id}))
+        end
+      end
+    end
+
+    redirect_to view_sets_path(current_persona.screen_name, @mediaset)
+  end
+
   # DELETE /mediasets/1
   # DELETE /mediasets/1.json
   def destroy
@@ -93,6 +127,6 @@ class MediasetsController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => ( :screen_name == params[:persona_id])).first
     @mediaset = @persona.mediasets.find(params[:id])
-    @mediaset_photos = MediasetPhoto.find(:all, :conditions => {:mediaset_id => @mediaset.id})
+    @mediaset_photos = @mediaset.photos
   end
 end

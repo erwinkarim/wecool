@@ -18,3 +18,33 @@
                 mediasets_path, :class => 'btn' %>
   </div>
 <% end %>
+<% if !@mediaset.id.nil? then %>
+<div id="piclist">
+  <%= form_tag mediaset_update_photos_path(@mediaset) do %>
+    <h3>Click to choose</h3>
+    <% @photos.each do |photo| %>
+      <% if @mediaset_photos.include?(photo) then %>
+        <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s  %>
+        <%= image_tag photo.avatar.thumb100.url, :id => photo.id, :class => 'checked' %>
+      <% else %>
+        <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s  %>
+        <%= image_tag photo.avatar.thumb100.url, :id => photo.id %>
+      <% end %>
+    <% end %>
+    <%= submit_tag 'Update photo selection', :class=>'btn btn-primary' %>
+  <% end %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function (){
+    $("#piclist img").click(function (event){
+      $(this).toggleClass("checked");
+      if($(this).hasClass("checked"))
+        $("#photo_"+ $(this).attr('id') ).prop('checked', true);
+      else
+        $("#photo_"+ $(this).attr('id') ).prop('checked', false);
+        
+    });
+  });
+</script>
