@@ -20,5 +20,7 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               mediasets_path, :class => 'btn'  %>
-  <%= link_to 'New', new_mediaset_path, :class=>'btn' %>
+  <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
+    <%= link_to 'New', new_mediaset_path, :class=>'btn' %>
+  <% end %>
 </div>

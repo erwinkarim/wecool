@@ -12,6 +12,7 @@
     </ul>
   <% end %>  
 </div>
+<% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               mediaset_path(params[:persona_id]), :class => 'btn'  %>
@@ -22,3 +23,4 @@
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>
 </div>
+<% end %>

@@ -7,11 +7,12 @@
     <ul class="thumbnails">
       <% @myPhotos.each do | thisphoto| %>
         <li><%= link_to image_tag(thisphoto.avatar.tiny, :class => 'img-polaroid'), 
-          photo_view_path(current_persona.screen_name, thisphoto.id) %></li>
+          photo_view_path(current_persona.screen_name, thisphoto.id), :rel => 'tooltip', :'data-original-title' => thisphoto.title %></li>
       <% end %>
     </ul>
   </div>
 <% else %>
   <%= link_to 'Sign In', new_persona_session_path %> or <%= link_to 'Sign Up', new_persona_registration_path %>
 <% end %>
+<h2>Everybody's recent</h2>
 <%= render "photos/recent" %>

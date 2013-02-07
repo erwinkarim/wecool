@@ -3,19 +3,17 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %> by <%= @persona.screen_name %></h1>
 </div>
 <div>
+  <div>
+    <ul class="thumbnails">
   <% @photos.each do |photo| %>
-    <div class="container">
-      <div>
-        <%= link_to image_tag(photo.avatar.medium), photo_view_path(@persona.screen_name, photo.id) %>
-      </div>
-      <div>
-        <%= link_to photo.title == nil ? 'Untitile' : photo.title, photo_path(photo.id) %> 
-          by
-          <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
-          , uploaded on <%= photo.created_at.localtime %>
-      </div>
-    </div>
+      <li>
+        <div class="thumbnail">
+          <%= link_to image_tag(photo.avatar.medium), photo_view_path(@persona.screen_name, photo.id) %>
+        </div>
+      </li>
   <% end %> 
+    </ul>
+  </div>
   <div class="container">
     <div class="pagination pagination-large pagination-centered">
       <ul>
