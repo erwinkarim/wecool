@@ -59,10 +59,11 @@ class PersonasController < ApplicationController
   # PUT /personas/1.json
   def update
     @persona = Persona.find(params[:id])
+    #@persona = Persona.find(:all, :conditions => {:screen_name => params[:id] }).first
 
     respond_to do |format|
       if @persona.update_attributes(params[:persona])
-        format.html { redirect_to @persona, notice: 'Persona was successfully updated.' }
+        format.html { redirect_to persona_path(@persona.screen_name), notice: 'Persona was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
