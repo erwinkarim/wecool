@@ -1,40 +1,18 @@
 <%- model_class = Mediaset -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => 'Recent ' + model_class.model_name.human.pluralize %></h1>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:title) %></th>
-      <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:persona_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
+<div>
+  <ul>
     <% @mediasets.each do |mediaset| %>
-      <tr>
-        <td><%= link_to mediaset.id, mediaset_path(mediaset) %></td>
-        <td><%= mediaset.title %></td>
-        <td><%= mediaset.description %></td>
-        <td><%= mediaset.persona_id %></td>
-        <td><%=l mediaset.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_mediaset_path(mediaset), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      mediaset_path(mediaset),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
+      <li>
+        <% @persona = Persona.find(mediaset.persona_id).screen_name %>
+        <h2><%= link_to mediaset.title, view_sets_path(@persona,  mediaset) %> <small>by <%= link_to @persona, persona_path(@persona)%></small></h2></li>
+        <ul class="thumbnails">
+          <% mediaset.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
+            <li class="thumbnail"><%= link_to image_tag(photo.avatar.tiny.url), photo_view_path( @persona, photo.id) %></li>
+          <% end %>
+        </ul>
     <% end %>
-  </tbody>
-</table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_mediaset_path,
-            :class => 'btn btn-primary' %>
+  </ul>
+</div>

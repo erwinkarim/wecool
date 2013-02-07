@@ -2,7 +2,7 @@ class MediasetsController < ApplicationController
   # GET /mediasets
   # GET /mediasets.json
   def index
-    @mediasets = Mediaset.all
+    @mediasets = Mediaset.find(:all, :limit =>10, :order => 'id desc')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +15,7 @@ class MediasetsController < ApplicationController
   def show
     #@mediaset = Mediaset.find(params[:id])
     @persona = Persona.find(:all, :conditions => (:screen_name == params[:id])).first 
+    @default_photos = Photo.find(:all, :order => 'id desc', :limit => 9,  :conditions => (:persona_id == @persona.id))
     @mediasets = Mediaset.find(:all, :order => 'id desc', :conditions => (:persona_id == @persona.id))
 
     respond_to do |format|

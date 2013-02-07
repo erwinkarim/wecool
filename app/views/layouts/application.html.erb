@@ -50,7 +50,14 @@
           <%= link_to 'Wecool', root_path, :class=>'brand' %>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Photos", photos_path  %></li>
+              <li class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Explore<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to "Photos", photos_path  %></li>
+                  <li><%= link_to "Sets", mediasets_path %></li>
+                  <li><%= link_to "Personas", personas_path %></li>
+                </ul>
+              </li>
               <% if persona_signed_in? then %>
                 <li class="dropdown">
                   <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
