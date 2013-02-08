@@ -5,22 +5,39 @@
 
 <ul>
   <li>
-    <h3><%= link_to 'Default', photo_path(@persona.screen_name) %></h3>
-    <ul class="thumbnails">
-      <% @default_photos.each do |photo| %>
-        <li><%= link_to image_tag(photo.avatar.tiny.url, :class=>'img-polaroid'), photo_view_path(@persona.screen_name, photo.id), :class=>'thumbnail' %></li> 
+    <% if @default_photos.empty? then %>
+      <% if current_persona == @persona %>
+        <h3>You don't have any photos, <%= link_to 'upload some', new_photo_path %> then create a new set</h3>
+      <% else %>
+        <h3>No photos or sets yet...</h3>
       <% end %>
-    </ul>
+    <% else %>
+      <h3><%= link_to 'Default', photo_path(@persona.screen_name) %></h3>
+      <ul class="thumbnails">
+        <% @default_photos.each do |photo| %>
+          <li><%= link_to image_tag(photo.avatar.tiny.url, :class=>'img-polaroid'), 
+            photo_view_path(@persona.screen_name, photo.id), :class=>'thumbnail' %></li> 
+        <% end %>
+      </ul>
+    <% end %>
   </li>
-  <% @mediasets.each do |mediaset| %>
-      <li>
-        <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3> 
-        <ul class="thumbnails">
-          <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
-            <li><%= link_to image_tag(photo.avatar.small.url, :class=>'img-polaroid'), photo_view_path(@persona.screen_name, photo.id), :clas=> 'thumbnail' %></li>
+  <% if !@default_photos.empty? && @mediasets.empty? then %>
+  <% else %>
+    <% @mediasets.each do |mediaset| %>
+        <li>
+          <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3> 
+          <% if mediaset.photos.empty? %>    
+              <h4>No photos in set yet<%= current_persona == @persona ? link_to(', add photos to this set',edit_mediaset_path(@persona.screen_name, mediaset.id)) : '' %></h4>
+          <% else %>
+            <ul class="thumbnails">
+              <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
+                <li><%= link_to image_tag(photo.avatar.small.url, :class=>'img-polaroid'), 
+                  photo_view_path(@persona.screen_name, photo.id), :clas=> 'thumbnail' %></li>
+              <% end %>
+            </ul>
           <% end %>
-        </ul>
-      </li>
+        </li>
+    <% end %>
   <% end %>
 </ul>
 

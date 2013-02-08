@@ -14,9 +14,9 @@ class MediasetsController < ApplicationController
   # GET /mediasets/persona_id.json
   def show
     #@mediaset = Mediaset.find(params[:id])
-    @persona = Persona.find(:all, :conditions => (:screen_name == params[:id])).first 
-    @default_photos = Photo.find(:all, :order => 'id desc', :limit => 9,  :conditions => (:persona_id == @persona.id))
-    @mediasets = Mediaset.find(:all, :order => 'id desc', :conditions => (:persona_id == @persona.id))
+    @persona = Persona.find(:all, :conditions => { :screen_name => params[:id] }).first
+    @default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 9)
+    @mediasets = @persona.mediasets.find(:all, :order => 'id desc')
 
     respond_to do |format|
       format.html # show.html.erb
@@ -59,7 +59,8 @@ class MediasetsController < ApplicationController
 
     respond_to do |format|
       if @mediaset.save
-        format.html { redirect_to @mediaset, notice: 'Mediaset was successfully created.' }
+        format.html { redirect_to mediaset_path(current_persona.screen_name, @mediaset),
+           notice: 'Mediaset was successfully created.' }
         format.json { render json: @mediaset, status: :created, location: @mediaset }
       else
         format.html { render action: "new" }
@@ -125,8 +126,9 @@ class MediasetsController < ApplicationController
     end
   end
 
+  #  GET    /mediasets/:persona_id/view/:id(.:format)
   def view
-    @persona = Persona.find(:all, :conditions => ( :screen_name == params[:persona_id])).first
+    @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @mediaset = @persona.mediasets.find(params[:id])
     @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc')
   end

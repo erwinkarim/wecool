@@ -157,8 +157,8 @@ class PhotosController < ApplicationController
   end
 
   def view
-    @photo = Photo.find(params[:id])
-    @persona = Persona.find(@photo.persona_id)
+    @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
+    @photo = @persona.photos.find(params[:id])
 
     #navigation
     @photo_prev = Photo.find(:all,:conditions => "id < " + @photo.id.to_s + 

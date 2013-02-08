@@ -14,25 +14,43 @@
 
 <div>
   <h2>Recent Photos</h2>
-  <ul class="thumbnails">
-    <% @persona.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
-      <li class="thumbnail"><%= link_to image_tag(photo.avatar.tiny.url), photo_view_path(@persona.screen_name, photo.id) %></li>
+  <% if @persona.photos.empty? then %>
+    <% if current_persona == @persona then %>
+      <h3>You don't have any photos, <%= link_to 'upload some', new_photo_path %></h3>
+    <% else %>
+      <h3>No photos yet</h3>
     <% end %>
-  </ul>
+  <% else %>
+    <ul class="thumbnails">
+      <% @persona.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
+        <li class="thumbnail">
+          <%= link_to image_tag(photo.avatar.tiny.url), photo_view_path(@persona.screen_name, photo.id) %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>
 
 <div>
   <h2>Recent Mediasets</h2>
-  <ul class="thumbnails">
-    <% @persona.mediasets.find(:all, :order => 'id desc', :limit => 5).each do |mediaset| %>
-      <li>
-        <div class="thumbnail">
-          <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3>
-          <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
-        </div>
-      </li>
+  <% if @persona.mediasets.empty? then %>
+    <% if current_persona == @persona then %>
+      <h3>You don't have any mediasets yet, <%= link_to 'make some', new_mediaset_path %></h3>
+    <% else %>
+      <h3>No mediasets yet</h3>
     <% end %>
-  </ul>
+  <% else %>
+    <ul class="thumbnails">
+      <% @persona.mediasets.find(:all, :order => 'id desc', :limit => 5).each do |mediaset| %>
+        <li>
+          <div class="thumbnail">
+            <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3>
+            <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>
 
 <% if persona_signed_in? && current_persona == @persona then %>

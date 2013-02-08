@@ -4,12 +4,18 @@
   </div>
   <div class="header">  
     <h2>Your recent photos</h2>
-    <ul class="thumbnails">
-      <% @myPhotos.each do | thisphoto| %>
-        <li><%= link_to image_tag(thisphoto.avatar.tiny, :class => 'img-polaroid'), 
-          photo_view_path(current_persona.screen_name, thisphoto.id), :rel => 'tooltip', :'data-original-title' => thisphoto.title %></li>
+      <% if @myPhotos.empty? then %>
+        <div class="well">
+        <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>
+        </div>
+      <% else %>
+        <ul class="thumbnails">
+        <% @myPhotos.each do |thisphoto| %>
+          <li><%= link_to image_tag(thisphoto.avatar.tiny, :class => 'img-polaroid'), 
+            photo_view_path(current_persona.screen_name, thisphoto.id), :rel => 'tooltip', :'data-original-title' => thisphoto.title %></li>
+        <% end %>
+      </ul>
       <% end %>
-    </ul>
   </div>
 <% else %>
   <%= link_to 'Sign In', new_persona_session_path %> or <%= link_to 'Sign Up', new_persona_registration_path %>
