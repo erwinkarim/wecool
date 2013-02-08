@@ -4,8 +4,12 @@
 </div>
 <div>
   <% if @photos.empty? then %>
-    <div >
-      <h3>You don't have any photos yet <%= link_to 'upload some', new_photo_path %></h3>
+    <div>
+      <% if current_persona == @persona then %>
+        <h3>You don't have any photos yet <%= link_to 'upload some', new_photo_path %></h3>
+      <% else %>
+        <h3>No photos yet...
+      <% end %>
     </div>
   <% else %>
     <div>
