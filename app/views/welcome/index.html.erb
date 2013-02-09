@@ -9,10 +9,9 @@
         <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>
         </div>
       <% else %>
-        <ul class="thumbnails">
         <% @myPhotos.each do |thisphoto| %>
-          <li><%= link_to image_tag(thisphoto.avatar.tiny, :class => 'img-polaroid'), 
-            photo_view_path(current_persona.screen_name, thisphoto.id), :rel => 'tooltip', :'data-original-title' => thisphoto.title %></li>
+          <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
+            photo_view_path(current_persona.screen_name, thisphoto.id), :rel => 'tooltip', :'data-original-title' => thisphoto.title %>
         <% end %>
       </ul>
       <% end %>

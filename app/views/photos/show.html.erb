@@ -12,19 +12,16 @@
       <% end %>
     </div>
   <% else %>
-    <div>
-      <ul class="thumbnails">
-    <% @photos.each do |photo| %>
-        <li>
-          <div class="thumbnail">
-            <%= link_to image_tag(photo.avatar.medium), photo_view_path(@persona.screen_name, photo.id) %>
-          </div>
-        </li>
-    <% end %> 
-      </ul>
+    <div class="row-fluid">
+      <% @photos.each do |photo| %>
+        <div class="" style="float:left; margin:0px 5px 5px 0px">
+          <%= link_to image_tag(photo.avatar.small, :class=> ''), 
+            photo_view_path(@persona.screen_name, photo.id) %>
+        </div>
+      <% end %> 
     </div>
-    <div class="container">
-      <div class="pagination pagination-large pagination-centered">
+    <div class="container row-fluid">
+      <div class="pagination pagination-large pagination-centered span12">
         <ul>
           <li>
             <%= link_to 'Prev', @current_page == 1 ? '#' : photo_page_path(@persona.screen_name, @current_page - 1) %>

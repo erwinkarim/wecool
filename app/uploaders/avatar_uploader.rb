@@ -49,17 +49,29 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   version :medium, :from_version => :xlarge do 
-    process :resize_to_limit => [600,600]
+    process :resize_to_limit => [0,600]
   end
 
   version :small, :from_version => :xlarge do 
-    process :resize_to_limit => [400,400]
+    process :resize_to_limit => [0,400]
   end
 
   version :tiny, :from_version => :xlarge do 
-    process :resize_to_limit => [200,200]
+    process :resize_to_limit => [0,200]
   end
   
+  version :square200, :from_Version => :xlarge do
+    process :resize_to_fill => [200,200]
+  end
+  
+  version :square100, :from_Version => :xlarge do
+    process :resize_to_fill => [100,100]
+  end
+  
+  version :square50, :from_Version => :xlarge do
+    process :resize_to_fill => [50,50]
+  end
+
   version :thumb100, :from_version => :xlarge do
     process :resize_to_limit => [100,100]
   end

@@ -1,12 +1,10 @@
 <div class="row-fluid">
-  <ul class="thumbnails">
   <% @photos.each do |photo| %>
+    <div style="float:left; margin: 0px 2px 2px 0px">
       <% this_persona = Persona.find(photo.persona_id).screen_name %>
-      <li class="thumbnail">
-          <%= link_to image_tag(photo.avatar.tiny), photo_view_path(this_persona, photo.id) %>
-      </li>
+          <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid'), photo_view_path(this_persona, photo.id) %>
+    </div>
   <% end %> 
-  </ul> 
 </div>
 <% if persona_signed_in? then %>
 <div>
