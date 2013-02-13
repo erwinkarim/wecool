@@ -3,6 +3,20 @@
   <h1>Sets by <%= @persona.screen_name %></h1>
 </div>
 
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="nav">
+      <li class="divider-vertical"></li>
+      <li><%= link_to t('.back', :default => t("helpers.links.back")), mediasets_path %>
+      <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
+        <li class="divider-vertical"></li>
+        <li><%= link_to 'New', new_mediaset_path %></li>
+        <li class="divider-vertical"></li>
+      <% end %>
+    </li>
+    </ul>
+  </div>
+</div>
 <ul>
   <li>
     <% if @default_photos.empty? then %>
@@ -13,12 +27,12 @@
       <% end %>
     <% else %>
       <h3><%= link_to 'Default', photo_path(@persona.screen_name) %></h3>
-      <ul class="thumbnails">
+      <div>
         <% @default_photos.each do |photo| %>
-          <li><%= link_to image_tag(photo.avatar.tiny.url, :class=>'img-polaroid'), 
-            photo_view_path(@persona.screen_name, photo.id), :class=>'thumbnail' %></li> 
+          <%= link_to image_tag(photo.avatar.square100, :class=>'img-polaroid'), 
+            photo_view_path(@persona.screen_name, photo.id) %>
         <% end %>
-      </ul>
+      </div>
     <% end %>
   </li>
   <% if !@default_photos.empty? && @mediasets.empty? then %>
@@ -29,22 +43,15 @@
           <% if mediaset.photos.empty? %>    
               <h4>No photos in set yet<%= current_persona == @persona ? link_to(', add photos to this set',edit_mediaset_path(@persona.screen_name, mediaset.id)) : '' %></h4>
           <% else %>
-            <ul class="thumbnails">
-              <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
-                <li><%= link_to image_tag(photo.avatar.small.url), 
-                  photo_view_path(@persona.screen_name, photo.id), :class=> 'thumbnail' %></li>
+            <div>
+              <% mediaset.photos.find(:all, :limit => 4, :order => 'id desc').each do |photo| %>
+                <%= link_to image_tag(photo.avatar.tiny.url, :class=>'img-polaroid'), 
+                  photo_view_path(@persona.screen_name, photo.id)  %>
               <% end %>
-            </ul>
+            </div>
           <% end %>
         </li>
     <% end %>
   <% end %>
 </ul>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              mediasets_path, :class => 'btn'  %>
-  <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
-    <%= link_to 'New', new_mediaset_path, :class=>'btn' %>
-  <% end %>
-</div>
