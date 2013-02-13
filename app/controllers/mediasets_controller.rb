@@ -59,7 +59,7 @@ class MediasetsController < ApplicationController
 
     respond_to do |format|
       if @mediaset.save
-        format.html { redirect_to mediaset_path(current_persona.screen_name, @mediaset),
+        format.html { redirect_to edit_mediaset_path(current_persona.screen_name, @mediaset),
            notice: 'Mediaset was successfully created.' }
         format.json { render json: @mediaset, status: :created, location: @mediaset }
       else

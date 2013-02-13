@@ -31,8 +31,8 @@
           <% else %>
             <ul class="thumbnails">
               <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
-                <li><%= link_to image_tag(photo.avatar.small.url, :class=>'img-polaroid'), 
-                  photo_view_path(@persona.screen_name, photo.id), :clas=> 'thumbnail' %></li>
+                <li><%= link_to image_tag(photo.avatar.small.url), 
+                  photo_view_path(@persona.screen_name, photo.id), :class=> 'thumbnail' %></li>
               <% end %>
             </ul>
           <% end %>

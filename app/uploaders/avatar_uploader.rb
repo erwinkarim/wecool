@@ -41,11 +41,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # end
 
   version :xlarge do 
-    process :resize_to_limit => [1000,1000]
+    process :resize_to_limit => [0, 1000]
   end
 
   version :large, :from_version => :xlarge do 
-    process :resize_to_limit => [800,800]
+    process :resize_to_limit => [0,800]
   end
 
   version :medium, :from_version => :xlarge do 

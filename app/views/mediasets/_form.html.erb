@@ -22,14 +22,15 @@
 <div id="piclist">
   <%= form_tag mediaset_update_photos_path(@mediaset) do %>
     <h3>Click to choose</h3>
-    <div class="control-group">
+    <div class="control-group" style="display: block; overflow-x: scroll; white-space: nowrap; height: 130px; ">
       <% @photos.each do |photo| %>
         <% if @mediaset_photos.include?(photo) then %>
-          <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s  %>
-          <%= image_tag photo.avatar.thumb100.url, :id => photo.id, :class => 'checked' %>
+          <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
+          <%= image_tag photo.avatar.square100.url, :id => photo.id, :class => 'checked img-polaroid', 
+            :style => 'padding:0px; border:5px solid red;' %>
         <% else %>
-          <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s  %>
-          <%= image_tag photo.avatar.thumb100.url, :id => photo.id %>
+          <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
+          <%= image_tag photo.avatar.square100.url, :id => photo.id , :class => 'img-polaroid'%>
         <% end %>
       <% end %>
     </div>
@@ -44,10 +45,15 @@
   $(document).ready(function (){
     $("#piclist img").click(function (event){
       $(this).toggleClass("checked");
-      if($(this).hasClass("checked"))
+      if($(this).hasClass("checked")){
         $("#photo_"+ $(this).attr('id') ).prop('checked', true);
-      else
+        $(this).css('padding', '0px');
+        $(this).css('border', '5px solid red');
+      } else {
         $("#photo_"+ $(this).attr('id') ).prop('checked', false);
+        $(this).css('padding', '4px');
+        $(this).css('border', '1px solid rgba(0, 0 ,0, 0.2)');
+      }
         
     });
   });
