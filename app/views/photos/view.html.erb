@@ -63,14 +63,14 @@
         <% if @photo_prev.nil? then %>
           <li><a href="#">First</a></li>
         <% else %>
-          <li><%= link_to image_tag(@photo_prev.avatar.thumb100), 
+          <li><%= link_to image_tag(@photo_prev.avatar.square100), 
             photo_view_path(@persona.screen_name, @photo_prev.id) %>
           </li>
         <% end %>
         <% if @photo_next.nil? then %>
           <li><a href="#">Last</a></li>
         <% else %>
-          <li><%= link_to image_tag(@photo_next.avatar.thumb100), 
+          <li><%= link_to image_tag(@photo_next.avatar.square100), 
             photo_view_path(@persona.screen_name, @photo_next.id) %>
           </li>
         <% end %>

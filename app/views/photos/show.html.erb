@@ -22,19 +22,7 @@
     </div>
     <div class="container row-fluid">
       <div class="pagination pagination-large pagination-centered span12">
-        <ul>
-          <li>
-            <%= link_to 'Prev', @current_page == 1 ? '#' : photo_page_path(@persona.screen_name, @current_page - 1) %>
-          </li>
-          <% for page in 1..@page_count %>
-            <li <%= (params[:page_id].nil? && page == 1)||  page == params[:page_id].to_i ? 'class=active' : ''  %>>
-              <%= link_to page, photo_page_path(@persona.screen_name, page) %>
-            </li>
-          <% end %> 
-          <li>
-            <%= link_to 'Next', @current_page == @page_count ? '#' : photo_page_path(@persona.screen_name, @current_page + 1) %>
-          </li>
-        </ul>
+        <%= build_page_list(@current_page, @page_count, @persona) %>
       </div>
     </div> 
   <% end %>
