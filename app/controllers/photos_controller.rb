@@ -159,12 +159,13 @@ class PhotosController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @photo = @persona.photos.find(params[:id])
+    @mediasets = @persona.mediasets
 
     #navigation
-    @next_photos = Photo.find(:all,:conditions => "id > " + @photo.id.to_s + 
-      " and persona_id == "+ @persona.id.to_s, :limit => 4 )
-    @prev_photos = Photo.find(:all,:conditions => "id < " + @photo.id.to_s + 
-      " and persona_id == "+ @persona.id.to_s, :order => "id DESC", :limit => 4 ).reverse
+    @prev_photos = Photo.find(:all,:conditions => "id > " + @photo.id.to_s + 
+      " and persona_id == "+ @persona.id.to_s, :limit => 4 ).reverse
+    @next_photos = Photo.find(:all,:conditions => "id < " + @photo.id.to_s + 
+      " and persona_id == "+ @persona.id.to_s, :order => "id DESC", :limit => 8-@prev_photos.count )
 
     respond_to do |format|
       format.html # view.html.erb
