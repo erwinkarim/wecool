@@ -185,4 +185,37 @@ class PhotosController < ApplicationController
       format.json { render json: @photo }
     end
   end
+
+  # POST   /photos/:persona_id/update_setlist/:photo_id(.:format)
+  def update_setlist
+    @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id]}).first
+    @photo = @persona.photos.find(params[:photo_id])
+    @current_selection = @photo.mediasets
+    @new_selection = Mediaset.find(params[:mediaset])
+
+    if @current_selection.empty? && !@new_selection.empty? then
+      @new_selection.each do |mediaset|
+        @photo.mediaset_photos.create(:mediaset_id => mediaset.id)
+      end
+    elsif !@current_selection.empty? && !@new_selection.empty? then
+      #add new selection
+        @new_selection.each do |mediaset|
+          if !@current_selection.include?(mediaset) then
+            @photo.mediaset_photos.create(:mediaset_id => mediaset.id)
+          end
+        end
+
+      #delete the ones that are there, but not anymore
+      @current_selection.each do |mediaset|
+        if !@new_selection.include?(mediaset) then
+          @photo.mediaset_photos.destroy(@photo.mediaset_photos.find(:all, :conditions => {:mediaset_id => mediaset.id}))
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back, :notice => 'Mediaset Selection Updated' }
+    end
+    
+  end
 end

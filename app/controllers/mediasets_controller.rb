@@ -132,4 +132,5 @@ class MediasetsController < ApplicationController
     @mediaset = @persona.mediasets.find(params[:id])
     @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc')
   end
+
 end

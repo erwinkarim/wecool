@@ -23,12 +23,12 @@
                 <li><%= link_to 'Launch Editor', photo_editor_path(@photo.id) %></li>
                 <li><%= link_to 'Exif Data', photo_view_exif_path(@persona.screen_name, @photo.id) %></li>
                 <% if persona_signed_in? && current_persona.id == @persona.id then %>
-                <li><%= link_to 'Add to Mediaset', '#addToSetModal', :'data-toggle'=>'modal' %></li>
-                <li class="divider"></li>
-                <li><%= link_to 'Delete this photo', photo_path(@photo), 
-                  :method => 'delete', 
-                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
-                  %></li>
+                  <li><%= link_to 'Add/Remove to Mediaset', '#addToSetModal', :'data-toggle'=>'modal' %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to 'Delete this photo', photo_path(@photo), 
+                    :method => 'delete', 
+                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
+                    %></li>
                 <% end %>
               </ul>
           </li>
@@ -60,11 +60,10 @@
 
 <div class="row-fluid">
   <div class="span12">
-    <!-- sidebar -->
     <div class="pagination pagination-centered">
       <ul>
         <% if @prev_photos.empty? then %>
-          <li><a href="#">You at the First Photo</a>
+          <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
         <% else %>
           <% @prev_photos.each do |photo| %>
             <li><%= link_to image_tag(photo.avatar.square100), 
@@ -75,7 +74,7 @@
         <li class="active"><%= link_to image_tag(@photo.avatar.square100), 
           photo_view_path(@persona.screen_name, @photo.id), :style=>'background-color:red;' %></li>
         <% if @next_photos.empty? then %>
-          <li><a href="#">You at Last Photo</a>
+          <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
         <% else %>
           <% @next_photos.each do |photo| %>
             <li><%= link_to image_tag(photo.avatar.square100), 
@@ -100,17 +99,18 @@
 <div class="row-fluid">
 </div>
 
+<!-- modal for updating mediaset selection -->
 <div id="addToSetModal" class="modal hide fade" tabindex="-1" role="dialog">
   <%= form_tag photo_update_setlist_path(@persona.screen_name, @photo.id) do %>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h3 id="addToSetModalHeader">Select Mediaset</h3>
+    <h3 id="addToSetModalHeader">Select Mediaset...</h3>
   </div>
   <div class="modal-body">
     <ul>
-      <li>Add to new set...</li>
+      <li><%= link_to 'Create New Mediaset...', new_mediaset_path %></li>
       <% @mediasets.each do |mediaset| %>
-        <li id="addMediaSelect"><%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(@photo), :id=>'addMediasetSelectCheckbox' %> <%= image_tag mediaset.photos.first.avatar.square50 %> <%= mediaset.title %></li>
+        <li><%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(@photo) %> <%= image_tag mediaset.photos.first.avatar.square50 %> <%= mediaset.title %></li>
       <% end %>
     </ul>
   </div>
@@ -145,10 +145,7 @@
         $("#photo-desc").show("slow");
         $("#photo-desc-form").hide("slow"); 
       });
-  
-      $("#addMediaSelect").click(function (event){
-        $(this).find('#addMediasetSelectCheckbox').toggle(this.checked);
-      });
+ 
     });
   </script>
 
