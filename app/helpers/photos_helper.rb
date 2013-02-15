@@ -62,4 +62,11 @@ module PhotosHelper
       link_to(this_page, photo_page_path(persona.screen_name, this_page)) + '</li>'
     return @returnString.html_safe
   end
+  
+  def build_photo_coverflow(current_photo_id, mediaset_id)
+    #like page list, but of photos
+    if mediaset_id.nil? then
+    else
+    end
+  end
 end

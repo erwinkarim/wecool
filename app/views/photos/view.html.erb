@@ -61,39 +61,41 @@
 <!-- photol list -->
 <div class="row-fluid">
   <div class="span12">
-    <div class="pagination pagination-centered">
-      <ul>
-        <% if @prev_photos.empty? then %>
-          <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
-        <% else %>
-          <% @prev_photos.each do |photo| %>
-            <li><%= link_to image_tag(photo.avatar.square100), 
-              photo_view_path(@persona.screen_name, photo.id) %>
-            </li>
-          <% end %>
-        <% end %>
-        <li class="active"><%= link_to image_tag(@photo.avatar.square100), 
-          photo_view_path(@persona.screen_name, @photo.id), :style=>'background-color:red;' %></li>
-        <% if @next_photos.empty? then %>
-          <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
-        <% else %>
-          <% @next_photos.each do |photo| %>
-            <li><%= link_to image_tag(photo.avatar.square100), 
-              photo_view_path(@persona.screen_name, photo.id) %>
-            </li>
-          <% end %>
-        <% end %>
-      </ul>
-    </div><!-- pagination -->
-    <div>
-      Belongs to set:-
-      <ul>
-        <li><%= link_to 'Default', photo_path(@persona.screen_name)  %></li>
-        <% @photo.mediasets.each do |mediaset| %>
-          <li><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></li>
-        <% end %>
-      </ul>
-    </div>
+    <ul>
+      <!-- show which mediasets this photo belongs to -->
+      <li><%= link_to 'Default', photo_path(@persona.screen_name)  %>
+        <div class="pagination pagination-centered">
+          <ul>
+            <% if @prev_photos.empty? then %>
+              <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
+            <% else %>
+              <% @prev_photos.each do |photo| %>
+                <li><%= link_to image_tag(photo.avatar.square100), 
+                  photo_view_path(@persona.screen_name, photo.id) %>
+                </li>
+              <% end %>
+            <% end %>
+            <li class="active"><%= link_to image_tag(@photo.avatar.square100), 
+              photo_view_path(@persona.screen_name, @photo.id), :style=>'background-color:red;' %></li>
+            <% if @next_photos.empty? then %>
+              <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
+            <% else %>
+              <% @next_photos.each do |photo| %>
+                <li><%= link_to image_tag(photo.avatar.square100), 
+                  photo_view_path(@persona.screen_name, photo.id) %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div><!-- pagination -->
+      </li>
+      <% @photo.mediasets.each do |mediaset| %>
+        <li>
+          <%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %>
+          <!--pagination for this mediaset -->
+        </li>
+      <% end %>
+    </ul>
   </div><!-- span12 -->
 </div><!-- row -->
 
