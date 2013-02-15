@@ -1,14 +1,54 @@
 <div>
-  <ul class="nav nav-pills">
-    <li class="<%= params[:size] == 'thumb50' ? 'active' : ''%>"><%= link_to 'Thumb50', photo_version_path(@photo.id, :size => 'thumb50') %></li>
-    <li class="<%= params[:size] == 'thumb100' ? 'active' : ''%>"><%= link_to 'Thumb100', photo_version_path(@photo.id, :size => 'thumb100') %></li>
-    <li class="<%= params[:size] == 'tiny' ? 'active' : ''%>"><%= link_to 'Tiny', photo_version_path(@photo.id, :size => 'tiny') %></li>
-    <li class="<%= params[:size] == 'small' ? 'active' : ''%>"><%= link_to 'Small', photo_version_path(@photo.id, :size => 'small') %></li>
-    <li class="<%= params[:size] == 'medium' ? 'active' : ''%>"><%= link_to 'Medium', photo_version_path(@photo.id, :size => 'medium') %></li>
-    <li class="<%= params[:size] == 'large' ? 'active' : ''%>"><%= link_to 'Large', photo_version_path(@photo.id, :size => 'large') %></li>
-    <li class="<%= params[:size] == 'xlarge' ? 'active' : ''%>"><%= link_to 'X-Large', photo_version_path(@photo.id, :size => 'xlarge') %></li>
-    <li class="<%= params[:size] == 'original' ? 'active' : ''%>"><%= link_to 'Original', photo_version_path(@photo.id, :size => 'original') %></li>
-  </ul>  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Square</th>
+        <th>Thumbnails</th>
+        <th>Small</th>
+        <th>Medium</th>
+        <th>Large</th>
+        <th>Original</th>
+      <tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <ul>
+            <li><%= link_to 'Square50', photo_version_path(@photo.id, :size => 'square50') %></li>
+            <li><%= link_to 'Square100', photo_version_path(@photo.id, :size => 'square100') %></li>
+            <li><%= link_to 'Square200', photo_version_path(@photo.id, :size => 'square200') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Thumb50', photo_version_path(@photo.id, :size => 'thumb50') %></li>
+            <li><%= link_to 'Thumb100', photo_version_path(@photo.id, :size => 'thumb100') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Tiny', photo_version_path(@photo.id, :size => 'tiny') %></li>
+            <li><%= link_to 'Small', photo_version_path(@photo.id, :size => 'small') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Medium', photo_version_path(@photo.id, :size => 'medium') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Large', photo_version_path(@photo.id, :size => 'large') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Original', photo_version_path(@photo.id, :size => 'original') %></li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <div>
   <%= image_tag @avatar %>
