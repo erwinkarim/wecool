@@ -32,6 +32,10 @@ class MediasetsController < ApplicationController
     if persona_signed_in? then
       @mediaset = current_persona.mediasets.new
     end
+    @mediaset_photos = Array.new
+    @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
+      :persona_id => Persona.find(:first, :conditions => {:screen_name => current_persona.screen_name} )
+    })
 
     respond_to do |format|
       format.html # new.html.erb
@@ -55,11 +59,24 @@ class MediasetsController < ApplicationController
     #@mediaset = Mediaset.new(params[:mediaset])
     if persona_signed_in? then
       @mediaset = current_persona.mediasets.new(params[:mediaset])
+      if !params.has_key? :photo then
+        @new_selection = Array.new
+        @new_selection.push Photo.new
+      else
+        @new_selection = Photo.find(params[:photo])
+      end
     end
 
     respond_to do |format|
       if @mediaset.save
-        format.html { redirect_to edit_mediaset_path(current_persona.screen_name, @mediaset),
+        #add the photos
+        if !@new_selection.empty? then
+          @new_selection.each do |photo|
+            @mediaset.mediaset_photos.create(:photo_id => photo.id)
+          end 
+        end 
+        
+        format.html { redirect_to view_sets_path(current_persona.screen_name, @mediaset),
            notice: 'Mediaset was successfully created.' }
         format.json { render json: @mediaset, status: :created, location: @mediaset }
       else
@@ -73,24 +90,14 @@ class MediasetsController < ApplicationController
   # PUT /mediasets/1.json
   def update
     @mediaset = Mediaset.find(params[:id])
-
-    respond_to do |format|
-      if @mediaset.update_attributes(params[:mediaset])
-        format.html { redirect_to @mediaset, notice: 'Mediaset was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @mediaset.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # POST /mediasets/:mediaset_id/update_photos(.:format)
-  def update_photos
-    @mediaset = Mediaset.find(params[:mediaset_id]) 
     @current_selection = @mediaset.photos
-    @new_selection = Photo.find(params[:photo])
-
+    if !params.has_key? :photo then
+      @new_selection = Array.new
+      @new_selection.push Photo.new
+    else
+      @new_selection = Photo.find(params[:photo])
+    end
+  
     if @current_selection.empty? then
       @new_selection.each do |photo|
         @mediaset.mediaset_photos.create(:photo_id => photo.id)
@@ -106,12 +113,25 @@ class MediasetsController < ApplicationController
       #delete the ones that was once there, but not selected anymore
       @current_selection.each do |photo|
         if !@new_selection.include?(photo) then
-          @mediaset.mediaset_photos.destroy(@mediaset.mediaset_photos.find(:all, :conditions => {:photo_id => photo.id}))
+          @mediaset.mediaset_photos.destroy(@mediaset.mediaset_photos.find(:all, 
+            :conditions => {:photo_id => photo.id}))
         end
       end
     end
 
-    redirect_to view_sets_path(current_persona.screen_name, @mediaset), notice: 'Mediaset Updated'
+
+    respond_to do |format|
+      if @mediaset.update_attributes(params[:mediaset])
+        format.html { 
+          redirect_to view_sets_path(current_persona.screen_name, 
+            @mediaset), notice: 'Mediaset was successfully updated'
+        }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @mediaset.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # DELETE /mediasets/1

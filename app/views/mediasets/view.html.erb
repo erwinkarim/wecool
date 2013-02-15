@@ -1,5 +1,5 @@
-<h2><%= @mediaset.title %></h2>
-<p><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
+<h2 class="page-header"><%= @mediaset.title %></h2>
+<p class="lead"><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
 
 <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
 <div class="navbar">
@@ -25,7 +25,8 @@
 <% end %>
 <div>
   <% if  @mediaset_photos.empty? then %>
-    'Empty set'
+    <h2>No photos on this set, why don't you 
+      <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
   <% else %>
     <ul class="thumbnails">
       <% @mediaset_photos.each do |photo| %>

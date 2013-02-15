@@ -58,6 +58,7 @@
   </div><!-- span12 -->
 </div><!-- row -->
 
+<!-- photol list -->
 <div class="row-fluid">
   <div class="span12">
     <div class="pagination pagination-centered">
@@ -100,26 +101,7 @@
 </div>
 
 <!-- modal for updating mediaset selection -->
-<div id="addToSetModal" class="modal hide fade" tabindex="-1" role="dialog">
-  <%= form_tag photo_update_setlist_path(@persona.screen_name, @photo.id) do %>
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h3 id="addToSetModalHeader">Select Mediaset...</h3>
-  </div>
-  <div class="modal-body">
-    <ul>
-      <li><%= link_to 'Create New Mediaset...', new_mediaset_path %></li>
-      <% @mediasets.each do |mediaset| %>
-        <li><%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(@photo) %> <%= image_tag mediaset.photos.first.avatar.square50 %> <%= mediaset.title %></li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <%= submit_tag 'Update Mediaset List', :class => 'btn btn-primary' %>
-  </div>
-  <% end %>
-</div>
+<%= render "updateMediasetModal" %>
 
 <% if persona_signed_in? && @persona.id == current_persona.id then %>
   <script type="text/javascript">
@@ -145,6 +127,7 @@
         $("#photo-desc").show("slow");
         $("#photo-desc-form").hide("slow"); 
       });
+
  
     });
   </script>

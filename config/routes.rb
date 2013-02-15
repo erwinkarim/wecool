@@ -5,7 +5,7 @@ Wecool::Application.routes.draw do
   end
 
   resources :mediasets, :except => [ :edit ] do
-    post 'update_photos'
+    #post 'update_photos'
   end
 
   controller :mediasets do

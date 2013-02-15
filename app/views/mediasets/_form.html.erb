@@ -1,4 +1,5 @@
 <%= form_for @mediaset, :html => { :class => 'form-horizontal' } do |f| %>
+  <h3>Add title and description...</h3>
   <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
     <div class="controls">
@@ -12,34 +13,31 @@
     </div>
   </div>
 
+  <div id="piclist">
+      <h3>...then choose your pictures</h3>
+      <div class="control-group" style="display: block; overflow-x: scroll; white-space: nowrap; height: 130px; ">
+        <% @photos.each do |photo| %>
+          <% if @mediaset_photos.include?(photo) then %>
+            <%= check_box_tag 'photo[]', photo.id, true,  
+              :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
+            <%= image_tag photo.avatar.square100.url, :id => photo.id, :class => 'checked img-polaroid', 
+              :style => 'padding:0px; border:5px solid red;' %>
+          <% else %>
+            <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s, 
+              :style => 'display: none'  %>
+            <%= image_tag photo.avatar.square100.url, :id => photo.id , :class => 'img-polaroid'%>
+          <% end %>
+        <% end %>
+      </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 mediasets_path, :class => 'btn' %>
   </div>
 <% end %>
-<% if !@mediaset.id.nil? then %>
-<div id="piclist">
-  <%= form_tag mediaset_update_photos_path(@mediaset) do %>
-    <h3>Click to choose</h3>
-    <div class="control-group" style="display: block; overflow-x: scroll; white-space: nowrap; height: 130px; ">
-      <% @photos.each do |photo| %>
-        <% if @mediaset_photos.include?(photo) then %>
-          <%= check_box_tag 'photo[]', photo.id, true,  :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
-          <%= image_tag photo.avatar.square100.url, :id => photo.id, :class => 'checked img-polaroid', 
-            :style => 'padding:0px; border:5px solid red;' %>
-        <% else %>
-          <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
-          <%= image_tag photo.avatar.square100.url, :id => photo.id , :class => 'img-polaroid'%>
-        <% end %>
-      <% end %>
-    </div>
-    <div class="form-actions">  
-      <%= submit_tag 'Update photo selection', :class=>'btn btn-primary' %>
-    </div>
-  <% end %>
-</div>
-<% end %>
+
 
 <script type="text/javascript">
   $(document).ready(function (){
