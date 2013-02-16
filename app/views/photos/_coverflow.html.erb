@@ -1,24 +1,14 @@
 <div class="pagination pagination-centered">
   <ul>
-    <% if @prev_photos.empty? then %>
+    <% if @photolist.first == @photo then %>
       <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
-    <% else %>
-      <% @prev_photos.each do |photo| %>
-        <li><%= link_to image_tag(photo.avatar.square100), 
-          photo_view_path(@persona.screen_name, photo.id) %>
-        </li>
-      <% end %>
     <% end %>
-    <li class="active"><%= link_to image_tag(@photo.avatar.square100), 
-      photo_view_path(@persona.screen_name, @photo.id), :style=>'background-color:red;' %></li>
-    <% if @next_photos.empty? then %>
+    <% @photolist.each do |photo| %>
+      <li><%= link_to image_tag(photo.avatar.square100), photo_view_path(@persona.screen_name, photo.id), 
+        :style => photo == @photo ? 'background-color:red' : '' %></li>
+    <% end %>
+    <% if @photolist.last == @photo then %>
       <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
-    <% else %>
-      <% @next_photos.each do |photo| %>
-        <li><%= link_to image_tag(photo.avatar.square100), 
-          photo_view_path(@persona.screen_name, photo.id) %>
-        </li>
-      <% end %>
     <% end %>
   </ul>
-</div><!-- pagination -->
+</div>

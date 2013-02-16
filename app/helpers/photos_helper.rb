@@ -63,10 +63,19 @@ module PhotosHelper
     return @returnString.html_safe
   end
   
-  def build_photo_coverflow(current_photo_id, mediaset_id)
-    #like page list, but of photos
-    if mediaset_id.nil? then
+  def get_photo_list(personaID, atPhotoID, mediasetID)
+    if mediasetID.nil? then
+      prev_photos = Photo.find(:all,:conditions => "id > " + atPhotoID.to_s + 
+        " and persona_id == "+ personaID.to_s, :limit => 4 ).reverse
+      next_photos = Photo.find(:all,:conditions => "id < " + atPhotoID.to_s + 
+        " and persona_id == "+ personaID.to_s, :order => "id DESC", :limit => 8-prev_photos.count )
     else
+      prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
+        :limit => 4 ).reverse
+      next_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id < " + atPhotoID.to_s, 
+        :order => "id DESC", :limit => 8-prev_photos.count )
     end
+
+    return prev_photos + Array.new.push(Photo.find(atPhotoID)) + next_photos
   end
 end

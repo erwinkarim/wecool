@@ -58,18 +58,20 @@
   </div><!-- span12 -->
 </div><!-- row -->
 
-<!-- photol list -->
+<!-- photo coverflow -->
 <div class="row-fluid">
   <div class="span12">
     <ul>
       <!-- show which mediasets this photo belongs to -->
       <li><%= link_to 'Default', photo_path(@persona.screen_name)  %>
+        <% @photolist = get_photo_list(@persona.id, @photo.id, nil) %>
         <%= render "coverflow" %>
       </li>
       <% @photo.mediasets.each do |mediaset| %>
         <li>
           <%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %>
-          <!--pagination for this mediaset -->
+          <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
+          <%= render "coverflow" %>
         </li>
       <% end %>
     </ul>
