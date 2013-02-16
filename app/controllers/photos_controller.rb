@@ -142,6 +142,12 @@ class PhotosController < ApplicationController
             @avatar = @photo.avatar.thumb100
           when 'original'
             @avatar = @photo.avatar
+          when 'square50'
+            @avatar = @photo.avatar.square50
+          when 'square100'
+            @avatar = @photo.avatar.square100
+          when 'square200'
+            @avatar = @photo.avatar.square200
           else
             @avatar = nil
         end
@@ -160,12 +166,6 @@ class PhotosController < ApplicationController
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @photo = @persona.photos.find(params[:id])
     @mediasets = @persona.mediasets
-
-    #navigation
-    @prev_photos = Photo.find(:all,:conditions => "id > " + @photo.id.to_s + 
-      " and persona_id == "+ @persona.id.to_s, :limit => 4 ).reverse
-    @next_photos = Photo.find(:all,:conditions => "id < " + @photo.id.to_s + 
-      " and persona_id == "+ @persona.id.to_s, :order => "id DESC", :limit => 8-@prev_photos.count )
 
     respond_to do |format|
       format.html # view.html.erb
