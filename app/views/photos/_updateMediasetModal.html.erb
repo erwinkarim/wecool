@@ -14,10 +14,13 @@
   </div>
   <div class="modal-body" id="selectMediasetNew">
     <h3>Create new Mediaset</h3>
-    <%= text_field_tag  'new_mediaset_title', nil, :placeholder=>'Enter title' %>
-    <br />
-    <%= link_to 'Cancel', '#', :class=>'btn' , :id => 'mediasetNewCancel' %>
-    <%= link_to 'Create new Mediaset', '#', :class=>'btn btn-primary', :id => 'mediasetNewCreate' %> 
+    <%= form_for Mediaset.new do |f| %> 
+      <%= f.text_field :title %>
+      <br />
+      <%= link_to 'Cancel', '#', :class=>'btn' , :id => 'mediasetNewCancel' %>
+      <%= f.submit 'Create new Mediaset', :id => 'mediasetNewCreate', :class=>'btn btn-primary' %>
+      <%= link_to 'Create new Mediaset', '#', :class=>'btn btn-primary', :id => 'mediasetNewCreate' %> 
+    <% end %>
   </div>
     <div class="modal-footer" id="updateMediasetFooter">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
