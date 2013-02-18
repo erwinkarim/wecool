@@ -1,4 +1,6 @@
 <%- model_class = Photo -%>
+
+<!-- pagae header-->
 <div class="page-header">
   <h1 id="photo-title"><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
   <% if persona_signed_in? && current_persona.id == @persona.id then %>
@@ -10,6 +12,7 @@
   <% end %>
 </div>
 
+<!-- photo view and description -->
 <div class="row-fluid">
   <div class="span12">
     <div class="navbar">
@@ -59,27 +62,39 @@
 </div><!-- row -->
 
 <!-- photo coverflow -->
-<div class="row-fluid">
-  <div class="span12">
-    <ul>
+<div class="accordion" id="accordion2">
+  <div class="accordion-group">
       <!-- show which mediasets this photo belongs to -->
-      <li><%= link_to 'Default', photo_path(@persona.screen_name)  %>
-        <% @photolist = get_photo_list(@persona.id, @photo.id, nil) %>
-        <%= render "coverflow" %>
-      </li>
-      <% @photo.mediasets.each do |mediaset| %>
-        <li>
-          <%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %>
-          <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
+    <div class="accordion-heading">
+      <h3>
+        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapseDefault', 
+          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
+          :style=>'display:inline;'  %><%= link_to 'Default', photo_path(@persona.screen_name) %>
+      </h3>
+    </div>
+    <div class="accordion-body collapse" id="collapseDefault">
+      <div class="accordion-inner">
+          <% @photolist = get_photo_list(@persona.id, @photo.id, nil) %>
           <%= render "coverflow" %>
-        </li>
-      <% end %>
-    </ul>
-  </div><!-- span12 -->
-</div><!-- row -->
-
-<div class="row-fluid">
+      </div>
+    </div>
+  </div>
+  <% @photo.mediasets.each do |mediaset| %>
+    <div class="accordion-group">  
+      <div class="accordion-heading">
+        <h3>
+        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse'+mediaset.id.to_s, 
+          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
+          :style=>'display:inline;' %><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
+        </h3>
+      </div>
+      <div class="accordion-body collapse" id="collapse<%= mediaset.id %>">
+        <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
+        <%= render "coverflow" %>
+      </div>
+  <% end %>
 </div>
+
 
 <!-- modal for updating mediaset selection -->
 <%= render "updateMediasetModal" %>
@@ -108,10 +123,14 @@
         $("#photo-desc").show("slow");
         $("#photo-desc-form").hide("slow"); 
       });
-
+  
+      $('.accordion-toggle').blur(function (){
+        console.log('blur called');
+      });
  
     });
   </script>
+
 
 <% end %>
 
