@@ -1,0 +1,4 @@
+//to update in photo#view action
+var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.id, true) %>";
+var thePhotoAndTitle = "<%=  escape_javascript(image_tag @mediaset.photos.first.avatar.square50) %> <%= @mediaset.title %>"; 
+$('#newMediasetList').after("<li>" + theCheckBox + " " + thePhotoAndTitle + "</li>");

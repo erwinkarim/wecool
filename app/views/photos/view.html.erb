@@ -92,6 +92,7 @@
         <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
         <%= render "coverflow" %>
       </div>
+    </div>
   <% end %>
 </div>
 
@@ -133,7 +134,3 @@
 
 
 <% end %>
-
-<%= link_to 'List Mediaset', mediasets_path, :remote=>true, :class=>'btn' %>
-<div id="mediasetlist">
-</div>
