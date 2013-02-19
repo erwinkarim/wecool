@@ -7,6 +7,7 @@ class MediasetsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @mediasets }
+      format.js 
     end
   end
 
@@ -76,8 +77,9 @@ class MediasetsController < ApplicationController
           end 
         end 
         
-        format.html { redirect_to view_sets_path(current_persona.screen_name, @mediaset),
-           notice: 'Mediaset was successfully created.' }
+        #format.html { redirect_to view_sets_path(current_persona.screen_name, @mediaset),
+        #   notice: 'Mediaset was successfully created.' }
+        format.html { redirect_to :back,notice: 'Mediaset was successfully created.' }
         format.json { render json: @mediaset, status: :created, location: @mediaset }
       else
         format.html { render action: "new" }
