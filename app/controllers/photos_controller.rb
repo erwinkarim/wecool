@@ -167,6 +167,9 @@ class PhotosController < ApplicationController
     @photo = @persona.photos.find(params[:id])
     @mediasets = @persona.mediasets
 
+    @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
+    @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
+
     respond_to do |format|
       format.html # view.html.erb
       format.json { render json: @photo }

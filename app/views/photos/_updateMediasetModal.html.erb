@@ -12,7 +12,12 @@
         <% @mediasets.each do |mediaset| %>
           <li>
             <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(@photo) %> 
-            <%= image_tag mediaset.photos.first.avatar.square50 %> <%= mediaset.title %>
+            <% if mediaset.photos.empty? then %>
+              <%= image_tag 'http://placehold.it/50x50' %>
+            <% else %>
+              <%= image_tag mediaset.photos.first.avatar.square50 %>
+            <% end %>
+            <%= mediaset.title %>
           </li>
         <% end %>
       </ul>

@@ -1,17 +1,5 @@
 <%- model_class = Photo -%>
 
-<!-- pagae header-->
-<div class="page-header">
-  <h1 id="photo-title"><%= @photo.title == nil ? 'Untitled' : @photo.title %></h1>
-  <% if persona_signed_in? && current_persona.id == @persona.id then %>
-    <%= form_for @photo, :html => { :id => 'photo-title-form', :class => 'form-horizontal'}  do |f| %>
-      <%= f.text_field  :title, :class=> 'span6 input-large' %>
-      <%= link_to 'Cancel', '#', :id => 'photo-title-cancel-btn', :class=>'btn' %>
-      <%= f.submit 'Update title',:class=>'btn btn-primary' %>
-    <% end %>
-  <% end %>
-</div>
-
 <!-- photo view and description -->
 <div class="row-fluid">
   <div class="span12">
@@ -40,22 +28,40 @@
     </div><!-- navbar -->
     <div class="">
       <!-- picture description -->
-      <div style="text-align=center;">
-        <%= image_tag @photo.avatar.xlarge %>
+      <div>
+        <div id="carousel" class="carousel">  
+          <div class="carousel-inner">
+            <div class="active item">
+              <%= image_tag @photo.avatar.xlarge, :style=> 'margin-left:auto; margin-right:auto;' %>
+              <div class="carousel-caption">
+                <h4 id="photo-title"><%= @photo.title %><small> by <%= link_to persona_signed_in? && current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %></small></h4>
+                <% if persona_signed_in? && current_persona == @persona then %>
+                  <%= form_for @photo, :html => { :id=>'photo-title-form', :class=> 'form-horizontal' } do |f| %>
+                    <%= f.text_field :title , :class=>'span6'%>
+                    <%= link_to 'Cancel', '#', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
+                    <%= f.submit 'Update title', :class=>'btn btn-primary' %>
+                  <% end %>
+                <% end %>
+                <p id="photo-desc"><%= @photo.description.nil? ? 'No Description' : @photo.description %></p>
+                <% if persona_signed_in? && current_persona.id == @persona.id then %>
+                  <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
+                    <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
+                    <br />
+                    <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+                    <%= f.submit nil, :class=>'btn btn-primary' %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <%= link_to '&lsaquo;'.html_safe,  @prev_photo.nil? ? '#' : photo_view_path(@persona.screen_name, 
+            @prev_photo) , :class=>'carousel-control left' %>
+          <%= link_to '&rsaquo;'.html_safe,  @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, 
+            @next_photo) , :class=>'carousel-control right' %>
+        </div>
       </div>
       <div>
         by <%= link_to @persona.screen_name, persona_path(@persona.screen_name) %>
-      </div>
-      <div>
-        <p id="photo-desc"><%= @photo.description == nil ? 'No Description' : @photo.description %></p>
-        <% if persona_signed_in? && current_persona.id == @persona.id then %>
-          <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
-            <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
-            <br />
-            <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
-            <%= f.submit nil, :class=>'btn btn-primary' %>
-          <% end %>
-        <% end %>
       </div>
     </div>
   </div><!-- span12 -->
@@ -124,13 +130,39 @@
         $("#photo-desc").show("slow");
         $("#photo-desc-form").hide("slow"); 
       });
-  
-      $('.accordion-toggle').blur(function (){
-        console.log('blur called');
-      });
- 
     });
+
+
+
   </script>
-
-
 <% end %>
+<script type="text/javascript">
+  //normal stuff
+  $(document).ready(function(){
+      $('.carousel-caption').hide();
+      $('.carousel-control').hide();
+      $('#carousel').hover(
+        function(){ 
+          $('.carousel-caption').fadeIn('slow', '');
+          $('.carousel-control').fadeIn('', '');
+        }, function(){ 
+          $('.carousel-caption').fadeOut('slow','');
+          $('.carousel-control').fadeOut('', '');
+        }
+      );
+  });
+
+  $(document).keydown(function (e) {
+    var keyCode = e.keyCode || e.which,
+        arrow = {left: 37, up: 38, right: 39, down: 40 };
+
+    switch (keyCode) {
+      case arrow.left:
+        $(location).attr('href', "<%= @prev_photo.nil? ? '#' :  photo_view_path(@persona.screen_name, @prev_photo) %>");
+      break;
+      case arrow.right:
+        $(location).attr('href', "<%= @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @next_photo) %>");
+      break;
+    }
+  });
+</script>

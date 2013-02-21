@@ -11,8 +11,7 @@ accordionHead.append(jQuery('<h3/>', {}));
 
 var accordionToggle = jQuery('<a/>', {
   href:'#collapse<%= @mediaset.id.to_s %>', class:'accordion-toggle', 
-  id:'collapse'+'<%= @mediaset.id.to_s %>', 'data-toggle':'collapse', 
-  'data-parent':'#accordion2', style:'display:inline;'
+  'data-toggle':'collapse', 'data-parent':'#accordion2', style:'display:inline;'
 }).append(jQuery('<i/>', {
   class:'icon-chevron-down', 
 }));
@@ -23,7 +22,7 @@ accordionHead.find('h3').append(jQuery('<a/>', {
   href:'<%= escape_javascript(view_sets_path(current_persona.screen_name, @mediaset)) %>' 
 }));
 
-var accordionBody = jQuery('<div/>', { class:'accordion-body in collapse', id:'collapse<%= @mediaset.id %>' });
+var accordionBody = jQuery('<div/>', { class:'accordion-body collapse', id:'collapse<%= @mediaset.id %>' });
 <% @photolist = get_photo_list(current_persona.id, @mediaset.photos.first.id, @mediaset.id) %>
 var photolist = "<%= escape_javascript( render "photos/coverflow") %>"
 accordionBody.append(photolist);
@@ -32,4 +31,3 @@ var accordionGroup = jQuery('<div/>', {class:'accordion-group'});
 accordionGroup.append(accordionHead);
 accordionGroup.append(accordionBody);
 $('#accordion2').append(accordionGroup);
-
