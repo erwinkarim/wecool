@@ -1,8 +1,16 @@
 <div class="row-fluid">
   <% @photos.each do |photo| %>
-    <div style="float:left; margin: 0px 2px 2px 0px">
-      <% this_persona = Persona.find(photo.persona_id).screen_name %>
-          <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid'), photo_view_path(this_persona, photo.id) %>
+    <div style="float:left; margin: 0px 2px 2px 0px" id="thisphoto" class="carousel">
+      <div class="carousel-inner">
+        <div class="active item">
+          <% this_persona = Persona.find(photo.persona_id).screen_name %>
+          <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid'), 
+            photo_view_path(this_persona, photo.id) %>
+          <div class="carousel-caption">
+            <p><%= photo.title %></p>
+          </div>
+        </div>
+      </div><!-- carousel-inner -->
     </div>
   <% end %> 
 </div>
@@ -10,16 +18,12 @@
 <% end %>
 <script type="text/javascript">
   $(document).ready( function(){
-    /*
-    $('.description').hide();
-    $('.thumbnail').hover(
-      function(){
-        $(this).find('.description').fadeIn(100);
-      }, 
-      function(){
-        $(this).find('.description').fadeOut(100);
-      }
-    );
-    */
+    $('.carousel-caption').hide();
+    $('#thisphoto').bind('mouseenter', function() {
+      $(this).find('.carousel-caption').show();
+    }).bind('mouseleave', function() {
+      $(this).find('.carousel-caption').hide();
+    });
+
   });
 </script>
