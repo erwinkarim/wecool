@@ -81,11 +81,11 @@ class MediasetsController < ApplicationController
           notice: 'Mediaset was successfully created.' }
         #format.html { redirect_to :back,notice: 'Mediaset was successfully created.' }
         format.json { render json: @mediaset, status: :created, location: @mediaset }
-        format.js
+        format.js 
       else
         format.html { render action: "new" }
         format.json { render json: @mediaset.errors, status: :unprocessable_entity }
-        format.js { render notice: 'Mediaset was successfully created.' }
+        format.js 
       end
     end
   end
