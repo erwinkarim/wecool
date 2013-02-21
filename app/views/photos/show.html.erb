@@ -14,9 +14,17 @@
   <% else %>
     <div class="row-fluid">
       <% @photos.each do |photo| %>
-        <div class="" style="float:left; margin:0px 5px 5px 0px">
-          <%= link_to image_tag(photo.avatar.small, :class=> ''), 
-            photo_view_path(@persona.screen_name, photo.id) %>
+        <div class="carousel" style="float:left; margin:0px 5px 5px 0px">
+          <div class="carousel-inner">
+            <div class="active item">
+              <%= link_to image_tag(photo.avatar.small, :class=> ''), 
+                photo_view_path(@persona.screen_name, photo.id) %>
+              <div class="carousel-caption">
+                <h4><%= photo.title %></h4>
+                <p><%= photo.description.nil? ? 'No Description' : photo.description %></p>
+              </div><!-- carousel-caption-->
+            </div><!-- active item-->
+          </div><!-- carousel-inner-->
         </div>
       <% end %> 
     </div>
@@ -27,3 +35,13 @@
     </div> 
   <% end %>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.carousel-caption').hide();
+    $('.carousel-inner').bind('mouseenter', function(){
+      $(this).find('.carousel-caption').show();
+    }).bind('mouseleave', function(){
+      $(this).find('.carousel-caption').hide();
+    });
+  });
+</script>

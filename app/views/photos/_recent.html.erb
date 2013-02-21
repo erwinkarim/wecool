@@ -1,13 +1,13 @@
 <div class="row-fluid">
   <% @photos.each do |photo| %>
-    <div style="float:left; margin: 0px 2px 2px 0px" id="thisphoto" class="carousel">
+    <div style="float:left; margin: 0px 2px 2px 0px" class="carousel">
       <div class="carousel-inner">
         <div class="active item">
           <% this_persona = Persona.find(photo.persona_id).screen_name %>
           <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid'), 
             photo_view_path(this_persona, photo.id) %>
           <div class="carousel-caption">
-            <p><%= photo.title %></p>
+            <p><%= photo.title %> by <%= link_to this_persona, persona_path(this_persona) %></p>
           </div>
         </div>
       </div><!-- carousel-inner -->
@@ -19,7 +19,7 @@
 <script type="text/javascript">
   $(document).ready( function(){
     $('.carousel-caption').hide();
-    $('#thisphoto').bind('mouseenter', function() {
+    $('.carousel-inner').bind('mouseenter', function() {
       $(this).find('.carousel-caption').show();
     }).bind('mouseleave', function() {
       $(this).find('.carousel-caption').hide();
