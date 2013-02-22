@@ -2,10 +2,11 @@
   //add new photos
   console.log('load more photos'); 
   <% @next_photos.each do |photo| %>
+    <% this_persona = Persona.find(photo.persona_id).screen_name %>
     var carousel = jQuery('<div/>', {class:'carousel', style:'float:left; margin: 0px 2px 2px 0px;'}).
       append(jQuery('<div/>', {class:'carousel-inner'}));
-    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.tiny, :class=>'img-polaroid'), photo_view_path(Persona.find(photo.persona_id).screen_name, photo)) %>");
-    carousel.append(jQuery('<div/>', {class:'carousel-caption'}).append(jQuery('<p/>', {text:'<%= escape_javascript(photo.description.nil? ? "no description" : photo.description) %>'})));
+    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.tiny, :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
+    carousel.append(jQuery('<div/>', {class:'carousel-caption'}).append(jQuery('<p/>', {text:'<%= escape_javascript(photo.title) %> by sombody'})));
     $('.endless_scroll_inner_wrap').append(carousel);
     $('.endless-photos').attr('last', <%= @next_photos.last.id %>);
   <% end %>
@@ -13,12 +14,3 @@
   //remove the end 
   console.log('i think its the end '); 
 <% end %>
-
-$(document).ready( function(){
-  $('.carousel-caption').hide();
-  $('.carousel-inner').bind('mouseenter', function() {
-        $(this).find('.carousel-caption').show();
-      }).bind('mouseleave', function() {
-        $(this).find('.carousel-caption').hide();
-      });
-});
