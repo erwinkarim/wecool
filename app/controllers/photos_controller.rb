@@ -219,6 +219,17 @@ class PhotosController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back, :notice => 'Mediaset Selection Updated' }
     end
-    
   end
+
+  # GET /photos/get_more/:last_id(.:format)
+  def get_more
+    @next_photos = Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', :limit=>20)
+
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
 end

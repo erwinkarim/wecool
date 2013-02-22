@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row-fluid endless-photos" last="<%= @photos.last.id %>" >
   <% @photos.each do |photo| %>
     <div style="float:left; margin: 0px 2px 2px 0px" class="carousel">
       <div class="carousel-inner">
@@ -13,6 +13,7 @@
       </div><!-- carousel-inner -->
     </div>
   <% end %> 
+  <div id="infinite-scroll"></div>
 </div>
 <% if persona_signed_in? then %>
 <% end %>
@@ -26,4 +27,20 @@
     });
 
   });
+  $(document).endlessScroll({
+    fireOnce: true,
+    fireDelay: 500,
+    insertBefore: '#infinite-scroll', 
+    ceaseFire: function(){
+      return $('#infinite-scroll').length ? false : true;
+    },
+    callback: function(p){
+      $.ajax({
+        url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+        dataType: 'script'
+      });
+    }
+
+  });
+
 </script>

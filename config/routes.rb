@@ -25,6 +25,7 @@ Wecool::Application.routes.draw do
     match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
     match '/photos/:persona_id/update_setlist/:photo_id' => :update_setlist, :via => :post, 
       :as => 'photo_update_setlist'
+    match '/photos/get_more/:last_id' => :get_more, :via => :get, :as => 'photo_get_more'
   end
 
 
