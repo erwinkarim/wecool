@@ -46,7 +46,12 @@
         <li>
           <div class="thumbnail">
             <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3>
-            <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
+            <% if mediaset.photos.empty? then %>
+              <%= image_tag('http://placehold.it/200x200') %>
+            <% else %>
+              <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), 
+                photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
+            <% end %>
           </div>
         </li>
       <% end %>

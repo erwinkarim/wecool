@@ -6,11 +6,25 @@
     var carousel = jQuery('<div/>', {class:'carousel', style:'float:left; margin: 0px 2px 2px 0px;'}).
       append(jQuery('<div/>', {class:'carousel-inner'}));
     carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.tiny, :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
-    carousel.append(jQuery('<div/>', {class:'carousel-caption'}).append(jQuery('<p/>', {text:'<%= escape_javascript(photo.title) %> by sombody'})));
+    var caption = jQuery('<div/>', {class:'carousel-caption'});
+    caption.append(jQuery('<p/>', {text:'<%= escape_javascript(photo.title) %> by '}));
+    caption.find('p').append(jQuery('<a/>', {text:'<%= this_persona %>', 
+      href:'<%= escape_javascript(persona_path(this_persona)) %>'}));
+    carousel.append(caption);
+
     $('.endless_scroll_inner_wrap').append(carousel);
     $('.endless-photos').attr('last', <%= @next_photos.last.id %>);
+
+    $('.carousel-caption').hide();
+    $('.carousel').hover( function(){
+        $(this).find('.carousel-caption').show();
+      }, function() {
+        $(this).find('.carousel-caption').hide();
+    });
   <% end %>
 <% else %>
   //remove the end 
   console.log('i think its the end '); 
+  var the_end = jQuery('<h3/>', text:'That\'s all folks!!');
+  $('.endless_scroll_inner_wrap').before(the_end);
 <% end %>
