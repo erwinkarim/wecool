@@ -28,10 +28,8 @@
 
   });
 
-  $(document).endlessScroll({
+  $(window).endlessScroll({
     fireOnce: true,
-    fireDelay: 500, 
-    bottomPixels: 250, 
     intervalFrequency: 100, 
     ceaseFireOnEmpty: false, 
     loader: '<div>loading...</div>', 
@@ -40,9 +38,6 @@
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
           dataType: 'script'
         });
-    }, 
-    ceaseFire: function(s){
-      s<5 ? false : true;
     }
   });
 
