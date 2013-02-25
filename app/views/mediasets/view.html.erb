@@ -1,4 +1,4 @@
-<h2 class="page-header"><%= @mediaset.title %></h2>
+<h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : @persona.screen_name %></h2>
 <p class="lead"><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
 
 <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
@@ -23,20 +23,28 @@
   </div>
 </div>
 <% end %>
-<div class="endless-photos" last="<%= @mediaset_photos.last.id %>" >
+<div class="row-fluid endless-photos" last="<%= @mediaset_photos.last.id %>" >
   <% if  @mediaset_photos.empty? then %>
     <h2>No photos on this set, why don't you 
       <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
   <% else %>
-    <ul class="thumbnails">
       <% @mediaset_photos.each do |photo| %>
-        <li><%= link_to image_tag(photo.avatar.small), photo_view_path(@persona.screen_name, photo.id), :class => 'thumbnail' %></li>
+        <div style="float:left; margin:0px 2px 2px 0px;" class="carousel">
+          <div class="carousel-inner">
+            <div class="active item">
+              <%= link_to image_tag(photo.avatar.small, :class=>'img-polaroid'),
+                photo_view_path(@persona.screen_name, photo.id) %>
+              <div class="carousel-caption">
+                <p><%= photo.title %></p>
+              </div>
+            </div>
+          </div>
+        </div>
       <% end %>
-    </ul>
+      <div class="last-div endless_scroll_inner_wrap"></div>
   <% end %>  
-  <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
-<div>
+<div class="row-fluid">
   <p><%= @mediaset.photos.count %> photos</p>
 </div>
 <script type="text/javascript">
