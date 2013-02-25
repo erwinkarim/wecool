@@ -23,7 +23,7 @@
   </div>
 </div>
 <% end %>
-<div>
+<div class="endless-photos" last="<%= @mediaset_photos.last.id %>" >
   <% if  @mediaset_photos.empty? then %>
     <h2>No photos on this set, why don't you 
       <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
@@ -34,4 +34,31 @@
       <% end %>
     </ul>
   <% end %>  
+  <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
+<div>
+  <p><%= @mediaset.photos.count %> photos</p>
+</div>
+<script type="text/javascript">
+  $(document).ready( function(){
+  });
+
+  $(document).endlessScroll({
+    fireOnce: true,
+    fireDelay: 500, 
+    bottomPixels: 250, 
+    intervalFrequency: 100, 
+    ceaseFireOnEmpty: false, 
+    loader: '<div>loading...</div>', 
+    callback: function(){
+        $.ajax({
+          url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+          dataType: 'script', 
+          data: { media_type:'mediaset', mediaset_id:'<%= @mediaset.id %>'}
+        });
+    }, 
+    ceaseFire: function(s){
+      s<5 ? false : true;
+    }
+  });
+</script>

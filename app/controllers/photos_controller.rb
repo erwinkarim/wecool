@@ -223,7 +223,22 @@ class PhotosController < ApplicationController
 
   # GET /photos/get_more/:last_id(.:format)
   def get_more
-    @next_photos = Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', :limit=>20)
+   
+    options = {
+      :media_type => 'photos'
+    }
+
+    if params.has_key? :media_type then
+      options[:media_tye] = params[:media_type]
+    end
+
+    if params[:media_type].nil?  then
+      @next_photos = Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', :limit=>20)
+    else
+      #media_type id should be mediaset
+      @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
+        :conditions => "photo_id < " + params[:last_id], :order => 'id desc', :limit=> 10)
+    end
 
 
     respond_to do |format|
