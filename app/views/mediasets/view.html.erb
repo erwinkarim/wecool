@@ -1,4 +1,4 @@
-<h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : @persona.screen_name %></h2>
+<h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : link_to(@persona.screen_name, persona_path(@persona.screen_name)) %></h2>
 <p class="lead"><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
 
 <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
@@ -45,10 +45,16 @@
   <% end %>  
 </div>
 <div class="row-fluid">
-  <p><%= @mediaset.photos.count %> photos</p>
+  <p><%= pluralize @mediaset.photos.count, 'photo' %> </p>
 </div>
 <script type="text/javascript">
   $(document).ready( function(){
+    $('.carousel-caption').hide();
+    $('.carousel-inner').bind('mouseenter', function() {
+      $(this).find('.carousel-caption').show();
+    }).bind('mouseleave', function() {
+      $(this).find('.carousel-caption').hide();
+    });
   });
 
   $(document).endlessScroll({
@@ -62,7 +68,9 @@
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
           dataType: 'script', 
-          data: { media_type:'mediaset', mediaset_id:'<%= @mediaset.id %>'}
+          data: { media_type:'mediaset', mediaset_id:'<%= @mediaset.id %>', 
+            size:'small'
+          }
         });
     }, 
     ceaseFire: function(s){

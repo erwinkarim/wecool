@@ -125,35 +125,14 @@ class PhotosController < ApplicationController
 
     @avatar = nil
     if params.has_key? :size then
-        case params[:size]
-          when 'xlarge'
-            @avatar = @photo.avatar.xlarge
-          when 'large'
-            @avatar = @photo.avatar.large
-          when 'medium'
-            @avatar = @photo.avatar.medium
-          when 'small'
-            @avatar = @photo.avatar.small
-          when 'tiny'
-            @avatar = @photo.avatar.tiny
-          when 'thumb50'
-            @avatar = @photo.avatar.thumb50
-          when 'thumb100'
-            @avatar = @photo.avatar.thumb100
-          when 'original'
-            @avatar = @photo.avatar
-          when 'square50'
-            @avatar = @photo.avatar.square50
-          when 'square100'
-            @avatar = @photo.avatar.square100
-          when 'square200'
-            @avatar = @photo.avatar.square200
-          else
-            @avatar = nil
-        end
+      if params[:size] == 'original' then
+        @avatar = @photo.avatar
       else
-        @avatar = @photo.avatar.xlarge  
-        params[:size] = 'xlarge'
+        @avatar = @photo.avatar.versions[params[:size].to_sym]
+      end
+    else
+      @avatar = @photo.avatar.xlarge  
+      params[:size] = 'xlarge'
     end
   end
 
@@ -224,12 +203,16 @@ class PhotosController < ApplicationController
   # GET /photos/get_more/:last_id(.:format)
   def get_more
    
-    options = {
-      :media_type => 'photos'
+    @options = {
+      :media_type => 'photos', :size => 'tiny'
     }
 
     if params.has_key? :media_type then
-      options[:media_tye] = params[:media_type]
+      @options[:media_tye] = params[:media_type]
+    end
+
+    if params.has_key? :size then
+      @options[:size] = params[:size]
     end
 
     if params[:media_type].nil?  then

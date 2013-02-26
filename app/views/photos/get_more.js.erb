@@ -5,7 +5,7 @@
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
     var carousel = jQuery('<div/>', {class:'carousel', style:'float:left; margin: 0px 2px 2px 0px;'}).
       append(jQuery('<div/>', {class:'carousel-inner'}));
-    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.tiny, :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
+    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
     var caption = jQuery('<div/>', {class:'carousel-caption'});
     caption.append(jQuery('<p/>', {text:'<%= escape_javascript(photo.title) %> by '}));
     caption.find('p').append(jQuery('<a/>', {text:'<%= this_persona %>', 

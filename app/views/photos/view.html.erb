@@ -44,7 +44,7 @@
                 <%= f.submit 'Update title', :class=>'btn btn-primary' %>
               <% end %>
             <% end %>
-            <p id="photo-desc"><%= @photo.description.nil? ? 'No Description' : @photo.description %></p>
+            <div id="photo-desc" style="max-height:150px; overflow:auto;"><%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description) %></div>
               <% if persona_signed_in? && current_persona.id == @persona.id then %>
                 <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
                   <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
