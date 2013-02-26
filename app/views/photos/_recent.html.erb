@@ -1,33 +1,14 @@
 <div class="row-fluid endless-photos" last="<%= @photos.last.id %>" >
-  <% @photos.each do |photo| %>
-    <div style="float:left; margin: 0px 2px 2px 0px" class="carousel">
-      <div class="carousel-inner">
-        <div class="active item">
-          <% this_persona = Persona.find(photo.persona_id).screen_name %>
-          <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid'), 
-            photo_view_path(this_persona, photo.id) %>
-          <div class="carousel-caption">
-            <p><%= photo.title %> by <%= link_to this_persona, persona_path(this_persona) %></p>
-          </div>
-        </div>
-      </div><!-- carousel-inner -->
-    </div>
-  <% end %> 
   <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
-<% if persona_signed_in? then %>
-<% end %>
 <script type="text/javascript">
-  $(document).ready( function(){
-    $('.carousel-caption').hide();
-    $('.carousel-inner').bind('mouseenter', function() {
-      $(this).find('.carousel-caption').show();
-    }).bind('mouseleave', function() {
-      $(this).find('.carousel-caption').hide();
-    });
-
+  //get the first few photos
+  $.ajax({
+    url: '/photos/get_more/<%= Photo.last.id %>', 
+    dataType: 'script'
   });
 
+  //keep loading until the end
   $(document).endlessScroll({
     fireOnce: true,
     fireDelay: 500, 
@@ -45,5 +26,4 @@
       s<5 ? false : true;
     }
   });
-
 </script>
