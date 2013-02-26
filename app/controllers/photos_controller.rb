@@ -204,7 +204,8 @@ class PhotosController < ApplicationController
   def get_more
    
     @options = {
-      :media_type => 'photos', :size => 'tiny'
+      :media_type => 'photos', :size => 'tiny',
+      :limit => 10
     }
 
     if params.has_key? :media_type then
@@ -215,12 +216,17 @@ class PhotosController < ApplicationController
       @options[:size] = params[:size]
     end
 
+    if params.has_key? :limit then
+      @options[:limit] = params[:limit]
+    end
+
     if params[:media_type].nil?  then
-      @next_photos = Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', :limit=>20)
+      @next_photos = Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', 
+        :limit=> @options[:limit])
     else
       #media_type id should be mediaset
       @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
-        :conditions => "photo_id < " + params[:last_id], :order => 'id desc', :limit=> 10)
+        :conditions => "photo_id < " + params[:last_id], :order => 'id desc', :limit=> @options[:limit])
     end
 
 
