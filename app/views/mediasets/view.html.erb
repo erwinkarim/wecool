@@ -28,41 +28,32 @@
     <h2>No photos on this set, why don't you 
       <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
   <% else %>
-      <% @mediaset_photos.each do |photo| %>
-        <div style="float:left; margin:0px 2px 2px 0px;" class="carousel">
-          <div class="carousel-inner">
-            <div class="active item">
-              <%= link_to image_tag(photo.avatar.small, :class=>'img-polaroid'),
-                photo_view_path(@persona.screen_name, photo.id) %>
-              <div class="carousel-caption">
-                <p><%= photo.title %></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-      <div class="last-div endless_scroll_inner_wrap"></div>
+      <div class="row-fluid endless-photos" last="<%= @mediaset_photos.first.id %>" >
+        <div class="last-div endless_scroll_inner_wrap"></div>
+      </div>
   <% end %>  
 </div>
 <div class="row-fluid">
   <p><%= pluralize @mediaset.photos.count, 'photo' %> </p>
 </div>
 <script type="text/javascript">
-  $(document).ready( function(){
-    $('.carousel-caption').hide();
-    $('.carousel-inner').bind('mouseenter', function() {
-      $(this).find('.carousel-caption').show();
-    }).bind('mouseleave', function() {
-      $(this).find('.carousel-caption').hide();
-    });
+  //load first 10
+  $.ajax({
+    url: '/photos/get_more/<%= @mediaset_photos.first.id %>', 
+    data: {limit:10, size:'small'}, 
+    dataType: 'script'
   });
 
+  //load the rest as you scroll
   $(document).endlessScroll({
     fireOnce: true,
     fireDelay: 500, 
-    bottomPixels: 250, 
+    bottomPixels: 50, 
     intervalFrequency: 100, 
     ceaseFireOnEmpty: false, 
+    ceaseFire: function(){
+      return $('.last-div').length ? false : true ;
+    }, 
     loader: '<div>loading...</div>', 
     callback: function(){
         $.ajax({

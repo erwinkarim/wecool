@@ -1,4 +1,4 @@
-<% unless @next_photos.blank? %>
+<% if  !@next_photos.empty? then %>
   //add new photos
   console.log('load more photos'); 
   <% @next_photos.each do |photo| %>
@@ -25,6 +25,7 @@
 <% else %>
   //remove the end 
   console.log('i think its the end '); 
-  var the_end = jQuery('<h3/>', text:'That\'s all folks!!');
-  $('.endless_scroll_inner_wrap').before(the_end);
+  var the_end = jQuery('<div/>'. {}).append(jQuery('<h3/>', { text:'That\'s all folks!!'}))
+  $('.endless_scroll_inner_wrap').append(the_end);
+  $('.last-div').toggleClass();
 <% end %>

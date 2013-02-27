@@ -4,7 +4,8 @@
 <script type="text/javascript">
   //get the first few photos
   $.ajax({
-    url: '/photos/get_more/<%= Photo.last.id %>', 
+    url: '/photos/get_more/<%= @photos.last.id %>', 
+    data: {limit:'20'}, 
     dataType: 'script'
   });
 
@@ -15,6 +16,9 @@
     bottomPixels: 250, 
     intervalFrequency: 100, 
     ceaseFireOnEmpty: false, 
+    ceaseFire: function(){
+      return $('.last-div').length ? false : true;
+    }, 
     loader: '<div>loading...</div>', 
     callback: function(){
         $.ajax({
