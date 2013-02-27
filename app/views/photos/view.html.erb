@@ -31,28 +31,50 @@
       <div class="carousel-inner">
         <div class="active item">
           <%= image_tag @photo.avatar.xlarge, :style=> 'margin-left:auto; margin-right:auto;' %>
-          <div class="carousel-caption">
-            <h4 id="photo-title"><%= @photo.title %>
-              <small> by <%= link_to persona_signed_in? && 
-                current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
-              </small>
-            </h4>
-            <% if persona_signed_in? && current_persona == @persona then %>
-              <%= form_for @photo, :html => { :id=>'photo-title-form', :class=> 'form-horizontal' } do |f| %>
-                <%= f.text_field :title , :class=>'span6'%>
-                <%= link_to 'Cancel', '#', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
-                <%= f.submit 'Update title', :class=>'btn btn-primary' %>
-              <% end %>
-            <% end %>
-            <div id="photo-desc" style="max-height:150px; overflow:auto;"><%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description) %></div>
-              <% if persona_signed_in? && current_persona.id == @persona.id then %>
-                <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
-                  <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
-                  <br />
-                  <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
-                  <%= f.submit nil, :class=>'btn btn-primary' %>
+          <div class="carousel-caption row-fluid">
+            <div class="span6">
+              <h4 id="photo-title"><%= @photo.title %>
+                <small> by <%= link_to persona_signed_in? && 
+                  current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
+                </small>
+              </h4>
+              <% if persona_signed_in? && current_persona == @persona then %>
+                <%= form_for @photo, :html => { :id=>'photo-title-form', :class=> 'form-horizontal' } do |f| %>
+                  <%= f.text_field :title , :class=>'span6'%>
+                  <%= link_to 'Cancel', '#', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
+                  <%= f.submit 'Update title', :class=>'btn btn-primary' %>
                 <% end %>
               <% end %>
+            </div>
+            <div class="span6">
+              <div class="row-fluid">
+                <div  class="span2" >
+                  <h4>
+                  <%= link_to '<i class="icon-star-empty"></i>'.html_safe, '#', :remote=>true %>
+                  <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, '#', :remote=>true %>
+                  <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, '#', :remote=>true %>
+                  <small>2345 votes</small>
+                  </h4>
+                </div>
+                <div class="span9"> 
+                  <div class="progress">
+                    <div class="bar bar-success" style="width:70%;"></div>
+                    <div class="bar bar-danger" style="width:30%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
+              <%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description) %>
+            </div>
+            <% if persona_signed_in? && current_persona.id == @persona.id then %>
+              <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
+                <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
+                <br />
+                <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+                <%= f.submit nil, :class=>'btn btn-primary' %>
+              <% end %>
+            <% end %>
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
