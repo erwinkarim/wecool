@@ -14,6 +14,7 @@ class PhotosController < ApplicationController
 
   # GET /photos/:persona_id
   # GET /photos/:persona_id.json
+  # GET /photos/:id/page/:page_id(.:format)
   def show
     #show photos uploaded by persona
      
@@ -205,7 +206,7 @@ class PhotosController < ApplicationController
    
     @options = {
       :mediatype => 'photos', :size => 'tiny',
-      :limit => 10, :inculdeFirst => false
+      :limit => 10, :inculdeFirst => false, :author => !nil
     }
 
     if params.has_key? :mediatype then
@@ -224,15 +225,18 @@ class PhotosController < ApplicationController
       @options[:includeFirst] = params[:includeFirst]
     end
 
-    @next_photo = Array.new
-    @options[:includeFirst] ? @next_photo.push(Photo.find(params[:last_id])) : nil
+    if params.has_key? :author then
+      @options[:author] = Persona.find(:all, :conditions => { :screen_name => params[:author]}).first
+    end
+
+    upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then
-      @next_photos = @next_photo + Photo.find(:all, :conditions => "id < " + params[:last_id], :order=>'id desc', 
+      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author] }, :order=>'id desc', 
         :limit=> @options[:limit])
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
-      @next_photos = @next_photo + Mediaset.find(params[:mediaset_id]).photos.find(:all, 
-        :conditions => "photo_id < " + params[:last_id], :order => 'id desc', :limit=> @options[:limit])
+      @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
+        :conditions => {:id => 0..upper }, :order => 'id desc', :limit=> @options[:limit])
     end
 
 

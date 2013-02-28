@@ -60,7 +60,7 @@
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
           dataType: 'script', 
           data: { mediatype:'mediaset', mediaset_id:'<%= @mediaset.id %>', 
-            size:'small'
+            size:'small', limit:4
           }
         });
     }, 

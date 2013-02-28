@@ -12,9 +12,11 @@
     caption.find('.caption-text').append(jQuery('<a/>', {text:'<%= this_persona %>', 
       href:'<%= escape_javascript(persona_path(this_persona)) %>'}));
     caption.append(jQuery('<div/>', {class:'caption-vote pull-right'}))
-    caption.find('.caption-vote').append(jQuery('<a/>', 
-      {href:'<%= photo_toggle_featured_path(photo) %>', 'data-remote':'true', 'data-method':'post'}).append(jQuery('<i/> ', 
-      {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+    <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
+      caption.find('.caption-vote').append(jQuery('<a/>', 
+        {href:'<%= photo_toggle_featured_path(photo) %>', 'data-remote':'true', 'data-method':'post'}).append(jQuery('<i/> ', 
+        {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+    <% end %>
     caption.find('.caption-vote').append(jQuery('<i/>', {class:'icon-thumbs-up'}));
     caption.find('.caption-vote').append(jQuery('<i/>', {class:'icon-thumbs-down'}));
     caption.wrapInner('<h4/>');
