@@ -23,7 +23,7 @@
   </div>
 </div>
 <% end %>
-<div class="row-fluid endless-photos" last="<%= @mediaset_photos.last.id %>" >
+<div class="row-fluid endless-photos" last="<%= @mediaset_photos.first.id %>" >
   <% if  @mediaset_photos.empty? then %>
     <h2>No photos on this set, why don't you 
       <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
@@ -40,7 +40,7 @@
   //load first 10
   $.ajax({
     url: '/photos/get_more/<%= @mediaset_photos.first.id %>', 
-    data: {limit:10, size:'small'}, 
+    data: {limit:10, size:'small', includeFirst:'true', mediatype:'mediaset', mediaset_id:'<%= @mediaset.id %>'}, 
     dataType: 'script'
   });
 
@@ -59,7 +59,7 @@
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
           dataType: 'script', 
-          data: { media_type:'mediaset', mediaset_id:'<%= @mediaset.id %>', 
+          data: { mediatype:'mediaset', mediaset_id:'<%= @mediaset.id %>', 
             size:'small'
           }
         });

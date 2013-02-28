@@ -5,7 +5,7 @@
   //get the first few photos
   $.ajax({
     url: '/photos/get_more/<%= @photos.first.id %>', 
-    data: {limit:'20'}, 
+    data: {limit:'20', includeFirst:'true'}, 
     dataType: 'script'
   });
 

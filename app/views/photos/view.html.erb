@@ -72,7 +72,7 @@
             </div>
             <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
               <div class="span10">
-              <%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description) %>
+              <%= simple_format(@photo.description.nil? ? 'No Description' : truncate(@photo.description)) %>
               </div>
             </div>
             <% if persona_signed_in? && current_persona.id == @persona.id then %>
