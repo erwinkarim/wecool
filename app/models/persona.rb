@@ -12,4 +12,5 @@ class Persona < ActiveRecord::Base
     :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }
   has_many :photos,:dependent=> :destroy
   has_many :mediasets, :dependent => :destroy
+
 end

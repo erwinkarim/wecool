@@ -50,10 +50,16 @@
               <div class="row-fluid">
                 <div  class="span2" >
                   <h4>
-                  <%= link_to '<i class="icon-star-empty"></i>'.html_safe, '#', :remote=>true %>
-                  <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, '#', :remote=>true %>
-                  <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, '#', :remote=>true %>
-                  <small>2345 votes</small>
+                    <% if @photo.featured then %>
+                      <%= link_to '<i class="isFeatured icon-star"></i>'.html_safe, 
+                        photo_toggle_featured_path(@photo), :remote=>true, :method=>:post %>
+                    <% else %>
+                      <%= link_to '<i class="isFeatured icon-star-empty"></i>'.html_safe, 
+                        photo_toggle_featured_path(@photo), :remote=>true, :method=>:post %>
+                    <% end %>
+                    <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, '#', :remote=>true %>
+                    <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, '#', :remote=>true %>
+                    <small>2345 votes</small>
                   </h4>
                 </div>
                 <div class="span9"> 
@@ -65,7 +71,9 @@
               </div>
             </div>
             <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
+              <div class="span10">
               <%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description) %>
+              </div>
             </div>
             <% if persona_signed_in? && current_persona.id == @persona.id then %>
               <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>

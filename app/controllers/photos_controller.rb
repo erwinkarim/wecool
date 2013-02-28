@@ -235,4 +235,14 @@ class PhotosController < ApplicationController
     end
   end
 
+  # POST   /photos/toggle_featured/:photo_id(.:format)
+  def toggle_featured
+    @photo = Photo.find(params[:photo_id])
+    @photo.toggle(:featured)
+    if @photo.save then
+      render :status => :ok
+    else
+      render :status => :internal_server_error
+    end
+  end
 end

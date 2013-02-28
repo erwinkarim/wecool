@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204065554) do
+ActiveRecord::Schema.define(:version => 20130228021911) do
 
   create_table "mediaset_photos", :force => true do |t|
     t.integer  "photo_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20130204065554) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "avatar"
+    t.boolean  "featured"
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"
