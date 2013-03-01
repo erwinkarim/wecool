@@ -206,7 +206,7 @@ class PhotosController < ApplicationController
    
     @options = {
       :mediatype => 'photos', :size => 'tiny',
-      :limit => 10, :inculdeFirst => false, :author => !nil
+      :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id
     }
 
     if params.has_key? :mediatype then
@@ -231,8 +231,8 @@ class PhotosController < ApplicationController
 
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then
-      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author] }, :order=>'id desc', 
-        :limit=> @options[:limit])
+      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author] }, 
+        :order=>'id desc', :limit=> @options[:limit])
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
