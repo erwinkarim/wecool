@@ -24,7 +24,7 @@
   <% end %>
 </div>
 <script type="text/javascript">
-  var isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false']
+  var isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
 
   //get the first few
   $.ajax({
@@ -61,6 +61,16 @@
       $('.active').toggleClass('active');
       $(this).toggleClass('active');
       //reload the photos
+
+      $('.carousel').detach();
+      isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
+
+       $.ajax({
+    url: '/photos/get_more/<%= @last_photo.id %>', 
+    data: {limit:10, includeFirst:'true', size:'small', author:'<%= @persona.screen_name %>', featured:isFeatured }, 
+    dataType: 'script'
+  });
+ 
     }); 
   });
 </script>
