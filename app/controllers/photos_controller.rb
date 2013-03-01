@@ -14,28 +14,19 @@ class PhotosController < ApplicationController
 
   # GET /photos/:persona_id
   # GET /photos/:persona_id.json
-  # GET /photos/:id/page/:page_id(.:format)
   def show
     #show photos uploaded by persona
-     
     if params[:id] == 'everyone' then
       @persona = Persona.new(:screen_name => 'everyone')
     else
       @persona = Persona.find(:all, :conditions => { :screen_name => params[:id]}, :limit => 1 ).first
     end
-    @page_count = (@persona.photos.count.to_f/10).ceil
 
-    if params.has_key? :page_id then
-      #show the current page in the set/album
-      @photos = Photo.find(:all, 
-        :conditions=> { :persona_id => @persona.id}, :limit => 10, 
-          :offset => (params[:page_id].to_i-1) * 10 ,  :order=> 'id desc' )
-      @current_page = params[:page_id].to_i
-    else
-      @photos = Photo.find(:all, 
-        :conditions=> { :persona_id => @persona.id}, :limit => 10, :order=> 'id desc' )
-      @current_page = 1
+    if params.has_key? :view_mode then
+      
     end
+
+    @last_photo = @persona.photos.last
 
     respond_to do |format|
       format.html # show.html.erb
@@ -206,7 +197,8 @@ class PhotosController < ApplicationController
    
     @options = {
       :mediatype => 'photos', :size => 'tiny',
-      :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id
+      :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id, 
+      :featured => [true, false]
     }
 
     if params.has_key? :mediatype then
@@ -229,10 +221,20 @@ class PhotosController < ApplicationController
       @options[:author] = Persona.find(:all, :conditions => { :screen_name => params[:author]}).first
     end
 
+    if params.has_key? :featured then
+      if params[:featured] == 'true' then
+        @options[:featured] = true
+      elsif params[:featured] == 'false' then
+        @options[:featured] = false
+      else
+        @options[:featured] = [true,false]
+      end
+    end
+
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then
-      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author] }, 
-        :order=>'id desc', :limit=> @options[:limit])
+      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author],
+        :featured => @options[:featured] }, :order=>'id desc', :limit=> @options[:limit])
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 

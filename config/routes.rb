@@ -22,7 +22,7 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/view/:id/exif' => :view_exif, :via => :get, :as => 'photo_view_exif'
     match '/photos/:persona_id/version/:photo_id' => :version, :via => :get, :as => 'photo_version'
     match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
-    match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
+    #match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
     match '/photos/:persona_id/update_setlist/:photo_id' => :update_setlist, :via => :post, 
       :as => 'photo_update_setlist'
     match '/photos/get_more/:last_id' => :get_more, :via => :get, :as => 'photo_get_more'
