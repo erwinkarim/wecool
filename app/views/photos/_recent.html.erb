@@ -1,11 +1,18 @@
+<ul class="nav nav-tabs">
+  <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
+  <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
+  <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
+</ul>
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
   <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
 <script type="text/javascript">
+  var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+
   //get the first few photos
   $.ajax({
     url: '/photos/get_more/<%= @photos.first.id %>', 
-    data: {limit:'20', includeFirst:'true'}, 
+    data: {limit:'20', includeFirst:'true', featured:isFeatured}, 
     dataType: 'script'
   });
 
@@ -23,11 +30,32 @@
     callback: function(){
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+          data: { featured:isFeatured } ,
           dataType: 'script'
         });
     }, 
     ceaseFire: function(s){
       s<5 ? false : true;
     }
+  });
+
+  $(document).ready( function(){
+    //handle nav bar
+    $('.nav li').click( function(){
+      $('.active').toggleClass('active');
+      $(this).toggleClass('active');
+
+      //reload the photos
+      $('.carousel').detach();
+      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      $('.endless-photos').attr('last', <%= Photo.last.id %>);
+
+      $.ajax({
+        url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+        data: { featured:isFeatured, includeFirst:true} ,
+        dataType: 'script'
+      });
+    });
+
   });
 </script>

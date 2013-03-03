@@ -65,12 +65,11 @@
       $('.carousel').detach();
       isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
 
-       $.ajax({
-    url: '/photos/get_more/<%= @last_photo.id %>', 
-    data: {limit:10, includeFirst:'true', size:'small', author:'<%= @persona.screen_name %>', featured:isFeatured }, 
-    dataType: 'script'
-  });
- 
+      $.ajax({
+        url: '/photos/get_more/<%= @last_photo.id %>', 
+        data: {limit:10, includeFirst:'true', size:'small', author:'<%= @persona.screen_name %>', featured:isFeatured }, 
+        dataType: 'script'
+      });
     }); 
   });
 </script>
