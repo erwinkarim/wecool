@@ -15,9 +15,9 @@
     <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
       caption.find('.caption-vote').append(jQuery('<a/>', 
         {href:'<%= photo_toggle_featured_path(photo) %>', 'data-remote':'true', 'data-method':'post'}).append(jQuery('<i/> ', 
-        {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+        {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>', text:'   '}))); 
     <% end %>
-    caption.find('.caption-vote').append(jQuery('<i/>', {class:'icon-thumbs-up'}));
+    caption.find('.caption-vote').append(jQuery('<i/>', {class:'icon-thumbs-up', text:'   ' }));
     caption.find('.caption-vote').append(jQuery('<i/>', {class:'icon-thumbs-down'}));
     caption.wrapInner('<h4/>');
     carousel.append(caption);
