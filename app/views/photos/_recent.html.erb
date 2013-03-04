@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" id="photoTypeSelectorTab">
   <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
   <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
   <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
@@ -41,7 +41,7 @@
 
   $(document).ready( function(){
     //handle nav bar
-    $('.nav li').click( function(){
+    $('#photoTypeSelectorTab li').click( function(){
       $('.active').toggleClass('active');
       $(this).toggleClass('active');
 

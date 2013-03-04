@@ -46,12 +46,7 @@
         <li>
           <div class="thumbnail">
             <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3>
-            <% if mediaset.photos.empty? then %>
-              <%= image_tag('http://placehold.it/200x200') %>
-            <% else %>
-              <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), 
-                photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
-            <% end %>
+            <%= link_to image_tag(mediaset.photos.last.avatar.tiny.url), photo_view_path(@persona.screen_name, mediaset.photos.last.id)%>
           </div>
         </li>
       <% end %>
@@ -59,17 +54,3 @@
     <p><%= link_to 'See More Mediasets', mediaset_path(@persona.screen_name) %></p>
   <% end %>
 </div>
-
-<% if persona_signed_in? && current_persona == @persona then %>
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              personas_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_persona_path(@persona.screen_name), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              persona_path(@persona),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
-</div>
-<% end %>

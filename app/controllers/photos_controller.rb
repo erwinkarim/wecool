@@ -239,6 +239,8 @@ class PhotosController < ApplicationController
       #mediatype id should be mediaset
       @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
         :conditions => {:id => 0..upper }, :order => 'id desc', :limit=> @options[:limit])
+    elsif @options[:mediatype] == 'trending' then
+      #get the photos which attracts the most votes in a given time
     end
 
 

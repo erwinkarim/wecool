@@ -13,7 +13,7 @@
     </div>
   <% else %>
     <div class="row-fluid">
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs" id="photoTypeSelectorTab">
         <li class="active featured-photos"><a href="#">Featured</a>
         <li class="all-photos"><a href="#">Everything</a>
       </ul>
@@ -57,7 +57,7 @@
   });
   
   $(document).ready(function(){
-   $('.nav li').click( function(){
+   $('#photoTypeSelectorTab li').click( function(){
       $('.active').toggleClass('active');
       $(this).toggleClass('active');
       //reload the photos
