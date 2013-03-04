@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228100612) do
+ActiveRecord::Schema.define(:version => 20130304160626) do
 
   create_table "mediaset_photos", :force => true do |t|
     t.integer  "photo_id"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20130228100612) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "screen_name"
+    t.integer  "up_votes",               :default => 0,  :null => false
+    t.integer  "down_votes",             :default => 0,  :null => false
   end
 
   add_index "personas", ["email"], :name => "index_personas_on_email", :unique => true
@@ -58,12 +60,28 @@ ActiveRecord::Schema.define(:version => 20130228100612) do
     t.string   "title"
     t.text     "description"
     t.integer  "persona_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.string   "avatar"
     t.boolean  "featured"
+    t.integer  "up_votes",    :default => 0, :null => false
+    t.integer  "down_votes",  :default => 0, :null => false
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"
+
+  create_table "votings", :force => true do |t|
+    t.string   "voteable_type"
+    t.integer  "voteable_id"
+    t.string   "voter_type"
+    t.integer  "voter_id"
+    t.boolean  "up_vote",       :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "votings", ["voteable_type", "voteable_id", "voter_type", "voter_id"], :name => "unique_voters", :unique => true
+  add_index "votings", ["voteable_type", "voteable_id"], :name => "index_votings_on_voteable_type_and_voteable_id"
+  add_index "votings", ["voter_type", "voter_id"], :name => "index_votings_on_voter_type_and_voter_id"
 
 end

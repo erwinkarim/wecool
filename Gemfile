@@ -53,3 +53,4 @@ gem 'omniauth'
 #gem 'omniauth-google-oauth2'
 
 gem 'squeel'
+gem 'make_voteable'
