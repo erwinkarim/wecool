@@ -60,12 +60,12 @@ ActiveRecord::Schema.define(:version => 20130304160626) do
     t.string   "title"
     t.text     "description"
     t.integer  "persona_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "avatar"
-    t.boolean  "featured"
-    t.integer  "up_votes",    :default => 0, :null => false
-    t.integer  "down_votes",  :default => 0, :null => false
+    t.boolean  "featured",    :default => false, :null => false
+    t.integer  "up_votes",    :default => 0,     :null => false
+    t.integer  "down_votes",  :default => 0,     :null => false
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"

@@ -50,17 +50,34 @@
               <div class="row-fluid">
                 <div  class="span2" >
                   <h4>
-                    <% if @photo.featured then %>
-                      <%= link_to '<i class="isFeatured icon-star"></i>'.html_safe, 
-                        photo_toggle_featured_path(@photo), :remote=>true, :method=>:post %>
-                    <% else %>
-                      <%= link_to '<i class="isFeatured icon-star-empty"></i>'.html_safe, 
-                        photo_toggle_featured_path(@photo), :remote=>true, :method=>:post %>
-                    <% end %>
-                    <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, '#', :remote=>true %>
-                    <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, '#', :remote=>true %>
-                    <% total_votes = @photo.up_votes + @photo.down_votes %>
-                    <small><%= pluralize total_votes, 'vote' %> </small>
+                    <div id="featuredBox">
+                      <% if current_persona == @persona then %>
+                        <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
+                        <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
+                          photo_toggle_featured_path(@photo), :remote=>true, :method=>:post
+                         %>
+                      <% end %>
+                    </div>
+                    <div id="voteBox">
+                      <% if persona_signed_in? then %>
+                        <% if current_persona.voted?(@photo) then %>
+                          <p>You already voted</p>
+                        <% else %>
+                          <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
+                            photo_vote_path(@photo, 'up', current_persona.screen_name), 
+                            :remote=>true, :method => :post %>
+                          <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, 
+                            photo_vote_path(@photo, 'down', current_persona.screen_name), 
+                            :remote=>true, :method=>:post %>
+                        <% end %>
+                      <% else %>
+                        <p>Login to Vote</p>
+                      <% end %>
+                    </div>
+                    <div id="totalVoteBox">
+                      <% total_votes = @photo.up_votes + @photo.down_votes %>
+                      <small><%= pluralize total_votes, 'vote' %> </small>
+                    </div>
                   </h4>
                 </div>
                 <div class="span9"> 
@@ -68,8 +85,10 @@
                     <% if total_votes == 0 then %>
                       <div class="bar bar-info" style="width:100%;"></div>
                     <% else %>
-                      <div class="bar bar-success" style="width:<%= @photo.up_votes/total_votes * 100 %>%;"></div>
-                      <div class="bar bar-danger" style="width:<%= @photo.down_votes/total_votes * 100 %>%;"></div>
+                      <div class="bar bar-success" style="width:<%= @photo.up_votes.to_f/total_votes * 100 %>%;">
+                      </div>
+                      <div class="bar bar-danger" style="width:<%= @photo.down_votes.to_f/total_votes * 100 %>%;">
+                      </div>
                     <% end %>
                   </div>
                 </div>

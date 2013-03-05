@@ -260,4 +260,20 @@ class PhotosController < ApplicationController
       render :status => :internal_server_error
     end
   end
+
+  # POST   /photos/vote/:photo_id/:vote_mode/by/:persona_id(.:format)
+  def vote
+    @photo = Photo.find(params[:photo_id]) 
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id]})
+
+    if params[:vote_mode] == 'up' then
+      @persona.up_vote(@photo)
+    elsif params[:vote_mode] == 'down' then
+      @persona.down_vote(@photo)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
 end

@@ -52,7 +52,7 @@
 
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-        data: { featured:isFeatured, includeFirst:true} ,
+        data: { limit:20, featured:isFeatured, includeFirst:true} ,
         dataType: 'script'
       });
     });

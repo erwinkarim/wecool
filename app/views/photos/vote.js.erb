@@ -1,0 +1,19 @@
+$('#voteBox').find('a').detach();
+$('#voteBox').append(jQuery('<p/>', { text:'You already voted'}));
+
+//update vote count
+var votes = parseInt($('#totalVoteBox').text().split('vote')[0]) + 1
+$('#totalVoteBox').text('<%= escape_javascript(pluralize @photo.up_votes + @photo.down_votes, "vote")%>');
+
+//update progress bar
+if(votes==1){
+  //update from bar-info to 2 bar setup
+  $('.progress').find('.bar').detach();
+  $('.progress').append(jQuery('<div/>', { class:'bar bar-success', width:'<%= @photo.up_votes*100 %>%'}) );
+  $('.progress').append(jQuery('<div/>', { class:'bar bar-danger', width:'<%= @photo.down_votes*100 %>%'}) );
+} else {
+  //update the lenghts
+  <% totalVotes = @photo.up_votes + @photo.down_votes %>
+  $('.bar-success').width('<%= @photo.up_votes.to_f / totalVotes * 100 %>%');
+  $('.bar-danger').width('<%= @photo.down_votes.to_f / totalVotes * 100  %>%');
+}
