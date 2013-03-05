@@ -1,14 +1,13 @@
 <% if  !@next_photos.empty? then %>
   //add new photos
-  console.log('load more photos'); 
   <% @next_photos.each do |photo| %>
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
     var carousel = jQuery('<div/>', {class:'carousel', id:'photo_<%= photo.id %>',  
       style:'float:left; margin: 0px 2px 2px 0px;'}).
       append(jQuery('<div/>', {class:'carousel-inner'}));
     carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
-    var caption = jQuery('<div/>', {class:'carousel-caption'});
-    caption.append(jQuery('<div/>',  {text:'<%= escape_javascript(photo.title) %> by ', class:'pull-left caption-text'}));
+    var caption = jQuery('<div/>', {class:'carousel-caption', style:'color:white'});
+    caption.append(jQuery('<div/>',  {text:'<%= escape_javascript(truncate(photo.title, :length => 20)) %> by ', class:'pull-left caption-text'}));
     caption.find('.caption-text').append(jQuery('<a/>', {text:'<%= this_persona %>', 
       href:'<%= escape_javascript(persona_path(this_persona)) %>'}));
     caption.append(jQuery('<div/>', {class:'caption-vote pull-right'}))
@@ -18,12 +17,12 @@
         {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>', text:'   '}))); 
     <% end %>
     <% if persona_signed_in? && !current_persona.voted?(photo) then %>
-      var voteBox = jQuery('<div/>', {id:'voteBox'});
+      var voteBox = jQuery('<div/>', {id:'voteBox', class:'pull-right'});
       voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
       voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "down", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
       caption.append(voteBox);
     <% end %>
-    caption.wrapInner('<h4/>');
+    caption.wrapInner('<h5/>');
     carousel.append(caption);
 
     $('.endless_scroll_inner_wrap').append(carousel);
@@ -38,7 +37,6 @@
   <% end %>
 <% else %>
   //remove the end 
-  console.log('i think its the end '); 
   var the_end = jQuery('<div/>'. {}).append(jQuery('<h3/>', { text:'That\'s all folks!!'}))
   $('.endless_scroll_inner_wrap').append(the_end);
   $('.last-div').toggleClass();
