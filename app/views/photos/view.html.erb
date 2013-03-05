@@ -26,7 +26,7 @@
         </ul>
       </div>
     </div><!-- navbar -->
-    <div id="carousel" class="carousel">  
+    <div id="photo_<%= @photo.id %>" class="carousel">  
       <!-- picture description -->
       <div class="carousel-inner">
         <div class="active item">
@@ -190,7 +190,7 @@
   $(document).ready(function(){
       $('.carousel-caption').hide();
       $('.carousel-control').hide();
-      $('#carousel').hover(
+      $('.carousel').hover(
         function(){ 
           $('.carousel-caption').fadeIn('slow', '');
           $('.carousel-control').fadeIn('', '');

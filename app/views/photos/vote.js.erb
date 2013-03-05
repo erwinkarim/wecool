@@ -1,5 +1,6 @@
-$('#voteBox').find('a').detach();
-$('#voteBox').append(jQuery('<p/>', { text:'You already voted'}));
+
+$('#photo_<%= @photo.id %>').find('#voteBox').find('a').detach();
+$('#photo_<%= @photo.id %>').find('#voteBox').append(jQuery('<p/>', { text:'You already voted'}));
 
 //update vote count
 var votes = parseInt($('#totalVoteBox').text().split('vote')[0]) + 1
