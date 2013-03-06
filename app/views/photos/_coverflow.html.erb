@@ -1,14 +1,14 @@
 <div class="pagination pagination-centered">
   <% persona = Persona.find(@photolist.first.persona_id) %>
   <ul>
-    <% if @photolist.first == @photo then %>
+    <% if @photolist.first == @photo || @photolist.count < 9 then %>
       <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
     <% end %>
     <% @photolist.each do |photo| %>
       <li><%= link_to image_tag(photo.avatar.square100), photo_view_path(persona.screen_name, photo.id), 
         :style => photo == @photo ? 'background-color:red' : '' %></li>
     <% end %>
-    <% if @photolist.last == @photo then %>
+    <% if @photolist.last == @photo || @photolist.count < 9 then %>
       <li><%= link_to image_tag('http://placehold.it/100x100'), '#' %></li>
     <% end %>
   </ul>
