@@ -3,7 +3,7 @@
     <p> Welcome, <%= current_persona.screen_name %>  </p>
   </div>
   <div class="header">  
-    <h2>Your recent photos <small><%= link_to 'see more...', photo_path(current_persona.screen_name) %></small></h2>
+    <h2>Your recent photos <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small></h2>
       <% if @myPhotos.empty? then %>
         <div class="well">
         <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>

@@ -14,8 +14,8 @@
   <% else %>
     <div class="row-fluid">
       <ul class="nav nav-tabs" id="photoTypeSelectorTab">
-        <li class="active featured-photos"><a href="#">Featured</a>
-        <li class="all-photos"><a href="#">Raw</a>
+        <li class="<%= params[:view] == 'featured' || !(params.has_key? :view) ? 'active' : '' %> featured-photos"><a href="#">Featured</a>
+        <li class="<%= params[:view] == 'raw' ? 'active' : '' %> all-photos"><a href="#">Raw</a>
       </ul>
     </div>
     <div class="row-fluid endless-photos" last="<%= @last_photo.id %>">
