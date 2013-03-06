@@ -1,0 +1,22 @@
+
+var voteBox = $('#photo_<%= @photo.id %>').find('.voteBox');
+voteBox.empty();
+voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
+voteBox.append(' ');
+voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "down", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
+
+//update vote count
+var votes = parseInt($('#totalVoteBox').text().split('vote')[0]) - 1
+$('#totalVoteBox').text('<%= escape_javascript(pluralize @photo.up_votes + @photo.down_votes, "vote")%>');
+
+//update progress bar
+if(votes==0){
+  //move from 2-bar setup to 1-bar setup
+  $('.progress').find('.bar').detach();
+  $('.progress').append(jQuery('<div/>', { class:'bar bar-info', width:'100%'}) );
+} else {
+  //update the lenghts
+  <% totalVotes = @photo.up_votes + @photo.down_votes %>
+  $('.bar-success').width('<%= @photo.up_votes.to_f / totalVotes * 100 %>%');
+  $('.bar-danger').width('<%= @photo.down_votes.to_f / totalVotes * 100  %>%');
+}

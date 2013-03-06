@@ -14,14 +14,18 @@
     <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
       caption.find('.caption-vote').append(jQuery('<a/>', 
         {href:'<%= photo_toggle_featured_path(photo) %>', 'data-remote':'true', 'data-method':'post'}).append(jQuery('<i/> ', 
-        {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>', text:'   '}))); 
+        {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+      caption.find('.caption-vote').find('a').append(' ');
     <% end %>
+    var voteBox = jQuery('<div/>', {class:'pull-right voteBox'});
     <% if persona_signed_in? && !current_persona.voted?(photo) then %>
-      var voteBox = jQuery('<div/>', {id:'voteBox', class:'pull-right'});
       voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
+      voteBox.append(' ');
       voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "down", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
-      caption.append(voteBox);
+    <% elsif persona_signed_in? && current_persona.voted?(photo) then %>
+      voteBox.append(jQuery('<a/>', {href:'<%= escape_javascript photo_unvote_path(photo, current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow'}).append(jQuery('<i/>', { class:'icon-thumbs-<%= current_persona.up_voted?(photo) ? "up" : "down" %>'} )));
     <% end %>
+    caption.append(voteBox);
     caption.wrapInner('<h5/>');
     carousel.append(caption);
 

@@ -276,4 +276,16 @@ class PhotosController < ApplicationController
       format.js
     end
   end
+
+  # POST   /photos/unvote/:photo_id/by/:persona_id(.:format)
+  def  unvote
+    @photo = Photo.find(params[:photo_id])
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id]})
+
+    @persona.unvote(@photo)
+
+    respond_to do |format|
+      format.js
+    end
+  end
 end

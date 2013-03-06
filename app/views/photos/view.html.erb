@@ -58,10 +58,13 @@
                          %>
                       <% end %>
                     </div>
-                    <div id="voteBox">
+                    <div class="voteBox">
                       <% if persona_signed_in? then %>
                         <% if current_persona.voted?(@photo) then %>
-                          <p>You already voted</p>
+                          Voted 
+                          <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i>- 
+                          <%= link_to 'unvote', photo_unvote_path(@photo,current_persona.screen_name), 
+                            :remote => true, :method => :post %>
                         <% else %>
                           <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
                             photo_vote_path(@photo, 'up', current_persona.screen_name), 
