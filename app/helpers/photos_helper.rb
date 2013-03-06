@@ -74,6 +74,11 @@ module PhotosHelper
         :limit => 4 ).reverse
       next_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id < " + atPhotoID.to_s, 
         :order => "id DESC", :limit => 8-prev_photos.count )
+      if next_photos.count < 4 then
+        #rebuild the photo selection
+        prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
+          :limit => 8-next_photos.count ).reverse
+      end
     end
 
     return prev_photos + Array.new.push(Photo.find(atPhotoID)) + next_photos
