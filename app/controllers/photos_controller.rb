@@ -136,6 +136,7 @@ class PhotosController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @photo = @persona.photos.find(params[:id])
+    @total_votes = @photo.up_votes + @photo.down_votes
     @mediasets = @persona.mediasets
 
     @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)

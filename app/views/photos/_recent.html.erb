@@ -4,8 +4,9 @@
   <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
 </ul>
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
-  <div class="last-div endless_scroll_inner_wrap"></div>
+  <div class="last-div endless_scroll_inner_wrap"id="last-frame"></div>
 </div>
+<div class="row-fluid span3"><%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary btn-block', :id=>'load-more-photos' %></div>
 <script type="text/javascript">
   var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
 
@@ -15,7 +16,7 @@
     data: {limit:'20', includeFirst:'true', featured:isFeatured}, 
     dataType: 'script'
   });
-
+ 
   //keep loading until the end
   $(document).endlessScroll({
     fireOnce: true,
@@ -49,10 +50,19 @@
       $('.carousel').detach();
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
       $('.endless-photos').attr('last', <%= Photo.last.id %>);
-
+      console.log('isFeatured=' + isFeatured);
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
         data: { limit:20, featured:isFeatured, includeFirst:true} ,
+        dataType: 'script'
+      });
+    });
+   
+    //manually load more photos (happens when your screen is too big 
+    $('#load-more-photos').click( function(){
+      $.ajax({
+        url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+        data: { limit:20, featured:isFeatured } ,
         dataType: 'script'
       });
     });

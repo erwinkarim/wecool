@@ -46,8 +46,10 @@
                 <% end %>
               <% end %>
             </div>
-            <div class="span4">
-                  <div class="progress">
+            <div class="span5">
+              <div class="row-fluid">
+                <div class="row-fluid"> 
+                  <div class="span12 progress">
                   <!-- the voting & featured stuff -->
                   <% total_votes = @photo.up_votes + @photo.down_votes %>
                     <% if total_votes == 0 then %>
@@ -59,10 +61,11 @@
                       </div>
                     <% end %>
                   </div>
-                <div id="totalVoteBox" class="pull-left">
+                </div><!-- -->
+                <div id="totalVoteBox" class="span5">
                   <h4><%= pluralize total_votes, 'vote' %> </h4>
                 </div>
-                <div id="ToVoteAndFeatureBox" class="pull-right">
+                <div  class="span6" >
                   <div id="featuredBox">
                     <% if current_persona == @persona then %>
                       <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
@@ -75,7 +78,8 @@
                     <h4>
                     <% if persona_signed_in? then %>
                       <% if current_persona.voted?(@photo) then %>
-                        Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
+                        Voted 
+                        <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i>- 
                         <%= link_to 'unvote', photo_unvote_path(@photo,current_persona.screen_name), 
                           :remote => true, :method => :post %>
                       <% else %>
@@ -89,12 +93,14 @@
                     <% else %>
                       <p>Login to Vote</p>
                     <% end %>
-                    </h4>
                   </div>
-                </div>
+                </div><!-- row-fluid-->
               </div>
+            </div>
             <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
+              <div class="span10">
               <%= simple_format(@photo.description.nil? ? 'No Description' : truncate(@photo.description)) %>
+              </div>
             </div>
             <% if persona_signed_in? && current_persona.id == @persona.id then %>
               <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
