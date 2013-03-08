@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  persona: 
+  object_type: MyString
+  object_id: 1
+  relationship: MyString
+
+two:
+  persona: 
+  object_type: MyString
+  object_id: 1
+  relationship: MyString

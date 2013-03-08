@@ -1,5 +1,7 @@
 Wecool::Application.routes.draw do
 
+  resources :trackers
+
   devise_for :personas
   resources :personas do
   end

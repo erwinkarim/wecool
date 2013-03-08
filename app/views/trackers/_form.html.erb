@@ -1,0 +1,33 @@
+<%= form_for(@tracker) do |f| %>
+  <% if @tracker.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tracker.errors.count, "error") %> prohibited this tracker from being saved:</h2>
+
+      <ul>
+      <% @tracker.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :persona %><br />
+    <%= f.text_field :persona %>
+  </div>
+  <div class="field">
+    <%= f.label :object_type %><br />
+    <%= f.text_field :object_type %>
+  </div>
+  <div class="field">
+    <%= f.label :object_id %><br />
+    <%= f.number_field :object_id %>
+  </div>
+  <div class="field">
+    <%= f.label :relationship %><br />
+    <%= f.text_field :relationship %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

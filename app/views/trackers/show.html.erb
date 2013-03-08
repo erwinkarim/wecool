@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Persona:</b>
+  <%= @tracker.persona %>
+</p>
+
+<p>
+  <b>Object type:</b>
+  <%= @tracker.object_type %>
+</p>
+
+<p>
+  <b>Object:</b>
+  <%= @tracker.object_id %>
+</p>
+
+<p>
+  <b>Relationship:</b>
+  <%= @tracker.relationship %>
+</p>
+
+
+<%= link_to 'Edit', edit_tracker_path(@tracker) %> |
+<%= link_to 'Back', trackers_path %>

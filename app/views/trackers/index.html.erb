@@ -1,0 +1,29 @@
+<h1>Listing trackers</h1>
+
+<table>
+  <tr>
+    <th>Persona</th>
+    <th>Object type</th>
+    <th>Object</th>
+    <th>Relationship</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @trackers.each do |tracker| %>
+  <tr>
+    <td><%= tracker.persona %></td>
+    <td><%= tracker.object_type %></td>
+    <td><%= tracker.object_id %></td>
+    <td><%= tracker.relationship %></td>
+    <td><%= link_to 'Show', tracker %></td>
+    <td><%= link_to 'Edit', edit_tracker_path(tracker) %></td>
+    <td><%= link_to 'Destroy', tracker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tracker', new_tracker_path %>
