@@ -32,7 +32,7 @@
         <div class="active item">
           <%= image_tag @photo.avatar.xlarge, :style=> 'margin-left:auto; margin-right:auto;' %>
           <div class="carousel-caption row-fluid">
-            <div class="span7">
+            <div class="span7" id="photo-title-and-desc">
               <h4 id="photo-title"><%= @photo.title %>
                 <small> by <%= link_to persona_signed_in? && 
                   current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
@@ -45,7 +45,18 @@
                   <%= f.submit 'Update title', :class=>'btn btn-primary' %>
                 <% end %>
               <% end %>
-            </div>
+              <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
+                <%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description, :style=>'padding-bottom:1em;' ) %>
+              </div>
+              <% if persona_signed_in? && current_persona.id == @persona.id then %>
+                <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
+                  <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
+                  <br />
+                  <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+                  <%= f.submit nil, :class=>'btn btn-primary' %>
+                <% end %>
+              <% end %>
+            </div><!-- photo title and description-->
             <div class="span4">
                   <div class="progress">
                   <!-- the voting & featured stuff -->
@@ -64,12 +75,14 @@
                 </div>
                 <div id="ToVoteAndFeatureBox" class="pull-right">
                   <div id="featuredBox">
+                    <h4>
                     <% if current_persona == @persona then %>
                       <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
                       <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
                         photo_toggle_featured_path(@photo), :remote=>true, :method=>:post
                        %>
                     <% end %>
+                    </h4>
                   </div>
                   <div class="voteBox">
                     <h4>
@@ -93,17 +106,6 @@
                   </div>
                 </div>
               </div>
-            <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
-              <%= simple_format(@photo.description.nil? ? 'No Description' : truncate(@photo.description)) %>
-            </div>
-            <% if persona_signed_in? && current_persona.id == @persona.id then %>
-              <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
-                <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
-                <br />
-                <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
-                <%= f.submit nil, :class=>'btn btn-primary' %>
-              <% end %>
-            <% end %>
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
@@ -185,7 +187,7 @@
 <script type="text/javascript">
   //for normal users 
   $(document).ready(function(){
-      //$('.carousel-caption').hide();
+      $('.carousel-caption').hide();
       $('.carousel-control').hide();
       $('.carousel').hover(
         function(){ 

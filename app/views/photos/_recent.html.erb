@@ -6,7 +6,8 @@
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
   <div class="last-div endless_scroll_inner_wrap"id="last-frame"></div>
 </div>
-<div class="row-fluid span3"><%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary btn-block', :id=>'load-more-photos' %></div>
+<br />
+<div class="row-fluid"><%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary', :id=>'load-more-photos' %></div>
 <script type="text/javascript">
   var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
 

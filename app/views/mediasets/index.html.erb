@@ -2,17 +2,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => 'Recent ' + model_class.model_name.human.pluralize %></h1>
 </div>
-<div>
-  <ul>
-    <% @mediasets.each do |mediaset| %>
-      <li>
-        <% @persona = Persona.find(mediaset.persona_id).screen_name %>
-        <h2><%= link_to mediaset.title, view_sets_path(@persona,  mediaset) %> <small>by <%= link_to @persona, persona_path(@persona)%></small></h2></li>
-        <ul class="thumbnails">
-          <% mediaset.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
-            <li class="thumbnail"><%= link_to image_tag(photo.avatar.tiny.url), photo_view_path( @persona, photo.id) %></li>
-          <% end %>
-        </ul>
+<div class="row-fluid">
+  <% @mediasets.each do |mediaset| %>
+    <% persona=Persona.find(mediaset.persona_id) %>
+    <div class="pull-left img-polaroid setMargin" style="height:199px;">
+      <h3><%= link_to mediaset.title, view_sets_path(persona.screen_name, mediaset) %></h3>
+      <small>by <%= link_to persona.screen_name, persona_path(persona.screen_name) %></small>
+    </div>
+    <% mediaset.photos.find(:all, :order=>'id desc', :limit => 5).each do |photo| %>
+      <div class="pull-left setMargin">
+        <%= link_to image_tag(photo.avatar.tiny , :class=>'img-polaroid'), photo_view_path(persona.screen_name, photo) %>
+      </div>
     <% end %>
-  </ul>
+  <% end %>
 </div>
