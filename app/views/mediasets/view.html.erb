@@ -1,5 +1,12 @@
-<h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : link_to(@persona.screen_name, persona_path(@persona.screen_name)) %></h2>
-<p class="lead"><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
+<div class="row-fluid">
+  <h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : link_to(@persona.screen_name, persona_path(@persona.screen_name)) %></h2>
+</div>
+<div class="row-fluid">
+  <div class="span9">
+    <p class="lead"><%= @mediaset.description.nil? ? 'No Description' : @mediaset.description %></p>
+  </div>
+</div>
+  
 
 <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
 <div class="navbar">

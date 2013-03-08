@@ -70,22 +70,25 @@
                       </div>
                     <% end %>
                   </div>
-                <div id="totalVoteBox" class="pull-left">
-                  <h4><%= pluralize total_votes, 'vote' %> </h4>
+                <div class="pull-left">
+                  <h4><div id="totalVoteBox"><%= pluralize total_votes, 'vote' %></div></h4>
                 </div>
                 <div id="ToVoteAndFeatureBox" class="pull-right">
-                  <div id="featuredBox">
+                  <div>
                     <h4>
-                    <% if current_persona == @persona then %>
-                      <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
-                      <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
-                        photo_toggle_featured_path(@photo), :remote=>true, :method=>:post
-                       %>
-                    <% end %>
+                      <div id="featuredBox">
+                        <% if current_persona == @persona then %>
+                          <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
+                          <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
+                            photo_toggle_featured_path(@photo), :remote=>true, :method=>:post
+                           %>
+                        <% end %>
+                      </div>
                     </h4>
                   </div>
-                  <div class="voteBox">
+                  <div>
                     <h4>
+                    <div class="voteBox">
                     <% if persona_signed_in? then %>
                       <% if current_persona.voted?(@photo) then %>
                         Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
@@ -102,6 +105,7 @@
                     <% else %>
                       <p>Login to Vote</p>
                     <% end %>
+                    </div>
                     </h4>
                   </div>
                 </div>
