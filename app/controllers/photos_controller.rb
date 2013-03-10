@@ -26,7 +26,7 @@ class PhotosController < ApplicationController
       
     end
 
-    @last_photo = @persona.photos.last
+    @last_photo = @persona.photos.last.nil? ? Photo.new : @persona.photos.last
 
     respond_to do |format|
       format.html # show.html.erb
