@@ -1,6 +1,8 @@
 Wecool::Application.routes.draw do
 
-  resources :trackers
+  get "trackers/track"
+
+  get "trackers/untrack"
 
   devise_for :personas
   resources :personas do
@@ -31,6 +33,11 @@ Wecool::Application.routes.draw do
     match '/photos/toggle_featured/:photo_id' => :toggle_featured, :via => :post, :as => 'photo_toggle_featured'
     match '/photos/vote/:photo_id/:vote_mode/by/:persona_id' => :vote, :via => :post, :as => 'photo_vote'
     match '/photos/unvote/:photo_id/by/:persona_id' => :unvote, :via => :post, :as => 'photo_unvote'
+  end
+
+  controller :trackers do
+    match '/trackers/track/:object_type/:object_id' => :track, :via => :post, :as => 'tracker_track'
+    match '/trackers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'tracker_untrack'
   end
 
 

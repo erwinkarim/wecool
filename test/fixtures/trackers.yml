@@ -2,12 +2,12 @@
 
 one:
   persona: 
-  object_type: MyString
-  object_id: 1
+  tracked_object_type: MyString
+  tracked_object_id: 1
   relationship: MyString
 
 two:
   persona: 
-  object_type: MyString
-  object_id: 1
+  tracked_object_type: MyString
+  tracked_object_id: 1
   relationship: MyString

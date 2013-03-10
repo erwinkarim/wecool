@@ -194,6 +194,7 @@ class PhotosController < ApplicationController
   end
 
   # GET /photos/get_more/:last_id(.:format)
+  # todo: get more on trendiness and the ones that you tracked
   def get_more
    
     @options = {

@@ -1,0 +1,2 @@
+$('.trackBox').empty();
+$('.trackBox').append('<%= escape_javascript( link_to "Track photos by "+@tracked_persona.screen_name, tracker_track_path("persona", @tracked_persona), :remote=>true, :method=>:post) %>');

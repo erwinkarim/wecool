@@ -2,7 +2,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %> by <%= current_persona == @persona ? 'you' : @persona.screen_name %></h1>
 </div>
-<div>
+<% if persona_signed_in? && current_persona != @persona then %>
+  <div class="row-fluid trackBox">
+    <% if current_persona.tracks 'persona', @persona then %>
+      Tracking <%= @persona.screen_name %> - <%= link_to 'Untrack', tracker_untrack_path('persona', @persona), :remote=> true, :method=> :post %>
+    <% else %>
+          <%= link_to 'Track photos by ' + @persona.screen_name, tracker_track_path('persona', @persona ), :remote=>true, :method => :post %>
+    <% end %>
+  </div>
+  <br />
+<% end %>
+<div class="row-fluid">
   <% if @persona.photos.empty? then %>
     <div>
       <% if current_persona == @persona then %>

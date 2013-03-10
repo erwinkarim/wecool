@@ -15,4 +15,8 @@ class Persona < ActiveRecord::Base
   has_many :trackers, :dependent => :destroy
   make_voter
 
+  def tracks ( object_type, object_id) 
+    return !self.trackers.find(:all, :conditions => { :tracked_object_type => object_type, :tracked_object_id => object_id}).empty?  
+  end
+  
 end

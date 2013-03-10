@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308101930) do
+ActiveRecord::Schema.define(:version => 20130310153909) do
 
   create_table "mediaset_photos", :force => true do |t|
     t.integer  "photo_id"
@@ -72,11 +72,11 @@ ActiveRecord::Schema.define(:version => 20130308101930) do
 
   create_table "trackers", :force => true do |t|
     t.integer  "persona_id"
-    t.string   "object_type"
-    t.integer  "object_id"
+    t.string   "tracked_object_type"
+    t.integer  "tracked_object_id"
     t.string   "relationship"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   add_index "trackers", ["persona_id"], :name => "index_trackers_on_persona_id"
