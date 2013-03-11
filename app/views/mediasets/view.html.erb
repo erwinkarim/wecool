@@ -7,25 +7,42 @@
   </div>
   <div class="span3">
     <div class="progress row-fluid">
-      <div class="bar bar-success" style="width:70%"></div>
-      <div class="bar bar-danger" style="width:30%"></div>
+      <% totalVotes = @mediaset.up_votes + @mediaset.down_votes %>
+      <% if @mediaset.votes == 0 then %>
+        <div class="bar bar-info" style="width:100%"></div>
+      <% else %>
+        <div class="bar bar-success" style="width:<%= (@mediaset.up_votes.to_f / totalVotes )*100 %>%"></div>
+      <% end %>
+      <div class="bar bar-danger" style="width:<%= (@mediaset.down_votes.to_f / totalVotes)*100 %>%"></div>
     </div><!-- progress -->
     <div class="totalVoteBox row-fluid">
-      12345 votes
+      <%= pluralize @mediaset.votes, 'vote' %>
     </div>
     <div class="voteFeaturedBox row-fluid">
       <h4>
       <% if persona_signed_in? && current_persona == @persona then %>
+        <!-- Set this mediaset as featured or not -->
         <div class="featuredBox pull-left span6">
           <%= link_to ('<i class="isFeatured icon-star' + 
             (@mediaset.featured ? '' : '-empty') + '"></i>').html_safe, 
             mediaset_toggle_featured_path(@mediaset), :method => :post, :remote => true %>
         </div>
       <% end %>
-      <div class="voteBox pull-right span6" style="text-align:right">
-        <i class="icon-thumbs-up"></i>
-        <i class="icon-thumbs-down"></i>
-      </div>
+      <% if persona_signed_in? then %>
+        <div class="voteBox pull-right span6" style="text-align:right">
+          <% if current_persona.voted?(@mediaset) then %>
+            <!-- vote on this mediaset -->
+            Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@mediaset) ? 'up' : 'down'  %>"></i> - 
+            <%= link_to 'Unvote', mediaset_unvote_path(@mediaset, current_persona.screen_name), 
+              :remote => true, :method => :post %>
+          <% else %>
+            <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
+              mediaset_vote_path(@mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post %>
+            <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, 
+              mediaset_vote_path(@mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post %>
+          <% end %>
+        </div>
+      <% end %>
       </h4>
     </div><!-- voteFeaturedBox-->
   </div>

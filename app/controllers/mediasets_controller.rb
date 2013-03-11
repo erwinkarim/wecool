@@ -167,6 +167,8 @@ class MediasetsController < ApplicationController
     elsif params[:vote_mode] == 'down' then
       @persona.down_vote(@mediaset)
     end
+  
+    @total_votes = @mediaset.up_votes +  @mediaset.down_votes
 
     respond_to do |format|
       format.js
@@ -178,11 +180,14 @@ class MediasetsController < ApplicationController
     @mediaset = Mediaset.find(params[:mediaset_id])
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id]})
 
-    @persona.unvote(@mediaset)
 
-    respond_to do |format|
-      format.js
+    if @persona.unvote(@mediaset) then
+      @total_votes = @mediaset.up_votes +  @mediaset.down_votes
+      render :status => :ok
+    else
+      render :status => :internal_server_error
     end
+
   end
 
   # POST   /mediasets/toggle_featured/:mediaset_id

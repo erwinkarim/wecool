@@ -1,0 +1,21 @@
+//console.log('unvote this bitch');
+
+var theHandle = $('#mediaset_<%= @mediaset.id %>');
+
+//update vote counts
+theHandle.find('.totalVoteBox').text('<%= pluralize @total_votes, "vote" %>');
+
+//update the bar
+<% if @total_votes == 0 then %>
+  theHandle.find('.bar-success').removeClass('bar-success').addClass('bar-info');
+  theHandle.find('.bar-info').width('100%');
+<% else %>
+  theHandle.find('.bar-success').width('<%= @mediaset.up_votes.to_f / @total_votes.to_f * 100 %>%');
+<% end %>
+theHandle.find('.bar-danger').width('<%= @mediaset.down_votes.to_f / @total_votes.to_f * 100 %>%');
+
+//add voting avenue
+theHandle.find('.voteBox').empty();
+theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=icon-thumbs-up></i>'.html_safe, mediaset_vote_path(@mediaset, "up", current_persona.screen_name), :method => :post, :remote => :true) %>');
+theHandle.find('.voteBox').append(' ');
+theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=icon-thumbs-down></i>'.html_safe, mediaset_vote_path(@mediaset, "down", current_persona.screen_name), :method => :post, :remote => :true) %>');
