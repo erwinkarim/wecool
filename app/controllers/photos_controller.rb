@@ -26,7 +26,7 @@ class PhotosController < ApplicationController
       
     end
 
-    @last_photo = @persona.photos.last.nil? ? Photo.new : @persona.photos.last
+    @last_photo = @persona.photos.last
 
     respond_to do |format|
       format.html # show.html.erb
@@ -243,6 +243,12 @@ class PhotosController < ApplicationController
         :conditions => {:id => 0..upper }, :order => 'id desc', :limit=> @options[:limit])
     elsif @options[:mediatype] == 'trending' then
       #get the photos which attracts the most votes in a given time
+    elsif @options[:mediatype] == 'tracked' then
+      #get the photos that the current persona tracks
+      @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')
+      @next_photos = Photo.find(:all, :conditions => 
+        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id)} , 
+        :order => 'id desc', :limit => @options[:limit])
     end
 
 

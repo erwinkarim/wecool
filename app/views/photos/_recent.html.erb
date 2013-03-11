@@ -1,8 +1,10 @@
 <ul class="nav nav-tabs" id="photoTypeSelectorTab">
   <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
   <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
+  <% if persona_signed_in? then %>
+    <li class="recentlyTracked"><%= link_to 'Tracked', '#' %></li>
+  <% end %>
   <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
-  <li class="recentlyTracked"><%= link_to 'Tracked', '#' %></li>
 </ul>
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
   <div class="last-div endless_scroll_inner_wrap"id="last-frame"></div>
@@ -11,6 +13,7 @@
 <div class="row-fluid"><%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary', :id=>'load-more-photos' %></div>
 <script type="text/javascript">
   var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+  var theMediaType = 'photos'
 
   //get the first few photos
   $.ajax({
@@ -33,7 +36,7 @@
     callback: function(){
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-          data: { featured:isFeatured } ,
+          data: { featured:isFeatured, mediatype:theMediaType } ,
           dataType: 'script'
         });
     }, 
@@ -51,11 +54,15 @@
       //reload the photos
       $('.carousel').detach();
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      isTracked = $('.recentlyTracked').hasClass('active') ? true : false;
+
+      theMediaType = isTracked ? 'tracked' : 'photos';
+
       $('.endless-photos').attr('last', <%= Photo.last.id %>);
       console.log('isFeatured=' + isFeatured);
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-        data: { limit:20, featured:isFeatured, includeFirst:true} ,
+        data: { limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
         dataType: 'script'
       });
     });
@@ -64,7 +71,7 @@
     $('#load-more-photos').click( function(){
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-        data: { limit:20, featured:isFeatured } ,
+        data: { limit:20, featured:isFeatured, mediatype:theMediaType } ,
         dataType: 'script'
       });
     });

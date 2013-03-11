@@ -15,6 +15,10 @@ class PersonasController < ApplicationController
   def show
     #@persona = Persona.find(params[:id])
     @persona = Persona.find(:all, :conditions => {:screen_name => params[:id] }).first
+    @photos = @persona.photos.find(:all, :order => 'id desc', :conditions => {:featured => true }, :limit => 5)
+    if @photos.empty? then 
+      @photos = @persona.photos.find(:all, :order => 'id desc', :limit => 5)
+    end
 
     respond_to do |format|
       format.html # show.html.erb

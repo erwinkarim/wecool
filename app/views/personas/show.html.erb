@@ -4,6 +4,16 @@
 </div>
 
 <dl class="dl-horizontal">
+  <% if persona_signed_in? && current_persona != @persona then %>
+    <dt><strong>Tracking:</strong></dt>
+    <dd class="trackBox">
+      <% if current_persona.tracks 'persona', @persona then %>
+        Tracking <%= @persona.screen_name %> - <%= link_to 'Untrack', tracker_untrack_path('persona', @persona), :remote=> true, :method=> :post %>
+      <% else %>
+          <%= link_to 'Track photos by ' + @persona.screen_name, tracker_track_path('persona', @persona ), :remote=>true, :method => :post %>
+      <% end %>
+    </dd>
+  <% end %>
   <dt><strong><%= model_class.human_attribute_name(:realname) %>:</strong></dt>
   <dd><%= @persona.realname.nil? ? 'Not set' : @persona.realname %></dd>
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
@@ -14,7 +24,7 @@
 
 <div>
   <h2>Recent Photos</h2>
-  <% if @persona.photos.empty? then %>
+  <% if @photos.empty? then %>
     <% if current_persona == @persona then %>
       <h3>You don't have any photos, <%= link_to 'upload some', new_photo_path %></h3>
     <% else %>
@@ -22,13 +32,13 @@
     <% end %>
   <% else %>
     <ul class="thumbnails">
-      <% @persona.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
+      <% @photos.each do |photo| %>
         <li class="thumbnail">
           <%= link_to image_tag(photo.avatar.tiny.url), photo_view_path(@persona.screen_name, photo.id) %>
         </li>
       <% end %>
     </ul>
-    <p><%= link_to 'See More Photos', photo_path(@persona.screen_name) %></p>
+    <p><%= link_to 'See More Photos', photo_path(@persona.screen_name), :class=>'btn' %></p>
   <% end %>
 </div>
 
@@ -51,6 +61,20 @@
         </li>
       <% end %>
     </ul>
-    <p><%= link_to 'See More Mediasets', mediaset_path(@persona.screen_name) %></p>
+    <p><%= link_to 'See More Mediasets', mediaset_path(@persona.screen_name), :class=>'btn' %></p>
   <% end %>
 </div>
+
+<% if persona_signed_in? && current_persona == @persona then %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              personas_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_persona_path(@persona.screen_name), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              persona_path(@persona),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
+<% end %>
