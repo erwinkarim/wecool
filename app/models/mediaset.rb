@@ -4,4 +4,5 @@ class Mediaset < ActiveRecord::Base
   validates :title, :presence => true
   has_many :mediaset_photos, :dependent => :destroy
   has_many :photos, :through => :mediaset_photos
+  make_voteable
 end

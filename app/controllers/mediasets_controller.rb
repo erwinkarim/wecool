@@ -157,4 +157,42 @@ class MediasetsController < ApplicationController
     @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
   end
 
+  # POST   /mediasets/vote/:mediaset_id/:vote_mode/by/:persona_id
+  def vote
+    @mediaset = Mediaset.find(params[:mediaset_id])
+    @persona = Persona.find(:first, :conditions => {:screen_name => params[:persona_id]})
+
+    if params[:vote_mode] == 'up' then
+      @persona.up_vote(@mediaset)
+    elsif params[:vote_mode] == 'down' then
+      @persona.down_vote(@mediaset)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+ 
+  # POST   /mediasets/unvote/:mediaset_id/:vote_mode/by/:persona_id 
+  def unvote
+    @mediaset = Mediaset.find(params[:mediaset_id])
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id]})
+
+    @persona.unvote(@mediaset)
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  # POST   /mediasets/toggle_featured/:mediaset_id
+  def toggle_featured
+    @mediaset = Mediaset.find(params[:mediaset_id])
+    @mediaset.toggle(:featured)
+    if @mediaset.save then
+      render :status => :ok
+    else
+      render :status => :internal_server_error
+    end
+  end
 end

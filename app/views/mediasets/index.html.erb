@@ -6,8 +6,19 @@
   <% @mediasets.each do |mediaset| %>
     <% persona=Persona.find(mediaset.persona_id) %>
     <div class="pull-left img-polaroid setMargin" style="height:199px;">
-      <h3><%= link_to mediaset.title, view_sets_path(persona.screen_name, mediaset) %></h3>
-      <small>by <%= link_to persona.screen_name, persona_path(persona.screen_name) %></small>
+      <div>
+        <h3><%= link_to mediaset.title, view_sets_path(persona.screen_name, mediaset) %></h3>
+        <small>by <%= link_to persona.screen_name, persona_path(persona.screen_name) %></small>
+      </div>
+      <div>
+        <div class="pull-left">
+          <small><i class="icon-star"></i></small>
+        </div>  
+        <div class="pull-right">
+          <i class="icon-thumbs-up"></i>
+          <i class="icon-thumbs-down"></i>
+        </div>
+      </div>
     </div>
     <% mediaset.photos.find(:all, :order=>'id desc', :limit => 5).each do |photo| %>
       <div class="pull-left setMargin">
