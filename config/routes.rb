@@ -16,7 +16,7 @@ Wecool::Application.routes.draw do
     match '/mediasets/:persona_id/view/:id' => :view, :via => :get, :as => 'view_sets' 
     match '/mediasets/:persona_id/edit/:id' => :edit, :via => :get, :as => 'edit_mediaset'
     match '/mediasets/vote/:mediaset_id/:vote_mode/by/:persona_id' => :vote, :via => :post, :as => 'mediaset_vote'
-    match '/mediasets/unvote/:mediaset_id/:vote_mode/by/:persona_id' => :unvote, :via => :post, 
+    match '/mediasets/unvote/:mediaset_id/by/:persona_id' => :unvote, :via => :post, 
       :as => 'mediaset_unvote'
     match '/mediasets/toggle_featured/:mediaset_id' => :toggle_featured, :via => :post, 
       :as => 'mediaset_toggle_featured'

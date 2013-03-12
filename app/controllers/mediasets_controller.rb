@@ -155,6 +155,7 @@ class MediasetsController < ApplicationController
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @mediaset = @persona.mediasets.find(params[:id])
     @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
+    @total_votes = @mediaset.up_votes + @mediaset.down_votes
   end
 
   # POST   /mediasets/vote/:mediaset_id/:vote_mode/by/:persona_id
@@ -175,7 +176,7 @@ class MediasetsController < ApplicationController
     end
   end
  
-  # POST   /mediasets/unvote/:mediaset_id/:vote_mode/by/:persona_id 
+  #  POST   /mediasets/unvote/:mediaset_id/by/:persona_id
   def unvote
     @mediaset = Mediaset.find(params[:mediaset_id])
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id]})

@@ -7,16 +7,15 @@
   </div>
   <div class="span3">
     <div class="progress row-fluid">
-      <% totalVotes = @mediaset.up_votes + @mediaset.down_votes %>
-      <% if @mediaset.votes == 0 then %>
+      <% if @total_votes == 0 then %>
         <div class="bar bar-info" style="width:100%"></div>
       <% else %>
-        <div class="bar bar-success" style="width:<%= (@mediaset.up_votes.to_f / totalVotes )*100 %>%"></div>
+        <div class="bar bar-success" style="width:<%= @mediaset.up_votes.to_f / @total_votes *100 %>%"></div>
       <% end %>
-      <div class="bar bar-danger" style="width:<%= (@mediaset.down_votes.to_f / totalVotes)*100 %>%"></div>
+      <div class="bar bar-danger" style="width:<%= @mediaset.down_votes.to_f / @total_votes *100 %>%"></div>
     </div><!-- progress -->
     <div class="totalVoteBox row-fluid">
-      <%= pluralize @mediaset.votes, 'vote' %>
+      <%= pluralize @total_votes, 'vote' %>
     </div>
     <div class="voteFeaturedBox row-fluid">
       <h4>
