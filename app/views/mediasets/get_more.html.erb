@@ -1,0 +1,9 @@
+<% @next_mediasets.each do |mediaset| %>
+  <div class="pull-left img-polaroid" style="height:200px; margin:5px;">
+    <% persona = Persona.find(mediaset.persona_id) %>
+    <h3><%= link_to mediaset.title, view_sets_path(persona.screen_name, mediaset) %><small> by <%= link_to persona.screen_name %></small></h3>
+  </div>
+  <% mediaset.photos.find(:all, :order => 'id desc', :limit => 5).each do |photo| %>
+    <%= link_to image_tag(photo.avatar.tiny, :class => 'img-polaroid pull-left', :style => 'margin:5px;'), photo_view_path(persona.screen_name, photo) %>
+  <% end %>
+<% end %>

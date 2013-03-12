@@ -16,7 +16,7 @@ class MediasetsController < ApplicationController
   def show
     #@mediaset = Mediaset.find(params[:id])
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:id] }).first
-    @default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 9)
+    @default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 10)
     @mediasets = @persona.mediasets.find(:all, :order => 'id desc')
 
     respond_to do |format|
@@ -199,6 +199,32 @@ class MediasetsController < ApplicationController
       render :status => :ok
     else
       render :status => :internal_server_error
+    end
+  end
+
+  # get more mediasets from last_id
+  # GET    /mediasets/get_more/:last_id
+  def get_more
+    @options = { :includeFirst => false , :limit => 5, :persona => 0..Persona.last.id }
+    
+    @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
+
+    if params.has_key? :persona then
+      @options[:persona] = params[:persona].to_i
+    end
+
+    if params.has_key? :limit then
+      @options[:limit] = params[:limit].to_i
+    end
+
+    upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+    @next_mediasets = Mediaset.find(:all, :conditions => { 
+      :id => 0..upper, :persona_id => @options[:persona] }, 
+      :limit => @options[:limit], :order => 'id desc' )
+
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 end

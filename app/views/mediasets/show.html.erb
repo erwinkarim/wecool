@@ -37,21 +37,17 @@
   </li>
   <% if !@default_photos.empty? && @mediasets.empty? then %>
   <% else %>
-    <% @mediasets.each do |mediaset| %>
-        <li>
-          <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3> 
-          <% if mediaset.photos.empty? %>    
-              <h4>No photos in set yet<%= current_persona == @persona ? link_to(', add photos to this set',edit_mediaset_path(@persona.screen_name, mediaset.id)) : '' %></h4>
-          <% else %>
-            <div>
-              <% mediaset.photos.find(:all, :limit => 4, :order => 'id desc').each do |photo| %>
-                <%= link_to image_tag(photo.avatar.tiny.url, :class=>'img-polaroid'), 
-                  photo_view_path(@persona.screen_name, photo.id)  %>
-              <% end %>
-            </div>
-          <% end %>
-        </li>
-    <% end %>
+    <div class="row-fluid endless-mediaset" last="<%= @mediasets.first.id %>">
+      <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
+    </div>
   <% end %>
 </ul>
+<script type="text/javascript">
+  $.ajax({
+    url: '/mediasets/get_more/<%= @mediasets.first.id %>',
+    data: {includeFirst:true, persona:'<%= @persona.id %>' }, 
+    dataType: 'script'
+  });
 
+  //endless scrolls of mediasets, hua hahahahahh
+</script>

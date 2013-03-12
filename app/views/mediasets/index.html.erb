@@ -2,39 +2,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => 'Recent ' + model_class.model_name.human.pluralize %></h1>
 </div>
-<div class="row-fluid">
-  <% @mediasets.each do |mediaset| %>
-    <% persona=Persona.find(mediaset.persona_id) %>
-    <div class="pull-left img-polaroid setMargin" id="mediaset_<%= mediaset.id %>" style="height:199px;">
-      <div>
-        <h3><%= link_to mediaset.title, view_sets_path(persona.screen_name, mediaset) %></h3>
-        <small>by <%= link_to persona.screen_name, persona_path(persona.screen_name) %></small>
-      </div>
-      <div>
-        <div class="pull-left">
-          <% if persona_signed_in? && current_persona.id == mediaset.persona_id then %>
-              <%= link_to ('<i class="isFeatured icon-star' + (mediaset.featured ? '' : '-empty') + '"></i>').html_safe, 
-                mediaset_toggle_featured_path(mediaset), :remote => true, :method => :post %>
-          <% end %>
-        </div>  
-        <div class="voteBox pull-right">
-          <% if persona_signed_in? then %>
-            <% if current_persona.voted?(mediaset) then %>
-              Voted <i class="icon-thumbs-<%= current_persona.up_voted?(mediaset) ? 'up' : 'down'  %>"></i> - 
-              <%= link_to 'Unvote', mediaset_unvote_path(mediaset.id, current_persona.screen_name), 
-                :remote => true, :method => :post %>
-            <% else %>
-              <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, mediaset_vote_path(mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post %>
-              <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, mediaset_vote_path(mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <% mediaset.photos.find(:all, :order=>'id desc', :limit => 5).each do |photo| %>
-      <div class="pull-left setMargin">
-        <%= link_to image_tag(photo.avatar.tiny , :class=>'img-polaroid'), photo_view_path(persona.screen_name, photo) %>
-      </div>
-    <% end %>
-  <% end %>
+<div class="row-fluid endless-mediaset">
+  <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
 </div>
+<div class="row-fluid">
+  <%= link_to 'Get More Mediasets', '#', :class=>'btn btn-primary' %>
+</div>
+
+<script type="text/javascript">
+  $.ajax({
+    url: '/mediasets/get_more/<%= @mediasets.first.id %>',
+    data: {includeFirst:true, limit:10},
+    dataType: 'script'
+  });
+</script>

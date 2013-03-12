@@ -20,6 +20,7 @@ Wecool::Application.routes.draw do
       :as => 'mediaset_unvote'
     match '/mediasets/toggle_featured/:mediaset_id' => :toggle_featured, :via => :post, 
       :as => 'mediaset_toggle_featured'
+    match '/mediasets/get_more/:last_id' => :get_more, :via => :get, :as => 'mediaset_get_more'
   end
 
   resources :photos do
