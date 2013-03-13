@@ -1,3 +1,5 @@
+var handle = $('.endless_scroll_inner_wrap');
+
 <% if  !@next_photos.empty? then %>
   //add new photos
   <% @next_photos.each do |photo| %>
@@ -41,7 +43,5 @@
   <% end %>
 <% else %>
   //remove the end 
-  var the_end = jQuery('<div/>'. {}).append(jQuery('<h3/>', { text:'That\'s all folks!!'}))
-  $('.endless_scroll_inner_wrap').append(the_end);
-  $('.last-div').toggleClass();
+  handle.append(jQuery( '<div/>', {text:'Nothing here' } )); 
 <% end %>

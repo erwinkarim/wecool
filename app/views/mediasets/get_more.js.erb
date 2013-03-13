@@ -54,4 +54,9 @@ var handle= $('.endless_scroll_inner_wrap');
   <% end %>
     //update last attribute
     $('.endless-mediaset').attr('last', '<%= @next_mediasets.last.id %>');
+<% else %>
+  if ( $('#end-of-mediasets').length == 0 ) {
+    handle.append('<br />');
+    handle.append(jQuery('<div/>', { text:'That\'s all folks!', class:'pull-left img-polaroid', id:'end-of-mediasets', style:'height:200px; margin:5px;' } )); 
+  }
 <% end %>

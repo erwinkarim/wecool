@@ -71,7 +71,9 @@
             <ul class="nav pull-right">
               <% if persona_signed_in? then %>
               <li class="dropdown">
-                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><%= current_persona.screen_name %><b class="caret"></b></a>
+                <%= link_to ('<i class="icon-user"></i> ' + current_persona.screen_name + 
+                  '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', :class => 'dropdown-toggle', 
+                  :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
                   <li><%= link_to 'Settings', persona_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>

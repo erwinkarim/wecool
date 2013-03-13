@@ -7,7 +7,7 @@
   <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
 </ul>
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
-  <div class="last-div endless_scroll_inner_wrap"id="last-frame"></div>
+  <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
 </div>
 <br />
 <div class="row-fluid"><%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary', :id=>'load-more-photos' %></div>
@@ -52,7 +52,8 @@
       $(this).toggleClass('active');
 
       //reload the photos
-      $('.carousel').detach();
+      //$('.carousel').detach();
+      $('.last-div').empty(); 
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
       isTracked = $('.recentlyTracked').hasClass('active') ? true : false;
 

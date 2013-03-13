@@ -17,25 +17,7 @@
     </ul>
   </div>
 </div>
-<ul>
-  <li>
-    <% if @default_photos.empty? then %>
-      <% if current_persona == @persona %>
-        <h3>You don't have any photos, <%= link_to 'upload some', new_photo_path %> then create a new set</h3>
-      <% else %>
-        <h3>No photos or sets yet...</h3>
-      <% end %>
-    <% else %>
-      <h3><%= link_to 'Default', photo_path(@persona.screen_name) %></h3>
-      <div>
-        <% @default_photos.each do |photo| %>
-          <%= link_to image_tag(photo.avatar.square100, :class=>'img-polaroid'), 
-            photo_view_path(@persona.screen_name, photo.id) %>
-        <% end %>
-      </div>
-    <% end %>
-  </li>
-</ul>
+
 <% if !@default_photos.empty? && @mediasets.empty? then %>
   <div>Nothing to see here</div>
 <% else %>
