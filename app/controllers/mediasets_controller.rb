@@ -206,7 +206,7 @@ class MediasetsController < ApplicationController
   # GET    /mediasets/get_more/:last_id
   def get_more
     @options = { :includeFirst => false , :limit => 5, :persona => 0..Persona.last.id , 
-      :featured => [true,false] }
+      :featured => [true,false], :viewType => 'normal' }
     
     @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
 
@@ -226,10 +226,24 @@ class MediasetsController < ApplicationController
       end
     end
 
+    if params.has_key? :viewType then
+      if params[:viewType] == 'tracked' then
+        @options[:viewType] = params[:viewType]
+        @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')
+      end
+    end
+
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
-    @next_mediasets = Mediaset.find(:all, :conditions => { 
-      :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured]  }, 
-      :limit => @options[:limit], :order => 'id desc' )
+    if @options[:viewType] == 'normal' then 
+      @next_mediasets = Mediaset.find(:all, :conditions => { 
+        :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured]  }, 
+        :limit => @options[:limit], :order => 'id desc' )
+    elsif @options[:viewType] == 'tracked' then
+      @next_mediasets = Mediaset.find(:all, :conditions => { 
+        :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), 
+        :featured => @options[:featured]  }, 
+        :limit => @options[:limit], :order => 'id desc' )
+    end
 
     respond_to do |format|
       format.js

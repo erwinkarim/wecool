@@ -2,17 +2,28 @@
 <div class="page-header">
   <h1><%=t '.title', :default => 'Recent ' + model_class.model_name.human.pluralize %></h1>
 </div>
+<div class="row-fluid">
+  <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
+    <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
+    <li class="recentlyTrending"><%= link_to 'Trending', '#' %></li>
+    <li class="recentlyTracked"><%= link_to 'Tracked', '#' %></li>
+    <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
+  </ul>
+</div>
 <div class="row-fluid endless-mediaset" last="<%= Mediaset.last.id %>" >
   <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
 </div>
 <div class="row-fluid">
-  <%= link_to 'Get More Mediasets', '#', :class=>'btn btn-primary' %>
+  <%= link_to 'Get More Mediasets', '#', :class=>'btn btn-primary', :id=>'getMoreSets' %>
 </div>
 
 <script type="text/javascript">
+  var isFeatured = true;
+  var theView = 'normal'; 
+
   $.ajax({
     url: '/mediasets/get_more/<%= @mediasets.first.id %>',
-    data: {includeFirst:true, limit:10},
+    data: {includeFirst:true, limit:10, featured:isFeatured, viewType:theView },
     dataType: 'script'
   });
 
@@ -29,12 +40,40 @@
     callback: function(){
         $.ajax({
           url: '/mediasets/get_more/'+$('.endless-mediaset').attr('last'), 
-          data: { } ,
+          data: { featured:isFeatured, viewType:theView  } ,
           dataType: 'script'
         });
     }, 
     ceaseFire: function(s){
       s<5 ? false : true;  
     }
+  });
+
+  $(document).ready ( function(){
+    $('#mediasetTypeSelectorTab li').click( function(){
+      $('.active').toggleClass('active');
+      $(this).toggleClass('active'); 
+
+      //empty out and repopulate
+      $('.last-div').empty();
+      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      theView = $('.recentlyTracked').hasClass('active') ? 'tracked' : 'normal';
+
+      $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
+      $.ajax({
+        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
+        data: { featured:isFeatured, viewType:theView },
+        dataType: 'script'
+      });
+    });
+
+    //manually load more mediasets
+    $('#getMoreSets').click( function(){
+      $.ajax({
+        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
+        data: { featured:isFeatured, viewType:theView },
+        dataType: 'script'
+      });
+    });
   });
 </script>

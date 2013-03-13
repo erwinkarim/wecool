@@ -46,6 +46,9 @@
   <div class="row-fluid endless-mediaset" last="<%= @mediasets.first.id %>">
     <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
   </div>
+  <div class="row-fluid">
+    <%= link_to 'Get More Mediasets', '#', :class=>'btn btn-primary', :id=>'getMoreSets' %>
+  </div>
 <% end %>
 <script type="text/javascript">
   isFeatured = true
@@ -94,5 +97,15 @@
         dataType: 'script'
       });
     });
+
+    //manually load more mediasets
+    $('#getMoreSets').click( function(){
+      $.ajax({
+        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
+        data: { featured:isFeatured },
+        dataType: 'script'
+      });
+    });
+
   });
 </script>
