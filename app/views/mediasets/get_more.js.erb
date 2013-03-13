@@ -1,37 +1,57 @@
-
-<% @next_mediasets.each do |mediaset| %>
-<% persona = Persona.find(mediaset.persona_id) %>
 var handle= $('.endless_scroll_inner_wrap');
+<% if !@next_mediasets.empty? then %>
+  <% @next_mediasets.each do |mediaset| %>
+    <% persona = Persona.find(mediaset.persona_id) %>
 
-//create title box
-var title = jQuery('<div/>', {text:'', style:'height:200px; margin:5px', class:'img-polaroid pull-left', id:'mediaset_<%= mediaset.id %>' });
-title.append(jQuery('<h3/>', {} ));
-title.find('h3').append('<%= escape_javascript( link_to mediaset.title, 
-  view_sets_path(persona.screen_name, mediaset) ).html_safe %>');
-title.append(jQuery('<small/>'));
-title.find('small').append('by <%= escape_javascript(link_to persona.screen_name, persona_path(persona.screen_name) ).html_safe %>');
-handle.append(title);
+    //create title box
+    var title = jQuery('<div/>', {text:'', style:'height:200px; margin:5px', 
+      class:'img-polaroid pull-left', id:'mediaset_<%= mediaset.id %>' });
+    title.append(jQuery('<h3/>', {} ));
+    title.find('h3').append('<%= escape_javascript( link_to mediaset.title, 
+      view_sets_path(persona.screen_name, mediaset) ).html_safe %>');
+    title.append(jQuery('<small/>'));
+    title.find('small').append('by <%= escape_javascript(
+      link_to persona.screen_name, persona_path(persona.screen_name) ).html_safe %>');
+    handle.append(title);
 
-var featuredVoteBox = jQuery('<div/>');
-featuredVoteBox.append(jQuery('<div/>', {class:'pull-left featuredBox'} ) );
-featuredVoteBox.append(jQuery('<div/>', {class:'pull-right voteBox'} ));
+    var featuredVoteBox = jQuery('<div/>');
+    featuredVoteBox.append(jQuery('<div/>', {class:'pull-left featuredBox'} ) );
+    featuredVoteBox.append(jQuery('<div/>', {class:'pull-right voteBox'} ));
 
-featuredVoteBox.find('.featuredBox').append('<%= link_to ('<i class="icon-star'+ (mediaset.featured ? '' : '-empty') +' isFeatured"></i>').html_safe, mediaset_toggle_featured_path(mediaset),  :remote=>true, :method=>:post %>');
-
-  <% if persona_signed_in? then %>
-    <% if persona.voted?(mediaset) then %>
-      featuredVoteBox.find('.voteBox').append('<%= ('Voted <i class="icon-thumbs-up"></i> - ' + link_to( 'Unvote', mediaset_unvote_path(mediaset, current_persona.screen_name), :remote => true, :method => :post ) ).html_safe %>');
-    <% else %>
-      featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, mediaset_vote_path(mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post %>');
-      featuredVoteBox.find('.voteBox').append(' ');
-      featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, mediaset_vote_path(mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post %>');
+    <% if persona_signed_in? && current_persona == persona then %>
+      featuredVoteBox.find('.featuredBox').append('<%= 
+        link_to ('<i class="icon-star'+ (mediaset.featured ? '' : '-empty') +' isFeatured"></i>').html_safe, 
+        mediaset_toggle_featured_path(mediaset),  :remote=>true, :method=>:post 
+      %>');
     <% end %>
-  <% end %>
-title.append(featuredVoteBox);
 
-  <% mediaset.photos.find(:all, :limit => 3, :order => 'id desc').each do |photo| %>
-    handle.append('<%= escape_javascript(link_to image_tag(photo.avatar.tiny, 
-      :class=>'pull-left img-polaroid', :style=>'margin: 5px;'), 
-      photo_view_path(persona.screen_name, photo) ) %>');
+    <% if persona_signed_in? then %>
+      <% if persona.voted?(mediaset) then %>
+        featuredVoteBox.find('.voteBox').append('<%= 
+          ('Voted <i class="icon-thumbs-up"></i> - ' + 
+          link_to( 'Unvote', mediaset_unvote_path(mediaset, current_persona.screen_name), 
+          :remote => true, :method => :post ) ).html_safe 
+        %>');
+      <% else %>
+        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
+          mediaset_vote_path(mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post 
+        %>');
+        featuredVoteBox.find('.voteBox').append(' ');
+        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, 
+          mediaset_vote_path(mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post 
+        %>');
+      <% end %>
+    <% end %>
+    title.append(featuredVoteBox);
+
+    <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
+      handle.append('<%= escape_javascript(link_to image_tag(photo.avatar.tiny, 
+        :class=>'pull-left img-polaroid', :style=>'margin: 5px;'), 
+        photo_view_path(persona.screen_name, photo) ) %>');
+    <% end %>
+
+
   <% end %>
+    //update last attribute
+    $('.endless-mediaset').attr('last', '<%= @next_mediasets.last.id %>');
 <% end %>

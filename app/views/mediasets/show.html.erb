@@ -35,19 +35,64 @@
       </div>
     <% end %>
   </li>
-  <% if !@default_photos.empty? && @mediasets.empty? then %>
-  <% else %>
-    <div class="row-fluid endless-mediaset" last="<%= @mediasets.first.id %>">
-      <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
-    </div>
-  <% end %>
 </ul>
+<% if !@default_photos.empty? && @mediasets.empty? then %>
+  <div>Nothing to see here</div>
+<% else %>
+  <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
+    <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
+    <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
+  </ul>
+  <div class="row-fluid endless-mediaset" last="<%= @mediasets.first.id %>">
+    <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
+  </div>
+<% end %>
 <script type="text/javascript">
+  isFeatured = true
   $.ajax({
     url: '/mediasets/get_more/<%= @mediasets.first.id %>',
-    data: {includeFirst:true, persona:'<%= @persona.id %>' }, 
+    data: {includeFirst:true, persona:'<%= @persona.id %>', featured:true }, 
     dataType: 'script'
   });
 
   //endless scrolls of mediasets, hua hahahahahh
+  $(document).endlessScroll({
+    fireOnce: true,
+    fireDelay: 500, 
+    bottomPixels: 250, 
+    intervalFrequency: 100, 
+    ceaseFireOnEmpty: false, 
+    ceaseFire: function(){
+      return $('.last-div').length ? false : true;
+    }, 
+    loader: '<div>loading...</div>', 
+    callback: function(){
+        $.ajax({
+          url: '/mediasets/get_more/'+$('.endless-mediaset').attr('last'), 
+          data: { persona:'<%= @persona.id %>', featured:isFeatured } ,
+          dataType: 'script'
+        });
+    }, 
+    ceaseFire: function(s){
+      s<5 ? false : true;  
+    }
+  });
+
+  $(document).ready( function(){
+    //handle nav bar 
+    $('#mediasetTypeSelectorTab li').click( function(){
+      $('.active').toggleClass('active');
+      $(this).toggleClass('active');
+
+      //empty out and repopulate
+      $('.last-div').empty();
+      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
+      $.ajax({
+        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last'),
+        data: { persona:'<%= @persona.id %>', featured:isFeatured }, 
+        dataType: 'script'
+      });
+    });
+  });
 </script>

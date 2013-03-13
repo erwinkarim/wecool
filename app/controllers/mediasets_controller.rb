@@ -205,7 +205,8 @@ class MediasetsController < ApplicationController
   # get more mediasets from last_id
   # GET    /mediasets/get_more/:last_id
   def get_more
-    @options = { :includeFirst => false , :limit => 5, :persona => 0..Persona.last.id }
+    @options = { :includeFirst => false , :limit => 5, :persona => 0..Persona.last.id , 
+      :featured => [true,false] }
     
     @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
 
@@ -217,9 +218,17 @@ class MediasetsController < ApplicationController
       @options[:limit] = params[:limit].to_i
     end
 
+    if params.has_key? :featured then
+      if params[:featured] == 'true' then
+        @options[:featured] = true
+      elsif params[:featured] == 'false' then
+        @options[:featured] = false
+      end
+    end
+
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     @next_mediasets = Mediaset.find(:all, :conditions => { 
-      :id => 0..upper, :persona_id => @options[:persona] }, 
+      :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured]  }, 
       :limit => @options[:limit], :order => 'id desc' )
 
     respond_to do |format|
