@@ -6,13 +6,8 @@
     <% end %>
     <% @photolist.each do |photo| %>
       <li>
-        <% if @current_mediaset.nil? then %>
-          <%= link_to image_tag(photo.avatar.square100), photo_view_path(persona.screen_name, photo.id), 
-          :style => photo == @photo ? 'background-color:red' : '' %>
-        <% else %>
-          <%= link_to image_tag(photo.avatar.square100), photo_view_in_mediaset_path(persona.screen_name, 
-            photo.id, @current_mediaset), :style => photo == @photo ? 'background-color:red' : '' %>
-        <% end %>
+        <% view_path = @mediaset.nil? ? photo_view_path(persona.screen_name, photo) : photo_view_in_mediaset_path(persona.screen_name, photo, @mediaset)  %> 
+        <%= link_to image_tag(photo.avatar.square100), view_path, :style => photo == @photo ? 'background-color:red' : '' %>
       </li>
     <% end %>
     <% if @photolist.last == @photo || @photolist.count < 9 then %>

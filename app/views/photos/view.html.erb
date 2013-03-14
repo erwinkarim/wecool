@@ -113,14 +113,8 @@
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
-        <%= link_to '&lsaquo;'.html_safe,  @prev_photo.nil? ? '#' : (@current_mediaset.nil? ? 
-          photo_view_path(@persona.screen_name, @prev_photo)+'#photo' : 
-          photo_view_in_mediaset_path(@persona.screen_name, @prev_photo, @current_mediaset)+'#photo' ) , 
-          :class=>'carousel-control left' %>
-        <%= link_to '&rsaquo;'.html_safe,  @next_photo.nil? ? '#' : (@current_mediaset.nil? ? 
-          photo_view_path(@persona.screen_name, @next_photo)+'#photo' : 
-          photo_view_in_mediaset_path(@persona.screen_name, @next_photo, @current_mediaset)+'#photo' ) , 
-          :class=>'carousel-control right' %>
+        <%= link_to '&lsaquo;'.html_safe, @prev_photo_path, :class=>'carousel-control left' %>
+        <%= link_to '&rsaquo;'.html_safe, @next_photo_path, :class=>'carousel-control right' %>
       </div><!--carousel-->
   </div><!-- span12 -->
 </div><!-- row -->
@@ -136,7 +130,7 @@
           :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, photo_path(@persona.screen_name, :view=>'raw') %>
       </h3>
     </div>
-    <div class="accordion-body collapse" id="collapseDefault">
+    <div class="accordion-body collapse <%= @current_mediaset.nil? ? 'in' : '' %>" id="collapseDefault">
       <div class="accordion-inner">
           <% @photolist = get_photo_list(@persona.id, @photo.id, nil) %>
           <%= render "coverflow" %>
@@ -152,9 +146,9 @@
           :style=>'display:inline;' %><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
         </h3>
       </div>
-      <div class="accordion-body collapse" id="collapse<%= mediaset.id %>">
+      <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
         <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
-        <% @current_mediaset = mediaset %>
+        <% @mediaset = mediaset %>
         <%= render "coverflow" %>
       </div>
     </div>
@@ -196,6 +190,7 @@
 <script type="text/javascript">
   //for normal users 
   $(document).ready(function(){
+      //hide the caption and control, appear on mouse hover
       $('.carousel-caption').hide();
       $('.carousel-control').hide();
       $('.carousel').hover(
@@ -215,10 +210,10 @@
 
     switch (keyCode) {
       case arrow.left:
-        $(location).attr('href', "<%= @prev_photo.nil? ? '#' :  photo_view_path(@persona.screen_name, @prev_photo) + '#photo' %>");
+        $(location).attr('href', "<%= @prev_photo_path %>");
       break;
       case arrow.right:
-        $(location).attr('href', "<%= @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @next_photo)  + '#photo'%>");
+        $(location).attr('href', "<%= @next_photo_path %>");
       break;
     }
   });

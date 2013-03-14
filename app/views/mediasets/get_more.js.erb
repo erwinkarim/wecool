@@ -47,7 +47,7 @@ var handle= $('.endless_scroll_inner_wrap');
     <% mediaset.photos.find(:all, :limit => 5, :order => 'id desc').each do |photo| %>
       handle.append('<%= escape_javascript(link_to image_tag(photo.avatar.tiny, 
         :class=>'pull-left img-polaroid', :style=>'margin: 5px;'), 
-        photo_view_path(persona.screen_name, photo) ) %>');
+        photo_view_in_mediaset_path(persona.screen_name, photo, mediaset) ) %>');
     <% end %>
 
 

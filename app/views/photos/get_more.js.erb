@@ -7,7 +7,7 @@ var handle = $('.endless_scroll_inner_wrap');
     var carousel = jQuery('<div/>', {class:'carousel', id:'photo_<%= photo.id %>',  
       style:'float:left; margin: 0px 2px 2px 0px;'}).
       append(jQuery('<div/>', {class:'carousel-inner'}));
-    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid'), photo_view_path(this_persona, photo)) %>");
+    carousel.append("<%= escape_javascript(link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid'), @options[:mediatype] == 'mediaset' ? photo_view_in_mediaset_path(this_persona, photo, params[:mediaset_id]  ) : photo_view_path(this_persona, photo)) %>");
     var caption = jQuery('<div/>', {class:'carousel-caption', style:'color:white'});
     caption.append(jQuery('<div/>',  {text:'<%= escape_javascript(truncate(photo.title, :length => 20)) %> by ', class:'pull-left caption-text'}));
     caption.find('.caption-text').append(jQuery('<a/>', {text:'<%= this_persona %>', 

@@ -143,9 +143,13 @@ class PhotosController < ApplicationController
       @current_mediaset = Mediaset.find(params[:mediaset_id])
       @prev_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id >'+@photo.id.to_s)
       @next_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id <'+@photo.id.to_s, :order=>'id desc')
+      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_mediaset_path(@persona.screen_name, @prev_photo, @current_mediaset) + '#photo'
+      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_mediaset_path(@persona.screen_name, @next_photo, @current_mediaset) + '#photo'
     else
       @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
       @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
+      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @prev_photo) + '#photo'
+      @next_photo_path = @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @next_photo) + '#photo'
     end
 
     respond_to do |format|
