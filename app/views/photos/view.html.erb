@@ -113,10 +113,14 @@
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
-        <%= link_to '&lsaquo;'.html_safe,  @prev_photo.nil? ? '#' : photo_view_path(@persona.screen_name, 
-          @prev_photo)+'#photo' , :class=>'carousel-control left' %>
-        <%= link_to '&rsaquo;'.html_safe,  @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, 
-          @next_photo)+'#photo' , :class=>'carousel-control right' %>
+        <%= link_to '&lsaquo;'.html_safe,  @prev_photo.nil? ? '#' : (@current_mediaset.nil? ? 
+          photo_view_path(@persona.screen_name, @prev_photo)+'#photo' : 
+          photo_view_in_mediaset_path(@persona.screen_name, @prev_photo, @current_mediaset)+'#photo' ) , 
+          :class=>'carousel-control left' %>
+        <%= link_to '&rsaquo;'.html_safe,  @next_photo.nil? ? '#' : (@current_mediaset.nil? ? 
+          photo_view_path(@persona.screen_name, @next_photo)+'#photo' : 
+          photo_view_in_mediaset_path(@persona.screen_name, @next_photo, @current_mediaset)+'#photo' ) , 
+          :class=>'carousel-control right' %>
       </div><!--carousel-->
   </div><!-- span12 -->
 </div><!-- row -->
@@ -150,6 +154,7 @@
       </div>
       <div class="accordion-body collapse" id="collapse<%= mediaset.id %>">
         <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
+        <% @current_mediaset = mediaset %>
         <%= render "coverflow" %>
       </div>
     </div>

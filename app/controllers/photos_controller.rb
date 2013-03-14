@@ -139,8 +139,14 @@ class PhotosController < ApplicationController
     @total_votes = @photo.up_votes + @photo.down_votes
     @mediasets = @persona.mediasets
 
-    @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
-    @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
+    if params.has_key? :mediaset_id then
+      @current_mediaset = Mediaset.find(params[:mediaset_id])
+      @prev_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id >'+@photo.id.to_s)
+      @next_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id <'+@photo.id.to_s, :order=>'id desc')
+    else
+      @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
+      @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
+    end
 
     respond_to do |format|
       format.html # view.html.erb

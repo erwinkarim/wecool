@@ -29,6 +29,7 @@ Wecool::Application.routes.draw do
 
   controller :photos do 
     match '/photos/:persona_id/view/:id' => :view, :via => :get, :as => 'photo_view'
+    match '/photos/:persona_id/view/:id/in/:mediaset_id' => :view, :via => :get, :as => 'photo_view_in_mediaset'
     match '/photos/:persona_id/view/:id/exif' => :view_exif, :via => :get, :as => 'photo_view_exif'
     match '/photos/:persona_id/version/:photo_id' => :version, :via => :get, :as => 'photo_version'
     match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
