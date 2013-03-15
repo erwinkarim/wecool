@@ -1,6 +1,7 @@
 <%- model_class = Mediaset -%>
-<div class="page-header">
-  <h1>Sets by <%= @persona.screen_name %></h1>
+<div class="page-header row-fluid">
+  <div class="span2"><%= link_to image_tag('http://placehold.it/75x75'), '#', :class=>'pull-right'  %></div>
+  <h1 class="span10">Sets by <%= @persona.screen_name %></h1>
 </div>
 
 <div class="navbar">

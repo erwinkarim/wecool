@@ -1,6 +1,9 @@
 <%- model_class = Persona -%>
-<div class="page-header">
-  <h1><%= link_to image_tag('http://placehold.it/100x100'), '#'  %> <%= @persona.screen_name %></h1>
+<div class="page-header row-fluid">
+  <div class="span2"><%= link_to image_tag('http://placehold.it/75x75'), '#', :class=>'pull-right'  %></div>
+  <div class="span10">
+    <h1> <%= @persona.screen_name %></h1>
+  </div>
 </div>
 
 <dl class="dl-horizontal">
@@ -26,6 +29,9 @@
   <div class="span9">
     <h2>Photos <small><%= link_to 'See More...', photo_path(@persona.screen_name) %> </small></h2>
     <div class="row-fluid endless_scroll_inner_wrap">
+    </div>
+    <div>
+      <%= link_to 'See More Photos...', photo_path(@persona.screen_name), :class=>'btn' %>
     </div>
   </div>
 

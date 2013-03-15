@@ -1,6 +1,7 @@
 <%- model_class = Photo -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %> by <%= current_persona == @persona ? 'you' : @persona.screen_name %></h1>
+<div class="page-header row-fluid">
+  <div class="span2"><%= link_to image_tag('http://placehold.it/75x75'), '#', :class=>'pull-right'  %></div>
+  <h1 class="span10"><%=t '.title', :default => model_class.model_name.human.pluralize %> by <%= current_persona == @persona ? 'you' : @persona.screen_name %></h1>
 </div>
 <% if persona_signed_in? && current_persona != @persona then %>
   <div class="row-fluid trackBox">
