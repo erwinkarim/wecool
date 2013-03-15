@@ -53,9 +53,9 @@
               <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Explore<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to "Photos", photos_path  %></li>
-                  <li><%= link_to "Sets", mediasets_path %></li>
-                  <li><%= link_to "Personas", personas_path %></li>
+                  <li><%= link_to '<i class="icon-picture"></i> Photos'.html_safe, photos_path  %></li>
+                  <li><%= link_to '<i class="icon-th-list"></i> Sets'.html_safe, mediasets_path %></li>
+                  <li><%= link_to '<i class="icon-user"></i> Personas'.html_safe, personas_path %></li>
                 </ul>
               </li>
               <% if persona_signed_in? then %>
@@ -65,7 +65,7 @@
                     <li><%= link_to 'My Photos', photo_path(current_persona.screen_name) %></li>
                     <li><%= link_to 'My Sets', mediaset_path(current_persona.screen_name) %></li>
                   </ul>
-                <li><%= link_to "Upload", new_photo_path  %></li>
+                <li><%= link_to '<i class="icon-arrow-up"></i> Upload'.html_safe, new_photo_path  %></li>
               <% end %>
             </ul>
             <ul class="nav pull-right">
@@ -75,7 +75,8 @@
                   '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', :class => 'dropdown-toggle', 
                   :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to 'Settings', persona_path(current_persona.screen_name) %></li>
+                  <li><%= link_to 'View Your Page', persona_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-wrench"></i> Edit Your Profile'.html_safe, edit_persona_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>
                   <li><%= link_to 'Sign Out', destroy_persona_session_path, :method => :delete %></li>
                 </ul>
