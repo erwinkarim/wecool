@@ -1,2 +1,2 @@
 $('.trackBox').empty();
-$('.trackBox').append('Tracking <%= @tracked_persona.screen_name %> - <%= escape_javascript( link_to "Untrack", tracker_untrack_path("persona", @tracked_persona), :remote=> true, :method=>:post) %>');
+$('.trackBox').append('<%= escape_javascript( link_to "Tracking "+@tracked_persona.screen_name +  " - Untrack", tracker_untrack_path("persona", @tracked_persona), :remote=> true, :method=>:post) %>');

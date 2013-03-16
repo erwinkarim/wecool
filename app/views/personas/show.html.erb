@@ -1,10 +1,6 @@
 <%- model_class = Persona -%>
-<div class="page-header row-fluid">
-  <div class="span2"><%= link_to image_tag('http://placehold.it/75x75'), '#', :class=>'pull-right'  %></div>
-  <div class="span10">
-    <h1> <%= @persona.screen_name %></h1>
-  </div>
-</div>
+<% @focus = 'profile' %>
+<%= render "personas/headerBar", :locals => { :focus => 'profile' }  %>
 
 <dl class="dl-horizontal">
   <% if persona_signed_in? && current_persona != @persona then %>

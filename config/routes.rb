@@ -45,6 +45,7 @@ Wecool::Application.routes.draw do
   controller :trackers do
     match '/trackers/track/:object_type/:object_id' => :track, :via => :post, :as => 'tracker_track'
     match '/trackers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'tracker_untrack'
+    match '/trackers/:persona_id' => :show, :via => :get, :as => 'tracker'
   end
 
 
