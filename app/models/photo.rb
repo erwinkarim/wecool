@@ -10,9 +10,10 @@ class Photo < ActiveRecord::Base
 
   include Rails.application.routes.url_helpers
 
-  def init
+  def init(params={})
     self.featured ||= false;
   end
+
   def to_jq_upload 
     {
       "name" => self.avatar.to_s.split('/').last, 

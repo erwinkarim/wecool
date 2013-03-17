@@ -28,20 +28,19 @@
   <div class="row-fluid" id="piclist">
       <h3>...from this list of your photos</h3>
       <div class="row-fluid">
-        <select name="photo-list">
+        <select name="photo-list" style="white-space:pre;">
           <option selected>Photos not in this mediaset</option>
+          <option>Last Import...</option>
+          <% @upload_date_list.each do |thisDate| %>
+            <option>  <%= '--' + thisDate.to_s %></option>
+          <% end %>
           <option>All Photos</option>
         </select>
       </div>
       <br />
       <div class="control-group row-fluid" style="display: block; overflow-x: scroll; white-space: nowrap; height: 130px; ">
         <% @photos.each do |photo| %>
-          <% if @mediaset_photos.include?(photo) then %>
-            <%= check_box_tag 'photo[]', photo.id, true,  
-              :id => 'photo_'+photo.id.to_s, :style => 'display: none'  %>
-            <%= image_tag photo.avatar.square100.url, :id => photo.id, :class => 'checked img-polaroid', 
-              :style => 'padding:0px; border:5px solid red;' %>
-          <% else %>
+          <% if !@mediaset_photos.include?(photo) then %>
             <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s, 
               :style => 'display: none'  %>
             <%= image_tag photo.avatar.square100.url, :id => photo.id , :class => 'img-polaroid'%>

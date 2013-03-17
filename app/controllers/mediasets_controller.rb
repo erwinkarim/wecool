@@ -32,11 +32,14 @@ class MediasetsController < ApplicationController
     #@mediaset = Mediaset.new
     if persona_signed_in? then
       @mediaset = current_persona.mediasets.new
+      @persona = current_persona
     end
     @mediaset_photos = Array.new
     @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
       :persona_id => Persona.find(:first, :conditions => {:screen_name => current_persona.screen_name} )
     })
+
+    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| [s.to_date] }.uniq.reverse
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,11 +50,13 @@ class MediasetsController < ApplicationController
   # GET /mediasets/1/edit
   # GET /mediasets/:persona_id/edit/:id(.:format)
   def edit
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
     @mediaset = Mediaset.find(params[:id])
     @mediaset_photos = @mediaset.photos
     @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
       :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
     })
+    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| [s.to_date] }.uniq.reverse
   end
 
   # POST /mediasets
