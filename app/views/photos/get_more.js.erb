@@ -62,6 +62,13 @@ var handle = $('.endless_scroll_inner_wrap');
         $(this).find('.carousel-caption').hide();
     });
   <% end %>
+  
+  //make it draggable
+  <% if @options[:draggable] then %>
+    handle.find('img').draggable(
+      { revert:'invalid' } 
+    );
+  <% end %>
 <% else %>
   //remove the end 
   //handle.append(jQuery( '<div/>', {text:'That\'s all folks!!', class:'pull-left img-polaroid', style:'height:100px; ' } )); 

@@ -212,7 +212,7 @@ class PhotosController < ApplicationController
       :mediatype => 'photos', :size => 'tiny',
       :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id, 
       :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false
     }
 
     #modify options
@@ -269,6 +269,9 @@ class PhotosController < ApplicationController
       @excluded_mediaset_photos = 0
     end
 
+    if params.has_key? :draggable then
+      @options[:draggable] = params[:draggable] == 'true' ? true : false
+    end
     #fetch photos
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then

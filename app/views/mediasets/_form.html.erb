@@ -17,7 +17,7 @@
     </div>
     <div class="span7">
         <h3>...then drop & arrange your photos here...</h3>
-        <div class="well">
+        <div class="well" id="mediaset-photo-listings">
           <% @mediaset.photos.each do |photo| %>
             <%= image_tag photo.avatar.square100, :style => 'margin:4px;', :class=> 'img-polaroid selected-img ui-widget-content' %>
           <% end %>
@@ -56,13 +56,16 @@
   $.ajax({
     url: '/photos/get_more/<%= Photo.last.id %>',
     data: {limit:50, includeFirst:'true', size:'square100', 
-      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>'
+      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', draggable:true
     },
     dataType: 'script'
   });
+
   $(document).ready(function (){
     //setup the interface
-    $('.selected-img').draggable(); 
+    $('.selected-img').draggable({
+      revert:'invalid'
+    }); 
 
     $("#piclist img").click(function (event){
       $(this).toggleClass("checked");
@@ -84,17 +87,18 @@
       if ($(this).val() == 'photoNotInSet'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>'
+          author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', draggable:true
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false'
+          author:'<%= @persona.screen_name %>', showCaption:'false', draggable:true
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', dateRange:$(this).val().split('photoOn')[1]
+          author:'<%= @persona.screen_name %>', showCaption:'false', dateRange:$(this).val().split('photoOn')[1], 
+          draggable:true
         }
       }
 
@@ -107,6 +111,27 @@
         });
       }
     });
-    
+   
+    //allow photos in the imagelist to be dropped into image setlist
+    $('#mediaset-photo-listings').droppable({
+      accept:'.endless_scroll_inner_wrap img',
+      drop: function( event, ui ){
+        addPhotoToMediaset(ui.draggable);
+      }
+    });
+
+    //allow photos in the setlist be dropped into the imagelist (remove photo from setlist) 
+    $('#photo-list').droppable({
+      accept:'#mediaset-photo-listings img'
+    });
+
+    //handle photo being dropped into the image setlist
+    function addPhotoToMediaset( $item ){
+      $item.fadeOut(  function(){
+        $item.appendTo('#mediaset-photo-listings').fadeIn();
+      });
+    }
+    //handle photo being dropped into the imagelist
+
   });
 </script>
