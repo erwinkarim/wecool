@@ -206,13 +206,16 @@ class PhotosController < ApplicationController
   # GET /photos/get_more/:last_id(.:format)
   # todo: get more on trendiness and the ones that you tracked
   def get_more
-   
+
+    #default options
     @options = {
       :mediatype => 'photos', :size => 'tiny',
       :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id, 
-      :featured => [true, false]
+      :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now
     }
 
+    #modify options
     if params.has_key? :mediatype then
       @options[:mediatype] = params[:mediatype]
     end
@@ -243,10 +246,39 @@ class PhotosController < ApplicationController
       end
     end
 
+    if params.has_key? :showCaption then
+      if params[:showCaption] == 'false' then
+        @options[:showCaption] = false
+      end
+    end
+
+    if params.has_key? :excludeLinks then
+      if params[:excludeLinks] == 'false' then
+        @options[:excludeLinks] = false
+      end
+    end
+
+    if params.has_key? :dateRange then
+      @theDate = DateTime.parse params[:dateRange]
+      @options[:dateRange] = @theDate..@theDate+1
+    end
+
+    if params.has_key? :excludeMediaset then
+      @excluded_mediaset_photos = Mediaset.find(params[:excludeMediaset]).photos.pluck(:photo_id)
+    else
+      @excluded_mediaset_photos = 0
+    end
+
+    #fetch photos
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then
-      @next_photos = Photo.find(:all, :conditions => { :id => 0..upper, :persona_id => @options[:author],
-        :featured => @options[:featured] }, :order=>'id desc', :limit=> @options[:limit])
+      @next_photos = Photo.find(:all, :conditions => { 
+          :id => 0..upper, :persona_id => @options[:author],
+          :featured => @options[:featured], :created_at => @options[:dateRange] 
+        }, 
+        :order=>'id desc', :limit=> @options[:limit],
+        :group => 'id', :having => ['id not in (?)', @excluded_mediaset_photos ]
+      )
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 

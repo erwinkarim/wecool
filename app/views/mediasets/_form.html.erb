@@ -28,24 +28,19 @@
   <div class="row-fluid" id="piclist">
       <h3>...from this list of your photos</h3>
       <div class="row-fluid">
-        <select name="photo-list" style="white-space:pre;">
-          <option selected>Photos not in this mediaset</option>
-          <option>Last Import...</option>
+        <select id="photo-listing-selector" name="photo-listing-selector" style="white-space:pre;">
+          <option value="photoNotInSet" selected>Photos not in this mediaset</option>
+          <option value="ignore">Last Import...</option>
           <% @upload_date_list.each do |thisDate| %>
-            <option>  <%= '--' + thisDate.to_s %></option>
+            <option value="photoOn<%= thisDate.beginning_of_day.to_s(:number) %>">  <%= '--' + thisDate.to_s %></option>
           <% end %>
-          <option>All Photos</option>
+          <option value="photoAll" >All Photos</option>
         </select>
       </div>
       <br />
-      <div class="control-group row-fluid" style="display: block; overflow-x: scroll; white-space: nowrap; height: 130px; ">
-        <% @photos.each do |photo| %>
-          <% if !@mediaset_photos.include?(photo) then %>
-            <%= check_box_tag 'photo[]', photo.id, false,  :id => 'photo_'+photo.id.to_s, 
-              :style => 'display: none'  %>
-            <%= image_tag photo.avatar.square100.url, :id => photo.id , :class => 'img-polaroid'%>
-          <% end %>
-        <% end %>
+      <div class="control-group row-fluid" id="photo-list">
+        <div class="last-div endless_scroll_inner_wrap">
+        </div>
       </div>
   </div>
 
@@ -58,7 +53,17 @@
 
 
 <script type="text/javascript">
+  $.ajax({
+    url: '/photos/get_more/<%= Photo.last.id %>',
+    data: {limit:50, includeFirst:'true', size:'square100', 
+      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>'
+    },
+    dataType: 'script'
+  });
   $(document).ready(function (){
+    //setup the interface
+    $('.selected-img').draggable(); 
+
     $("#piclist img").click(function (event){
       $(this).toggleClass("checked");
       if($(this).hasClass("checked")){
@@ -71,7 +76,37 @@
         $(this).css('border', '1px solid rgba(0, 0 ,0, 0.2)');
       }
        
-      $('.selected-img').draggable(); 
     });
+
+    //track changes on the photo selection dropdown
+    $('#photo-listing-selector').change( function() {
+      var getConditions = {};
+      if ($(this).val() == 'photoNotInSet'){
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', 
+          author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>'
+        }
+      } else if ($(this).val() == 'photoAll'){
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', 
+          author:'<%= @persona.screen_name %>', showCaption:'false'
+        }
+      } else if($(this).val().substring(0,7) == 'photoOn' ) {
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', 
+          author:'<%= @persona.screen_name %>', showCaption:'false', dateRange:$(this).val().split('photoOn')[1]
+        }
+      }
+
+      if( $(this).val() != 'ignore' ){
+        $('.endless_scroll_inner_wrap').empty();
+        $.ajax({
+          url: '/photos/get_more/<%= Photo.last.id %>',
+          data: getConditions,
+          dataType: 'script'
+        });
+      }
+    });
+    
   });
 </script>

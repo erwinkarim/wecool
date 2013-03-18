@@ -56,7 +56,7 @@ class MediasetsController < ApplicationController
     @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
       :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
     })
-    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| [s.to_date] }.uniq.reverse
+    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
   end
 
   # POST /mediasets
