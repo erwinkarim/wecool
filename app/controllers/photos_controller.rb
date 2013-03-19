@@ -264,7 +264,7 @@ class PhotosController < ApplicationController
       @options[:dateRange] = @theDate..@theDate+1
     end
 
-    if params.has_key? :excludeMediaset then
+    if params.has_key? :excludeMediaset && !params[:excludeMediaset].nil? then
       @excluded_mediaset_photos = Mediaset.find(params[:excludeMediaset]).photos.pluck(:photo_id)
     else
       @excluded_mediaset_photos = 0

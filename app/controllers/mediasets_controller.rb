@@ -28,18 +28,17 @@ class MediasetsController < ApplicationController
   # GET /mediasets/new
   # GET /mediasets/new.json
   def new
-    
     #@mediaset = Mediaset.new
     if persona_signed_in? then
       @mediaset = current_persona.mediasets.new
       @persona = current_persona
     end
     @mediaset_photos = Array.new
-    @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
-      :persona_id => Persona.find(:first, :conditions => {:screen_name => current_persona.screen_name} )
-    })
+    #@photos = Photo.find(:all, :order => 'id desc',  :conditions => {
+    #  :persona_id => Persona.find(:first, :conditions => {:screen_name => current_persona.screen_name} )
+    #})
 
-    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| [s.to_date] }.uniq.reverse
+    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
 
     respond_to do |format|
       format.html # new.html.erb
@@ -97,37 +96,36 @@ class MediasetsController < ApplicationController
 
   # PUT /mediasets/1
   # PUT /mediasets/1.json
+  # params[:photo[]] holds photolist in order
   def update
+    @persona = current_persona
+    @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
     @mediaset = Mediaset.find(params[:id])
     @current_selection = @mediaset.photos
-    if !params.has_key? :photo then
-      @new_selection = Array.new
-      @new_selection.push Photo.new
-    else
-      @new_selection = Photo.find(params[:photo])
-    end
-  
+
+    current_order = 1
     if @current_selection.empty? then
-      @new_selection.each do |photo|
-        @mediaset.mediaset_photos.create(:photo_id => photo.id)
+      #empty mediaset, create new ones
+      params[:photo].each do |photo|
+        @mediaset.mediaset_photos.create(:photo_id => photo, :order => current_order)
+        current_order += 1
       end
     else
-      #add new selections
-      @new_selection.each do |photo|
-        if !@current_selection.include?(photo) then
-          @mediaset.mediaset_photos.create(:photo_id => photo.id)
-        end
-      end
+      #reset ordering
+      @mediaset.mediaset_photos.update_all('"order" = 0')
 
-      #delete the ones that was once there, but not selected anymore
-      @current_selection.each do |photo|
-        if !@new_selection.include?(photo) then
-          @mediaset.mediaset_photos.destroy(@mediaset.mediaset_photos.find(:all, 
-            :conditions => {:photo_id => photo.id}))
+      #reset ordering, add new entries if not found in current list
+      params[:photo].each do |photo_id|
+        @current_photo = @mediaset.mediaset_photos.where(:photo_id => photo_id)
+        if @current_photo.empty? then
+          @mediaset.mediaset_photos.create(:photo_id => photo_id, :order => current_order)
+        else
+          @current_photo.first.update_attribute(:order, current_order)
         end
-      end
+        current_order += 1
+      end 
+      @mediaset.mediaset_photos.where(:order => 0).delete_all
     end
-
 
     respond_to do |format|
       if @mediaset.update_attributes(params[:mediaset])

@@ -74,7 +74,7 @@
       $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last'),
-        data: { persona:'<%= @persona.id %>', featured:isFeatured }, 
+        data: { persona:'<%= @persona.id %>', featured:isFeatured, includeFirst:true }, 
         dataType: 'script'
       });
     });
