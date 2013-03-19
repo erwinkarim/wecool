@@ -1,6 +1,6 @@
 
-$('#photo_<%= @photo.id %>').find('.voteBox').find('a').detach();
-$('#photo_<%= @photo.id %>').find('.voteBox').append(
+$('#carousel_<%= @photo.id %>').find('.voteBox').find('a').detach();
+$('#carousel_<%= @photo.id %>').find('.voteBox').append(
     jQuery('<a/>', 
       { href:'<%= escape_javascript( photo_unvote_path( @photo, current_persona.screen_name)) %>', 
         'data-remote':true, 'data-method':'post', rel:'no-follow' } 

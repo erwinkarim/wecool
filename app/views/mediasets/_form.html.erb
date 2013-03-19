@@ -1,7 +1,7 @@
 <%= form_for @mediaset, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="row-fluid">
     <div class="span5">
-      <h3>Add title and description...</h3>
+      <h3>Set the title and description...</h3>
       <div class="control-group">
         <%= f.label :title, :class => 'control-label' %>
         <div class="controls">
@@ -16,16 +16,20 @@
       </div>
     </div>
     <div class="span7">
-        <h3>...then drop & arrange your photos here...</h3>
-        <div class="well" id="mediaset-photo-listings">
-          <% @mediaset.photos.each do |photo| %>
-            <%= image_tag photo.avatar.square100, :style => 'margin:4px;', :class=> 'img-polaroid selected-img ui-widget-content' %>
-          <% end %>
-        </div>
+      <h3>...then drop & arrange your photos here...</h3>
+      <div class="well" id="mediaset-photo-listings" style="overflow:hidden;">
+        <% @mediaset.photos.each do |photo| %>
+          <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
+            <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s %>
+            <%= image_tag photo.avatar.square100, :style => 'margin:4px;', 
+              :class=> 'img-polaroid ui-widget-content' %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="row-fluid" id="piclist">
+  <div class="row-fluid">
       <h3>...from this list of your photos</h3>
       <div class="row-fluid">
         <select id="photo-listing-selector" name="photo-listing-selector" style="white-space:pre;">
@@ -56,30 +60,16 @@
   $.ajax({
     url: '/photos/get_more/<%= Photo.last.id %>',
     data: {limit:50, includeFirst:'true', size:'square100', 
-      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', draggable:true
+      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
+      draggable:true, dragSortConnect:'#mediaset-photo-listing'
     },
     dataType: 'script'
   });
 
   $(document).ready(function (){
     //setup the interface
-    $('.selected-img').draggable({
-      revert:'invalid'
+    $('#mediaset-photo-listing').sortable({
     }); 
-
-    $("#piclist img").click(function (event){
-      $(this).toggleClass("checked");
-      if($(this).hasClass("checked")){
-        $("#photo_"+ $(this).attr('id') ).prop('checked', true);
-        $(this).css('padding', '0px');
-        $(this).css('border', '5px solid red');
-      } else {
-        $("#photo_"+ $(this).attr('id') ).prop('checked', false);
-        $(this).css('padding', '4px');
-        $(this).css('border', '1px solid rgba(0, 0 ,0, 0.2)');
-      }
-       
-    });
 
     //track changes on the photo selection dropdown
     $('#photo-listing-selector').change( function() {
@@ -87,18 +77,21 @@
       if ($(this).val() == 'photoNotInSet'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', draggable:true
+          author:'<%= @persona.screen_name %>', showCaption:'false', 
+          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', draggable:true
+          author:'<%= @persona.screen_name %>', showCaption:'false',
+          draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', dateRange:$(this).val().split('photoOn')[1], 
-          draggable:true
+          author:'<%= @persona.screen_name %>', showCaption:'false', 
+          dateRange:$(this).val().split('photoOn')[1], 
+          draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       }
 
@@ -120,18 +113,39 @@
       }
     });
 
+    //allow the selected imagelist to be sortable
+    $('#mediaset-photo-listings').sortable();
+
     //allow photos in the setlist be dropped into the imagelist (remove photo from setlist) 
     $('#photo-list').droppable({
-      accept:'#mediaset-photo-listings img'
+      accept:'#mediaset-photo-listings .selected-img', 
+      drop: function (event, ui){
+        revertPhotoToPool(ui.draggable);
+      }
     });
 
     //handle photo being dropped into the image setlist
     function addPhotoToMediaset( $item ){
-      $item.fadeOut(  function(){
-        $item.appendTo('#mediaset-photo-listings').fadeIn();
-      });
+      var idToLook = '#'  + $item.attr('id');
+      //handle is the photo is already in mediaset
+      $('#mediaset-photo-listings').append(
+        $('<div/>', { id:$item.attr('id'), class:'pull-left selected-img' } )
+      );
+      $('#mediaset-photo-listings').find(idToLook).append( $('<input/>', {
+        name:'photo[]', id:$item.attr('id'), value:$item.attr('id').split('_')[1] , 
+        type:'checkbox', checked:'true'
+      }));
+      $('#mediaset-photo-listings').find(idToLook).append(
+        $item.attr('style', 'margin:4px; position:relative;') 
+      );
+      $item.draggable('destory').sortable({ connectTo:'#mediaset-photo-listings' });
     }
+
     //handle photo being dropped into the imagelist
+    function revertPhotoToPool( $item){
+      $item.remove();
+      $('#mediaset-photo-checkbox').find('#' + $item.attr('id')).remove();
+    }
 
   });
 </script>

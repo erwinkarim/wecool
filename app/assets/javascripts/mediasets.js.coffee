@@ -3,3 +3,4 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
+//= require jquery.ui.sortable

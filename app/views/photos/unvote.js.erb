@@ -1,5 +1,5 @@
 
-var voteBox = $('#photo_<%= @photo.id %>').find('.voteBox');
+var voteBox = $('#carousel_<%= @photo.id %>').find('.voteBox');
 voteBox.empty();
 voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
 voteBox.append(' ');

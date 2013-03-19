@@ -212,7 +212,8 @@ class PhotosController < ApplicationController
       :mediatype => 'photos', :size => 'tiny',
       :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id, 
       :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false,
+      :dragSortConnect => nil 
     }
 
     #modify options
@@ -272,6 +273,11 @@ class PhotosController < ApplicationController
     if params.has_key? :draggable then
       @options[:draggable] = params[:draggable] == 'true' ? true : false
     end
+
+    if params.has_key? :dragSortConnect then
+      @options[:dragSortConnect] = params[:dragSortConnect]
+    end
+
     #fetch photos
     upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     if @options[:mediatype] == 'photos' then

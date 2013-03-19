@@ -159,7 +159,7 @@ class MediasetsController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @mediaset = @persona.mediasets.find(params[:id])
-    @mediaset_photos = @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
+    @mediaset_photos = @mediaset.photos.empty? ? Photo.all.reverse : @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
     @total_votes = @mediaset.up_votes + @mediaset.down_votes
   end
 
