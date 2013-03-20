@@ -210,7 +210,7 @@ class PhotosController < ApplicationController
     #default options
     @options = {
       :mediatype => 'photos', :size => 'tiny',
-      :limit => 10, :inculdeFirst => false, :author => 0..Persona.last.id, 
+      :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
       :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false,
       :dragSortConnect => nil 
@@ -226,7 +226,7 @@ class PhotosController < ApplicationController
     end
 
     if params.has_key? :limit then
-      @options[:limit] = params[:limit]
+      @options[:limit] = params[:limit].to_i
     end
 
     if params.has_key? :includeFirst then
@@ -264,8 +264,12 @@ class PhotosController < ApplicationController
       @options[:dateRange] = @theDate..@theDate+1
     end
 
-    if params.has_key? :excludeMediaset && !params[:excludeMediaset].nil? then
-      @excluded_mediaset_photos = Mediaset.find(params[:excludeMediaset]).photos.pluck(:photo_id)
+    if params.has_key? :excludeMediaset then
+      if params[:excludeMediaset].empty? then
+        @excluded_mediaset_photos = 0
+      else
+        @excluded_mediaset_photos = Mediaset.find(params[:excludeMediaset]).photos.pluck(:photo_id)
+      end
     else
       @excluded_mediaset_photos = 0
     end
@@ -279,7 +283,12 @@ class PhotosController < ApplicationController
     end
 
     #fetch photos
-    upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+    if @options[:mediaset_type] == 'photos' then
+      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+    else
+      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
+    end
+
     if @options[:mediatype] == 'photos' then
       @next_photos = Photo.find(:all, :conditions => { 
           :id => 0..upper, :persona_id => @options[:author],
@@ -290,8 +299,11 @@ class PhotosController < ApplicationController
       )
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
-      @next_photos = Mediaset.find(params[:mediaset_id]).photos.find(:all, 
-        :conditions => {:id => 0..upper }, :order => 'id desc', :limit=> @options[:limit])
+      @next_photos = Array.new
+      @mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(:order => upper..upper+@options[:limit] ).pluck(:photo_id)
+      @mediaset_photos.each do |photo_id| 
+        @next_photos.push Photo.find(photo_id)
+      end
     elsif @options[:mediatype] == 'trending' then
       #get the photos which attracts the most votes in a given time
     elsif @options[:mediatype] == 'tracked' then

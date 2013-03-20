@@ -51,10 +51,16 @@ class MediasetsController < ApplicationController
   def edit
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
     @mediaset = Mediaset.find(params[:id])
-    @mediaset_photos = @mediaset.photos
-    @photos = Photo.find(:all, :order => 'id desc',  :conditions => {
-      :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
-    })
+
+    @mediaset_photos = Array.new
+    @mediaset.mediaset_photos.order(:order).pluck(:photo_id).each do |photo_id|
+      @mediaset_photos.push Photo.find(photo_id)
+    end
+
+    #@photos = Photo.find(:all, :order => 'id desc',  :conditions => {
+    #  :persona_id => Persona.find(:first, :conditions => {:screen_name => params[:persona_id]} )
+    #})
+
     @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
   end
 

@@ -18,9 +18,9 @@
     <div class="span7">
       <h3>...then drop & arrange your photos here...</h3>
       <div class="well" id="mediaset-photo-listings" style="overflow:hidden;">
-        <% @mediaset.photos.each do |photo| %>
+        <% @mediaset_photos.each do |photo| %>
           <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
-            <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s %>
+            <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
             <%= image_tag photo.avatar.square100, :style => 'margin:4px;', 
               :class=> 'img-polaroid ui-widget-content' %>
           </div>
@@ -30,7 +30,7 @@
   </div>
 
   <div class="row-fluid">
-      <h3>...from this list of your photos</h3>
+      <h3>...from your pool of photos</h3>
       <div class="row-fluid">
         <select id="photo-listing-selector" name="photo-listing-selector" style="white-space:pre;">
           <option value="photoNotInSet" selected>Photos not in this mediaset</option>
@@ -133,7 +133,7 @@
       );
       $('#mediaset-photo-listings').find(idToLook).append( $('<input/>', {
         name:'photo[]', id:$item.attr('id'), value:$item.attr('id').split('_')[1] , 
-        type:'checkbox', checked:'true'
+        type:'checkbox', checked:'true', style:'display:none;'
       }));
       $('#mediaset-photo-listings').find(idToLook).append(
         $item.attr('style', 'margin:4px; position:relative;') 

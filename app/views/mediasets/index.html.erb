@@ -59,7 +59,7 @@
       $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
-        data: { featured:isFeatured, viewType:theView },
+        data: { featured:isFeatured, viewType:theView, includeFirst:true },
         dataType: 'script'
       });
     });

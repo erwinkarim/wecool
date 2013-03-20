@@ -1,6 +1,7 @@
 var handle = $('.endless_scroll_inner_wrap');
 
 <% if  !@next_photos.empty? then %>
+  console.log('loading <%= @next_photos.count %> photos...');
   //add new photos
   <% @next_photos.each do |photo| %>
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
@@ -53,7 +54,7 @@ var handle = $('.endless_scroll_inner_wrap');
   <% end %>
 
     $('.endless_scroll_inner_wrap').append(carousel);
-    $('.endless-photos').attr('last', <%= @next_photos.last.id %>);
+    $('.endless-photos').attr('last', <%= @options[:mediatype] == 'mediaset' ? Mediaset.find(params[:mediaset_id]).mediaset_photos.where(:photo_id => @next_photos.last.id).first.order : @next_photos.last.id %>);
 
     $('.carousel-caption').hide();
     $('.carousel').hover( function(){
