@@ -300,7 +300,8 @@ class PhotosController < ApplicationController
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       @next_photos = Array.new
-      @mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(:order => upper..upper+@options[:limit] ).pluck(:photo_id)
+      @mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
+        :order => upper..upper+@options[:limit] ).order(:order).pluck(:photo_id)
       @mediaset_photos.each do |photo_id| 
         @next_photos.push Photo.find(photo_id)
       end

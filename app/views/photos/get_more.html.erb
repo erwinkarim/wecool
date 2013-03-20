@@ -1,28 +1,3 @@
-
 <% @next_photos.each do |photo| %>
-  <div style="float:left; margin: 0px 2px 2px 0px" class="carousel">
-    <div class="carousel-inner">
-      <div class="active item">
-        <% this_persona = Persona.find(photo.persona_id).screen_name %>
-        <%= link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class => 'img-polaroid'), 
-          photo_view_path(this_persona, photo.id) %>
-        <div class="carousel-caption">
-          <p><%= photo.title %> by <%= link_to this_persona, persona_path(this_persona) %></p>
-        </div>
-      </div>
-    </div><!-- carousel-inner -->
-  </div>
+  <%= image_tag photo.avatar.tiny %>
 <% end %>
-
-<script type="text/javascript">
-  $(document).ready( function(){
-    $('.carousel-caption').hide();
-    $('.carousel').hover(
-      function(){ 
-        $(this).find('.carousel-caption').fadeIn('slow', '');
-      }, function(){ 
-        $(this).find('.carousel-caption').fadeOut('slow','');
-      }
-    );
-  });
-</script>
