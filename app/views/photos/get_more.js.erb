@@ -8,14 +8,23 @@ var handle = $('.endless_scroll_inner_wrap');
       var carousel = jQuery('<div/>', {class:'carousel', id:'carousel_<%= photo.id %>',  
         style:'float:left; margin: 0px 2px 2px 0px;'}).
         append(jQuery('<div/>', {class:'carousel-inner'}));
-  
+      
+      <% photo_path = '#' %>
+      <% if @options[:enableLinks] then %>
+        <% if @options[:mediatype] == 'mediaset' then %>
+          <% photo_path = photo_view_in_scope_path(this_persona, photo, 'mediaset', params[:mediaset_id]) %>
+        <% else %>
+          <% if @options[:featured] then %>
+            <% photo_path = photo_view_in_scope_path(this_persona, photo, 'featured', 1) %>
+          <% else %>
+            <% photo_path = photo_view_path(this_persona, photo) %>
+          <% end %>
+        <% end %>
+      <% end %>  
       carousel.append("<%= 
         escape_javascript(
           link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
-            :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), 
-          @options[:enableLinks] ? (@options[:mediatype] == 'mediaset' ? 
-            photo_view_in_mediaset_path(this_persona, photo, params[:mediaset_id]) : 
-            photo.featured ? photo_view_in_featured_path(this_persona, photo) : photo_view_path(this_persona, photo)) : '#'
+            :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), photo_path
         ) 
         %>"
       );

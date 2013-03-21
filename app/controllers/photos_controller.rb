@@ -139,12 +139,18 @@ class PhotosController < ApplicationController
     @total_votes = @photo.up_votes + @photo.down_votes
     @mediasets = @persona.mediasets
 
-    if params.has_key? :mediaset_id then
-      @current_mediaset = Mediaset.find(params[:mediaset_id])
+    if params[:scope] == 'mediaset' then
+      @current_mediaset = Mediaset.find(params[:scope_id])
       @prev_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id >'+@photo.id.to_s)
       @next_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id <'+@photo.id.to_s, :order=>'id desc')
-      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_mediaset_path(@persona.screen_name, @prev_photo, @current_mediaset) + '#photo'
-      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_mediaset_path(@persona.screen_name, @next_photo, @current_mediaset) + '#photo'
+      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'mediaset', @current_mediaset) + '#photo'
+      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @next_photo, 'mediaset', @current_mediaset) + '#photo'
+    elsif params[:scope] == 'featured' then
+      photoID = @photo.id
+      @prev_photo = @persona.photos.where{ (id.gt photoID) & (featured.eq true) }.first
+      @next_photo = @persona.photos.where{ (id.lt photoID) & (featured.eq true) }.order('id desc').first
+      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'featured', 0)
+      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @next_photo, 'featured', 0)
     else
       @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
       @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')

@@ -6,7 +6,7 @@
     <% end %>
     <% @photolist.each do |photo| %>
       <li>
-        <% view_path = @mediaset.nil? ? photo_view_path(persona.screen_name, photo) : photo_view_in_mediaset_path(persona.screen_name, photo, @mediaset)  %> 
+        <% view_path = @mediaset.nil? ? photo_view_path(persona.screen_name, photo) : photo_view_in_scope_path(persona.screen_name, photo, 'mediaset',  @mediaset)  %> 
         <%= link_to image_tag(photo.avatar.square100), view_path, :style => photo == @photo ? 'background-color:red' : '' %>
       </li>
     <% end %>
