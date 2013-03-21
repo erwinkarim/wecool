@@ -1,19 +1,24 @@
 var handle = $('.endless_scroll_inner_wrap');
 
 <% if  !@next_photos.empty? then %>
-  console.log('loading <%= @next_photos.count %> photos...');
-  //add new photos
+
+  //load the photos
   <% @next_photos.each do |photo| %>
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
-    var carousel = jQuery('<div/>', {class:'carousel', id:'carousel_<%= photo.id %>',  
-      style:'float:left; margin: 0px 2px 2px 0px;'}).
-      append(jQuery('<div/>', {class:'carousel-inner'}));
-    carousel.append("<%= escape_javascript(
-      link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), 
-        @options[:mediatype] == 'mediaset' ? 
-          photo_view_in_mediaset_path(this_persona, photo, params[:mediaset_id]) : 
-          photo_view_path(this_persona, photo)) %>"
-    );
+      var carousel = jQuery('<div/>', {class:'carousel', id:'carousel_<%= photo.id %>',  
+        style:'float:left; margin: 0px 2px 2px 0px;'}).
+        append(jQuery('<div/>', {class:'carousel-inner'}));
+  
+      carousel.append("<%= 
+        escape_javascript(
+          link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
+            :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), 
+          @options[:enableLinks] ? (@options[:mediatype] == 'mediaset' ? 
+            photo_view_in_mediaset_path(this_persona, photo, params[:mediaset_id]) : 
+            photo_view_path(this_persona, photo)) : '#'
+        ) 
+        %>"
+      );
 
   <% if @options[:showCaption] then %>
     var caption = jQuery('<div/>', {class:'carousel-caption', style:'color:white'});

@@ -213,7 +213,7 @@ class PhotosController < ApplicationController
       :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
       :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false,
-      :dragSortConnect => nil 
+      :dragSortConnect => nil , :enableLinks => true
     }
 
     #modify options
@@ -230,7 +230,7 @@ class PhotosController < ApplicationController
     end
 
     if params.has_key? :includeFirst then
-      @options[:includeFirst] = params[:includeFirst]
+      @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false
     end
 
     if params.has_key? :author then
@@ -282,8 +282,12 @@ class PhotosController < ApplicationController
       @options[:dragSortConnect] = params[:dragSortConnect]
     end
 
+    if params.has_key? :enableLinks then
+      @options[:enableLinks] = params[:enableLinks] == 'false' ? false : true
+    end
+
     #fetch photos
-    if @options[:mediaset_type] == 'photos' then
+    if @options[:mediatype] == 'photos' then
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     else
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  

@@ -1,23 +1,23 @@
-<%= form_for @mediaset, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for @mediaset, :html => { :class => 'form-inline' } do |f| %>
   <div class="row-fluid">
-    <div class="span5">
+    <div class="span3">
       <h3>Set the title and description...</h3>
-      <div class="control-group">
+      <div class="control-group pull-left">
         <%= f.label :title, :class => 'control-label' %>
         <div class="controls">
           <%= f.text_field :title, :class => 'text_field' %>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group pull-left">
         <%= f.label :description, :class => 'control-label' %>
         <div class="controls">
           <%= f.text_area :description, :class => 'text_area', :cols => 80, :rows=>5 %>
         </div>
       </div>
     </div>
-    <div class="span7">
+    <div class="span9">
       <h3>...then drop & arrange your photos here...</h3>
-      <div class="well" id="mediaset-photo-listings" style="overflow:hidden;">
+      <div class="well" id="mediaset-photo-listings" style="overflow:hidden" >
         <% @mediaset_photos.each do |photo| %>
           <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
             <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
@@ -27,9 +27,9 @@
         <% end %>
       </div>
     </div>
-  </div>
+  </div><!-- row-fluid -->
 
-  <div class="row-fluid">
+  <div class="row-fluid" id="photo-pool" >
       <h3>...from your pool of photos</h3>
       <div class="row-fluid">
         <select id="photo-listing-selector" name="photo-listing-selector" style="white-space:pre;">
@@ -42,9 +42,12 @@
         </select>
       </div>
       <br />
-      <div class="control-group row-fluid" id="photo-list">
-        <div class="last-div endless_scroll_inner_wrap">
+      <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" >
+        <div class="last-div endless_scroll_inner_wrap" style="">
         </div>
+      </div>
+      <div class="row-fluid">
+        <button type="button" id="loadMorePhotos" class="btn">Load More Photos...</button>
       </div>
   </div>
 
@@ -57,12 +60,15 @@
 
 
 <script type="text/javascript">
+  var getConditions = {};
+  getConditions = {limit:20, includeFirst:'true', size:'square100', 
+      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
+      draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false
+  };
+
   $.ajax({
     url: '/photos/get_more/<%= Photo.last.id %>',
-    data: {limit:50, includeFirst:'true', size:'square100', 
-      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
-      draggable:true, dragSortConnect:'#mediaset-photo-listing'
-    },
+    data: getConditions, 
     dataType: 'script'
   });
 
@@ -73,7 +79,7 @@
 
     //track changes on the photo selection dropdown
     $('#photo-listing-selector').change( function() {
-      var getConditions = {};
+      //var getConditions = {};
       if ($(this).val() == 'photoNotInSet'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
@@ -104,6 +110,17 @@
         });
       }
     });
+
+    //click to load more photos
+    $('#loadMorePhotos').click( function(){
+      getConditions.includeFirst = 'false';
+      $.ajax({
+        url: '/photos/get_more/' + $('#photo-list').attr('last'),
+        data: getConditions,
+        dataType: 'script'
+      });
+    });
+    
    
     //allow photos in the imagelist to be dropped into image setlist
     $('#mediaset-photo-listings').droppable({
@@ -128,6 +145,8 @@
     function addPhotoToMediaset( $item ){
       var idToLook = '#'  + $item.attr('id');
       //handle is the photo is already in mediaset
+      //later
+
       $('#mediaset-photo-listings').append(
         $('<div/>', { id:$item.attr('id'), class:'pull-left selected-img' } )
       );

@@ -11,7 +11,7 @@ var handle= $('.endless_scroll_inner_wrap');
       view_sets_path(persona.screen_name, mediaset) ).html_safe %>');
     title.append(jQuery('<small/>'));
     title.find('small').append('by <%= escape_javascript(
-      link_to persona.screen_name, persona_path(persona.screen_name) ).html_safe %>');
+      link_to persona.screen_name, persona_path(persona.screen_name) ).html_safe %> | <%= mediaset.photos.count %> photos');
     handle.append(title);
 
     var featuredVoteBox = jQuery('<div/>');
