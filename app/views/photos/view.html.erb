@@ -137,6 +137,24 @@
       </div>
     </div>
   </div>
+  <% if @photo.featured then %>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <h3>
+          <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
+            :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
+            :style=>'display:inline;'  %><%= link_to 'Featured photos by '+@persona.screen_name, 
+              photo_path(@persona.screen_name, :view=>'raw') %>
+        </h3>
+      </div>
+      <div class="accordion-body collapse <%= @current_mediaset.nil? ? 'in' : '' %>" id="collapsedFeatured">
+        <div class="accordion-inner">
+            <% @photolist = get_photo_list(@persona.id, @photo.id, nil, true) %>
+            <%= render "coverflow" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <% @photo.mediasets.each do |mediaset| %>
     <div class="accordion-group">  
       <div class="accordion-heading">

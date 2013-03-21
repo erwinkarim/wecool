@@ -63,12 +63,12 @@ module PhotosHelper
     return @returnString.html_safe
   end
   
-  def get_photo_list(personaID, atPhotoID, mediasetID)
+  def get_photo_list(personaID, atPhotoID, mediasetID, isFeatured = [true, false])
     if mediasetID.nil? then
-      prev_photos = Photo.find(:all,:conditions => "id > " + atPhotoID.to_s + 
-        " and persona_id == "+ personaID.to_s, :limit => 4 ).reverse
-      next_photos = Photo.find(:all,:conditions => "id < " + atPhotoID.to_s + 
-        " and persona_id == "+ personaID.to_s, :order => "id DESC", :limit => 8-prev_photos.count )
+      prev_photos = Photo.where{ (id.gt atPhotoID) & ( persona_id.eq personaID) & 
+        (featured.in isFeatured) }.limit(4).reverse
+      next_photos =  Photo.where{ (id.lt atPhotoID) & (persona_id.eq personaID) &
+        (featured.in isFeatured) }.order('id desc').limit(8 - prev_photos.count)
     else
       prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
         :limit => 4 ).reverse

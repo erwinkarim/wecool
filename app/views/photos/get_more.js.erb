@@ -15,7 +15,7 @@ var handle = $('.endless_scroll_inner_wrap');
             :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), 
           @options[:enableLinks] ? (@options[:mediatype] == 'mediaset' ? 
             photo_view_in_mediaset_path(this_persona, photo, params[:mediaset_id]) : 
-            photo_view_path(this_persona, photo)) : '#'
+            photo.featured ? photo_view_in_featured_path(this_persona, photo) : photo_view_path(this_persona, photo)) : '#'
         ) 
         %>"
       );
