@@ -1,0 +1,6 @@
+var origSource = $('.carousel').find('img').attr('src').split('?')[0];
+
+$('.carousel').find('img').attr('src', origSource + '?' + Math.random());
+
+$('#editMenu').click()
+

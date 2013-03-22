@@ -293,13 +293,13 @@ class PhotosController < ApplicationController
     end
 
     #fetch photos
-    if @options[:mediatype] == 'photos' then
+    if ['photos', 'featured'].include? @options[:mediatype] then 
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
     else
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
     end
 
-    if @options[:mediatype] == 'photos' then
+    if @options[:mediatype] == 'photos' || @options[:mediatype] == 'featured' then
       @next_photos = Photo.find(:all, :conditions => { 
           :id => 0..upper, :persona_id => @options[:author],
           :featured => @options[:featured], :created_at => @options[:dateRange] 
@@ -367,6 +367,32 @@ class PhotosController < ApplicationController
     @persona.unvote(@photo)
 
     respond_to do |format|
+      format.js
+    end
+  end
+
+  #  POST /photos/:persona_id/transform/:photo_id/:method?arg1=val1&arg2=val2....argn=valn
+  def transform
+    @photo_handle = Photo.new
+    if persona_signed_in? && current_persona.screen_name == params[:persona_id] then
+      @photo_handle = Photo.find(params[:photo_id])
+      @photo = Magick::Image.read(@photo_handle.avatar.path).first
+      if params[:method] == 'rotate' then
+        if params[:direction] == 'left' then
+          puts 'rotate left'
+          @photo.rotate!(-90)
+        elsif params[:direction] == 'right' then
+          @photo.rotate!(90)
+        end
+      end    
+      @photo.write(@photo_handle.avatar.path)
+    
+      #todo, update only the current one, recreate in background
+      @photo_handle.avatar.recreate_versions!
+    end
+  
+    respond_to do |format|
+      format.html
       format.js
     end
   end

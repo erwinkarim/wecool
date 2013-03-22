@@ -32,10 +32,12 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/view/:id/in/:scope/:scope_id' => :view, :via => :get, :as => 'photo_view_in_scope'
     match '/photos/:persona_id/view/:id/exif' => :view_exif, :via => :get, :as => 'photo_view_exif'
     match '/photos/:persona_id/version/:photo_id' => :version, :via => :get, :as => 'photo_version'
-    match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
-    #match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
+    match '/photos/:persona_id/transform/:photo_id/:method' => :transform, 
+      :via => :post, :as => 'photo_transform'
     match '/photos/:persona_id/update_setlist/:photo_id' => :update_setlist, :via => :post, 
       :as => 'photo_update_setlist'
+    match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
+    #match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
     match '/photos/get_more/:last_id' => :get_more, :via => :get, :as => 'photo_get_more'
     match '/photos/toggle_featured/:photo_id' => :toggle_featured, :via => :post, :as => 'photo_toggle_featured'
     match '/photos/vote/:photo_id/:vote_mode/by/:persona_id' => :vote, :via => :post, :as => 'photo_vote'

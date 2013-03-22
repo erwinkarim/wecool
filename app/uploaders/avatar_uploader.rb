@@ -80,6 +80,15 @@ class AvatarUploader < CarrierWave::Uploader::Base
     process :resize_to_limit => [50,50]
   end
 
+  def rotate(direction)
+    manipulate! do |img|
+      if direction == 'left' then
+        img.rotate!(-90)
+      else
+        img.rotate!(90)
+      end
+    end
+  end
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   # def extension_white_list

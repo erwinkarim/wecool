@@ -14,7 +14,7 @@ var handle = $('.endless_scroll_inner_wrap');
         <% if @options[:mediatype] == 'mediaset' then %>
           <% photo_path = photo_view_in_scope_path(this_persona, photo, 'mediaset', params[:mediaset_id]) %>
         <% else %>
-          <% if @options[:featured] then %>
+          <% if @options[:mediatype] == 'featured' then %>
             <% photo_path = photo_view_in_scope_path(this_persona, photo, 'featured', 1) %>
           <% else %>
             <% photo_path = photo_view_path(this_persona, photo) %>

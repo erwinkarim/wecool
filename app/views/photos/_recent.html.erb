@@ -16,12 +16,12 @@
 </div>
 <script type="text/javascript">
   var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-  var theMediaType = 'photos'
+  var theMediaType = 'featured'
 
   //get the first few photos
   $.ajax({
     url: '/photos/get_more/<%= @photos.first.id %>', 
-    data: {limit:'20', includeFirst:'true', featured:isFeatured}, 
+    data: {limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
     dataType: 'script'
   });
  
@@ -57,13 +57,19 @@
       //reload the photos
       //$('.carousel').detach();
       $('.last-div').empty(); 
-      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true','false'];
       isTracked = $('.recentlyTracked').hasClass('active') ? true : false;
 
-      theMediaType = isTracked ? 'tracked' : 'photos';
+
+      if (isTracked) {
+        theMediaType = 'tracked';
+      } else if (isFeatured == 'true'){
+        theMediaType = 'featured';
+      } else {
+        theMediaType = 'photos';  
+      } 
 
       $('.endless-photos').attr('last', <%= Photo.last.id %>);
-      console.log('isFeatured=' + isFeatured);
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
         data: { limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
