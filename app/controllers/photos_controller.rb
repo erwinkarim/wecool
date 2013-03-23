@@ -149,8 +149,10 @@ class PhotosController < ApplicationController
       photoID = @photo.id
       @prev_photo = @persona.photos.where{ (id.gt photoID) & (featured.eq true) }.first
       @next_photo = @persona.photos.where{ (id.lt photoID) & (featured.eq true) }.order('id desc').first
-      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'featured', 0)
-      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @next_photo, 'featured', 0)
+      @prev_photo_path = @prev_photo.nil? ? '#' : 
+        photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'featured', 0) + '#photo'
+      @next_photo_path = @next_photo.nil? ? '#' : 
+        photo_view_in_scope_path(@persona.screen_name, @next_photo, 'featured', 0) + '#photo'
     else
       @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
       @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
@@ -186,13 +188,16 @@ class PhotosController < ApplicationController
 
     if @current_selection.empty? && !@new_selection.empty? then
       @new_selection.each do |mediaset|
-        @photo.mediaset_photos.create(:mediaset_id => mediaset.id)
+        @photo.mediaset_photos.create(:mediaset_id => mediaset.id, :order => 1)
       end
     elsif !@current_selection.empty? && !@new_selection.empty? then
       #add new selection
         @new_selection.each do |mediaset|
           if !@current_selection.include?(mediaset) then
-            @photo.mediaset_photos.create(:mediaset_id => mediaset.id)
+            @photo.mediaset_photos.create(
+              :mediaset_id => mediaset.id, 
+              :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
+            )
           end
         end
 

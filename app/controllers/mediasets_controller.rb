@@ -82,8 +82,10 @@ class MediasetsController < ApplicationController
       if @mediaset.save
         #add the photos
         if !@new_selection.empty? then
+          counter = 1
           @new_selection.each do |photo|
-            @mediaset.mediaset_photos.create(:photo_id => photo.id)
+            @mediaset.mediaset_photos.create(:photo_id => photo.id, :order => counter)
+            counter += 1
           end 
         end 
         

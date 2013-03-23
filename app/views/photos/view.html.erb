@@ -164,6 +164,7 @@
       <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
         <div class="accordion-inner">
             <% @photolist = get_photo_list(@persona.id, @photo.id, nil, true) %>
+            <% @current_scope = 'featured' %>
             <%= render "coverflow" %>
         </div>
       </div>
@@ -181,6 +182,7 @@
       <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
         <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
         <% @mediaset = mediaset %>
+        <% @current_scope = 'mediaset' %>
         <%= render "coverflow" %>
       </div>
     </div>

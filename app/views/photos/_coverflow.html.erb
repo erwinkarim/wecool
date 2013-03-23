@@ -6,11 +6,11 @@
     <% end %>
     <% @photolist.each do |photo| %>
       <li>
-        <% if params[:scope].nil? then %>
+        <% if @current_scope.nil? then %>
           <% view_path = photo_view_path(persona.screen_name, photo) %>
-        <% elsif params[:scope] == 'featured' then %>
+        <% elsif @current_scope == 'featured' then %>
           <% view_path = photo_view_in_scope_path(persona.screen_name, photo, 'featured',  0)  %> 
-        <% elsif params[:scope] == 'mediaset' then %>
+        <% elsif @current_scope == 'mediaset' %>
           <% view_path = photo_view_in_scope_path(persona.screen_name, photo, 'mediaset',  @mediaset)  %> 
         <% end %>
         <%= link_to image_tag(photo.avatar.square100), view_path, :style => photo == @photo ? 'background-color:red' : '' %>
