@@ -1,6 +1,6 @@
 <%- model_class = Persona -%>
 <% @focus = 'profile' %>
-<%= render "personas/headerBar", :locals => { :focus => 'profile' }  %>
+<%= render "common/personaHeaderBar" %>
 
 <dl class="dl-horizontal">
   <% if persona_signed_in? && current_persona != @persona then %>
@@ -57,7 +57,7 @@
 <script type="text/javascript">
   $.ajax({
     url: '/photos/get_more/<%= Photo.last.id %>',
-    data: { limit:20, author:'<%= @persona.screen_name %>', includeFirst:'true', size:'tiny' },
+    data: { limit:10, mediatype:'featured',  author:'<%= @persona.screen_name %>', includeFirst:'true', size:'tiny', featured:true },
     dataType: 'script'
   });
 </script>

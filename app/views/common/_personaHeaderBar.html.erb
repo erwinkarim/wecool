@@ -1,0 +1,29 @@
+<div class="page-header row-fluid">
+  <div class="span2">
+    <div class="dropdown pull-right" id="persona-button-group">
+      <%= link_to image_tag('http://placehold.it/75x75')+ '<b class="caret"></b>'.html_safe , '#', :class=>'dropdown-toggle', 
+        :'data-toggle' => 'dropdown', :id=>'persona-photo-button'  %>
+      <ul class="dropdown-menu" role="menu" id="persona-photo-menu" >
+        <% if persona_signed_in? && current_persona != @persona then %>
+          <li class="trackBox">
+            <% if current_persona.tracks 'persona', @persona then %>
+              <%= link_to 'Tracking '+ @persona.screen_name +  ' - Untrack',
+                tracker_untrack_path('persona', @persona), :remote=> true, :method=> :post %>
+            <% else %>
+              <%= link_to 'Track photos by ' + @persona.screen_name, 
+                tracker_track_path('persona', @persona ), :remote=>true, :method => :post %>
+            <% end %>
+          </li>
+          <li class="divider"></li>
+        <% end %>
+        <li><%= link_to 'Photos', photo_path(@persona.screen_name) %></li>
+        <li><%= link_to 'Mediasets', mediaset_path(@persona.screen_name) %></li>
+        <li><%= link_to 'Profile', persona_path(@persona.screen_name) %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'Tracker', tracker_path(@persona.screen_name) %></li>
+      </ul>
+    </div>
+  </div>
+  <h1 class="span10 pull-left"><%= @persona.screen_name %> - <%= @focus.nil? ? '' : @focus %></h1>
+</div>
+
