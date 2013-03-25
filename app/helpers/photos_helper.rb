@@ -70,14 +70,21 @@ module PhotosHelper
       next_photos =  Photo.where{ (id.lt atPhotoID) & (persona_id.eq personaID) &
         (featured.in isFeatured) }.order('id desc').limit(8 - prev_photos.count)
     else
-      prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
-        :limit => 4 ).reverse
-      next_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id < " + atPhotoID.to_s, 
-        :order => "id DESC", :limit => 8-prev_photos.count )
+      current_photo_pos = Mediaset.find(mediasetID).mediaset_photos.where(:photo_id => atPhotoID).first.order
+      prev_photos = Array.new
+      next_photos = Array.new
+      #prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
+      #  :limit => 4 ).reverse
+      prev_photos = Mediaset.joins{ mediaset_photos }.find(mediasetID).photos.
+        where{ mediaset_photos.order.lt current_photo_pos }.order('"order"').reverse[0..3].reverse
+      #next_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id < " + atPhotoID.to_s, 
+      #  :order => "id DESC", :limit => 8-prev_photos.count )
+      next_photos = Mediaset.joins{ mediaset_photos }.find(mediasetID).photos.
+        where{ mediaset_photos.order.gt current_photo_pos }.order('"order"').limit(8 - prev_photos.count) 
       if next_photos.count < 4 then
         #rebuild the photo selection
-        prev_photos = Mediaset.find(mediasetID).photos.find(:all,:conditions => "photo_id > " + atPhotoID.to_s,
-          :limit => 8-next_photos.count ).reverse
+      prev_photos = Mediaset.joins{ mediaset_photos }.find(mediasetID).photos.
+        where{ mediaset_photos.order.lt current_photo_pos }.order('"order"').reverse[0..(8 - next_photos.count)].reverse
       end
     end
 

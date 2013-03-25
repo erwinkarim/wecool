@@ -141,10 +141,17 @@ class PhotosController < ApplicationController
 
     if params[:scope] == 'mediaset' then
       @current_mediaset = Mediaset.find(params[:scope_id])
-      @prev_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id >'+@photo.id.to_s)
-      @next_photo = @current_mediaset.photos.find(:first, :conditions => 'photo_id <'+@photo.id.to_s, :order=>'id desc')
-      @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'mediaset', @current_mediaset) + '#photo'
-      @next_photo_path = @next_photo.nil? ? '#' : photo_view_in_scope_path(@persona.screen_name, @next_photo, 'mediaset', @current_mediaset) + '#photo'
+      current_pos = @current_mediaset.mediaset_photos.where(:photo_id => params[:id]).first.order
+      @prev_photo = Mediaset.joins{ mediaset_photos }.find(params[:scope_id]).photos.
+        where{ mediaset_photos.order.lt current_pos }.order('"order"').last
+      @next_photo = Mediaset.joins{ mediaset_photos }.find(params[:scope_id]).photos.
+        where{ mediaset_photos.order.gt current_pos }.order('"order"').first
+      @prev_photo_path = @prev_photo.nil? ? '#' : 
+        photo_view_in_scope_path(@persona.screen_name, @prev_photo, 'mediaset', @current_mediaset) + 
+        '#photo'
+      @next_photo_path = @next_photo.nil? ? '#' : 
+        photo_view_in_scope_path(@persona.screen_name, @next_photo, 'mediaset', @current_mediaset) + 
+        '#photo'
     elsif params[:scope] == 'featured' then
       photoID = @photo.id
       @prev_photo = @persona.photos.where{ (id.gt photoID) & (featured.eq true) }.first
