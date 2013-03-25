@@ -1,8 +1,7 @@
 <% if persona_signed_in? then %>
-  <div>
-    <p> Welcome, <%= current_persona.screen_name %>  </p>
-  </div>
   <div class="header">  
+    <% @focus = 'welcome' %>
+    <%= render "common/personaHeaderBar" %>
     <h2>Your recent photos <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small></h2>
       <% if @myPhotos.empty? then %>
         <div class="well">

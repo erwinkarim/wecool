@@ -314,12 +314,14 @@ class PhotosController < ApplicationController
       )
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
-      @next_photos = Array.new
-      @mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
-        :order => upper..upper+@options[:limit] ).order(:order).pluck(:photo_id)
-      @mediaset_photos.each do |photo_id| 
-        @next_photos.push Photo.find(photo_id)
-      end
+      #@next_photos = Array.new
+      #@mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
+      #  :order => upper..upper+@options[:limit] ).order(:order).pluck(:photo_id)
+      #@mediaset_photos.each do |photo_id| 
+      #  @next_photos.push Photo.find(photo_id)
+      #end
+      @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.order('"order"').
+        where( "mediaset_photos.order" => upper..upper+@options[:limit])
     elsif @options[:mediatype] == 'trending' then
       #get the photos which attracts the most votes in a given time
     elsif @options[:mediatype] == 'tracked' then

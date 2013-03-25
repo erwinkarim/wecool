@@ -16,12 +16,13 @@
 </div>
 <script type="text/javascript">
   var isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-  var theMediaType = 'featured'
+  var theMediaType = 'featured';
+  var fetchSize = 'small';
 
   //get the first few photos
   $.ajax({
     url: '/photos/get_more/<%= @photos.first.id %>', 
-    data: {limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
+    data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
     dataType: 'script'
   });
  
@@ -39,7 +40,7 @@
     callback: function(){
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-          data: { featured:isFeatured, mediatype:theMediaType } ,
+          data: { size:fetchSize, featured:isFeatured, mediatype:theMediaType } ,
           dataType: 'script'
         });
     }, 
@@ -63,16 +64,19 @@
 
       if (isTracked) {
         theMediaType = 'tracked';
+        fetchSize = 'tiny';
       } else if (isFeatured == 'true'){
         theMediaType = 'featured';
+        fetchSize = 'small';
       } else {
         theMediaType = 'photos';  
+        fetchSize = 'tiny';
       } 
 
       $('.endless-photos').attr('last', <%= Photo.last.id %>);
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-        data: { limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
+        data: { size:fetchSize, limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
         dataType: 'script'
       });
     });
@@ -81,7 +85,7 @@
     $('#load-more-photos').click( function(){
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-        data: { limit:20, featured:isFeatured, mediatype:theMediaType } ,
+        data: { size:fetchSize,  limit:20, featured:isFeatured, mediatype:theMediaType } ,
         dataType: 'script'
       });
     });
