@@ -58,7 +58,7 @@
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
       if ( $('.recentlyTracked').hasClass('active') ) {
         theView = 'tracked'; 
-      } else if ( $('.recentlyTrendy').hasClass('active') ) {
+      } else if ( $('.recentlyTrendy').hasClass('active') == true ) {
         theView = 'trending';
         $('.endless-mediaset').attr('last', '0');
       } else {
