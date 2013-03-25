@@ -241,14 +241,25 @@ class MediasetsController < ApplicationController
       if params[:viewType] == 'tracked' then
         @options[:viewType] = params[:viewType]
         @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')
+      elsif params[:viewType] == 'trending' then
+        @options[:viewType] == params[:viewType]
       end
     end
 
-    upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+    if @options[:viewType] == 'trending' then
+      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1
+    else
+      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+    end
+
     if @options[:viewType] == 'normal' then 
       @next_mediasets = Mediaset.find(:all, :conditions => { 
         :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured]  }, 
         :limit => @options[:limit], :order => 'id desc' )
+    elsif @options[:viewType] == 'trending' then
+      puts 'getting trendy'
+      @next_mediasets = Mediaset.joins{ votings }.order(" votings.created_at desc").
+        limit(@options[:limit]).offset(params[:last_id]).uniq
     elsif @options[:viewType] == 'tracked' then
       @next_mediasets = Mediaset.find(:all, :conditions => { 
         :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), 

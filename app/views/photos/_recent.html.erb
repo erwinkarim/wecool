@@ -63,10 +63,13 @@
       isTracked = $('.recentlyTracked').hasClass('active') ? true : false;
 
 
+      //reset to defaults
       $('.endless-photos').attr('last', <%= Photo.last.id %>);
+      fetchSize = 'tiny';
+
+      //change for each unique tab
       if (isTracked) {
         theMediaType = 'tracked';
-        fetchSize = 'tiny';
       } else if (isFeatured == 'true'){
         theMediaType = 'featured';
         fetchSize = 'small';
@@ -75,7 +78,6 @@
         $('.endless-photos').attr('last', '0');
       }else {
         theMediaType = 'photos';  
-        fetchSize = 'tiny';
       } 
 
       $.ajax({

@@ -5,7 +5,7 @@
 <div class="row-fluid">
   <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
     <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
-    <li class="recentlyTrending"><%= link_to 'Trending', '#' %></li>
+    <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
     <li class="recentlyTracked"><%= link_to 'Tracked', '#' %></li>
     <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
   </ul>
@@ -53,10 +53,18 @@
 
       //empty out and repopulate
       $('.last-div').empty();
-      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-      theView = $('.recentlyTracked').hasClass('active') ? 'tracked' : 'normal';
-
       $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
+
+      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      if ( $('.recentlyTracked').hasClass('active') ) {
+        theView = 'tracked'; 
+      } else if ( $('.recentlyTrendy').hasClass('active') ) {
+        theView = 'trending';
+        $('.endless-mediaset').attr('last', '0');
+      } else {
+        theView = 'normal';
+      }
+
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
         data: { featured:isFeatured, viewType:theView, includeFirst:true },
