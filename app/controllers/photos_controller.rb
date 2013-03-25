@@ -331,6 +331,8 @@ class PhotosController < ApplicationController
         where( "mediaset_photos.order" => upper..upper+@options[:limit])
     elsif @options[:mediatype] == 'trending' then
       #get the photos which attracts the most votes in a given time
+      @next_photos = Photo.joins{ votings }.order("votings.created_at desc").limit(@options[:limit]).
+        offset(params[:last_id]).uniq
     elsif @options[:mediatype] == 'tracked' then
       #get the photos that the current persona tracks
       @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')

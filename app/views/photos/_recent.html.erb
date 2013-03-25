@@ -59,21 +59,25 @@
       //$('.carousel').detach();
       $('.last-div').empty(); 
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true','false'];
+      isTrendy = $('.recentlyTrendy').hasClass('active') ? true : false;
       isTracked = $('.recentlyTracked').hasClass('active') ? true : false;
 
 
+      $('.endless-photos').attr('last', <%= Photo.last.id %>);
       if (isTracked) {
         theMediaType = 'tracked';
         fetchSize = 'tiny';
       } else if (isFeatured == 'true'){
         theMediaType = 'featured';
         fetchSize = 'small';
-      } else {
+      } else if (isTrendy) {
+        theMediaType = 'trending' 
+        $('.endless-photos').attr('last', '0');
+      }else {
         theMediaType = 'photos';  
         fetchSize = 'tiny';
       } 
 
-      $('.endless-photos').attr('last', <%= Photo.last.id %>);
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
         data: { size:fetchSize, limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
