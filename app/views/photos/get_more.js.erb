@@ -5,8 +5,8 @@ var handle = $('.endless_scroll_inner_wrap');
   //load the photos
   <% @next_photos.each do |photo| %>
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
-      var carousel = jQuery('<div/>', {class:'carousel', id:'carousel_<%= photo.id %>',  
-        style:'float:left; margin: 0px 2px 2px 0px;'}).
+      var carousel = jQuery('<div/>', {class:'pull-left carousel', id:'carousel_<%= photo.id %>',  
+        style:'margin: 0px 2px 2px 0px;'}).
         append(jQuery('<div/>', {class:'carousel-inner'}));
       
       <% photo_path = '#' %>

@@ -29,11 +29,12 @@
     </div>
   </div><!-- row-fluid -->
 
-  <div class="row-fluid" id="photo-pool" >
+  <div class="" id="photo-pool" >
       <h3>...from your pool of photos</h3>
       <div class="row-fluid">
-        <select id="photo-listing-selector" name="photo-listing-selector" style="white-space:pre;">
+        <select id="photo-listing-selector" name="photo-listing-selector" style="">
           <option value="photoNotInSet" selected>Photos not in this mediaset</option>
+          <option value="photoFeatured">Featured Photos</option>
           <option value="ignore">Last Import...</option>
           <% @upload_date_list.each do |thisDate| %>
             <option value="photoOn<%= thisDate.beginning_of_day.to_s(:number) %>">  <%= '--' + thisDate.to_s %></option>
@@ -42,12 +43,12 @@
         </select>
       </div>
       <br />
-      <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" >
+      <div class="control-group endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="" >
         <div class="last-div endless_scroll_inner_wrap" style="">
         </div>
-      </div>
-      <div class="row-fluid">
-        <button type="button" id="loadMorePhotos" class="btn">Load More Photos...</button>
+        <div>
+          <button style="height:110px; width:110px;" type="button" id="loadMorePhotos" class="btn">Load More Photos...</button>
+        </div>
       </div>
   </div>
 
@@ -83,21 +84,27 @@
       if ($(this).val() == 'photoNotInSet'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false', 
+          author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false, 
           excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
-          author:'<%= @persona.screen_name %>', showCaption:'false',
+          author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
           draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', 
-          dateRange:$(this).val().split('photoOn')[1], 
+          dateRange:$(this).val().split('photoOn')[1], enableLinks:false, 
           draggable:true, dragSortConnect:'#mediaset-photo-listing'
+        }
+      } else if($(this).val() == 'photoFeatured'){
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', featured:true,  
+          author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
+          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing'
         }
       }
 
@@ -144,8 +151,12 @@
     //handle photo being dropped into the image setlist
     function addPhotoToMediaset( $item ){
       var idToLook = '#'  + $item.attr('id');
-      //handle is the photo is already in mediaset
-      //later
+
+      //revert to original position of picture is already in the mediaset
+      if( $('#mediaset-photo-listings').find(idToLook).length != 0){ 
+        $item.draggable('option', 'revert', true);
+        return;
+      }
 
       $('#mediaset-photo-listings').append(
         $('<div/>', { id:$item.attr('id'), class:'pull-left selected-img' } )

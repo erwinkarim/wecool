@@ -221,7 +221,6 @@ class MediasetsController < ApplicationController
     
     @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
 
-    puts 'viewType=' + params[:viewType]
     if params.has_key? :persona then
       @options[:persona] = params[:persona].to_i
     end
