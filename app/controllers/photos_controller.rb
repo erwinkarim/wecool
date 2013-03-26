@@ -359,6 +359,25 @@ class PhotosController < ApplicationController
     end
   end
 
+  # GET    /photos/:persona_id/get_single/:photo_id(.:format) 
+  def get_single
+    @options = {
+        #view options
+        :size => 'tiny',
+    }
+
+    if params.has_key? :size then
+      @options[:size] = params[:size]
+    end
+    @persona = Persona.find(:first, :conditions => {:screen_name => params[:persona_id]})
+    @photo_path = @persona.photos.find(params[:photo_id]).avatar.send(@options[:size])
+
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
   # POST   /photos/toggle_featured/:photo_id(.:format)
   def toggle_featured
     @photo = Photo.find(params[:photo_id])
