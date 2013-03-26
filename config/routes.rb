@@ -8,6 +8,11 @@ Wecool::Application.routes.draw do
   resources :personas do
   end
 
+  controller :personas do
+    match '/personas/:persona_id/picture' => :get_picture, :via => :get, :as => 'persona_get_profile_pic'
+    match '/personas/:persona_id/picture' => :set_picture, :via => :post, :as => 'persona_update_profile_pic'
+  end
+
   resources :mediasets, :except => [ :edit ] do
     #post 'update_photos'
   end

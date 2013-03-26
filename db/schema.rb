@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311043431) do
+ActiveRecord::Schema.define(:version => 20130326071851) do
 
   create_table "mediaset_photos", :force => true do |t|
     t.integer  "photo_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130311043431) do
     t.string   "screen_name"
     t.integer  "up_votes",               :default => 0,  :null => false
     t.integer  "down_votes",             :default => 0,  :null => false
+    t.string   "avatar"
   end
 
   add_index "personas", ["email"], :name => "index_personas_on_email", :unique => true

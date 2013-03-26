@@ -87,4 +87,12 @@ class PersonasController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # GET   /personas/:persona_id/picture
+  def get_picture
+  end
+
+  # POST   /personas/:persona_id/picture
+  def set_picture
+  end
 end
