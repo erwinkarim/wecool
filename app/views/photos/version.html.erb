@@ -1,4 +1,4 @@
-<div>
+<div class="row-fluid">
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -50,9 +50,9 @@
     </tbody>
   </table>
 </div>
-<div>
-  <%= image_tag @avatar %>
+<div class="row-fluid">
+  <%= image_tag @avatar, :style=>'max-width:none;' %>
 </div>
-<div>
+<div class="row-fluid">
   <%= link_to 'Download this version', @avatar.url %>
 </div>

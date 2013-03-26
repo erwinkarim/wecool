@@ -227,11 +227,14 @@ class PhotosController < ApplicationController
 
     #default options
     @options = {
-      :mediatype => 'photos', :size => 'tiny',
-      :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
-      :showCaption => true, :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :draggable => false,
-      :dragSortConnect => nil , :enableLinks => true
+      #fetch options
+      :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
+      :featured => [true, false], :excludeMediaset => 0,
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, 
+
+      #view options
+      :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
+      :showCaption => true, :float => true, :cssDisplay => 'inline'
     }
 
     #modify options
@@ -302,6 +305,14 @@ class PhotosController < ApplicationController
 
     if params.has_key? :enableLinks then
       @options[:enableLinks] = params[:enableLinks] == 'false' ? false : true
+    end
+
+    if params.has_key? :float then
+      @options[:float] = params[:float] == 'false' ? false : true
+    end
+
+    if params.has_key? :cssDisplay then
+      @options[:cssDisplay] = params[:cssDisplay]
     end
 
     #fetch photos

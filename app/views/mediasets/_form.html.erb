@@ -29,9 +29,9 @@
     </div>
   </div><!-- row-fluid -->
 
-  <div class="" id="photo-pool" >
+  <div class="row-fluid" id="photo-pool" >
       <h3>...from your pool of photos</h3>
-      <div class="row-fluid">
+      <div class="">
         <select id="photo-listing-selector" name="photo-listing-selector" style="">
           <option value="photoNotInSet" selected>Photos not in this mediaset</option>
           <option value="photoFeatured">Featured Photos</option>
@@ -43,12 +43,12 @@
         </select>
       </div>
       <br />
-      <div class="control-group endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="" >
-        <div class="last-div endless_scroll_inner_wrap" style="">
+      <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
+        <div class="last-div endless_scroll_inner_wrap">
         </div>
-        <div>
-          <button style="height:110px; width:110px;" type="button" id="loadMorePhotos" class="btn">Load More Photos...</button>
-        </div>
+      </div>
+      <div class="pull-right" style="white-space:normal; display:inline-block;" id="loadMorePhotos" > 
+        <button type="button" class="btn"> Load More Photos...  </button>
       </div>
   </div>
 
@@ -64,7 +64,8 @@
   var getConditions = {};
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
       author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
-      draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false
+      draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
+      float:false, cssDisplay:'inline-block'
   };
 
   $.ajax({
@@ -85,26 +86,30 @@
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false, 
-          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing'
+          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
+          float:false, cssDisplay:'inline-block'
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
-          draggable:true, dragSortConnect:'#mediaset-photo-listing'
+          draggable:true, dragSortConnect:'#mediaset-photo-listing',
+          float:false, cssDisplay:'inline-block'
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', 
           dateRange:$(this).val().split('photoOn')[1], enableLinks:false, 
-          draggable:true, dragSortConnect:'#mediaset-photo-listing'
+          draggable:true, dragSortConnect:'#mediaset-photo-listing',
+          float:false, cssDisplay:'inline-block'
         }
       } else if($(this).val() == 'photoFeatured'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', featured:true,  
           author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
-          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing'
+          excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
+          float:false, cssDisplay:'inline-block'
         }
       }
 
@@ -168,7 +173,10 @@
       $('#mediaset-photo-listings').find(idToLook).append(
         $item.attr('style', 'margin:4px; position:relative;') 
       );
-      $item.draggable('destory').sortable({ connectTo:'#mediaset-photo-listings' });
+
+      $item.sortable({ connectTo:'#mediaset-photo-listings' });
+      $item.draggable('disable');
+      //$('body').find('.ui-draggable-dragging').remove();
     }
 
     //handle photo being dropped into the imagelist
