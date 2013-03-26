@@ -1,4 +1,37 @@
+<div class="page-header row-fluid">
+  <h1>Set/update persona picture</h1>
+</div>
+<div class="row-fluid">
+  <h2>Drop your picture in the box or select from your current photos...</h2>
+  <%= render "photos/photo_selector" %>
+</div>
 
-<h1>You profile pic here</h1>
+<div class="row-fluid">
+  <h2>...then corp to select your profile</h2>
+  <div class="well" style="height:480px; width:640px;" id="drop-target">
+  </div>
+</div>
 
-<h2>You update and set your profile pictures here</h2>
+<div class="row-fluid control group">
+  <button role="button" class="btn btn-primary">Update your persona picture</button>
+  <%= link_to 'Cancel', '#', :class=>'btn' %>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    //allow box to be droppable
+    $('#drop-target').droppable({
+      accept:'img',
+      drop: function(even, ui){
+        setNewProfilePic(ui.draggable);
+      }
+    });    
+
+    //handle items being dropped
+    function setNewProfilePic($item){
+      $('#drop-target').empty();
+
+      $('#drop-target').append($item);
+    }
+  });
+</script>

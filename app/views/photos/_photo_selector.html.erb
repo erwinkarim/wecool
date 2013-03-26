@@ -1,0 +1,75 @@
+<div class="row-fluid">
+  <div class="">
+    <select id="photo-listing-selector" name="photo-listing-selector" style="">
+      <option value="photoFeatured">Featured Photos</option>
+      <option value="photoAll" >All Photos</option>
+    </select>
+  </div>
+
+  <br />
+  <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
+    <div class="last-div endless_scroll_inner_wrap">
+    </div>
+  </div>
+  <div class="pull-right" style="white-space:normal; display:inline-block;" id="loadMorePhotos" > 
+    <button type="button" class="btn"> Load More Photos...  </button>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  var getConditions = {};
+  getConditions = {limit:20, includeFirst:'true', size:'square100', 
+      author:'<%= @persona.screen_name %>', showCaption:'false', 
+      draggable:true, dragSortConnect:'#drop-target', enableLinks:false, 
+      float:false, featured:true, cssDisplay:'inline-block'
+  };
+
+  $.ajax({
+    url: '/photos/get_more/<%= Photo.last.id %>',
+    data: getConditions, 
+    dataType: 'script'
+  });
+
+  $(document).ready(function (){
+
+    //track changes on the photo selection dropdown
+    $('#photo-listing-selector').change( function() {
+      //var getConditions = {};
+      if ($(this).val() == 'photoAll'){
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', 
+          author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
+          draggable:true, dragSortConnect:'#drop-target',
+          float:false, cssDisplay:'inline-block'
+        }
+      } else if($(this).val() == 'photoFeatured'){
+        getConditions = {
+          limit:50, includeFirst:'true', size:'square100', featured:true,  
+          author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
+          draggable:true, dragSortConnect:'#drop-target',
+          float:false, cssDisplay:'inline-block'
+        }
+      }
+
+      if( $(this).val() != 'ignore' ){
+        $('.endless_scroll_inner_wrap').empty();
+        $.ajax({
+          url: '/photos/get_more/<%= Photo.last.id %>',
+          data: getConditions,
+          dataType: 'script'
+        });
+      }
+    });
+
+    //click to load more photos
+    $('#loadMorePhotos').click( function(){
+      getConditions.includeFirst = 'false';
+      $.ajax({
+        url: '/photos/get_more/' + $('#photo-list').attr('last'),
+        data: getConditions,
+        dataType: 'script'
+      });
+    });
+  });
+</script>

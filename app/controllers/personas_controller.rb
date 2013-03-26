@@ -90,6 +90,14 @@ class PersonasController < ApplicationController
 
   # GET   /personas/:persona_id/picture
   def get_picture
+    if persona_signed_in? then
+      @persona = current_persona
+
+      respond_to do |format| 
+        format.html
+      end
+    else
+    end
   end
 
   # POST   /personas/:persona_id/picture
