@@ -370,7 +370,8 @@ class PhotosController < ApplicationController
       @options[:size] = params[:size]
     end
     @persona = Persona.find(:first, :conditions => {:screen_name => params[:persona_id]})
-    @photo_path = @persona.photos.find(params[:photo_id]).avatar.send(@options[:size])
+    @photo = @persona.photos.find(params[:photo_id])
+    @photo_path = @photo.avatar.send(@options[:size])
 
     respond_to do |format|
       format.js

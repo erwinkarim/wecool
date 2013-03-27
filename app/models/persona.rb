@@ -17,7 +17,17 @@ class Persona < ActiveRecord::Base
   make_voter
 
   def tracks ( object_type, object_id) 
-    return !self.trackers.find(:all, :conditions => { :tracked_object_type => object_type, :tracked_object_id => object_id}).empty?  
+    return !self.trackers.find(:all, :conditions => 
+      { :tracked_object_type => object_type, :tracked_object_id => object_id}).empty?  
+  end
+
+  def crop ( x_coor, y_coor, h_coor, w_coor )
+    #corp the image and recreate versions
+    image = Magick::ImageList.new(avatar.current_path)
+    cropped_image = image.crop(x_coor, y_coor, h_coor, w_coor)
+    cropped_image.write(avatar.current_path)
+  
+    avatar.recreate_versions!
   end
   
 end

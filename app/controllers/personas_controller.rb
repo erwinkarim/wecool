@@ -101,6 +101,20 @@ class PersonasController < ApplicationController
   end
 
   # POST   /personas/:persona_id/picture
+  # supplies varabiles:--
+  #   x_coor, y_coor, h_coor, w_coor : dimensions 
+  #   selected_photo_path : where to load the photo
   def set_picture
+    #load new picture
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] } )
+    @persona.avatar = File.open(Rails.root.to_s + '/public' + params[:selected_photo_path])
+    @persona.save!
+
+    #crop picture
+    @persona.crop params[:x_coor].to_i, params[:y_coor].to_i, params[:h_coor].to_i, params[:w_coor].to_i
+
+    respond_to do |format|
+      format.html { redirect_to persona_path(@persona.screen_name), notice: 'Persona Picture Updated' } 
+    end
   end
 end

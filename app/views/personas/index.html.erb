@@ -7,7 +7,7 @@
     <% @personas.each do |persona| %>
       <li>
         <div class="thumbnail">
-          <%= link_to image_tag('http://placehold.it/160x120'), persona_path(persona.screen_name) %>
+          <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large), persona_path(persona.screen_name) %>
           <br />
           <%= link_to persona.screen_name,persona_path(persona.screen_name) %>
         </div>
