@@ -8,7 +8,7 @@
 
 <div class="row-fluid">
   <h2>...then corp to select your profile</h2>
-  <div class="well" style="height:480px; width:640px;" id="drop-target">
+  <div class="well" style="height:600px; width:800px;" id="drop-target">
   </div>
 </div>
 
@@ -30,8 +30,18 @@
     //handle items being dropped
     function setNewProfilePic($item){
       $('#drop-target').empty();
-
-      $('#drop-target').append($item);
+      $.ajax({
+        url: '/photos/<%= @persona.screen_name %>/get_single/' + $item.attr('id').split('_')[1],
+        data: { size:'medium' }, 
+        dataType: 'script'
+      }).always( function (data){
+        $('#drop-target').append(data.responseText);
+        //add corp function to picture
+        jQuery(function(){
+          jQuery('#drop-target img').Jcorp();
+        });
+      });
     }
+
   });
 </script>
