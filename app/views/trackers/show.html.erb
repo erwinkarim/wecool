@@ -7,7 +7,8 @@
     <% @tracking.each do |trackedObj| %>
       <li>
         <% if trackedObj.tracked_object_type == 'persona' then %>
-          <%= Persona.find(trackedObj.tracked_object_id).screen_name %>
+          <% persona = Persona.find(trackedObj.tracked_object_id) %>
+          <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
         <% end %>
       </li>
     <% end %>
@@ -19,7 +20,8 @@
     <% @tracked_by.each do |trackedObj| %>
       <li>
         <% if trackedObj.tracked_object_type == 'persona' then %>
-          <%= Persona.find(trackedObj.persona_id).screen_name %>
+          <% persona = Persona.find(trackedObj.persona_id) %>
+          <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
         <% end %>
       </li>
     <% end %>

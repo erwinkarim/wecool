@@ -1,5 +1,5 @@
 <div class="page-header row-fluid">
-  <div class="span2">
+  <div class="span3">
     <div class="dropdown pull-right" id="persona-button-group">
       <% avatar_pic = @persona.avatar.path.nil? ? 'http://placehold.it/75x75' : @persona.avatar.normal %>
       <%= link_to image_tag(avatar_pic)+ '<b class="caret"></b>'.html_safe , 
@@ -29,6 +29,6 @@
       </ul>
     </div>
   </div>
-  <h1 class="span10 pull-left"><%= @persona.screen_name %> - <%= @focus.nil? ? '' : @focus %></h1>
+  <h1 class="span9 pull-left"><%= @persona.screen_name %> - <%= @focus.nil? ? '' : @focus %></h1>
 </div>
 

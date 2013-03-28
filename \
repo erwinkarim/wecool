@@ -21,11 +21,11 @@
       <dd><%= @persona.screen_name %></dd>
     </dl>
     <div class="well well-small">
-      <h4>Followers</h4>
+      <h3>Followers</h3>
       <div>a b c d e f</div>
     </div>
-    <div class="well well-small">
-      <h4>Following</h4>
+    <div class="well">
+      <h3>Following</h3>
       <div>a b c d e f</div>
     </div>
   </div>
