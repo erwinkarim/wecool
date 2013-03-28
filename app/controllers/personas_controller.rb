@@ -19,6 +19,8 @@ class PersonasController < ApplicationController
     if @photos.empty? then 
       @photos = @persona.photos.find(:all, :order => 'id desc', :limit => 5)
     end
+    @tracking = Persona.find(:all, :conditions => { :id => @persona.trackers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)}, :limit => 30)
+    @trackers = Persona.find(Tracker.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id))
 
     respond_to do |format|
       format.html # show.html.erb

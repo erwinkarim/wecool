@@ -9,19 +9,19 @@
 <div class="row-fluid">
   <h2>...then corp to select your profile</h2>
   <div class="row-fluid">
-    <div class="well span12" style="" id="drop-target">
+    <div class="well span12" style="min-height:600px;" id="drop-target">
     </div>
   </div>
 </div>
 
-<div class="row-fluid control group">
+<div class="row-fluid">
   <%= form_tag persona_update_profile_pic_path(@persona.screen_name), :method => :post do %>
     <div>
       <%= hidden_field_tag 'selected_photo_path', '/' %>
-      x:<%= text_field_tag 'x_coor' %>
-      y:<%= text_field_tag 'y_coor' %>
-      h:<%= text_field_tag 'h_coor' %>
-      w:<%= text_field_tag 'w_coor' %>
+      <%= hidden_field_tag 'x_coor' %>
+      <%= hidden_field_tag 'y_coor' %>
+      <%= hidden_field_tag 'h_coor' %>
+      <%= hidden_field_tag 'w_coor' %>
     </div>
     <div class="form-actions">
       <button role="button" class="btn btn-primary">Update your persona picture</button>
@@ -54,6 +54,7 @@
         $( function(){
           $('.get_single_photo').Jcrop({
             aspectRatio:1, minSize:[75,75],
+            allowSelect:false,
             onChange:updateCoor, setSelect:[0,0,75,75]
           });
         });
