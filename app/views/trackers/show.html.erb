@@ -1,29 +1,24 @@
 <% @focus = 'track' %>
 <%= render "common/personaHeaderBar" %>
 
-<div>
+<div class="row-fluid">
   <h1>Tracking</h1>
-  <ul>
-    <% @tracking.each do |trackedObj| %>
-      <li>
-        <% if trackedObj.tracked_object_type == 'persona' then %>
-          <% persona = Persona.find(trackedObj.tracked_object_id) %>
-          <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
-        <% end %>
-      </li>
+  <div>
+    <% @tracking.each do |persona| %>
+      <div class="pull-left">
+        <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large, :class=> 'img-polaroid', :style=>'margin:4px;'), persona_path(persona.screen_name) %>
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>
-<div>
-  <h1>Tracked by</h1>
-  <ul>
-    <% @tracked_by.each do |trackedObj| %>
-      <li>
-        <% if trackedObj.tracked_object_type == 'persona' then %>
-          <% persona = Persona.find(trackedObj.persona_id) %>
-          <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
-        <% end %>
-      </li>
+
+<div class="row-fluid">
+  <h1>Trackers</h1>
+  <div>
+    <% @trackers.each do |persona| %>
+      <div class="pull-left">
+        <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150': persona.avatar.large, :class=>'img-polaroid', :style=>'margin:4px;'), persona_path(persona.screen_name) %>
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>

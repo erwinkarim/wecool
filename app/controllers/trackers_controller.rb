@@ -2,8 +2,11 @@ class TrackersController < ApplicationController
   # GET    /trackers/:persona_id(.:format)  
   def show
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
-    @tracking = @persona.trackers
-    @tracked_by = Tracker.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona')
+    @tracking = Persona.find(:all, 
+      :conditions => { 
+        :id => @persona.trackers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id) 
+      })
+    @trackers = Persona.find(:all, :conditions=> { :id => Tracker.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id)})
   end
 
   # POST   /trackers/track/:object_type/:object_id

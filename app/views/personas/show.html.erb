@@ -26,24 +26,28 @@
     </div>
     <div class="row-fluid">
       <h4>Trackers (<%= @trackers.count %>)</h4>
-      <div>
+      <div class="row-fluid">
         <% @trackers.each do |tracker| %>
           <%= link_to image_tag(tracker.avatar.normal.url.nil? ? 'http://placehold.it/75x75' : tracker.avatar.normal), 
             persona_path(tracker.screen_name), :title => tracker.screen_name, :class=>'pull-left', :style=> 'margin: 4px;' %> 
         <% end %>
       </div>
-      <%= link_to 'see more...', tracker_path(@persona.screen_name) %>
+      <div class="row-fluid">
+        <%= link_to 'see more...', tracker_path(@persona.screen_name) %>
+      </div>
     </div>
     <div class="row-fluid">
       <h4>Tracking (<%= @tracking.count %>)</h4>
-      <div>
+      <div class="row-fluid">
         <% @tracking.each do |tracking_p| %>
           <%= link_to image_tag(tracking_p.avatar.normal.url.nil? ? 'http://placehold.it/75x75' : tracking_p.avatar.normal), 
             persona_path(tracking_p.screen_name), :title => tracking_p.screen_name, 
             :class => 'pull-left', :style => 'margin:4px;' %>
         <% end %>
       </div>
-      <%= link_to 'see more...', tracker_path(@persona.screen_name) %>
+      <div class="row-fluid">
+        <%= link_to 'see more...', tracker_path(@persona.screen_name) %>
+      </div>
     </div>
   </div>
   <div class="span9">
