@@ -17,7 +17,7 @@
     </div>
     <div class="span9">
       <h3>...then drop & arrange your photos here...</h3>
-      <div class="well" id="mediaset-photo-listings" style="overflow:hidden" >
+      <div class="well" id="mediaset-photo-listings" style="overflow:hidden; min-height:240px;" >
         <% @mediaset_photos.each do |photo| %>
           <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
             <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
