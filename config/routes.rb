@@ -11,6 +11,7 @@ Wecool::Application.routes.draw do
   controller :personas do
     match '/personas/:persona_id/picture' => :get_picture, :via => :get, :as => 'persona_get_profile_pic'
     match '/personas/:persona_id/picture' => :set_picture, :via => :post, :as => 'persona_update_profile_pic'
+    match '/personas/get_more/:last_id' => :get_more, :via => :get, :as => 'persona_get_more'
   end
 
   resources :mediasets, :except => [ :edit ] do

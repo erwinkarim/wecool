@@ -25,7 +25,7 @@
       </dl>
     </div>
     <div class="row-fluid">
-      <h4>Trackers (<%= @trackers.count %>)</h4>
+      <h4>Trackers (<%= Tracker.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').count %>)</h4>
       <div class="row-fluid">
         <% @trackers.each do |tracker| %>
           <div class="pull-left" style="margin:4px 2px;">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="row-fluid">
-      <h4>Tracking (<%= @tracking.count %>)</h4>
+      <h4>Tracking (<%= @persona.trackers.count %>)</h4>
       <div class="row-fluid">
         <% @tracking.each do |tracking_p| %>
           <div class="pull-left" style="margin:4px 2px;">

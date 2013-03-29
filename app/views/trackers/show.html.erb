@@ -5,8 +5,14 @@
   <h1>Tracking</h1>
   <div>
     <% @tracking.each do |persona| %>
-      <div class="pull-left">
-        <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large, :class=> 'img-polaroid', :style=>'margin:4px;'), persona_path(persona.screen_name) %>
+      <div class="carousel img-polaroid pull-left" style="margin:4px;">
+        <div class="carousel-inner">
+          <div class="carousel-caption"> 
+            <%= link_to persona.screen_name , persona_path(persona.screen_name), :class => 'row-fluid' %>
+          </div>
+          <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large, 
+            :class=> '', :style=>''), persona_path(persona.screen_name) %>
+        </div>
       </div>
     <% end %>
   </div>
@@ -16,9 +22,26 @@
   <h1>Trackers</h1>
   <div>
     <% @trackers.each do |persona| %>
-      <div class="pull-left">
-        <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150': persona.avatar.large, :class=>'img-polaroid', :style=>'margin:4px;'), persona_path(persona.screen_name) %>
+      <div class="carousel img-polaroid pull-left" style="margin:4px;">
+        <div class="carousel-inner">
+          <div class="carousel-caption">
+            <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
+          </div>
+          <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150': persona.avatar.large), persona_path(persona.screen_name) %>
+        </div>
       </div>
     <% end %>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready( function(){
+    $('.carousel-caption').hide();
+    
+    $('.carousel').hover( function(){
+      $(this).find('.carousel-caption').show();
+    }, function(){
+      $(this).find('.carousel-caption').hide();
+    });
+    
+  });
+</script>

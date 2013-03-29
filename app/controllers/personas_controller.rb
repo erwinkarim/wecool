@@ -119,4 +119,27 @@ class PersonasController < ApplicationController
       format.html { redirect_to persona_path(@persona.screen_name), notice: 'Persona Picture Updated' } 
     end
   end
+
+  # GET    /personas/get_more/:last_id
+  # get more persona listings, in desending order with upper bound is last_id
+  # options:-
+  #     fetch_mode => normal, trackers or tracking
+  #       normal: get normal listing
+  #       trackers: get the trackers of Persona(fetch_focus_id)
+  #       tracking: get persona that Persona(fetch_focus_id) is tracking
+  def get_more
+    @options = {
+      :includeFirst => false, :limit => 10, :fetch_mode => 'normal', :fetch_focus_id => 0  
+    }
+
+    if params.has_key? :includeFirst then
+      @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
+    end
+
+    upper = @options[:includeFirst] ? 0..params[:last_id].to_i : 0..(params[:last_id].to_i - 1)
+
+    if @options[:fetch_mode] == 'normal' then
+      @next_personas = Persona.where( :id => upper).order('id desc').limit(@options[:limit])
+    end
+  end
 end
