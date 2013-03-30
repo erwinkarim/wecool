@@ -2,16 +2,51 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
-<div>
-  <ul class="thumbnails">
-    <% @personas.each do |persona| %>
-      <li>
-        <div class="thumbnail">
-          <%= link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large), persona_path(persona.screen_name) %>
-          <br />
-          <%= link_to persona.screen_name,persona_path(persona.screen_name) %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+
+<div class="row-fluid endless-persona">
+  <div class="last-div endless_scroll_inner_wrap" last="<%= Persona.last.id %>" ></div>
 </div>
+
+<div class="row-fluid">
+  <a name="last-frame"></a>
+  <%= link_to 'Load More Personas', '#last-frame', :class=>'btn btn-primary', :id=>'load-more-personas' %>
+</div>
+<script type="text/javascript">
+  
+  //get the first few personas
+  $.ajax({
+    url: '/personas/get_more/<%= Persona.last.id %>',
+    data: { includeFirst:true },
+    dataType: 'script'
+  });
+
+  //keep loading personas until the end
+  $(document).endlessScroll({
+    fireOnce: true,
+    fireDelay: 500, 
+    bottomPixels: 250, 
+    intervalFrequency: 100, 
+    ceaseFireOnEmpty: false, 
+    ceaseFire: function(){
+      return $('.last-div').length ? false : true;
+    }, 
+    loader: '<div class="pull-left">loading...</div>', 
+    callback: function(){
+        $.ajax({
+          url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
+          data: { includeFirst:false },
+          dataType: 'script'
+        });
+    }, 
+  });
+
+  $(document).ready( function(){
+    $('#load-more-personas').click( function(){
+      $.ajax({
+        url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
+        data: { includeFirst:false },
+        dataType: 'script'
+      });
+    });
+  });
+</script>

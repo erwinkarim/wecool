@@ -1,0 +1,11 @@
+
+<% @next_personas.each do |persona| %>
+  <div class="carousel pull-left img-polaroid" style="margin:2px;">
+    <div class="carousel-inner">
+      <%=  link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150' : persona.avatar.large), persona_path(persona.screen_name) %>
+      <div class="carousel-caption">
+        <%= link_to persona.screen_name, persona_path(persona.screen_name) %>
+      </div>
+    </div>
+  </div>
+<% end %>
