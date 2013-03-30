@@ -1,5 +1,5 @@
-
-var handle = $('.endless_scroll_inner_wrap');
+//need to handle when @next_personas is nil
+var handle = $('<%= @options[:handle] %>');
 
 <% @next_personas.each do |persona| %>
   var frame = $('<div/>', { class:'carousel pull-left img-polaroid', style:'margin:2px;'} );

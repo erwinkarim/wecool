@@ -2,8 +2,6 @@ class PersonasController < ApplicationController
   # GET /personas
   # GET /personas.json
   def index
-    @personas = Persona.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @personas }
@@ -129,17 +127,45 @@ class PersonasController < ApplicationController
   #       tracking: get persona that Persona(fetch_focus_id) is tracking
   def get_more
     @options = {
-      :includeFirst => false, :limit => 10, :fetch_mode => 'normal', :fetch_focus_id => 0  
+      :includeFirst => false, :limit => 10, :fetch_mode => 'normal', :fetch_focus_id => 0,
+      :handle => ".endless_scroll_inner_wrap"  
     }
 
     if params.has_key? :includeFirst then
       @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false 
     end
 
+    if params.has_key? :fetch_mode then
+      if params[:fetch_mode] == 'tracking' then
+        @options[:fetch_mode] = 'tracking'
+      elsif params[:fetch_mode] == 'trackers' then
+        @options[:fetch_mode] = 'trackers'
+      end
+    end
+
+    if params.has_key? :fetch_focus_id then
+      @options[:fetch_focus_id] = params[:fetch_focus_id].to_i
+    end
+
+    if params.has_key? :handle then
+      @options[:handle] = params[:handle]
+    end
+
     upper = @options[:includeFirst] ? 0..params[:last_id].to_i : 0..(params[:last_id].to_i - 1)
 
     if @options[:fetch_mode] == 'normal' then
       @next_personas = Persona.where( :id => upper).order('id desc').limit(@options[:limit])
+    elsif @options[:fetch_mode] == 'tracking' then
+      persona = Persona.find(@options[:fetch_focus_id])
+      @next_personas = Persona.where(
+          :id => persona.trackers.where(:tracked_object_type => 'persona', 
+          :tracked_object_id => upper ).pluck(:tracked_object_id) 
+        ).order('id desc').limit(@options[:limit])
+    elsif @options[:fetch_mode] == 'trackers' then
+      persona = Persona.find(@options[:fetch_focus_id])
+      @next_personas = Persona.where(:id => Tracker.where(
+        :tracked_object_id => persona.id, :tracked_object_type => 'persona').pluck(:persona_id)
+      ).order('id desc').group(:id).having(:id => upper)
     end
   end
 end
