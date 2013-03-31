@@ -67,6 +67,8 @@
                     <li><%= link_to 'My Trackers', tracker_path(current_persona.screen_name) %></li>
                   </ul>
                 <li><%= link_to '<i class="icon-arrow-up"></i> Upload'.html_safe, new_photo_path  %></li>
+              <% else %>
+                <li><%= link_to 'The Tour', tour_path %></li>
               <% end %>
             </ul>
             <ul class="nav pull-right">

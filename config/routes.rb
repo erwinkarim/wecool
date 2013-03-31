@@ -1,8 +1,9 @@
 Wecool::Application.routes.draw do
 
-  get "trackers/track"
+  #get "static_page/tour"
 
-  get "trackers/untrack"
+  #get "trackers/track"
+  #get "trackers/untrack"
 
   devise_for :personas
   resources :personas do
@@ -56,7 +57,8 @@ Wecool::Application.routes.draw do
     match '/trackers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'tracker_untrack'
     match '/trackers/:persona_id' => :show, :via => :get, :as => 'tracker'
   end
-
+  
+  match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
