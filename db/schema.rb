@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326071851) do
+ActiveRecord::Schema.define(:version => 20130401032340) do
+
+  create_table "followers", :force => true do |t|
+    t.integer  "persona_id"
+    t.string   "tracked_object_type"
+    t.integer  "tracked_object_id"
+    t.string   "relationship"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "followers", ["persona_id"], :name => "index_trackers_on_persona_id"
 
   create_table "mediaset_photos", :force => true do |t|
     t.integer  "photo_id"
@@ -64,26 +75,15 @@ ActiveRecord::Schema.define(:version => 20130326071851) do
     t.string   "title"
     t.text     "description"
     t.integer  "persona_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "avatar"
-    t.boolean  "featured"
-    t.integer  "up_votes",    :default => 0, :null => false
-    t.integer  "down_votes",  :default => 0, :null => false
+    t.boolean  "featured",    :default => false, :null => false
+    t.integer  "up_votes",    :default => 0,     :null => false
+    t.integer  "down_votes",  :default => 0,     :null => false
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"
-
-  create_table "trackers", :force => true do |t|
-    t.integer  "persona_id"
-    t.string   "tracked_object_type"
-    t.integer  "tracked_object_id"
-    t.string   "relationship"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-  end
-
-  add_index "trackers", ["persona_id"], :name => "index_trackers_on_persona_id"
 
   create_table "votings", :force => true do |t|
     t.string   "voteable_type"

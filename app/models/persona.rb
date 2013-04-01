@@ -13,11 +13,11 @@ class Persona < ActiveRecord::Base
     :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }
   has_many :photos,:dependent=> :destroy
   has_many :mediasets, :dependent => :destroy
-  has_many :trackers, :dependent => :destroy
+  has_many :followers, :dependent => :destroy
   make_voter
 
   def tracks ( object_type, object_id) 
-    return !self.trackers.find(:all, :conditions => 
+    return !self.followers.find(:all, :conditions => 
       { :tracked_object_type => object_type, :tracked_object_id => object_id}).empty?  
   end
 

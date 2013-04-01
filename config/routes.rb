@@ -52,10 +52,10 @@ Wecool::Application.routes.draw do
     match '/photos/unvote/:photo_id/by/:persona_id' => :unvote, :via => :post, :as => 'photo_unvote'
   end
 
-  controller :trackers do
-    match '/trackers/track/:object_type/:object_id' => :track, :via => :post, :as => 'tracker_track'
-    match '/trackers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'tracker_untrack'
-    match '/trackers/:persona_id' => :show, :via => :get, :as => 'tracker'
+  controller :followers do
+    match '/followers/track/:object_type/:object_id' => :track, :via => :post, :as => 'follower_track'
+    match '/followers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'follower_untrack'
+    match '/followers/:persona_id' => :show, :via => :get, :as => 'follower'
   end
   
   match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'

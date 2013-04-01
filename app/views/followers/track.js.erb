@@ -1,0 +1,2 @@
+$('.trackBox').empty();
+$('.trackBox').append('<%= escape_javascript( link_to "Following "+@followed_persona.screen_name +  " - Unfollow", follower_untrack_path("persona", @followed_persona), :remote=> true, :method=>:post) %>');

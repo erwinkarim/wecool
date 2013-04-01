@@ -240,7 +240,7 @@ class MediasetsController < ApplicationController
     if params.has_key? :viewType then
       if params[:viewType] == 'tracked' then
         @options[:viewType] = params[:viewType]
-        @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')
+        @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
       elsif params[:viewType] == 'trending' then
         @options[:viewType] = params[:viewType]
       end

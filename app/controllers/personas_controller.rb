@@ -17,8 +17,8 @@ class PersonasController < ApplicationController
     if @photos.empty? then 
       @photos = @persona.photos.find(:all, :order => 'id desc', :limit => 5)
     end
-    @tracking = Persona.find(:all, :conditions => { :id => @persona.trackers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)}, :limit => 30)
-    @trackers = Persona.find(Tracker.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id))
+    @following = Persona.find(:all, :conditions => { :id => @persona.followers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)}, :limit => 30)
+    @followers = Persona.find(Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -121,10 +121,10 @@ class PersonasController < ApplicationController
   # GET    /personas/get_more/:last_id
   # get more persona listings, in desending order with upper bound is last_id
   # options:-
-  #     fetch_mode => normal, trackers or tracking
+  #     fetch_mode => normal, follower or following
   #       normal: get normal listing
-  #       trackers: get the trackers of Persona(fetch_focus_id)
-  #       tracking: get persona that Persona(fetch_focus_id) is tracking
+  #       followers: get the followers of Persona(fetch_focus_id)
+  #       following: get persona that Persona(fetch_focus_id) is following
   def get_more
     @options = {
       :includeFirst => false, :limit => 10, :fetch_mode => 'normal', :fetch_focus_id => 0,
@@ -136,10 +136,10 @@ class PersonasController < ApplicationController
     end
 
     if params.has_key? :fetch_mode then
-      if params[:fetch_mode] == 'tracking' then
-        @options[:fetch_mode] = 'tracking'
-      elsif params[:fetch_mode] == 'trackers' then
-        @options[:fetch_mode] = 'trackers'
+      if params[:fetch_mode] == 'following' then
+        @options[:fetch_mode] = 'following'
+      elsif params[:fetch_mode] == 'followers' then
+        @options[:fetch_mode] = 'followers'
       end
     end
 
@@ -155,15 +155,15 @@ class PersonasController < ApplicationController
 
     if @options[:fetch_mode] == 'normal' then
       @next_personas = Persona.where( :id => upper).order('id desc').limit(@options[:limit])
-    elsif @options[:fetch_mode] == 'tracking' then
+    elsif @options[:fetch_mode] == 'following' then
       persona = Persona.find(@options[:fetch_focus_id])
       @next_personas = Persona.where(
-          :id => persona.trackers.where(:tracked_object_type => 'persona', 
+          :id => persona.followers.where(:tracked_object_type => 'persona', 
           :tracked_object_id => upper ).pluck(:tracked_object_id) 
         ).order('id desc').limit(@options[:limit])
-    elsif @options[:fetch_mode] == 'trackers' then
+    elsif @options[:fetch_mode] == 'followers' then
       persona = Persona.find(@options[:fetch_focus_id])
-      @next_personas = Persona.where(:id => Tracker.where(
+      @next_personas = Persona.where(:id => Follower.where(
         :tracked_object_id => persona.id, :tracked_object_type => 'persona').pluck(:persona_id)
       ).order('id desc').group(:id).having(:id => upper)
     end

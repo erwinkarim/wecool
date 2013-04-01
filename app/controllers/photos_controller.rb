@@ -346,7 +346,7 @@ class PhotosController < ApplicationController
         offset(params[:last_id]).uniq
     elsif @options[:mediatype] == 'tracked' then
       #get the photos that the current persona tracks
-      @tracked_persona = current_persona.trackers.where(:tracked_object_type => 'persona')
+      @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
         { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id)} , 
         :order => 'id desc', :limit => @options[:limit])
