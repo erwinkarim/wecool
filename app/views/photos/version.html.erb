@@ -14,36 +14,36 @@
       <tr>
         <td>
           <ul>
-            <li><%= link_to 'Square50', photo_version_path(@photo.id, :size => 'square50') %></li>
-            <li><%= link_to 'Square100', photo_version_path(@photo.id, :size => 'square100') %></li>
-            <li><%= link_to 'Square200', photo_version_path(@photo.id, :size => 'square200') %></li>
+            <li><%= link_to 'Square50', photo_version_path(@persona.screen_name, @photo.id, :size => 'square50') %></li>
+            <li><%= link_to 'Square100', photo_version_path(@persona.screen_name, @photo.id, :size => 'square100') %></li>
+            <li><%= link_to 'Square200', photo_version_path(@persona.screen_name, @photo.id, :size => 'square200') %></li>
           </ul>
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Thumb50', photo_version_path(@photo.id, :size => 'thumb50') %></li>
-            <li><%= link_to 'Thumb100', photo_version_path(@photo.id, :size => 'thumb100') %></li>
+            <li><%= link_to 'Thumb50', photo_version_path(@persona.screen_name, @photo.id, :size => 'thumb50') %></li>
+            <li><%= link_to 'Thumb100', photo_version_path(@persona.screen_name, @photo.id, :size => 'thumb100') %></li>
           </ul>
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Tiny', photo_version_path(@photo.id, :size => 'tiny') %></li>
-            <li><%= link_to 'Small', photo_version_path(@photo.id, :size => 'small') %></li>
+            <li><%= link_to 'Tiny', photo_version_path(@persona.screen_name, @photo.id, :size => 'tiny') %></li>
+            <li><%= link_to 'Small', photo_version_path(@persona.screen_name, @photo.id, :size => 'small') %></li>
           </ul>
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Medium', photo_version_path(@photo.id, :size => 'medium') %></li>
+            <li><%= link_to 'Medium', photo_version_path(@persona.screen_name, @photo.id, :size => 'medium') %></li>
           </ul>
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Large', photo_version_path(@photo.id, :size => 'large') %></li>
+            <li><%= link_to 'Large', photo_version_path(@persona.screen_name, @photo.id, :size => 'large') %></li>
           </ul>
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Original', photo_version_path(@photo.id, :size => 'original') %></li>
+            <li><%= link_to 'Original', photo_version_path(@persona.screen_name, @photo.id, :size => 'original') %></li>
           </ul>
         </td>
       </tr>
@@ -54,5 +54,5 @@
   <%= image_tag @avatar, :style=>'max-width:none;' %>
 </div>
 <div class="row-fluid">
-  <%= link_to 'Download this version', @avatar.url %>
+  <%= link_to 'Download this version', photo_download_path(@persona.screen_name, @photo, :size => params[:size]), :method => :post %>
 </div>

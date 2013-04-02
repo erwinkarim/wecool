@@ -50,6 +50,7 @@ Wecool::Application.routes.draw do
     match '/photos/toggle_featured/:photo_id' => :toggle_featured, :via => :post, :as => 'photo_toggle_featured'
     match '/photos/vote/:photo_id/:vote_mode/by/:persona_id' => :vote, :via => :post, :as => 'photo_vote'
     match '/photos/unvote/:photo_id/by/:persona_id' => :unvote, :via => :post, :as => 'photo_unvote'
+    match '/photos/:persona_id/download/:id' => :download, :via => :post, :as => 'photo_download'
   end
 
   controller :followers do

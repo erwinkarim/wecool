@@ -113,7 +113,8 @@ class PhotosController < ApplicationController
  
   # VERB /photos/:persona_id/versions/:photo_id  
   def version
-    @photo = Photo.find(params[:photo_id])
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
+    @photo = @persona.photos.find(params[:photo_id])
 
     @avatar = nil
     if params.has_key? :size then
@@ -442,5 +443,29 @@ class PhotosController < ApplicationController
       format.html
       format.js
     end
+  end
+
+  # POST   /photos/:persona_id/download/:id(
+  # download pictures 
+  def download
+    @photo = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] }).photos.find(params[:id])
+    if @photo.nil? then
+      respond_to do |format|
+        format.html { redirect_to :back, :notice => 'photo not found' }
+      end
+    else
+      if params.has_key? :size then
+        if params[:size] == 'original' then
+          @avatar = @photo.avatar
+        else
+          @avatar = @photo.avatar.versions[params[:size].to_sym]
+        end
+      else
+        @avatar = @photo.avatar.xlarge
+      end
+    
+      send_file @avatar.path
+    end
+    
   end
 end
