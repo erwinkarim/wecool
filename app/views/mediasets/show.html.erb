@@ -32,12 +32,14 @@
   </div>
 <% end %>
 <script type="text/javascript">
-  isFeatured = true
-  $.ajax({
-    url: '/mediasets/get_more/<%= Mediaset.last.id %>',
-    data: {includeFirst:true, persona:'<%= @persona.id %>', featured:true }, 
-    dataType: 'script'
-  });
+  <% if !@mediasets.empty? then %>
+    isFeatured = true
+    $.ajax({
+      url: '/mediasets/get_more/<%= Mediaset.last.id %>',
+      data: {includeFirst:true, persona:'<%= @persona.id %>', featured:true }, 
+      dataType: 'script'
+    });
+  <% end %>
 
   //endless scrolls of mediasets, hua hahahahahh
   $(document).endlessScroll({
@@ -71,7 +73,9 @@
       //empty out and repopulate
       $('.last-div').empty();
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-      $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
+      <% if !@mediasets.empty? then %>
+        $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
+      <% end %>
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last'),
         data: { persona:'<%= @persona.id %>', featured:isFeatured, includeFirst:true }, 

@@ -59,15 +59,12 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.save
-        #format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
-        #format.html { redirect_to photo_view_path(current_persona, @photo.id) , notice: 'Photo was successfully created.' }
-        #format.json { render json: @photo, status: :created, location: @photo }
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
           :content_type => 'text/html',
           :layout => false
         }
-        format.json { render json: [@photo.to_jq_upload].to_json }
+        format.json { render json: [@photo.to_jq_upload].to_json, status: :created, location: @photo }
       else
         format.html { render action: "new" }
         format.json { render json: @photo.errors, status: :unprocessable_entity }

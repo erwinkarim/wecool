@@ -3,6 +3,9 @@ class MediasetsController < ApplicationController
   # GET /mediasets.json
   def index
     @mediasets = Mediaset.find(:all, :limit =>10, :order => 'id desc')
+    if @mediasets.nil? then
+      @mediasets = Mediaset.new
+    end
 
     respond_to do |format|
       format.html # index.html.erb

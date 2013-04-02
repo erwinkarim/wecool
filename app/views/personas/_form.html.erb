@@ -17,6 +17,20 @@
       <%= f.text_field :screen_name, :class => 'text_field' %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label :password, :class => 'control-label' %>
+    <div class="controls">
+      <%= link_to 'Change Your Password', edit_persona_registration_path, :class=>'btn' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :picture, :class => 'control-label' %>
+    <div class="controls">
+      <%= image_tag @persona.avatar.normal, :class=>'img-polaroid' %>
+      <%= link_to 'Change Your Picture', persona_get_profile_pic_path(@persona.screen_name), :class=>'btn' %>
+    </div>
+  </div>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>

@@ -16,4 +16,8 @@
   </div><!-- header -->
 <% end %>
 <h2>Recently on ...</h2>
-<%= render "photos/recent" %>
+<% if @photos.empty? then %>
+  <h2>No photos yet...</h2>
+<% else %>
+  <%= render "photos/recent" %>
+<% end %>
