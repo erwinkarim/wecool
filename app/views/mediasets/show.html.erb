@@ -17,8 +17,14 @@
   </div>
 </div>
 
-<% if !@default_photos.empty? && @mediasets.empty? then %>
-  <div>Nothing to see here</div>
+<% if @persona.mediasets.empty? then %>
+  <div class="well">
+    <% if @persona.photos.empty? then %>
+      <%= link_to 'Upload', new_photo_path %> some new photos to create a mediaset
+    <% else %>
+      <%= link_to 'Create', new_mediaset_path %> some new mediaset to help organize and showcase your photos
+    <% end %>
+  </div>
 <% else %>
   <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
     <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
@@ -32,7 +38,7 @@
   </div>
 <% end %>
 <script type="text/javascript">
-  <% if !@mediasets.empty? then %>
+  <% if !@persona.mediasets.empty? then %>
     isFeatured = true
     $.ajax({
       url: '/mediasets/get_more/<%= Mediaset.last.id %>',
@@ -73,7 +79,7 @@
       //empty out and repopulate
       $('.last-div').empty();
       isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-      <% if !@mediasets.empty? then %>
+      <% if !@persona.mediasets.empty? then %>
         $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
       <% end %>
       $.ajax({

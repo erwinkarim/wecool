@@ -19,8 +19,8 @@ class MediasetsController < ApplicationController
   def show
     #@mediaset = Mediaset.find(params[:id])
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:id] }).first
-    @default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 10)
-    @mediasets = @persona.mediasets.find(:all, :order => 'id desc')
+    #@default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 10)
+    #@mediasets = @persona.mediasets.find(:all, :order => 'id desc')
 
     respond_to do |format|
       format.html # show.html.erb

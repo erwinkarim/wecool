@@ -30,7 +30,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @photo }
+      format.json { render json: @persona.photos }
     end
   end
 
@@ -64,7 +64,9 @@ class PhotosController < ApplicationController
           :content_type => 'text/html',
           :layout => false
         }
-        format.json { render json: [@photo.to_jq_upload].to_json, status: :created, location: @photo }
+        format.json {
+          render :json => @photo.to_jq_upload.to_json, status: :created, location: @photo
+        }
       else
         format.html { render action: "new" }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
@@ -167,7 +169,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html # view.html.erb
-      format.json { render json: @photo }
+      format.json { render json: @photo.to_jq_upload.to_json, status: :created, location: @photo }
     end
   end
 
