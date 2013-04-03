@@ -1,4 +1,16 @@
 class PhotosController < ApplicationController
+  before_filter :check_if_allowed_to_view, :only => [:view]
+
+  def check_if_allowed_to_view
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
+    @photo = @persona.photos.find(params[:id])
+    if !@photo.visible && current_persona != @persona then
+      respond_to do |format|
+        format.html { render :text => 'Photo is not viewable by you', :layout => true }
+      end
+    end
+  end
+
   # GET /photos
   # GET /photos.json
   def index
@@ -136,6 +148,7 @@ class PhotosController < ApplicationController
   def view
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @photo = @persona.photos.find(params[:id])
+
     @total_votes = @photo.up_votes + @photo.down_votes
     @mediasets = @persona.mediasets
 

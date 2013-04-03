@@ -97,13 +97,14 @@
                 <div class="pull-left">
                   <h4>
                     <div id="visibilityBox" style="margin-right:1em;">
+                      <a name="visibilityAnchor"></a>
                       <% if current_persona == @persona then %>
                         <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
                           '"></i>').html_safe %>
                         <% if @photo.featured then %>
-                          <%= link_to visibilityIcon, '#', :'data-toggle'=> 'popover', :'data-placement' => 'top', 
-                            :'data-content' => 'Featured photos is always visible', :'data-original-title' => 
-                            'Notice' %>
+                          <%= link_to visibilityIcon, '#visibilityAnchor', :'data-toggle'=> 'popover', 
+                            :'data-placement' => 'top', :'data-content' => 'Featured photos is always visible', 
+                            :'data-original-title' => 'Notice' %>
                         <% else %>
                           <%= link_to visibilityIcon, photo_toggle_visibility_path(@persona.screen_name, @photo), 
                             :remote => true, :method => :post
