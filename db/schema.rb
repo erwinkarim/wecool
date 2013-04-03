@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402072738) do
+ActiveRecord::Schema.define(:version => 20130403042217) do
 
   create_table "followers", :force => true do |t|
     t.integer  "persona_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20130402072738) do
     t.boolean  "featured",    :default => false, :null => false
     t.integer  "up_votes",    :default => 0,     :null => false
     t.integer  "down_votes",  :default => 0,     :null => false
+    t.boolean  "visible",     :default => true,  :null => false
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"

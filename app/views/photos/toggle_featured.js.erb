@@ -1,2 +1,37 @@
 $('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('icon-star');
 $('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('icon-star-empty');
+
+var visibilityHandle = $('#visibilityBox');
+
+//ensure that the photo is visible
+if ( $('#visibilityBox').find('i').hasClass('icon-eye-close') ) {
+  $('#visibilityBox').find('i').toggleClass('icon-eye-close');
+  $('#visibilityBox').find('i').toggleClass('icon-eye-open');
+}
+
+//se
+if ( $('#carousel_<%= @photo.id %>').find('.isFeatured').hasClass('icon-star-empty') ) {
+  //rebuilt the icon list
+  visibilityHandle.find('a').removeAttr('data-toggle');  
+  visibilityHandle.find('a').removeAttr('data-placement');  
+  visibilityHandle.find('a').removeAttr('data-content');  
+  visibilityHandle.find('a').removeAttr('data-original-title');  
+
+  visibilityHandle.find('a').attr('data-method','post'); 
+  visibilityHandle.find('a').attr('data-remote','true'); 
+  visibilityHandle.find('a').attr('rel','nofollow'); 
+  visibilityHandle.find('a').attr('href','<%= photo_toggle_visibility_path( @persona.screen_name, @photo)  %>'); 
+  visibilityHandle.find('a').popover('destroy');
+}
+else {
+  visibilityHandle.find('a').removeAttr('data-method');
+  visibilityHandle.find('a').removeAttr('data-remote');
+  visibilityHandle.find('a').removeAttr('rel');
+  visibilityHandle.find('a').attr('href' , '#');
+  visibilityHandle.find('a').attr('data-toggle' , 'popover');
+  visibilityHandle.find('a').attr('data-placement' , 'top');
+  visibilityHandle.find('a').attr('data-content' , 'Featured photos is always visible');
+  visibilityHandle.find('a').attr('data-original-title' , 'Notice');
+  visibilityHandle.find('a').popover();
+
+}

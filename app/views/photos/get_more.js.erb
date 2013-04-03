@@ -40,7 +40,7 @@ var handle = $('.endless_scroll_inner_wrap');
     caption.append(jQuery('<div/>', {class:'caption-vote pull-right'}))
     <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
       caption.find('.caption-vote').append(jQuery('<a/>', 
-        {href:'<%= photo_toggle_featured_path(photo) %>', 'data-remote':'true', 
+        {href:'<%= photo_toggle_featured_path(current_persona.screen_name, photo) %>', 'data-remote':'true', 
           'data-method':'post'}).append(jQuery('<i/> ', 
           {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
       caption.find('.caption-vote').find('a').append(' ');

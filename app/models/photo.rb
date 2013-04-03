@@ -2,7 +2,7 @@ require 'carrierwave/orm/activerecord'
 class Photo < ActiveRecord::Base
   make_voteable
   belongs_to :persona
-  attr_accessible :description, :title, :avatar, :featured
+  attr_accessible :description, :title, :avatar, :featured, :visible
   mount_uploader :avatar,AvatarUploader
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos

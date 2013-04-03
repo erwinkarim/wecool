@@ -17,7 +17,9 @@
                   <li class="divider"></li>
                   <li><%= link_to 'Delete this photo', photo_path(@photo), 
                     :method => 'delete', 
-                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
+                    :data => { :confirm => t('.confirm', 
+                      :default => t("helpers.links.confirm", :default => 'Are you sure?'))
+                    }
                     %></li>
                 <% end %>
               </ul>
@@ -45,7 +47,8 @@
       <!-- picture description -->
       <div class="carousel-inner">
         <div class="active item">
-          <%= image_tag @photo.avatar.xlarge, :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
+          <%= image_tag @photo.avatar.xlarge, 
+            :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
           <div class="carousel-caption row-fluid">
             <div class="span7" id="photo-title-and-desc">
               <h4 id="photo-title"><%= @photo.title %>
@@ -61,7 +64,9 @@
                 <% end %>
               <% end %>
               <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
-                <%= simple_format(@photo.description.nil? ? 'No Description' : @photo.description, :style=>'padding-bottom:1em;' ) %>
+                <%= simple_format(
+                  @photo.description.nil? ? 'No Description' : @photo.description, :style=>'padding-bottom:1em;' 
+                ) %>
               </div>
               <% if persona_signed_in? && current_persona.id == @persona.id then %>
                 <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
@@ -73,36 +78,55 @@
               <% end %>
             </div><!-- photo title and description-->
             <div class="span4">
-                  <div class="progress">
-                  <!-- the voting & featured stuff -->
-                  <% total_votes = @photo.up_votes + @photo.down_votes %>
-                    <% if total_votes == 0 then %>
-                      <div class="bar bar-info" style="width:100%;"></div>
-                    <% else %>
-                      <div class="bar bar-success" style="width:<%= @photo.up_votes.to_f/total_votes * 100 %>%;">
-                      </div>
-                      <div class="bar bar-danger" style="width:<%= @photo.down_votes.to_f/total_votes * 100 %>%;">
-                      </div>
-                    <% end %>
+              <div class="progress">
+                <!-- the voting & featured stuff -->
+                <% total_votes = @photo.up_votes + @photo.down_votes %>
+                <% if total_votes == 0 then %>
+                  <div class="bar bar-info" style="width:100%;"></div>
+                <% else %>
+                  <div class="bar bar-success" style="width:<%= @photo.up_votes.to_f/total_votes * 100 %>%;">
                   </div>
+                  <div class="bar bar-danger" style="width:<%= @photo.down_votes.to_f/total_votes * 100 %>%;">
+                  </div>
+                <% end %>
+              </div><!-- progress -->
+              <div class="pull-left">
+                <h4><div id="totalVoteBox"><%= pluralize total_votes, 'vote' %></div></h4>
+              </div>
+              <div id="ToVoteAndFeatureBox" class="pull-right">
                 <div class="pull-left">
-                  <h4><div id="totalVoteBox"><%= pluralize total_votes, 'vote' %></div></h4>
-                </div>
-                <div id="ToVoteAndFeatureBox" class="pull-right">
-                  <div>
-                    <h4>
-                      <div id="featuredBox">
-                        <% if current_persona == @persona then %>
-                          <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
-                          <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
-                            photo_toggle_featured_path(@photo), :remote=>true, :method=>:post
-                           %>
+                  <h4>
+                    <div id="visibilityBox" style="margin-right:1em;">
+                      <% if current_persona == @persona then %>
+                        <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
+                          '"></i>').html_safe %>
+                        <% if @photo.featured then %>
+                          <%= link_to visibilityIcon, '#', :'data-toggle'=> 'popover', :'data-placement' => 'top', 
+                            :'data-content' => 'Featured photos is always visible', :'data-original-title' => 
+                            'Notice' %>
+                        <% else %>
+                          <%= link_to visibilityIcon, photo_toggle_visibility_path(@persona.screen_name, @photo), 
+                            :remote => true, :method => :post
+                          %>
                         <% end %>
-                      </div>
-                    </h4>
-                  </div>
-                  <div>
-                    <h4>
+                      <% end %>
+                    </div>
+                  </h4>
+                </div>
+                <div>
+                  <h4>
+                    <div id="featuredBox">
+                      <% if current_persona == @persona then %>
+                        <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
+                        <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
+                          photo_toggle_featured_path(@persona.screen_name, @photo), :remote=>true, :method=>:post
+                         %>
+                      <% end %>
+                    </div>
+                  </h4>
+                </div>
+                <div>
+                  <h4>
                     <div class="voteBox">
                     <% if persona_signed_in? then %>
                       <% if current_persona.voted?(@photo) then %>
@@ -237,6 +261,10 @@
           $('.carousel-control').fadeOut('', '');
         }
       );
+
+      if( $('.isFeatured').hasClass('icon-star') ){
+        $('#visibilityBox').find('a').popover();
+      }
   });
 
   $(document).keydown(function (e) {

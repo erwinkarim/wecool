@@ -379,10 +379,13 @@ class PhotosController < ApplicationController
     end
   end
 
-  # POST   /photos/toggle_featured/:photo_id(.:format)
+  #  POST   /photos/:persona_id/toggle_featured/:photo_id
   def toggle_featured
-    @photo = Photo.find(params[:photo_id])
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
+    @photo = @persona.photos.find(params[:photo_id])
     @photo.toggle(:featured)
+    @photo.visible = true
+
     if @photo.save then
       render :status => :ok
     else
@@ -466,5 +469,18 @@ class PhotosController < ApplicationController
       send_file @avatar.path
     end
     
+  end
+
+  # POST   /photos/:persona_id/toggle_visibility/:photo_id
+  def toggle_visibility
+    @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })  
+    @photo = @persona.photos.find(params[:photo_id])
+
+    @photo.toggle(:visible)
+    if @photo.save then
+      render :status => :ok
+    else
+      render :status => :internal_server_error
+    end
   end
 end
