@@ -65,10 +65,17 @@ module PhotosHelper
   
   def get_photo_list(personaID, atPhotoID, mediasetID, isFeatured = [true, false])
     if mediasetID.nil? then
+      if persona_signed_in? then 
+        visibleScope = current_persona.id == personaID ? [true,false] : [true]
+      else
+        visibleScope = [true]
+      end
       prev_photos = Photo.where{ (id.gt atPhotoID) & ( persona_id.eq personaID) & 
-        (featured.in isFeatured) }.limit(4).reverse
+        (featured.in isFeatured) & (visible.in visibleScope) 
+      }.limit(4).reverse
       next_photos =  Photo.where{ (id.lt atPhotoID) & (persona_id.eq personaID) &
-        (featured.in isFeatured) }.order('id desc').limit(8 - prev_photos.count)
+        (featured.in isFeatured) & (visible.in visibleScope) 
+      }.order('id desc').limit(8 - prev_photos.count)
     else
       current_photo_pos = Mediaset.find(mediasetID).mediaset_photos.where(:photo_id => atPhotoID).first.order
       prev_photos = Array.new

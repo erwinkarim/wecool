@@ -1,5 +1,6 @@
 <%- model_class = Photo -%>
 
+<% content_for :title, @photo.title %>
 <!-- photo view and description -->
 <div class="row-fluid">
   <div class="span12">
@@ -102,7 +103,7 @@
                         <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
                           '"></i>').html_safe %>
                         <% if @photo.featured then %>
-                          <%= link_to visibilityIcon, '#visibilityAnchor', :'data-toggle'=> 'popover', 
+                          <%= link_to visibilityIcon, '#photo', :'data-toggle'=> 'popover', 
                             :'data-placement' => 'top', :'data-content' => 'Featured photos is always visible', 
                             :'data-original-title' => 'Notice' %>
                         <% else %>

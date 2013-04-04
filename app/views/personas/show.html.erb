@@ -1,4 +1,5 @@
 <%- model_class = Persona -%>
+<% content_for :title, @persona.screen_name + ' profile' %>
 <% @focus = 'profile' %>
 <%= render "common/personaHeaderBar" %>
 

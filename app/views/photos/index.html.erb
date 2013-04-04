@@ -1,4 +1,5 @@
 <%- model_class = Photo -%>
+<% content_for :title, 'Recent Photos' %>
 <div class="page-header">
   <h1><%=t '.title', :default => 'Most Recent '+ model_class.model_name.human.pluralize %></h1>
 </div>

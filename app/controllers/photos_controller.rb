@@ -174,8 +174,13 @@ class PhotosController < ApplicationController
       @next_photo_path = @next_photo.nil? ? '#' : 
         photo_view_in_scope_path(@persona.screen_name, @next_photo, 'featured', 0) + '#photo'
     else
-      @prev_photo = @persona.photos.find(:first, :conditions => 'id >'+@photo.id.to_s)
-      @next_photo = @persona.photos.find(:first, :conditions => 'id <'+@photo.id.to_s, :order=>'id desc')
+      photoID = @photo.id
+      visibleScope = current_persona == @persona ? [true,false] : [true]
+      @prev_photo = @persona.photos.where{ 
+        (id.gt photoID) & (visible.in visibleScope) }.first
+      @next_photo = @persona.photos.where{
+        (id.lt photoID) & (visible.in visibleScope) 
+      }.order('id desc').first
       @prev_photo_path = @prev_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @prev_photo) + '#photo'
       @next_photo_path = @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @next_photo) + '#photo'
     end
@@ -335,14 +340,30 @@ class PhotosController < ApplicationController
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
     end
 
-    if @options[:mediatype] == 'photos' || @options[:mediatype] == 'featured' then
-      @next_photos = Photo.find(:all, :conditions => { 
-          :id => 0..upper, :persona_id => @options[:author],
-          :featured => @options[:featured], :created_at => @options[:dateRange] 
-        }, 
-        :order=>'id desc', :limit=> @options[:limit],
-        :group => 'id', :having => ['id not in (?)', @excluded_mediaset_photos ]
-      )
+    if @options[:mediatype] == 'featured' then
+      #load featured photos
+      @next_photos = Photo.where{
+        (id.in 0..upper) & (featured.eq true)
+      }.order('id desc').limit(@options[:limit])
+    elsif @options[:mediatype] == 'photos' then
+      #@next_photos = Photo.find(:all, :conditions => { 
+      #    :id => 0..upper, :persona_id => @options[:author],
+      #    :featured => @options[:featured], :created_at => @options[:dateRange]
+      #  }, 
+      #  :order=>'id desc', :limit=> @options[:limit],
+      #  :group => 'id', :having => ['id not in (?)', @excluded_mediaset_photos ]
+      #)
+      persona_range = @options[:author]
+      feature_range = @options[:featured]
+      date_range = @options[:dateRange]
+      thisPersona = persona_signed_in? ? current_persona.id : 0 
+      excluded_sets = @excluded_mediaset_photos
+      @next_photos = Photo.where{ 
+        (id.in 0..upper) & ( featured.in feature_range ) &
+        ( created_at.in date_range) & ( ( persona_id.eq thisPersona) & ( visible.in [true,false]) ) |
+        ( ( persona_id.not_eq thisPersona) & ( visible.eq true) ) 
+      }.order('id desc').limit(@options[:limit]).group(:id).having{
+        (id.not_eq excluded_sets) & ( persona_id.in persona_range) }
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       #@next_photos = Array.new
@@ -351,8 +372,20 @@ class PhotosController < ApplicationController
       #@mediaset_photos.each do |photo_id| 
       #  @next_photos.push Photo.find(photo_id)
       #end
-      @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.order('"order"').
-        where( "mediaset_photos.order" => upper..upper+@options[:limit])
+      #@next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.order('"order"').
+      #  where( "mediaset_photos.order" => upper..upper+@options[:limit])
+      
+      order_range = upper..upper+@options[:limit]
+      #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
+      # see
+      if persona_signed_in? && current_persona.id == Mediaset.find(params[:mediaset_id]).persona_id then
+        visibility = [true,false]
+      else
+        visibility = true
+      end
+      @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
+        mediaset_photos.order.in order_range
+      }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
     elsif @options[:mediatype] == 'trending' then
       #get the photos which attracts the most votes in a given time
       @next_photos = Photo.joins{ votings }.order("votings.created_at desc").limit(@options[:limit]).
@@ -362,7 +395,7 @@ class PhotosController < ApplicationController
       @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
         { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id)} , 
-        :order => 'id desc', :limit => @options[:limit])
+        :order => 'id desc', :limit => @options[:limit], :visible => true)
     end
 
 

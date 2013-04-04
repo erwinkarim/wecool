@@ -1,4 +1,5 @@
 <%- model_class = Photo -%>
+<% content_for :title, @persona.screen_name + ' - photos' %>
 <% @focus = 'photos' %>
 <%= render "common/personaHeaderBar" %>
 
