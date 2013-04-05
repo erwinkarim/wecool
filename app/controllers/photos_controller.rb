@@ -345,7 +345,7 @@ class PhotosController < ApplicationController
       @next_photos = Photo.where{
         (id.in 0..upper) & (featured.eq true)
       }.order('id desc').limit(@options[:limit])
-    elsif @options[:mediatype] == 'photos' then
+    elsif @options[:mediatye] == 'featured' || @options[:mediatype] == 'photos' then
       #@next_photos = Photo.find(:all, :conditions => { 
       #    :id => 0..upper, :persona_id => @options[:author],
       #    :featured => @options[:featured], :created_at => @options[:dateRange]
@@ -358,12 +358,14 @@ class PhotosController < ApplicationController
       date_range = @options[:dateRange]
       thisPersona = persona_signed_in? ? current_persona.id : 0 
       excluded_sets = @excluded_mediaset_photos
-      @next_photos = Photo.where{ 
-        (id.in 0..upper) & ( featured.in feature_range ) &
-        ( created_at.in date_range) & ( ( persona_id.eq thisPersona) & ( visible.in [true,false]) ) |
-        ( ( persona_id.not_eq thisPersona) & ( visible.eq true) ) 
-      }.order('id desc').limit(@options[:limit]).group(:id).having{
-        (id.not_eq excluded_sets) & ( persona_id.in persona_range) }
+      persona_photos = Photo.where{ persona_id.eq thisPersona }
+      other_photos = Photo.where{ (persona_id.not_eq thisPersona ) & (visible.eq true) }
+      @next_photos = Photo.where{
+        (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
+      }.group(:id).having{
+        (id.in 0..upper) & (persona_id.in persona_range) & (featured.in feature_range) &
+        (created_at.in date_range) & (id.not_in excluded_sets)
+      }.order('id desc').limit(@options[:limit])
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       #@next_photos = Array.new
@@ -394,8 +396,8 @@ class PhotosController < ApplicationController
       #get the photos that the current persona tracks
       @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
-        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id)} , 
-        :order => 'id desc', :limit => @options[:limit], :visible => true)
+        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
+        :order => 'id desc', :limit => @options[:limit])
     end
 
 
