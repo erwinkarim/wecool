@@ -37,6 +37,11 @@
     <!-- The loading indicator is shown during image processing -->
     <div class="fileupload-loading"></div>
     <br>
+    
+    <!-- dropzone -->
+    <div id="dropzone" class="fade well">Drop files here</div>
+    <br />
+
     <!-- The table listing the files available for upload/download -->
     <table class="table table-striped">
       <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
@@ -120,9 +125,33 @@
 
 <script type="text/javascript" charset="utf-8">
   $(function () {
-      // Initialize the jQuery File Upload widget:
-      $('#fileupload').fileupload();
+    // Initialize the jQuery File Upload widget:
+    $('#fileupload').fileupload({
+      dropZone: $('#dropzone')
+    });
 
+    $(document).bind('dragover', function (e) {
+      var dropZone = $('#dropzone'),
+          timeout = window.dropZoneTimeout;
+      if (!timeout) {
+          dropZone.addClass('in');
+      } else {
+          clearTimeout(timeout);
+      }
+      if (e.target === dropZone[0]) {
+          dropZone.addClass('hover');
+      } else {
+          dropZone.removeClass('hover');
+      }
+      window.dropZoneTimeout = setTimeout(function () {
+          window.dropZoneTimeout = null;
+        dropZone.removeClass('in hover');
+      }, 100);
+    });
+
+    $(document).bind('drop dragover', function (e) {
+      e.preventDefault();
+    });
   });
 </script>
 

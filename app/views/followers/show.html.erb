@@ -4,24 +4,47 @@
 
 <div class="row-fluid">
   <h1>Following</h1>
-  <div class="row-fluid" id="following-personas" last="<%= Persona.last.id %>" >
-  </div>
-  <br />
-  <div class="row-fluid">
-    <a name="following-persona-last-div"></a>
-    <%= link_to 'Load More...', '#following-persona-last-div', :class=> 'btn', :id=>'load-more-following' %>
-  </div>
+  <% if @following.count == 0 then %>
+    <div class="row-fluid">
+      <div class="well">
+        <% if persona_signed_in? && current_persona == @persona then %>
+          You are not following anybody. Why don't you <%= link_to 'explore', personas_path %> and make friends?
+        <% else %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="row-fluid" id="following-personas" last="<%= Persona.last.id %>" >
+    </div>
+    <br />
+    <div class="row-fluid">
+      <a name="following-persona-last-div"></a>
+      <%= link_to 'Load More...', '#following-persona-last-div', :class=> 'btn', :id=>'load-more-following' %>
+    </div>
+  <% end %>
 </div>
 
 <div class="row-fluid">
   <h1>Followers</h1>
-  <div class="row-fluid" id="being-tracked-personas" last="<%= Persona.last.id %>" >
-  </div>
-  <br />
-  <div class="row-fluid">
-    <a name="tracked-persona-last-div"></a>
-    <%= link_to 'Load More...', '#tracked-persona-last-div', :class=> 'btn', :id=>'load-more-followers' %>
-  </div>
+  <% if @followers.count == 0 then %>
+    <div class="row-fluid">
+      <div class="well">
+        <% if persona_signed_in? && current_persona == @persona then %>
+          You don't have any followers. Why don't you <%= link_to 'explore', personas_path %> and make friends?
+        <% else %>
+          <%= @persona.screen_name %> has no followers
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="row-fluid" id="being-tracked-personas" last="<%= Persona.last.id %>" >
+    </div>
+    <br />
+    <div class="row-fluid">
+      <a name="tracked-persona-last-div"></a>
+      <%= link_to 'Load More...', '#tracked-persona-last-div', :class=> 'btn', :id=>'load-more-followers' %>
+    </div>
+  <% end %>
 </div>
 <script type="text/javascript">
   //load a few for each class
