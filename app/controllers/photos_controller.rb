@@ -273,7 +273,7 @@ class PhotosController < ApplicationController
     end
 
     if params.has_key? :author then
-      @options[:author] = Persona.find(:all, :conditions => { :screen_name => params[:author]}).first
+      @options[:author] = Persona.find(:first, :conditions => { :screen_name => params[:author]})
     end
 
     if params.has_key? :featured then
@@ -340,12 +340,7 @@ class PhotosController < ApplicationController
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
     end
 
-    if @options[:mediatype] == 'featured' then
-      #load featured photos
-      @next_photos = Photo.where{
-        (id.in 0..upper) & (featured.eq true)
-      }.order('id desc').limit(@options[:limit])
-    elsif @options[:mediatye] == 'featured' || @options[:mediatype] == 'photos' then
+    if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
       #@next_photos = Photo.find(:all, :conditions => { 
       #    :id => 0..upper, :persona_id => @options[:author],
       #    :featured => @options[:featured], :created_at => @options[:dateRange]

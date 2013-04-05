@@ -1,6 +1,6 @@
 <%- model_class = Photo -%>
 
-<% content_for :title, @photo.title %>
+<% content_for :title, @photo.title + ' by ' + @persona.screen_name %>
 <!-- photo view and description -->
 <div class="row-fluid">
   <div class="span12">
