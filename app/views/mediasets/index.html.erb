@@ -7,7 +7,9 @@
   <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
     <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
     <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
-    <li class="recentlyTracked"><%= link_to 'Following', '#' %></li>
+    <% if persona_signed_in? then %>
+      <li class="recentlyTracked"><%= link_to 'Following', '#' %></li>
+    <% end %>
     <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
   </ul>
 </div>

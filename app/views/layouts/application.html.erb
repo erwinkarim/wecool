@@ -41,14 +41,14 @@
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+          <a class="btn btn-navbar" data-target=".nav-responsive-collapse" data-toggle="collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
           <!-- a class="brand" href="#">Wecool</a-->
           <%= link_to 'Wecool', root_path, :class=>'brand' %>
-          <div class="container-fluid nav-collapse">
+          <div class="container-fluid nav-collapse collapse nav-responsive-collapse">
             <ul class="nav">
               <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" 
@@ -71,7 +71,7 @@
                     <li><%= link_to '<i class="icon-group"></i> My Followers'.html_safe, 
                       follower_path(current_persona.screen_name) %></li>
                   </ul>
-                <li><%= link_to '<i class="icon-cloud-upload icon-2x"></i> Upload'.html_safe, new_photo_path  %></li>
+                <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, new_photo_path  %></li>
               <% else %>
                 <li><%= link_to 'The Tour', tour_path %></li>
               <% end %>
@@ -79,7 +79,7 @@
             <ul class="nav pull-right">
               <% if persona_signed_in? then %>
               <li class="dropdown">
-                <%= link_to ('<i class="icon-user icon-2x"></i> ' + current_persona.screen_name + 
+                <%= link_to ('<i class="icon-user"></i> ' + current_persona.screen_name + 
                   '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
