@@ -46,10 +46,17 @@ class Photo < ActiveRecord::Base
       @photo.write(self.avatar.versions[version.to_sym].path)
       #rewrite the original and recreate the rest
       #don't forget to run /script/delayed_job start or else this won't work
-      @original_photo = Magick::Image.read(self.avatar.path).first
-      @original_photo.rotate!(degree)
-      @original_photo.write(self.avatar.path)
-      self.avatar.delay.recreate_versions!
+      self.delay.rebuild_original_after_transform('rotate', { :degree => degree })
     end
+  end
+  
+  def rebuild_original_after_transform( command, options={})
+    @path = self.avatar.path
+    @original_photo = Magick::Image.read(self.avatar.path).first
+    if command == 'rotate' then
+      @original_photo.rotate!(options[:degree])
+    end
+    @original_photo.write(self.avatar.path)
+    self.avatar.recreate_versions! 
   end
 end
