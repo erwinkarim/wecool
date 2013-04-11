@@ -30,11 +30,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="editMenu">Edit<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to 'Rotate Counter Clockwise', 
-                  photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left'),
-                  :method => :post, :remote => true %></li>
+                  photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
+                    :current_version => 'xlarge'), :method => :post, :remote => true %>
+                </li>
                 <li><%= link_to 'Rotate Clockwise', 
-                  photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'right'),
-                  :method => :post, :remote => true %></li>
+                  photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'right', 
+                    :current_version => 'xlarge'), :method => :post, :remote => true %>
+                </li>
                 <li class="divider"></li>
                 <li><%= link_to 'Launch Editor', photo_editor_path(@photo.id) %></li>
               </ul>

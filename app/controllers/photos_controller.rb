@@ -466,22 +466,23 @@ class PhotosController < ApplicationController
 
   #  POST /photos/:persona_id/transform/:photo_id/:method?arg1=val1&arg2=val2....argn=valn
   def transform
-    @photo_handle = Photo.new
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    @photo = @persona.photos.find(params[:photo_id])
+
     if persona_signed_in? && current_persona.screen_name == params[:persona_id] then
-      @photo_handle = Photo.find(params[:photo_id])
-      @photo = Magick::Image.read(@photo_handle.avatar.path).first
+      if params.has_key? :current_version then
+        version = params[:current_version]
+      else
+        version = 'all'
+      end
       if params[:method] == 'rotate' then
+        #rotate the picture
         if params[:direction] == 'left' then
-          puts 'rotate left'
-          @photo.rotate!(-90)
+          @photo.rotate(-90, version)
         elsif params[:direction] == 'right' then
-          @photo.rotate!(90)
+          @photo.rotate(90, version)
         end
       end    
-      @photo.write(@photo_handle.avatar.path)
-    
-      #todo, update only the current one, recreate in background
-      @photo_handle.avatar.recreate_versions!
     end
   
     respond_to do |format|

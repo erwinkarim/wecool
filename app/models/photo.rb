@@ -28,5 +28,28 @@ class Photo < ActiveRecord::Base
       }]
     }
   end
+  
+  def rotate (degree, version = 'all')
+    if version == 'all' then
+      @path = self.avatar.path 
+    else
+      @path = self.avatar.versions[version.to_sym].path
+    end
 
+    @photo = Magick::Image.read(@path).first
+    @photo.rotate!(degree)
+
+    if version == 'all' then
+      @photo.write(self.avatar.path)
+      self.avatar.recreate_versions!
+    else
+      @photo.write(self.avatar.versions[version.to_sym].path)
+      #rewrite the original and recreate the rest
+      #don't forget to run /script/delayed_job start or else this won't work
+      @original_photo = Magick::Image.read(self.avatar.path).first
+      @original_photo.rotate!(degree)
+      @original_photo.write(self.avatar.path)
+      self.avatar.delay.recreate_versions!
+    end
+  end
 end

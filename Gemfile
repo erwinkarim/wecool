@@ -56,3 +56,7 @@ gem 'omniauth'
 
 gem 'squeel'
 gem 'make_voteable'
+
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'daemons'
