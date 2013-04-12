@@ -21,6 +21,17 @@ var handle = $('.endless_scroll_inner_wrap');
           <% end %>
         <% end %>
       <% end %>  
+      
+      //add rotate button if the photo is yours
+      <% if persona_signed_in? && current_persona.screen_name == this_persona then %>
+        carousel.append(
+          $('<div/>', { class:'carousel-indicators' }).append(
+            $('<a/>', { href:'<%= photo_transform_path( this_persona, photo, 'rotate', :direction => 'left', :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', rel:'nofollow' }).append(
+              $('<i/>', { class:'icon-undo icon-2x' } )
+            )
+          )
+        );
+      <% end %>
       carousel.append("<%= 
         escape_javascript(
           link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
@@ -71,10 +82,13 @@ var handle = $('.endless_scroll_inner_wrap');
     $('.endless-photos').attr('last', <%= @options[:mediatype] == 'mediaset' ? Mediaset.find(params[:mediaset_id]).mediaset_photos.where(:photo_id => @next_photos.last.id).first.order : @next_photos.last.id %>);
 
     $('.carousel-caption').hide();
+    $('.carousel-indicators').hide();
     $('.carousel').hover( function(){
         $(this).find('.carousel-caption').show();
+        $(this).find('.carousel-indicators').show();
       }, function() {
         $(this).find('.carousel-caption').hide();
+        $(this).find('.carousel-indicators').hide();
     });
   <% end %>
   

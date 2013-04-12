@@ -1,6 +1,6 @@
-var origSource = $('.carousel').find('img').attr('src').split('?')[0];
+var origSource = $('#carousel_<%= @photo.id %>').find('img').attr('src').split('?')[0];
 
-$('.carousel').find('img').attr('src', origSource + '?' + Math.random());
+$('#carousel_<%= @photo.id %>').find('img').attr('src', origSource + '?' + Math.random());
 
-$('#editMenu').click()
+//$('#editMenu').click()
 
