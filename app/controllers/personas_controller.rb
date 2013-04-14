@@ -168,4 +168,22 @@ class PersonasController < ApplicationController
       ).order('id desc').group(:id).having(:id => upper)
     end
   end
+
+  #GET    /personas/:persona_id/tags(.:format) 
+  def tags
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    @tags = @persona.photos.tag_counts
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  #GET    /personas/:persona_id/tags/:tag_id(.:format) 
+  # show photos from :persona_id that has :tag_id
+  def show_tag
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    @tag = params[:tag_id]
+    @photos = @persona.photos.tagged_with(params[:tag_id]) 
+  end
 end

@@ -1,4 +1,5 @@
 class PhotosController < ApplicationController
+  include Twitter::Extractor
   before_filter :check_if_allowed_to_view, :only => [:view]
 
   def check_if_allowed_to_view
@@ -26,7 +27,7 @@ class PhotosController < ApplicationController
 
   # GET /photos/:persona_id
   # GET /photos/:persona_id.json
-  def show
+ def show
     #show photos uploaded by persona
     if params[:id] == 'everyone' then
       @persona = Persona.new(:screen_name => 'everyone')
@@ -95,7 +96,14 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to photo_view_path(Persona.find(@photo.persona_id).screen_name, @photo.id), notice: 'Photo was successfully updated.' }
+        #check for tags in the title/description
+        tags = extract_hashtags @photo.title
+        tags += extract_hashtags @photo.description
+        @photo.tag_list.clear
+        @photo.tag_list.add(tags)
+        @photo.save!
+        format.html { redirect_to photo_view_path(Persona.find(@photo.persona_id).screen_name, @photo.id), 
+          notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -248,7 +256,7 @@ class PhotosController < ApplicationController
       #fetch options
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, 
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil,
 
       #view options
       :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
@@ -332,6 +340,10 @@ class PhotosController < ApplicationController
     if params.has_key? :cssDisplay then
       @options[:cssDisplay] = params[:cssDisplay]
     end
+  
+    if params.has_key? :tag then
+      @options[:tag] = params[:tag]
+    end
 
     #fetch photos
     if ['photos', 'featured'].include? @options[:mediatype] then 
@@ -361,6 +373,9 @@ class PhotosController < ApplicationController
         (id.in 0..upper) & (persona_id.in persona_range) & (featured.in feature_range) &
         (created_at.in date_range) & (id.not_in excluded_sets)
       }.order('id desc').limit(@options[:limit])
+    elsif @options[:mediatype] == 'tagset' then
+      #get latest photos by @opions[:tag]
+      @next_photos = Photo.tagged_with(@options[:tag]).order('updated_at desc').limit(@options[:limit]).offset(upper)
     elsif @options[:mediatype] == 'mediaset' then 
       #mediatype id should be mediaset
       #@next_photos = Array.new

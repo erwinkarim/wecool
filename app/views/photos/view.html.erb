@@ -81,7 +81,8 @@
               </div>
               <% if persona_signed_in? && current_persona.id == @persona.id then %>
                 <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
-                  <%= f.text_area :description, :size => '80x6', :class=>'span9' %> 
+                  <%= f.text_area :description, :size => '80x6', :class=>'span9', 
+                    :placeholder=>'Add description. You can use #hashtag to tag your photos' %> 
                   <br />
                   <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
                   <%= f.submit nil, :class=>'btn btn-primary' %>

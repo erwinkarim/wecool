@@ -13,6 +13,7 @@ class Photo < ActiveRecord::Base
 
   def init(params={})
     self.featured ||= false;
+    ActsAsTaggableOn.force_lowercase = true;
   end
 
   def to_jq_upload 

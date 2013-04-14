@@ -13,6 +13,8 @@ Wecool::Application.routes.draw do
     match '/personas/:persona_id/picture' => :get_picture, :via => :get, :as => 'persona_get_profile_pic'
     match '/personas/:persona_id/picture' => :set_picture, :via => :post, :as => 'persona_update_profile_pic'
     match '/personas/get_more/:last_id' => :get_more, :via => :get, :as => 'persona_get_more'
+    match '/personas/:persona_id/tags' => :tags, :via => :get , :as => 'persona_tags'
+    match '/personas/:persona_id/tags/:tag_id' => :show_tag, :via => :get , :as => 'persona_show_tag'
   end
 
   resources :mediasets, :except => [ :edit ] do
@@ -64,6 +66,7 @@ Wecool::Application.routes.draw do
 
   controller :tags do
     match '/tags' => :index, :via => :get, :as => 'tags'
+    match '/tags/:tag_id' => :show, :via => :get, :as => 'tag'
   end
   
   match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'

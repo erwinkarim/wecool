@@ -1,0 +1,17 @@
+
+<h1>Recent photos with '<%= @tag %>' tag</h1>
+
+<div class="row-fluid">
+  <div class="span12 endless-photos" last="0">
+    <div class="last-div endless_scroll_inner_wrap"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  //get the first few
+  $.ajax({
+    url: '/photos/get_more/0',
+    data: { mediatype:'tagset', tag:'<%= @tag %>', includeFirst:true, size:'small' },
+    dataType: 'script'
+  });
+</script>

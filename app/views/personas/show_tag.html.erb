@@ -1,0 +1,6 @@
+<h1><%= @persona.screen_name %> photos with '<%= @tag %>' tag</h1>
+<div class="row-fluid">
+  <% @photos.each do |photo| %>
+    <div class="pull-left"><%= link_to image_tag(photo.avatar.small.url, :class=>'img-polaroid'), photo_view_path(@persona.screen_name, photo) %></div>
+  <% end %>
+</div>
