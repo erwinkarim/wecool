@@ -61,6 +61,10 @@ Wecool::Application.routes.draw do
     match '/followers/untrack/:object_type/:object_id' => :untrack, :via => :post, :as => 'follower_untrack'
     match '/followers/:persona_id' => :show, :via => :get, :as => 'follower'
   end
+
+  controller :tags do
+    match '/tags' => :index, :via => :get, :as => 'tags'
+  end
   
   match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'
 

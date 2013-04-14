@@ -60,3 +60,6 @@ gem 'make_voteable'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
+
+gem 'twitter-text'
+gem 'acts-as-taggable-on'

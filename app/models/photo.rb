@@ -1,6 +1,7 @@
 require 'carrierwave/orm/activerecord'
 class Photo < ActiveRecord::Base
   make_voteable
+  acts_as_taggable
   belongs_to :persona
   attr_accessible :description, :title, :avatar, :featured, :visible
   mount_uploader :avatar,AvatarUploader
