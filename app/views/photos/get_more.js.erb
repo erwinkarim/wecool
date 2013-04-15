@@ -79,7 +79,15 @@ var handle = $('.endless_scroll_inner_wrap');
   <% end %>
 
     $('.endless_scroll_inner_wrap').append(carousel);
-    $('.endless-photos').attr('last', <%= @options[:mediatype] == 'mediaset' ? Mediaset.find(params[:mediaset_id]).mediaset_photos.where(:photo_id => @next_photos.last.id).first.order : @next_photos.last.id %>);
+    <% if @options[:mediatype] == 'mediaset' then %>
+       last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
+        :photo_id => @next_photos.last.id).first.order %>
+    <% elsif @options[:mediatype] == 'tagset' then %>
+      last_id = parseInt($('.endless-photos').attr('last')) + <%=  @next_photos.count %> 
+    <% else %>
+      last_id = <%= @next_photos.last.id %>
+    <% end %>
+    $('.endless-photos').attr('last', last_id ); 
 
     $('.carousel-caption').hide();
     $('.carousel-indicators').hide();

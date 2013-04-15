@@ -26,6 +26,16 @@
       </dl>
     </div>
     <div class="row-fluid">
+      <h4>Recent Tags</h4>
+      <ul>
+      <% @persona.photos.tag_counts.order('id desc').limit(20).each do |tag| %>
+        <li style="display:inline;">
+          <%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+    <div class="row-fluid">
       <h4>Followers (<%= Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').count %>)</h4>
       <div class="row-fluid">
         <% @followers.each do |follower| %>

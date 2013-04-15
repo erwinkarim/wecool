@@ -1,5 +1,6 @@
 require 'carrierwave/orm/activerecord'
 class Photo < ActiveRecord::Base
+  include Twitter::Extractor
   make_voteable
   acts_as_taggable
   belongs_to :persona
@@ -60,5 +61,16 @@ class Photo < ActiveRecord::Base
     end
     @original_photo.write(self.avatar.path)
     self.avatar.recreate_versions! 
+  end
+
+  #rebuilt the tag list. useful when you update the title/description 
+  # and need to know what's tag that are being used
+  def reset_tags
+    #check for tags in the title/description
+    tags = extract_hashtags self.title
+    tags += extract_hashtags self.description
+    self.tag_list.clear
+    self.tag_list.add(tags)
+    self.save!
   end
 end

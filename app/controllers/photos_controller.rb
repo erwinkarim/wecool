@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  include Twitter::Extractor
+  #include Twitter::Extractor
   before_filter :check_if_allowed_to_view, :only => [:view]
 
   def check_if_allowed_to_view
@@ -72,6 +72,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.save
+        @photo.reset_tags
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
           :content_type => 'text/html',
@@ -96,12 +97,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        #check for tags in the title/description
-        tags = extract_hashtags @photo.title
-        tags += extract_hashtags @photo.description
-        @photo.tag_list.clear
-        @photo.tag_list.add(tags)
-        @photo.save!
+        @photo.reset_tags
         format.html { redirect_to photo_view_path(Persona.find(@photo.persona_id).screen_name, @photo.id), 
           notice: 'Photo was successfully updated.' }
         format.json { head :no_content }
