@@ -40,54 +40,46 @@ var handle = $('.endless_scroll_inner_wrap');
         %>"
       );
 
-  <% if @options[:showCaption] then %>
-    var caption = jQuery('<div/>', {class:'carousel-caption', style:'color:white'});
-    caption.append(jQuery('<div/>',  {
-      text:'<%= escape_javascript(truncate(photo.title, :length => 20)) %> by ', 
-        class:'pull-left caption-text'
-    }));
-    caption.find('.caption-text').append(jQuery('<a/>', {text:'<%= this_persona %>', 
-      href:'<%= escape_javascript(persona_path(this_persona)) %>'}));
-    caption.append(jQuery('<div/>', {class:'caption-vote pull-right'}))
-    <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
-      caption.find('.caption-vote').append(jQuery('<a/>', 
-        {href:'<%= photo_toggle_featured_path(current_persona.screen_name, photo) %>', 'data-remote':'true', 
-          'data-method':'post'}).append(jQuery('<i/> ', 
-          {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
-      caption.find('.caption-vote').find('a').append(' ');
+    //show caption
+    <% if @options[:showCaption] then %>
+      var caption = jQuery('<div/>', {class:'carousel-caption', style:'color:white'});
+      caption.append(jQuery('<div/>',  {
+        text:'<%= escape_javascript(truncate(photo.title, :length => 20)) %> by ', 
+          class:'pull-left caption-text'
+      }));
+      caption.find('.caption-text').append(jQuery('<a/>', {text:'<%= this_persona %>', 
+        href:'<%= escape_javascript(persona_path(this_persona)) %>'}));
+      caption.append(jQuery('<div/>', {class:'caption-vote pull-right'}))
+      <% if persona_signed_in? && current_persona.id == photo.persona_id then %>
+        caption.find('.caption-vote').append(jQuery('<a/>', 
+          {href:'<%= photo_toggle_featured_path(current_persona.screen_name, photo) %>', 'data-remote':'true', 
+            'data-method':'post'}).append(jQuery('<i/> ', 
+            {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+        caption.find('.caption-vote').find('a').append(' ');
+      <% end %>
+      var voteBox = jQuery('<div/>', {class:'pull-right voteBox'});
+      <% if persona_signed_in? && !current_persona.voted?(photo) then %>
+        voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "up", 
+          current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
+          rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
+        voteBox.append(' ');
+        voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "down", 
+          current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
+          rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
+      <% elsif persona_signed_in? && current_persona.voted?(photo) then %>
+        voteBox.append(jQuery('<a/>', {
+          href:'<%= escape_javascript photo_unvote_path(photo, current_persona.screen_name) %>',
+          'data-remote':true, 'data-method':'post', rel:'nofollow'}).append(jQuery('<i/>', { 
+            class:'icon-thumbs-<%= current_persona.up_voted?(photo) ? "up" : "down" %>'} )
+          )
+        );
+      <% end %>
+      caption.append(voteBox);
+      caption.wrapInner('<h5/>');
+      carousel.append(caption);
     <% end %>
-    var voteBox = jQuery('<div/>', {class:'pull-right voteBox'});
-    <% if persona_signed_in? && !current_persona.voted?(photo) then %>
-      voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "up", 
-        current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
-        rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
-      voteBox.append(' ');
-      voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "down", 
-        current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
-        rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
-    <% elsif persona_signed_in? && current_persona.voted?(photo) then %>
-      voteBox.append(jQuery('<a/>', {
-        href:'<%= escape_javascript photo_unvote_path(photo, current_persona.screen_name) %>',
-        'data-remote':true, 'data-method':'post', rel:'nofollow'}).append(jQuery('<i/>', { 
-          class:'icon-thumbs-<%= current_persona.up_voted?(photo) ? "up" : "down" %>'} )
-        )
-      );
-    <% end %>
-    caption.append(voteBox);
-    caption.wrapInner('<h5/>');
-    carousel.append(caption);
-  <% end %>
 
     $('.endless_scroll_inner_wrap').append(carousel);
-    <% if @options[:mediatype] == 'mediaset' then %>
-       last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
-        :photo_id => @next_photos.last.id).first.order %>
-    <% elsif @options[:mediatype] == 'tagset' then %>
-      last_id = parseInt($('.endless-photos').attr('last')) + <%=  @next_photos.count %> 
-    <% else %>
-      last_id = <%= @next_photos.last.id %>
-    <% end %>
-    $('.endless-photos').attr('last', last_id ); 
 
     $('.carousel-caption').hide();
     $('.carousel-indicators').hide();
@@ -98,8 +90,19 @@ var handle = $('.endless_scroll_inner_wrap');
         $(this).find('.carousel-caption').hide();
         $(this).find('.carousel-indicators').hide();
     });
-  <% end %>
+  <% end %>//@next_photos.each
   
+  //update last attribute on ',endless-photo'
+  <% if @options[:mediatype] == 'mediaset' then %>
+     last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
+      :photo_id => @next_photos.last.id).first.order %>
+  <% elsif @options[:mediatype] == 'tagset' then %>
+    last_id = parseInt($('.endless-photos').attr('last')) + <%=  @next_photos.count %>
+  <% else %>
+    last_id = <%= @next_photos.last.id %>
+  <% end %>
+  $('.endless-photos').attr('last', last_id ); 
+
   //make it draggable
   <% if @options[:draggable] then %>
     handle.find('img').draggable(
