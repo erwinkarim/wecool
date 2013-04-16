@@ -45,6 +45,7 @@ class MediasetsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.js { redirect_to :back }
       format.json { render json: @mediaset }
     end
   end

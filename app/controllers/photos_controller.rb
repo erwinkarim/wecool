@@ -51,6 +51,7 @@ class PhotosController < ApplicationController
   # GET /photos/new.json
   def new
     @photo = current_persona.photos.new(params[:photo])
+    @persona = current_persona
     #@photo = Photo.new
 
     respond_to do |format|
@@ -73,6 +74,9 @@ class PhotosController < ApplicationController
     respond_to do |format|
       if @photo.save
         @photo.reset_tags
+        if !params["mediaset"].empty? then
+          #add the mediasets
+        end
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
           :content_type => 'text/html',

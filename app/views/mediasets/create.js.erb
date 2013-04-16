@@ -2,7 +2,11 @@
 
 //update at the mediaset select modal box
 var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.id, true) %>";
-var thePhotoAndTitle = "<%=  escape_javascript(image_tag @mediaset.photos.first.avatar.square50) %> <%= @mediaset.title %>"; 
+<% if @mediaset.photos.empty? then %>
+  var thePhotoAndTitle = "<%=  escape_javascript(image_tag 'http://placehold.it/50x50' ) %> <%= @mediaset.title %>"; 
+<% else %>
+  var thePhotoAndTitle = "<%=  escape_javascript(image_tag @mediaset.photos.first.avatar.square50) %> <%= @mediaset.title %>"; 
+<% end %>
 $('#newMediasetList').after("<li>" + theCheckBox + " " + thePhotoAndTitle + "</li>");
 
 //create at the bottom of the scrolls
@@ -23,9 +27,11 @@ accordionHead.find('h3').append(jQuery('<a/>', {
 }));
 
 var accordionBody = jQuery('<div/>', { class:'accordion-body collapse', id:'collapse<%= @mediaset.id %>' });
-<% @photolist = get_photo_list(current_persona.id, @mediaset.photos.first.id, @mediaset.id) %>
-var photolist = "<%= escape_javascript( render "photos/coverflow") %>"
-accordionBody.append(photolist);
+<% if !@mediaset.photos.empty? then %>
+  <% @photolist = get_photo_list(current_persona.id, @mediaset.photos.first.id, @mediaset.id) %>
+  var photolist = "<%= escape_javascript( render "photos/coverflow") %>"
+  accordionBody.append(photolist);
+<% end %>
 
 var accordionGroup = jQuery('<div/>', {class:'accordion-group'});
 accordionGroup.append(accordionHead);

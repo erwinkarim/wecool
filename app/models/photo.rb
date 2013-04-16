@@ -73,4 +73,10 @@ class Photo < ActiveRecord::Base
     self.tag_list.add(tags)
     self.save!
   end
+    
+  #update what photos that this mediaset belongs 
+  def update_setlist (newSetlist = Array.new)
+    if !newSetlist.empty? then 
+    end
+  end
 end

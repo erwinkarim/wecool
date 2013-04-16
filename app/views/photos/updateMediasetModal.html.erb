@@ -1,50 +1,72 @@
 <div id="addToSetModal" class="modal hide fade" tabindex="-1" role="dialog">
   <div id="selectMediaset">
     <!-- to select current mediaset -->
-    <%= form_tag photo_update_setlist_path(@persona.screen_name, photo.id) do %>
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
       <h3 id="addToSetModalHeader">Select Mediaset...</h3>
     </div>
-    <div class="modal-body" id="selectMediasetList">
-      <ul>
-        <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
-        <% @mediasets.each do |mediaset| %>
-          <li>
-            <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
-            <% if mediaset.photos.empty? then %>
-              <%= image_tag 'http://placehold.it/50x50' %>
-            <% else %>
-              <%= image_tag mediaset.photos.first.avatar.square50 %>
+    <% if photo.id.nil? then %>
+      <div class="modal-body" id="selectMediasetList">
+        <ul>
+          <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
+          <% @persona.mediasets.each do |mediaset| %>
+            <li>
+              <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
+              <% if mediaset.photos.empty? then %>
+                <%= image_tag 'http://placehold.it/50x50' %>
+              <% else %>
+                <%= image_tag mediaset.photos.first.avatar.square50 %>
+              <% end %>
+              <%= mediaset.title %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer" id="updateMediasetFooter">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+      </div>
+    <% else %>
+      <%= form_tag photo_update_setlist_path(@persona.screen_name, photo.id) do %>
+        <div class="modal-body" id="selectMediasetList">
+          <ul>
+            <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
+            <% @mediasets.each do |mediaset| %>
+              <li>
+                <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
+                <% if mediaset.photos.empty? then %>
+                  <%= image_tag 'http://placehold.it/50x50' %>
+                <% else %>
+                  <%= image_tag mediaset.photos.first.avatar.square50 %>
+                <% end %>
+                <%= mediaset.title %>
+              </li>
             <% end %>
-            <%= mediaset.title %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="modal-footer" id="updateMediasetFooter">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <%= submit_tag 'Update Mediaset List', :class => 'btn btn-primary' %>
-    </div>
+          </ul>
+        </div>
+        <div class="modal-footer" id="updateMediasetFooter">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <%= submit_tag 'Update Mediaset List', :class => 'btn btn-primary' %>
+        </div>
+      <% end %><!-- form -->
     <% end %>
   </div>
   <div id="newMediaset">
     <!-- to create new mediaset -->
-    <%= form_for(Mediaset.new, :remote => true) do |f| %>
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
       <h3>Create new Mediaset</h3>
     </div>
     <div class="modal-body" id="selectMediasetNew">
-      <%= f.text_field :title, :placeholder => 'Put your title here' %>
-      <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style=>'display:none;'%>
+      <%= text_field_tag :newMediasetTitle, nil,  :placeholder => 'Put your title here' %>
+      <% if !photo.id.nil? then %>
+        <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style=>'display:none;'%>
+      <% end %>
       <br />
     </div>
     <div class="modal-footer" id="createMediasetFooter">
       <%= link_to 'Cancel', '#', :class=>'btn' , :id => 'mediasetNewCancel' %>
-      <%= f.submit 'Create new Mediaset', :class=>'btn btn-primary', :id => 'mediasetNewCreate' %>
+      <%= link_to 'Create new Mediaset', '#', :class=>'btn btn-primary', :id => 'mediasetNewCreate' %>
     </div>
-    <% end %>
   </div>
 </div>
 <script script="text/javascript">
@@ -60,6 +82,14 @@
       });
       $('#mediasetNewCreate').click(function (event){
         //create new mediaset and add new photo to set here
+
+        //send ajax to create new mediaset
+        $.ajax({
+          url:'/mediasets',
+          data: { mediaset:{ title:$('#newMediasetTitle').val() } },
+          type: 'POST',
+          dataType: 'script'
+        });
         $('#selectMediaset').show('slow');
         $('#newMediaset').hide('slow');
 
