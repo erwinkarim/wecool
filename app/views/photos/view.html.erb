@@ -229,7 +229,7 @@
 
 
 <!-- modal for updating mediaset selection -->
-<%= render "updateMediasetModal" %>
+<%= render :template => "photos/updateMediasetModal", :locals => { :photo => @photo }  %>
 
 <% if persona_signed_in? && @persona.id == current_persona.id then %>
   <script type="text/javascript">
