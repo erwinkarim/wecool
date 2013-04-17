@@ -27,7 +27,7 @@
         <ul style="display:inline">
           <% @persona.mediasets.where{ featured.eq true }.order('id desc').limit(3).each do |mediaset| %>
             <li style="display:inline">
-              <%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %> ·
+              <i class="icon-star"></i><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
             </li>
           <% end %>
         </ul>
@@ -41,7 +41,7 @@
         <ul style="display:inline">
         <% @persona.photos.tag_counts.order('id desc').limit(5).each do |tag| %>
           <li style="display:inline">
-            <%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
+            <i class="icon-tag"></i><%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
           </li>
         <% end %>
         </ul>

@@ -4,8 +4,27 @@
   <h1>Tags by <%= persona.screen_name %></h1>
 <% end %>
 
-<ul>
-  <% tags.each do |tag| %>
-    <li><%= link_to tag.name, tag_path(tag.name) %></li>
-  <% end %>
-</ul>
+<div class"row-fluid">
+  <div class="span8">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tag</th>
+        </tr>
+      </thead>
+      <% tags.each do |tag| %>
+        <tr>
+          <td></td>
+          <td>
+            <% if persona.nil? then %>
+              <%= link_to tag.name, tag_path(tag.name) %>
+            <% else %>
+              <%= link_to tag.name, persona_show_tag_path(persona.screen_name, tag.name) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
