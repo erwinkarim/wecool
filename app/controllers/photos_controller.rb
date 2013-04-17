@@ -74,9 +74,11 @@ class PhotosController < ApplicationController
     respond_to do |format|
       if @photo.save
         @photo.reset_tags
+        #add the mediasets
         if !params["mediaset"].empty? then
-          #add the mediasets
+          @photo.update_setlist params[:mediaset]
         end
+
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
           :content_type => 'text/html',
@@ -216,32 +218,8 @@ class PhotosController < ApplicationController
   def update_setlist
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id]}).first
     @photo = @persona.photos.find(params[:photo_id])
-    @current_selection = @photo.mediasets
-    @new_selection = Mediaset.find(params[:mediaset])
 
-    if @current_selection.empty? && !@new_selection.empty? then
-      @new_selection.each do |mediaset|
-        @photo.mediaset_photos.create(:mediaset_id => mediaset.id, :order => 1)
-      end
-    elsif !@current_selection.empty? && !@new_selection.empty? then
-      #add new selection
-        @new_selection.each do |mediaset|
-          if !@current_selection.include?(mediaset) then
-            @photo.mediaset_photos.create(
-              :mediaset_id => mediaset.id, 
-              :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
-            )
-          end
-        end
-
-      #delete the ones that are there, but not anymore
-      @current_selection.each do |mediaset|
-        if !@new_selection.include?(mediaset) then
-          @photo.mediaset_photos.destroy(@photo.mediaset_photos.find(:all, :conditions => {:mediaset_id => mediaset.id}))
-        end
-      end
-    end
-
+    @photo.update_setlist params[:mediaset]
     respond_to do |format|
       format.html { redirect_to :back, :notice => 'Mediaset Selection Updated' }
     end

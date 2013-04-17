@@ -76,7 +76,37 @@ class Photo < ActiveRecord::Base
     
   #update what photos that this mediaset belongs 
   def update_setlist (newSetlist = Array.new)
-    if !newSetlist.empty? then 
+    #if !newSetlist.empty? then 
+    #  return
+    #end
+
+    current_selection = self.mediasets
+    new_selection = Mediaset.find(newSetlist)
+    if current_selection.empty? && !new_selection.empty? then
+      new_selection.each do |mediaset|
+        self.mediaset_photos.create(:mediaset_id => mediaset.id, 
+          :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
+        )
+      end
+    elsif !current_selection.empty? && !new_selection.empty? then
+      #add new selection
+        new_selection.each do |mediaset|
+          if !current_selection.include?(mediaset) then
+            self.mediaset_photos.create(
+              :mediaset_id => mediaset.id, 
+              :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
+            )
+          end
+        end
+
+      #delete the ones that are there, but not anymore
+      current_selection.each do |mediaset|
+        if !new_selection.include?(mediaset) then
+          self.mediaset_photos.destroy(self.mediaset_photos.find(
+            :all, :conditions => {:mediaset_id => mediaset.id}
+          ))
+        end
+      end
     end
   end
 end
