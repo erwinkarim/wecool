@@ -38,7 +38,10 @@
                     :current_version => 'xlarge'), :method => :post, :remote => true %>
                 </li>
                 <li class="divider"></li>
-                <li><%= link_to '<i class="icon-pencil"></i> Launch Editor'.html_safe, photo_editor_path(@photo.id) %></li>
+                <li>
+                  <%= link_to '<i class="icon-pencil"></i> Launch Editor'.html_safe, 
+                    photo_editor_path(@persona.screen_name, @photo.id) %>
+                </li>
               </ul>
             </li>
           <% end %>

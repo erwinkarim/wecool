@@ -1,11 +1,15 @@
 <% if persona_signed_in? then %>
-  <div class="header">  
+  <div class="row-fluid header">  
     <% @focus = 'welcome' %>
     <%= render "common/personaHeaderBar" %>
-    <h2>Your recent photos <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small></h2>
+  </div>
+  <div class="row-fluid">
+    <h2>Your recent photos 
+      <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
+    </h2>
       <% if @myPhotos.empty? then %>
         <div class="well">
-        <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>
+          <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>
         </div>
       <% else %>
         <% @myPhotos.each do |thisphoto| %>
@@ -13,7 +17,37 @@
                   photo_view_path(current_persona.screen_name, thisphoto.id) %>
         <% end %>
       <% end %>
-  </div><!-- header -->
+  </div>
+  <div class="row-fluid">
+    <div class="pull-left well well-small" style="margin:4px 2px;">
+      <strong>Mediasets:</strong> 
+      <% if @persona.mediasets.where{ featured.eq true }.empty? then %>
+        No mediasets yet...
+      <% else %>
+        <ul style="display:inline">
+          <% @persona.mediasets.where{ featured.eq true }.order('id desc').limit(3).each do |mediaset| %>
+            <li style="display:inline">
+              <%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %> ·
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <div class="pull-left well well-small" style="margin:4px 2px;">
+      <strong>Tags: </strong>
+      <% if @persona.photos.tag_counts.empty? then %>
+        No tags yet...
+      <% else %>
+        <ul style="display:inline">
+        <% @persona.photos.tag_counts.order('id desc').limit(5).each do |tag| %>
+          <li style="display:inline">
+            <%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
+          </li>
+        <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
 <% end %>
 <h2>Recently on ...</h2>
 <% if @photos.empty? then %>

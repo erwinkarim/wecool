@@ -10,7 +10,8 @@ class Persona < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me ,:realname, :screen_name, :avatar
   mount_uploader :avatar, PersonaUploader
   validates :screen_name, :presence => true, :uniqueness => true, 
-    :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }
+    :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }, 
+    :exclusion => { :in => %w(new vote unvote get_more), :message => 'You cannot use reserved word %{value}'}
   has_many :photos,:dependent=> :destroy
   has_many :mediasets, :dependent => :destroy
   has_many :followers, :dependent => :destroy

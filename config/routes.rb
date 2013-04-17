@@ -45,7 +45,7 @@ Wecool::Application.routes.draw do
       :via => :post, :as => 'photo_transform'
     match '/photos/:persona_id/update_setlist/:photo_id' => :update_setlist, :via => :post, 
       :as => 'photo_update_setlist'
-    match '/photos/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
+    match '/photos/:persona_id/editor/:photo_id' => :editor, :via => :get, :as => 'photo_editor'
     #match '/photos/:id/page/:page_id' => :show, :via => :get, :as => 'photo_page'
     match '/photos/get_more/:last_id' => :get_more, :via => :get, :as => 'photo_get_more'
     match '/photos/:persona_id/get_single/:photo_id' => :get_single, :via => :get, :as => 'photo_get_single'
