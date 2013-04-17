@@ -1,7 +1,11 @@
-<h1>Tags page</h1>
+<% if persona.nil? then %> 
+  <h1>Tags</h1>
+<% else %>
+  <h1>Tags by <%= persona.screen_name %></h1>
+<% end %>
 
 <ul>
-  <% @tags.each do |tag| %>
+  <% tags.each do |tag| %>
     <li><%= link_to tag.name, tag_path(tag.name) %></li>
   <% end %>
 </ul>

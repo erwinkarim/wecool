@@ -175,7 +175,7 @@ class PersonasController < ApplicationController
     @tags = @persona.photos.tag_counts
 
     respond_to do |format|
-      format.html
+      format.html { render "tags/index", :locals => {:tags => @tags, :persona => @persona }  }
     end
   end
 
