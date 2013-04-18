@@ -372,7 +372,9 @@ class PhotosController < ApplicationController
         mediaset_photos.order.in order_range
       }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
     elsif @options[:mediatype] == 'trending' then
-      #get the photos which attracts the most votes in a given time
+      #list down photo based on 
+      # a) popular votes
+      # b) tag activity
       @next_photos = Photo.joins{ votings }.order("votings.created_at desc").limit(@options[:limit]).
         offset(params[:last_id]).uniq
     elsif @options[:mediatype] == 'tracked' then

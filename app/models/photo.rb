@@ -69,8 +69,8 @@ class Photo < ActiveRecord::Base
     #check for tags in the title/description
     tags = extract_hashtags self.title
     tags += extract_hashtags self.description
-    self.tag_list.clear
-    self.tag_list.add(tags)
+    self.tag_list = tags
+    #self.tag_list.add(tags)
     self.save!
   end
     

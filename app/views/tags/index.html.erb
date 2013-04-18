@@ -1,6 +1,10 @@
 <% if persona.nil? then %> 
-  <h1>Tags</h1>
+  <% content_for :title, 'trendy tags' %>
+  <div class="page-header">
+    <h1>Trendy Tags for the past 24 hours</h1>
+  </div>
 <% else %>
+  <% content_for :title, persona.screen_name + ' - tags' %>
   <% @focus = 'tags' %>
   <%= render :partial => "common/personaHeaderBar" %>
 <% end %>

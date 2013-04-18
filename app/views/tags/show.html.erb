@@ -1,11 +1,16 @@
 
-<h1>
-  <% if (defined? persona).nil? then %>
-    Recent photos with '<%= tag %>' tag
-  <% else %>
-    <%= persona.screen_name %> recent photos with '<%= tag %>' tag
-  <% end %>
-</h1>
+<% if (defined? persona).nil? then %>
+  <% content_for :title, 'Photos with ' + tag + ' tag' %>
+  <div class="page-header">
+    <h1>
+      Recent photos with <i class="icon-tag"></i><%= tag %>
+    </h1>
+  </div>
+<% else %>
+  <% content_for :title, persona.screen_name + ' with ' + tag + ' tag' %>
+  <% @focus = ('<i class="icon-tag"></i>' + tag ).html_safe %>
+  <%= render :partial => "common/personaHeaderBar" %>
+<% end %>
 
 <div class="row-fluid endless-photos" last="0" >
     <div class="last-div endless_scroll_inner_wrap"></div>
