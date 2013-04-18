@@ -353,19 +353,14 @@ class PhotosController < ApplicationController
       }.order('id desc').limit(@options[:limit])
     elsif @options[:mediatype] == 'tagset' then
       #get latest photos by @opions[:tag]
-      @next_photos = Photo.tagged_with(@options[:tag]).order('updated_at desc').limit(@options[:limit]).offset(upper)
+      persona_range = @options[:author]
+      @next_photos = Photo.tagged_with(
+        @options[:tag]).where{ 
+          persona_id.in persona_range 
+        }.order('updated_at desc').limit(@options[:limit]).offset(upper)
     elsif @options[:mediatype] == 'mediaset' then 
-      #mediatype id should be mediaset
-      #@next_photos = Array.new
-      #@mediaset_photos = Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
-      #  :order => upper..upper+@options[:limit] ).order(:order).pluck(:photo_id)
-      #@mediaset_photos.each do |photo_id| 
-      #  @next_photos.push Photo.find(photo_id)
-      #end
-      #@next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.order('"order"').
-      #  where( "mediaset_photos.order" => upper..upper+@options[:limit])
-      
       order_range = upper..upper+@options[:limit]
+
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
       # see
       if persona_signed_in? && current_persona.id == Mediaset.find(params[:mediaset_id]).persona_id then

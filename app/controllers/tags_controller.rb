@@ -12,5 +12,9 @@ class TagsController < ApplicationController
   def show
     @tag = params[:tag_id]
     @photos = Photo.tagged_with(@tag)
+
+    respond_to do |format|
+      format.html { render "tags/show", :locals => { :tag => @tag} }
+    end
   end
 end

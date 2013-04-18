@@ -184,6 +184,9 @@ class PersonasController < ApplicationController
   def show_tag
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @tag = params[:tag_id]
-    @photos = @persona.photos.tagged_with(params[:tag_id]) 
+
+    respond_to do |format|
+      format.html{ render "tags/show", :locals => {:tag => @tag, :persona => @persona } }
+    end
   end
 end

@@ -1,7 +1,8 @@
 <% if persona.nil? then %> 
   <h1>Tags</h1>
 <% else %>
-  <h1>Tags by <%= persona.screen_name %></h1>
+  <% @focus = 'tags' %>
+  <%= render :partial => "common/personaHeaderBar" %>
 <% end %>
 
 <div class"row-fluid">
@@ -11,17 +12,22 @@
         <tr>
           <th>No</th>
           <th>Tag</th>
+          <th>Count</th>
         </tr>
       </thead>
       <% tags.each do |tag| %>
         <tr>
           <td></td>
           <td>
+            <i class="icon-tag"></i> 
             <% if persona.nil? then %>
               <%= link_to tag.name, tag_path(tag.name) %>
             <% else %>
               <%= link_to tag.name, persona_show_tag_path(persona.screen_name, tag.name) %>
             <% end %>
+          </td>
+          <td>
+            <%= tag.count %>
           </td>
         </tr>
       <% end %>

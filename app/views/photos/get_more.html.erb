@@ -2,7 +2,7 @@
   <%= @options %>
 </div>
 <% @next_photos.each do |photo| %>
-  <div style="float:left; margin: 0px 2px 2px 0px" class="carousel">
+  <div style="margin: 0px 2px 2px 0px" class="carousel pull-left">
     <div class="carousel-inner">
       <div class="active item">
         <% this_persona = Persona.find(photo.persona_id).screen_name %>
