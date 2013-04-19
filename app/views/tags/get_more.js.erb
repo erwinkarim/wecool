@@ -1,0 +1,15 @@
+var handle = $('#tagcontent');
+<% @tags.each do |tag| %>
+  handle.append( $('<tr/>') );
+  handle.find('tr:last').append( $('<td/>') );
+  <% if (defined? @persona).nil? then %>
+    handle.find('tr:last').append( $('<td/>').
+      html('<i class="icon-tag"></i> <%= link_to tag.name, tag_path(tag.name) %>') );
+  <% else %>
+    handle.find('tr:last').append( $('<td/>').
+      html('<i class="icon-tag"></i> <%= link_to tag.name, 
+        persona_show_tag_path(@persona.screen_name, tag.name) %>') 
+    );
+  <% end %>
+  handle.find('tr:last').append( $('<td/>', { text:'<%= tag.count %>' } ) );
+<% end %>

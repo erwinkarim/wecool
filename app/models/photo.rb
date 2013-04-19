@@ -109,4 +109,38 @@ class Photo < ActiveRecord::Base
       end
     end
   end
+
+  def self.get_tags ( options = {} )
+    default_options = {
+      :date_range => 1.day.ago..1.minute.ago, :persona_range => 0..Persona.last.id
+    }
+   
+    if options.has_key? :new_range then
+      puts 'new_range=' + options[:new_range]
+      if options[:new_range] == '1d' then
+        default_options[:date_range] = 1.day.ago..1.minute.ago
+      elsif options[:new_range] == '1w' then
+        default_options[:date_range] = 1.week.ago..1.minute.ago
+      elsif options[:new_range] == '1m' then
+        default_options[:date_range] = 1.month.ago..1.minute.ago
+      elsif options[:new_range] == 'forever' then
+        default_options[:date_range] = 30.years.ago..1.minute.ago
+      end
+    end
+
+    if options.has_key? :persona then
+      default_options[:persona_range] = options[:persona]
+    end
+    #get recent tags for the last 24 hours, order by tag count
+    tags = Photo.joins{ 
+      taggings 
+    }.group{
+      taggings.created_at 
+    }.having{ 
+      (taggings.created_at.in default_options[:date_range]) & ( persona_id.in default_options[:persona_range] )
+    }.tag_counts.order('"count" desc') 
+
+
+    return tags
+  end
 end

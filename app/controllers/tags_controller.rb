@@ -4,13 +4,7 @@ class TagsController < ApplicationController
     #@tags = Photo.tag_counts.order('id desc').limit(20)
 
     #get recent tags for the last 24 hours, order by tag count
-    @tags = Photo.joins{ 
-      taggings 
-    }.group{
-      taggings.created_at 
-    }.having{ 
-      taggings.created_at.in 1.day.ago..1.minute.ago 
-    }.tag_counts.order('"count" desc') 
+    @tags = Photo.get_tags 
 
     respond_to do |format|
       format.html { render "tags/index", :locals => { :tags => @tags, :persona => nil } }
@@ -24,6 +18,19 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       format.html { render "tags/show", :locals => { :tag => @tag} }
+    end
+  end
+  
+  def get_more
+
+    if params.has_key? :persona then
+      @persona = Persona.find(params[:persona]) 
+    end
+    @tags = Photo.get_tags(params)
+
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 end

@@ -172,7 +172,7 @@ class PersonasController < ApplicationController
   #GET    /personas/:persona_id/tags(.:format) 
   def tags
     @persona = Persona.where(:screen_name => params[:persona_id]).first
-    @tags = @persona.photos.tag_counts
+    @tags = Photo.get_tags( { :persona => @persona.id } )
 
     respond_to do |format|
       format.html { render "tags/index", :locals => {:tags => @tags, :persona => @persona }  }

@@ -66,7 +66,8 @@ Wecool::Application.routes.draw do
 
   controller :tags do
     match '/tags' => :index, :via => :get, :as => 'tags'
-    match '/tags/:tag_id' => :show, :via => :get, :as => 'tag'
+    match '/tags/view/:tag_id' => :show, :via => :get, :as => 'tag'
+    match '/tags/get_more' => :get_more, :via => :get, :as => 'get_more'
   end
   
   match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'
