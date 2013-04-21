@@ -228,6 +228,27 @@
       </div>
     </div>
   <% end %>
+  <% if !@related_photos.first.nil? then %>
+    <div class="accordion-group">  
+      <div class="accordion-heading">
+        <h3>
+        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse_related',
+          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
+          :style=>'display:inline;' %>Related Photos
+        </h3>
+      </div>
+      <div class="accordion-body collapse" id="collapse_related">
+        <div class="pagination pagination-centered">
+          <ul>
+            <% @related_photos.each do |photo| %>
+              <% persona = Persona.find(photo.persona_id) %>
+              <li><%= link_to image_tag(photo.avatar.square100), photo_view_path(persona.screen_name, photo) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 
