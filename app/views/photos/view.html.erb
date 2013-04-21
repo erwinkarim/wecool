@@ -235,10 +235,23 @@
         </h3>
       </div>
       <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
-        <% @photolist = get_photo_list(@persona.id, @photo.id, mediaset.id) %>
-        <% @mediaset = mediaset %>
-        <% @current_scope = 'mediaset' %>
-        <%= render "coverflow" %>
+        <div class="accordion-inner">
+          <div class="row-fluid">
+            <a name="loadNewerMediaset-<%= mediaset.id %>"></a>
+            <%= link_to 'Load Newer', '#loadNewerMediaset='+mediaset.id.to_s, :class => 'btn btn-info btn-mini' %>
+          </div>
+          <div class="row-fluid">
+            <% current_order = mediaset.mediaset_photos.where(:photo_id => @photo).pluck('"order"') %>
+            <% mediaset.mediaset_photos.where{ order.gt current_order}.limit(8).order('"order"').each do |thisphoto| %>
+              <% this_photo = Photo.find(thisphoto.photo_id) %>
+              <%= image_tag this_photo.avatar.square100, :class => 'img-polaroid', :style => 'margin:4px 2px;' %>
+            <% end %>
+          </div>
+          <div class="row-fluid">
+            <a name="loadOlderMediaset-<%= mediaset.id %>"></a>
+            <%= link_to 'Load Older', '#loadOlderMediaset='+mediaset.id.to_s, :class => 'btn btn-info btn-mini' %>
+          </div>
+        </div>
       </div>
     </div>
   <% end %>
