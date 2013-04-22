@@ -23,7 +23,7 @@ var handle = $('.endless_scroll_inner_wrap');
       <% end %>  
       
       //add rotate button if the photo is yours
-      <% if persona_signed_in? && current_persona.screen_name == this_persona then %>
+      <% if persona_signed_in? && current_persona.screen_name == this_persona && @options[:showIndicators] then %>
         carousel.append(
           $('<div/>', { class:'carousel-indicators' }).append(
             $('<a/>', { href:'<%= photo_transform_path( this_persona, photo, 'rotate', :direction => 'left', :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', rel:'nofollow' }).append(
@@ -79,7 +79,7 @@ var handle = $('.endless_scroll_inner_wrap');
       carousel.append(caption);
     <% end %>
 
-    $('.endless_scroll_inner_wrap').append(carousel);
+    $('<%= @options[:targetDiv]  %>').append(carousel);
 
     $('.carousel-caption').hide();
     $('.carousel-indicators').hide();
@@ -97,11 +97,11 @@ var handle = $('.endless_scroll_inner_wrap');
      last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
       :photo_id => @next_photos.last.id).first.order %>
   <% elsif @options[:mediatype] == 'tagset' then %>
-    last_id = parseInt($('.endless-photos').attr('last')) + <%=  @next_photos.count %>
+    last_id = parseInt($('<%= @options[:photoCountDiv] %>').attr('last')) + <%=  @next_photos.count %>
   <% else %>
     last_id = <%= @next_photos.last.id %>
   <% end %>
-  $('.endless-photos').attr('last', last_id ); 
+  $('<%= @options[:photoCountDiv] %>').attr('last', last_id ); 
 
   //make it draggable
   <% if @options[:draggable] then %>

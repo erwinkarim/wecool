@@ -228,6 +228,13 @@ class PhotosController < ApplicationController
 
   # GET /photos/get_more/:last_id(.:format)
   # todo: get more on trendiness and the ones that you tracked
+  # Options Explaination
+  #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
+  #                       to load :limit photos at the begining of the :targetDiv ('reverse')
+  #     showCaption   => to load '.carousel-caption' class
+  #     showIndicators=> to load '.carousel-indicators' class
+  #     targetDiv     => Where am i going to put these photos
+  #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
   def get_more
 
     #default options
@@ -235,11 +242,12 @@ class PhotosController < ApplicationController
       #fetch options
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil,
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
 
       #view options
       :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
-      :showCaption => true, :float => true, :cssDisplay => 'inline'
+      :showCaption => true, :showIndicators => true, :float => true, :cssDisplay => 'inline', 
+      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos'
     }
 
     #modify options
@@ -276,6 +284,12 @@ class PhotosController < ApplicationController
     if params.has_key? :showCaption then
       if params[:showCaption] == 'false' then
         @options[:showCaption] = false
+      end
+    end
+
+    if params.has_key? :showIndicators then
+      if params[:showIndicators] == 'false' then
+        @options[:showIndicators] = false
       end
     end
 
@@ -331,14 +345,22 @@ class PhotosController < ApplicationController
       upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
     end
 
+    #update target div to update
+    if params.has_key? :targetDiv then
+      @options[:targetDiv] = params[:targetDiv]
+    end
+
+    if params.has_key? :photoCountDiv then
+      @options[:photoCountDiv] = params[:photoCountDiv]
+    end
+    
+    if params.has_key? :direction then
+      if params[:direction] == 'reversed' then
+        @options[:direction] = params[:direction]
+      end
+    end
+
     if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
-      #@next_photos = Photo.find(:all, :conditions => { 
-      #    :id => 0..upper, :persona_id => @options[:author],
-      #    :featured => @options[:featured], :created_at => @options[:dateRange]
-      #  }, 
-      #  :order=>'id desc', :limit=> @options[:limit],
-      #  :group => 'id', :having => ['id not in (?)', @excluded_mediaset_photos ]
-      #)
       persona_range = @options[:author]
       feature_range = @options[:featured]
       date_range = @options[:dateRange]
@@ -346,12 +368,16 @@ class PhotosController < ApplicationController
       excluded_sets = @excluded_mediaset_photos
       persona_photos = Photo.where{ persona_id.eq thisPersona }
       other_photos = Photo.where{ (persona_id.not_eq thisPersona ) & (visible.eq true) }
-      @next_photos = Photo.where{
-        (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
-      }.group(:id).having{
-        (id.in 0..upper) & (persona_id.in persona_range) & (featured.in feature_range) &
-        (created_at.in date_range) & (id.not_in excluded_sets)
-      }.order('id desc').limit(@options[:limit])
+      if @options[:direction] == 'forward' then 
+        @next_photos = Photo.where{
+          (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
+        }.group(:id).having{
+          (id.in 0..upper) & (persona_id.in persona_range) & (featured.in feature_range) &
+          (created_at.in date_range) & (id.not_in excluded_sets)
+        }.order('id desc').limit(@options[:limit])
+      else
+        #get @options[:limit] photos before the params[:last_id]
+      end
     elsif @options[:mediatype] == 'tagset' then
       #get latest photos by @opions[:tag]
       persona_range = @options[:author]

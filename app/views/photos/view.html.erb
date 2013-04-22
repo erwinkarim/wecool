@@ -182,7 +182,8 @@
       <h3>
         <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapseDefault', 
           :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
-          :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, photo_path(@persona.screen_name, :view=>'raw') %>
+          :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, 
+            photo_path(@persona.screen_name, :view=>'raw') %>
       </h3>
     </div>
     <div class="accordion-body collapse <%= params[:scope].nil? ? 'in' : '' %>" id="collapseDefault">
@@ -191,17 +192,12 @@
           <a name="loadPrevPhotos"></a>
           <%= link_to 'Load Newer', '#loadPrevPhotos', :class=>'btn btn-info btn-mini' %>
         </div>
-        <div class="row-fluid">
-          <% photo = @photo %>
-          <% @persona.photos.where{ id.lt photo.id }.order('id desc').limit(10).each do |this_photo| %>
-            <div class="pull-left">
-              <%= image_tag this_photo.avatar.square100, :class => 'img-polaroid', :style => 'margin:4px 2px;' %>
-            </div>
-          <% end %>
+        <div id="photostream" class="row-fluid" first="" last="<%= @photo.id %>">
         </div>
         <div class="row-fluid">
           <a name="loadMorePhotos"></a>
-          <%= link_to 'Load Older', '#loadMorePhotos', :class => 'btn btn-info btn-mini' %>
+          <%= link_to 'Load Older', '#loadMorePhotos', :class => 'btn btn-info btn-mini', 
+            :id => 'loadMorePhotosBtn' %>
         </div>
       </div>
     </div>
@@ -218,9 +214,17 @@
       </div>
       <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
         <div class="accordion-inner">
-            <% @photolist = get_photo_list(@persona.id, @photo.id, nil, true) %>
-            <% @current_scope = 'featured' %>
-            <%= render "coverflow" %>
+            <div class="row-fluid">
+              <a name="loadNewerFeatured">
+              <%= link_to 'Load Newer', '#loadNewerFeatured', :class => 'btn btn-info btn-mini' %>
+            </div>
+            <div id="featuredPhotos" class="row-fluid" first="" last="<%= @photo.id %>" >
+            </div>
+            <div class="row-fluid">
+              <a name="loadOlderFeatured"></a>
+              <%= link_to 'Load Older', '#loadOlderFeatured', :class => 'btn btn-info btn-mini', 
+                :id => 'loadOlderFeaturedBtn' %>
+            </div>
         </div>
       </div>
     </div>
@@ -240,21 +244,20 @@
             <a name="loadNewerMediaset-<%= mediaset.id %>"></a>
             <%= link_to 'Load Newer', '#loadNewerMediaset='+mediaset.id.to_s, :class => 'btn btn-info btn-mini' %>
           </div>
-          <div class="row-fluid">
-            <% current_order = mediaset.mediaset_photos.where(:photo_id => @photo).pluck('"order"') %>
-            <% mediaset.mediaset_photos.where{ order.gt current_order}.limit(8).order('"order"').each do |thisphoto| %>
-              <% this_photo = Photo.find(thisphoto.photo_id) %>
-              <%= image_tag this_photo.avatar.square100, :class => 'img-polaroid', :style => 'margin:4px 2px;' %>
-            <% end %>
+          <% photo_order = Mediaset.find(mediaset).mediaset_photos.
+            where(:photo_id => @photo).pluck('"order"').first %>
+          <div class="row-fluid" id="mediaset-<%= mediaset.id %>" first="" last="<%= photo_order %>" >
           </div>
           <div class="row-fluid">
             <a name="loadOlderMediaset-<%= mediaset.id %>"></a>
-            <%= link_to 'Load Older', '#loadOlderMediaset='+mediaset.id.to_s, :class => 'btn btn-info btn-mini' %>
+            <%= link_to 'Load Older', '#loadOlderMediaset='+mediaset.id.to_s, 
+              :class => 'btn btn-info btn-mini', :id => 'loadOlderMediaset-' + mediaset.id.to_s + '-btn' %>
           </div>
         </div>
       </div>
     </div>
   <% end %>
+  <!-- tag related photos -->
   <% if !@related_photos.first.nil? then %>
     <div class="accordion-group">  
       <div class="accordion-heading">
@@ -311,6 +314,37 @@
   </script>
 <% end %>
 <script type="text/javascript">
+
+  //load normal photos
+  $.ajax({
+    url: '/photos/get_more/<%= @photo.id %>',
+    data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false },
+    dataType: 'script'
+  });
+
+  <% if @photo.featured? then %>
+    //load featured photos
+    $.ajax({
+      url: '/photos/get_more/<%= @photo.id %>',
+      data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
+        mediatype:'featured', showIndicators:false },
+      dataType: 'script'
+    });
+  <% end %>
+
+  //load each mediaset
+  <% @photo.mediasets.each do |mediaset| %>
+    //load featured photos
+    $.ajax({
+      url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
+      data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
+        photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
+        includeFirst:true, mediatype:'mediaset', showIndicators:false },
+      dataType: 'script'
+    });
+  <% end %>
   //for normal users 
   $(document).ready(function(){
       //hide the caption and control, appear on mouse hover
@@ -332,6 +366,41 @@
       if( $('.isFeatured').hasClass('icon-star') ){
         $('#visibilityBox').find('a').popover();
       }
+
+      $('#loadMorePhotosBtn').click( function(){
+        //load more
+        $.ajax({
+          url: '/photos/get_more/' + $('#photostream').attr('last'), 
+          data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+            author:'<%= @persona.screen_name %>', showIndicators:false },
+          dataType: 'script'
+
+        });
+      });
+
+      $('#loadOlderFeaturedBtn').click( function(){
+        //load more
+        $.ajax({
+          url: '/photos/get_more/' + $('#featuredPhotos').attr('last'), 
+          data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+            featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
+            mediatype:'featured', showIndicators:false },
+          dataType: 'script'
+        });
+      });
+
+      <% @photo.mediasets.each do |mediaset| %>
+        $('#loadOlderMediaset-<%= mediaset.id %>-btn').click( function(){
+          $.ajax({
+            url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
+            data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
+              photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
+              mediatype:'mediaset', showIndicators:false },
+            dataType: 'script'
+
+          });
+        });
+      <% end %>
   });
 
   $(document).keydown(function (e) {
