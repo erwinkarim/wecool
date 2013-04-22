@@ -79,7 +79,11 @@ var handle = $('.endless_scroll_inner_wrap');
       carousel.append(caption);
     <% end %>
 
-    $('<%= @options[:targetDiv]  %>').append(carousel);
+    <% if @options[:direction] == 'forward' then %>
+      $('<%= @options[:targetDiv]  %>').append(carousel);
+    <% else %>
+      $('<%= @options[:targetDiv]  %>').prepend(carousel);
+    <% end %>
 
     $('.carousel-caption').hide();
     $('.carousel-indicators').hide();
@@ -101,7 +105,11 @@ var handle = $('.endless_scroll_inner_wrap');
   <% else %>
     last_id = <%= @next_photos.last.id %>
   <% end %>
-  $('<%= @options[:photoCountDiv] %>').attr('last', last_id ); 
+  <% if @options[:direction] == 'forward' then %>
+    $('<%= @options[:photoCountDiv] %>').attr('last', last_id ); 
+  <% else %>
+    $('<%= @options[:photoCountDiv] %>').attr('first', last_id ); 
+  <% end %>
 
   //make it draggable
   <% if @options[:draggable] then %>

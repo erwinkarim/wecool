@@ -338,13 +338,6 @@ class PhotosController < ApplicationController
       @options[:tag] = params[:tag]
     end
 
-    #fetch photos
-    if ['photos', 'featured'].include? @options[:mediatype] then 
-      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
-    else
-      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
-    end
-
     #update target div to update
     if params.has_key? :targetDiv then
       @options[:targetDiv] = params[:targetDiv]
@@ -355,9 +348,20 @@ class PhotosController < ApplicationController
     end
     
     if params.has_key? :direction then
-      if params[:direction] == 'reversed' then
+      if params[:direction] == 'reverse' then
         @options[:direction] = params[:direction]
       end
+    end
+
+    #fetch photos
+    if ['photos', 'featured'].include? @options[:mediatype] then 
+      if @options[:direction] == 'forward' then
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+      else
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1
+      end
+    else
+      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
     end
 
     if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
@@ -377,6 +381,12 @@ class PhotosController < ApplicationController
         }.order('id desc').limit(@options[:limit])
       else
         #get @options[:limit] photos before the params[:last_id]
+        @next_photos = Photo.where{
+          (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
+        }.group(:id).having{
+          (id.in upper..Photo.last.id) & (persona_id.in persona_range) & (featured.in feature_range) &
+          (created_at.in date_range) & (id.not_in excluded_sets)
+        }.order('id asc').limit(@options[:limit])
       end
     elsif @options[:mediatype] == 'tagset' then
       #get latest photos by @opions[:tag]
