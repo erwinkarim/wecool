@@ -396,7 +396,11 @@ class PhotosController < ApplicationController
           persona_id.in persona_range 
         }.order('updated_at desc').limit(@options[:limit]).offset(upper)
     elsif @options[:mediatype] == 'mediaset' then 
-      order_range = upper..upper+@options[:limit]
+      if @options[:direction] == 'forward' then
+        order_range = upper..upper+@options[:limit]
+      else
+        order_range = (upper-@options[:limit])..upper
+      end
 
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
       # see
@@ -405,9 +409,15 @@ class PhotosController < ApplicationController
       else
         visibility = true
       end
-      @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
-        mediaset_photos.order.in order_range
-      }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
+      if @options[:direction] == 'forward' then
+        @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
+          mediaset_photos.order.in order_range
+        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
+      else
+        @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
+          mediaset_photos.order.in order_range
+        }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility)
+      end
     elsif @options[:mediatype] == 'trending' then
       #list down photo based on 
       # a) popular votes
