@@ -361,7 +361,11 @@ class PhotosController < ApplicationController
         upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1
       end
     else
-      upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
+      if @options[:direction] == 'forward' then
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
+      else
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1  
+      end
     end
 
     if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
@@ -396,11 +400,6 @@ class PhotosController < ApplicationController
           persona_id.in persona_range 
         }.order('updated_at desc').limit(@options[:limit]).offset(upper)
     elsif @options[:mediatype] == 'mediaset' then 
-      if @options[:direction] == 'forward' then
-        order_range = upper..upper+@options[:limit]
-      else
-        order_range = (upper-@options[:limit])..upper
-      end
 
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
       # see
@@ -410,10 +409,12 @@ class PhotosController < ApplicationController
         visibility = true
       end
       if @options[:direction] == 'forward' then
+        order_range = upper..upper+@options[:limit]
         @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
           mediaset_photos.order.in order_range
         }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
       else
+        order_range = (upper-@options[:limit])..upper
         @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
           mediaset_photos.order.in order_range
         }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility)
