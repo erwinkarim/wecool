@@ -189,16 +189,14 @@
     <div class="accordion-body collapse <%= params[:scope].nil? ? 'in' : '' %>" id="collapseDefault">
       <div class="accordion-inner">
         <div class="row-fluid">
-          <a name="loadPrevPhotos"></a>
-          <%= link_to 'Load Newer', '#loadPrevPhotos', :class=>'btn btn-info btn-mini',
-            :id => 'loadPrevPhotosBtn' %>
+          <%= button_tag 'Load Newer', 
+            { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadPrevPhotosBtn' } %>
         </div>
         <div id="photostream" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>">
         </div>
         <div class="row-fluid">
-          <a name="loadMorePhotos"></a>
-          <%= link_to 'Load Older', '#loadMorePhotos', :class => 'btn btn-info btn-mini', 
-            :id => 'loadMorePhotosBtn' %>
+          <%= button_tag 'Load Older', 
+            { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMorePhotosBtn' } %>
         </div>
       </div>
     </div>
@@ -216,16 +214,14 @@
       <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
         <div class="accordion-inner">
             <div class="row-fluid">
-              <a name="loadNewerFeatured">
-              <%= link_to 'Load Newer', '#loadNewerFeatured', :class => 'btn btn-info btn-mini',
-                :id => 'loadNewerFeaturedBtn' %>
+              <%= button_tag 'Load Newer', 
+                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadNewerFeaturedBtn' } %>
             </div>
             <div id="featuredPhotos" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>" >
             </div>
             <div class="row-fluid">
-              <a name="loadOlderFeatured"></a>
-              <%= link_to 'Load Older', '#loadOlderFeatured', :class => 'btn btn-info btn-mini', 
-                :id => 'loadOlderFeaturedBtn' %>
+              <%= button_tag 'Load Older', 
+                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadOlderFeaturedBtn' } %>
             </div>
         </div>
       </div>
@@ -243,18 +239,18 @@
       <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
         <div class="accordion-inner">
           <div class="row-fluid">
-            <a name="loadNewerMediaset-<%= mediaset.id %>"></a>
-            <%= link_to 'Load Newer', '#loadNewerMediaset-'+mediaset.id.to_s, :class => 'btn btn-info btn-mini',
-              :id => 'loadNewerMediaset-'+ mediaset.id.to_s + '-btn' %>
+            <%= button_tag 'Load Newer', 
+              { :class => 'btn btn-mini btn-info', :role => 'button', 
+                :id => 'loadNewerMediaset-' + mediaset.id.to_s + '-btn' } %>
           </div>
           <% photo_order = @photo.mediaset_photos.where( :mediaset_id => mediaset).pluck('"order"').first %>
           <div class="row-fluid" id="mediaset-<%= mediaset.id %>" 
             first="<%= photo_order %>" last="<%= photo_order %>" >
           </div>
           <div class="row-fluid">
-            <a name="loadOlderMediaset-<%= mediaset.id %>"></a>
-            <%= link_to 'Load Older', '#loadOlderMediaset='+mediaset.id.to_s, 
-              :class => 'btn btn-info btn-mini', :id => 'loadOlderMediaset-' + mediaset.id.to_s + '-btn' %>
+            <%= button_tag 'Load Older', 
+              { :class => 'btn btn-mini btn-info', :role => 'button', 
+                :id => 'loadOlderMediaset-' + mediaset.id.to_s + '-btn' } %>
           </div>
         </div>
       </div>
@@ -322,7 +318,7 @@
   $.ajax({
     url: '/photos/get_more/<%= @photo.id %>',
     data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
-      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false },
+      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true },
     dataType: 'script'
   });
 
@@ -332,7 +328,7 @@
       url: '/photos/get_more/<%= @photo.id %>',
       data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
         featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
-        mediatype:'featured', showIndicators:false },
+        mediatype:'featured', showIndicators:false, highlight:true },
       dataType: 'script'
     });
   <% end %>
@@ -344,7 +340,7 @@
       url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
       data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
         photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
-        includeFirst:true, mediatype:'mediaset', showIndicators:false },
+        includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true },
       dataType: 'script'
     });
   <% end %>

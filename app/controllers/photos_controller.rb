@@ -129,6 +129,7 @@ class PhotosController < ApplicationController
     end
   end
   
+  # GET    /photos/:photo_id/upload
   def upload
   end
  
@@ -150,11 +151,13 @@ class PhotosController < ApplicationController
     end
   end
 
+  # GET    /photos/:persona_id/editor/:photo_id(.:format) 
   def editor
     @photo = Photo.find(params[:photo_id])
     @persona = Persona.find(@photo.persona_id)
   end
 
+  #  GET    /photos/:persona_id/view/:id(.:format)
   def view
     @persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id] }).first
     @photo = @persona.photos.find(params[:id])
@@ -163,6 +166,7 @@ class PhotosController < ApplicationController
     @total_votes = @photo.up_votes + @photo.down_votes
     @mediasets = @persona.mediasets
 
+    # setup links to prev/next photos
     if params[:scope] == 'mediaset' then
       @current_mediaset = Mediaset.find(params[:scope_id])
       current_pos = @current_mediaset.mediaset_photos.where(:photo_id => params[:id]).first.order
@@ -185,6 +189,7 @@ class PhotosController < ApplicationController
       @next_photo_path = @next_photo.nil? ? '#' : 
         photo_view_in_scope_path(@persona.screen_name, @next_photo, 'featured', 0) + '#photo'
     else
+      #normal scope, view photo scope
       photoID = @photo.id
       visibleScope = current_persona == @persona ? [true,false] : [true]
       @prev_photo = @persona.photos.where{ 
@@ -226,15 +231,26 @@ class PhotosController < ApplicationController
     end
   end
 
-  # GET /photos/get_more/:last_id(.:format)
   # todo: get more on trendiness and the ones that you tracked
   # Options Explaination
+  #     FETCH Options
+  #     =============
+  #     mediatype     => options are photos(default), mediaset, tagset or featured
+  #                       photos : fetch photos with :last_id as the reference point
+  #                       mediaset: fetch photos in params[:mediaset_id] with params[:last_id] the photo photo
+  #                       tagset: fetch photos with params tags params[:tags] with offset [:last_id]
+  #                       featured : similiar with photos but fetch photos with featured == true attribute
   #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
   #                       to load :limit photos at the begining of the :targetDiv ('reverse')
+  #
+  #     SHOW Options
+  #     ============
   #     showCaption   => to load '.carousel-caption' class
   #     showIndicators=> to load '.carousel-indicators' class
   #     targetDiv     => Where am i going to put these photos
   #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
+  #     highlight     => Highlight the photo in :last_id when in photo/featured mode
+  # GET /photos/get_more/:last_id(.:format)
   def get_more
 
     #default options
@@ -247,7 +263,7 @@ class PhotosController < ApplicationController
       #view options
       :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
       :showCaption => true, :showIndicators => true, :float => true, :cssDisplay => 'inline', 
-      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos'
+      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos', :highlight => false
     }
 
     #modify options
@@ -353,6 +369,12 @@ class PhotosController < ApplicationController
       end
     end
 
+    if params.has_key? :highlight then
+      if params[:highlight] == 'true' then
+        @options[:highlight] = true
+      end
+    end
+
     #fetch photos
     if ['photos', 'featured'].include? @options[:mediatype] then 
       if @options[:direction] == 'forward' then
@@ -369,6 +391,7 @@ class PhotosController < ApplicationController
     end
 
     if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
+      @current_photo = Photo.find(params[:last_id])
       persona_range = @options[:author]
       feature_range = @options[:featured]
       date_range = @options[:dateRange]
@@ -400,6 +423,12 @@ class PhotosController < ApplicationController
           persona_id.in persona_range 
         }.order('updated_at desc').limit(@options[:limit]).offset(upper)
     elsif @options[:mediatype] == 'mediaset' then 
+      #get current photo
+      @current_photo = Photo.find(
+        MediasetPhoto.where( 
+            :order => params[:last_id], :mediaset_id => params[:mediaset_id]
+          ).pluck(:photo_id).first
+        )
 
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
       # see

@@ -39,6 +39,9 @@ var handle = $('.endless_scroll_inner_wrap');
         ) 
         %>"
       );
+      <% if @options[:highlight] && photo == @current_photo then %>
+        carousel.find('img').attr('style', 'border: 1px solid red;');
+      <% end %>
 
     //show caption
     <% if @options[:showCaption] then %>
