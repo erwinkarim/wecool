@@ -65,7 +65,7 @@
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
       author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
       draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
-      float:false, cssDisplay:'inline-block'
+      float:false, cssDisplay:'inline-block', showIndicators:false
   };
 
   $.ajax({
@@ -87,14 +87,14 @@
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false, 
           excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
           draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
@@ -102,14 +102,14 @@
           author:'<%= @persona.screen_name %>', showCaption:'false', 
           dateRange:$(this).val().split('photoOn')[1], enableLinks:false, 
           draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       } else if($(this).val() == 'photoFeatured'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', featured:true,  
           author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
           excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       }
 

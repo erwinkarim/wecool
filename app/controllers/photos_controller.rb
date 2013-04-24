@@ -254,7 +254,15 @@ class PhotosController < ApplicationController
   def get_more
 
     current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
-    @current_photo = Photo.find(params[:last_id])
+    if !['trending', 'tracked'].include? params[:mediatype] then
+      if params[:mediatype] != 'mediaset' then
+        @current_photo = Photo.find(params[:last_id])
+      else
+        @current_photo = Photo.find(
+          MediasetPhoto.where(:mediaset_id => params[:mediaset_id]).where( :order => params[:last_id]).pluck(:photo_id).first
+        )
+      end
+    end
     results = Photo.get_more( 
       params[:last_id].to_i, 
       current_options, 

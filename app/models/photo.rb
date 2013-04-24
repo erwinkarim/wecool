@@ -181,20 +181,29 @@ class Photo < ActiveRecord::Base
 
     default_options = default_options.merge(options)
 
+    default_options[:limit] = default_options[:limit].to_i
     if options.has_key? :dateRange then
       @theDate = DateTime.parse options[:dateRange]
       default_options[:dateRange] = @theDate..@theDate+1
     end
 
     default_options.slice( :includeFirst, :exclueLinks, :draggable, :enableLinks, :showCaption,
-      :float, :highlight).keys.each do |thisKey|
+      :float, :highlight, :showIndicators).keys.each do |thisKey|
       if default_options[thisKey].is_a? String then
         default_options[thisKey] = default_options[thisKey] == 'true'  
       end
     end
 
+    #process featured 
     if !(default_options[:featured].is_a? Array) then
       default_options[:featured] = default_options[:featured] == 'true'
+    else
+      default_options[:featured] = [true,false]
+    end
+
+    #process featured
+    if options[:author].is_a? String then
+      default_options[:author] = Persona.find(:first, :conditions => { :screen_name => options[:author] })
     end
 
     #fetch photos
@@ -273,7 +282,7 @@ class Photo < ActiveRecord::Base
         offset(last_id).uniq
     elsif default_options[:mediatype] == 'tracked' then
       #get the photos that the current persona tracks
-      @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
+      @tracked_persona = current_persona[:current_persona].followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
         { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
         :order => 'id desc', :limit => default_options[:limit])
