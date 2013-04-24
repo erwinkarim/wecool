@@ -8,9 +8,11 @@
         <% this_persona = Persona.find(photo.persona_id).screen_name %>
         <%= link_to image_tag(photo.avatar.versions[@options[:size].to_sym], :class => 'img-polaroid'), 
           @options[:enableLinks] ? photo_view_path(this_persona, photo.id) : '#' %>
-        <div class="carousel-caption">
-          <p><%= photo.title %> by <%= link_to this_persona, persona_path(this_persona) %></p>
-        </div>
+        <% if @options[:showCaption] then %>
+          <div class="carousel-caption">
+            <p><%= photo.title %> by <%= link_to this_persona, persona_path(this_persona) %></p>
+          </div>
+        <% end %>
       </div>
     </div><!-- carousel-inner -->
   </div>

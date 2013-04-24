@@ -253,16 +253,216 @@ class PhotosController < ApplicationController
   # GET /photos/get_more/:last_id(.:format)
   def get_more
 
-    current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
-    @current_photo = Photo.find(params[:last_id])
-    results = Photo.get_more( 
-      params[:last_id].to_i, 
-      current_options, 
-      { :signed_in? => persona_signed_in? , :current_persona => current_persona }
-    )
+    #default options
+    @options = {
+      #fetch options
+      :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
+      :featured => [true, false], :excludeMediaset => 0,
+      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
 
-    @options = results[:options]
-    @next_photos = results[:photos]
+      #view options
+      :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
+      :showCaption => true, :showIndicators => true, :float => true, :cssDisplay => 'inline', 
+      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos', :highlight => false
+    }
+
+    #modify options
+    if params.has_key? :mediatype then
+      @options[:mediatype] = params[:mediatype]
+    end
+
+    if params.has_key? :size then
+      @options[:size] = params[:size]
+    end
+
+    if params.has_key? :limit then
+      @options[:limit] = params[:limit].to_i
+    end
+
+    if params.has_key? :includeFirst then
+      @options[:includeFirst] = params[:includeFirst] == 'true' ? true : false
+    end
+
+    if params.has_key? :author then
+      @options[:author] = Persona.find(:first, :conditions => { :screen_name => params[:author]})
+    end
+
+    if params.has_key? :featured then
+      if params[:featured] == 'true' then
+        @options[:featured] = true
+      elsif params[:featured] == 'false' then
+        @options[:featured] = false
+      else
+        @options[:featured] = [true,false]
+      end
+    end
+
+    if params.has_key? :showCaption then
+      if params[:showCaption] == 'false' then
+        @options[:showCaption] = false
+      end
+    end
+
+    if params.has_key? :showIndicators then
+      if params[:showIndicators] == 'false' then
+        @options[:showIndicators] = false
+      end
+    end
+
+    if params.has_key? :excludeLinks then
+      if params[:excludeLinks] == 'false' then
+        @options[:excludeLinks] = false
+      end
+    end
+
+    if params.has_key? :dateRange then
+      @theDate = DateTime.parse params[:dateRange]
+      @options[:dateRange] = @theDate..@theDate+1
+    end
+
+    if params.has_key? :excludeMediaset then
+      if params[:excludeMediaset].empty? then
+        @excluded_mediaset_photos = 0
+      else
+        @excluded_mediaset_photos = Mediaset.find(params[:excludeMediaset]).photos.pluck(:photo_id)
+      end
+    else
+      @excluded_mediaset_photos = 0
+    end
+
+    if params.has_key? :draggable then
+      @options[:draggable] = params[:draggable] == 'true' ? true : false
+    end
+
+    if params.has_key? :dragSortConnect then
+      @options[:dragSortConnect] = params[:dragSortConnect]
+    end
+
+    if params.has_key? :enableLinks then
+      @options[:enableLinks] = params[:enableLinks] == 'false' ? false : true
+    end
+
+    if params.has_key? :float then
+      @options[:float] = params[:float] == 'false' ? false : true
+    end
+
+    if params.has_key? :cssDisplay then
+      @options[:cssDisplay] = params[:cssDisplay]
+    end
+  
+    if params.has_key? :tag then
+      @options[:tag] = params[:tag]
+    end
+
+    #update target div to update
+    if params.has_key? :targetDiv then
+      @options[:targetDiv] = params[:targetDiv]
+    end
+
+    if params.has_key? :photoCountDiv then
+      @options[:photoCountDiv] = params[:photoCountDiv]
+    end
+    
+    if params.has_key? :direction then
+      if params[:direction] == 'reverse' then
+        @options[:direction] = params[:direction]
+      end
+    end
+
+    if params.has_key? :highlight then
+      if params[:highlight] == 'true' then
+        @options[:highlight] = true
+      end
+    end
+
+    #fetch photos
+    if ['photos', 'featured'].include? @options[:mediatype] then 
+      if @options[:direction] == 'forward' then
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1
+      else
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1
+      end
+    else
+      if @options[:direction] == 'forward' then
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i + 1  
+      else
+        upper = @options[:includeFirst] ? params[:last_id].to_i : params[:last_id].to_i - 1  
+      end
+    end
+
+    if @options[:mediatype] == 'featured' || @options[:mediatype] == 'photos' then
+      @current_photo = Photo.find(params[:last_id])
+      persona_range = @options[:author]
+      feature_range = @options[:featured]
+      date_range = @options[:dateRange]
+      thisPersona = persona_signed_in? ? current_persona.id : 0 
+      excluded_sets = @excluded_mediaset_photos
+      persona_photos = Photo.where{ persona_id.eq thisPersona }
+      other_photos = Photo.where{ (persona_id.not_eq thisPersona ) & (visible.eq true) }
+      if @options[:direction] == 'forward' then 
+        @next_photos = Photo.where{
+          (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
+        }.group(:id).having{
+          (id.in 0..upper) & (persona_id.in persona_range) & (featured.in feature_range) &
+          (created_at.in date_range) & (id.not_in excluded_sets)
+        }.order('id desc').limit(@options[:limit])
+      else
+        #get @options[:limit] photos before the params[:last_id]
+        @next_photos = Photo.where{
+          (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
+        }.group(:id).having{
+          (id.in upper..Photo.last.id) & (persona_id.in persona_range) & (featured.in feature_range) &
+          (created_at.in date_range) & (id.not_in excluded_sets)
+        }.order('id asc').limit(@options[:limit])
+      end
+    elsif @options[:mediatype] == 'tagset' then
+      #get latest photos by @opions[:tag]
+      persona_range = @options[:author]
+      @next_photos = Photo.tagged_with(
+        @options[:tag]).where{ 
+          persona_id.in persona_range 
+        }.order('updated_at desc').limit(@options[:limit]).offset(upper)
+    elsif @options[:mediatype] == 'mediaset' then 
+      #get current photo
+      @current_photo = Photo.find(
+        MediasetPhoto.where( 
+            :order => params[:last_id], :mediaset_id => params[:mediaset_id]
+          ).pluck(:photo_id).first
+        )
+
+      #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
+      # see
+      if persona_signed_in? && current_persona.id == Mediaset.find(params[:mediaset_id]).persona_id then
+        visibility = [true,false]
+      else
+        visibility = true
+      end
+      if @options[:direction] == 'forward' then
+        order_range = upper..upper+@options[:limit]
+        @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
+          mediaset_photos.order.in order_range
+        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
+      else
+        order_range = (upper-@options[:limit])..upper
+        @next_photos = Mediaset.joins{ mediaset_photos }.find(params[:mediaset_id]).photos.where{
+          mediaset_photos.order.in order_range
+        }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility)
+      end
+    elsif @options[:mediatype] == 'trending' then
+      #list down photo based on 
+      # a) popular votes
+      # b) tag activity
+      @next_photos = Photo.joins{ votings }.order("votings.created_at desc").limit(@options[:limit]).
+        offset(params[:last_id]).uniq
+    elsif @options[:mediatype] == 'tracked' then
+      #get the photos that the current persona tracks
+      @tracked_persona = current_persona.followers.where(:tracked_object_type => 'persona')
+      @next_photos = Photo.find(:all, :conditions => 
+        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
+        :order => 'id desc', :limit => @options[:limit])
+    end
+
+
     respond_to do |format|
       format.js
       format.html
