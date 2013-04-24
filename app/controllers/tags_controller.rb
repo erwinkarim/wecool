@@ -33,4 +33,15 @@ class TagsController < ApplicationController
       format.js
     end
   end
+  
+  #get and show related photos
+  # GET    /tags/related/:photo_id
+  def related
+    @photo = Photo.find(params[:photo_id])
+    @related_photos = @photo.find_related_tags.limit(8)
+    
+    respond_to do |format|  
+      format.html
+    end
+  end
 end

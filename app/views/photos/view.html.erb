@@ -263,7 +263,7 @@
         <h3>
         <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse_related',
           :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
-          :style=>'display:inline;' %>Related Photos
+          :style=>'display:inline;' %><%= link_to 'Related Photos', tag_related_path(@photo) %>
         </h3>
       </div>
       <div class="accordion-body collapse" id="collapse_related">
@@ -318,9 +318,16 @@
   $.ajax({
     url: '/photos/get_more/<%= @photo.id %>',
     data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
-      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true },
+      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true, limit:4 },
     dataType: 'script'
   });
+  $.ajax({
+    url: '/photos/get_more/<%= @photo.id %>',
+    data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true, limit:3, direction:'reverse' },
+    dataType: 'script'
+  });
+
 
   <% if @photo.featured? then %>
     //load featured photos
@@ -328,19 +335,33 @@
       url: '/photos/get_more/<%= @photo.id %>',
       data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
         featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
-        mediatype:'featured', showIndicators:false, highlight:true },
+        mediatype:'featured', showIndicators:false, highlight:true, limit:4 },
+      dataType: 'script'
+    });
+    $.ajax({
+      url: '/photos/get_more/<%= @photo.id %>',
+      data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        featured:true, author:'<%= @persona.screen_name %>', mediatype:'featured', showIndicators:false, 
+        highlight:true, direction:'reverse', limit:3 },
       dataType: 'script'
     });
   <% end %>
 
   //load each mediaset
   <% @photo.mediasets.each do |mediaset| %>
-    //load featured photos
+    //load mediaset photos
     $.ajax({
       url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
       data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
         photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
-        includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true },
+        includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true, limit:3 },
+      dataType: 'script'
+    });
+    $.ajax({
+      url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
+      data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
+        photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
+        mediatype:'mediaset', showIndicators:false, highlight:true, limit:3, direction:'reverse' },
       dataType: 'script'
     });
   <% end %>

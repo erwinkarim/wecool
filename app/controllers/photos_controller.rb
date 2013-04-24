@@ -255,12 +255,14 @@ class PhotosController < ApplicationController
 
     current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
     if !['trending', 'tracked'].include? params[:mediatype] then
-      if params[:mediatype] != 'mediaset' then
-        @current_photo = Photo.find(params[:last_id])
-      else
+      if params[:mediatype] == 'mediaset' then
         @current_photo = Photo.find(
           MediasetPhoto.where(:mediaset_id => params[:mediaset_id]).where( :order => params[:last_id]).pluck(:photo_id).first
         )
+      elsif params[:mediatype] == 'tagset' then
+        @current_photo = Photo.last.id
+      else
+        @current_photo = Photo.find(params[:last_id])
       end
     end
     results = Photo.get_more( 
