@@ -232,8 +232,10 @@ class PhotosController < ApplicationController
   end
 
   # todo: get more on trendiness and the ones that you tracked
+  # GET    /photos/get_more/:last_id
   def get_more
 
+    # convert from { "key" => "value" } to { :key => "value" }
     current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
     if params.has_key? :photoFocusID then
       @current_photo = Photo.find(params[:photoFocusID])
@@ -241,6 +243,7 @@ class PhotosController < ApplicationController
       @current_photo = nil
     end
 
+    #fetch the photos
     results = Photo.get_more( 
       params[:last_id].to_i, 
       current_options, 

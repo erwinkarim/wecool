@@ -157,13 +157,39 @@ class Photo < ActiveRecord::Base
   #                       featured : similiar with photos but fetch photos with featured == true attribute
   #                       related: get related photo of params[:last_id] with offset of params[:offset]
   #                         eg. get related photo of id 28 with offset of 10
+  #                       trending : get photos that popular on votes and tags
+  #     limit         => limit output to option[:limit] photos
+  #     includeFirst  => when fetching photos, include the last_id in the results
+  #     author        => limit the photos from options[:author] only
+  #     featured      => limit to featured photos only, defaults to any photos 
+  #                       [true,false].include? Photo.find(:last_id).featured
+  #     excludeMediaset => when fetching photos, exclude photos from certain mediaset
+  #     dataRange     => grabs photos from dateRange, must be in firstDate..lastDate format
+  #     tag           => grabs photos with certain options[:tag], can only be used with :mediatype = 'tagset'
   #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
   #                       to load :limit photos at the begining of the :targetDiv ('reverse')
   #
   #     SHOW Options
   #     ============
+  #     by default, show options will be processed in '/photos/get_more.js.erb' view
+  #       and displayed in this format:-
+  #
+  #       photos.each do |photo|
+  #         <div class="carousel">
+  #           photo.avatar.(:size).url
+  #           <div class="carousel-indicators"></div>
+  #           <div class="carousel-caption"></div>
+  #         </div>
+  #       end
+  #     showCaption   => to load '.carousel-caption' class
+  #     draggable     => implement the jquery-ui draggable class
+  #     dragSortConnect => specify the jquery-ui sortable class that the draggable element will connect to
+  #                     :draggable must be set to something
+  #     excludeLinks  => when showing the photo, to allow linkage the photo or '#'
   #     showCaption   => to load '.carousel-caption' class
   #     showIndicators=> to load '.carousel-indicators' class
+  #     float         => to implement '.pull-left' class in the carousel
+  #     cssDisplay    => how the photos will arranged 
   #     targetDiv     => Where am i going to put these photos
   #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
   #     highlight     => Highlight the photo in :last_id when in photo/featured mode
@@ -177,11 +203,11 @@ class Photo < ActiveRecord::Base
       #fetch options
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
-      :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
+      :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
       :offset => 0, 
 
       #view options
-      :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
+      :excludeLinks => false, :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
       :showCaption => true, :showIndicators => true, :float => true, :cssDisplay => 'inline', 
       :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos', :highlight => false
     }
@@ -243,8 +269,6 @@ class Photo < ActiveRecord::Base
       end
     end
 
-    puts 'fetching photos'
-    puts default_options
     if default_options[:mediatype] == 'featured' || default_options[:mediatype] == 'photos' then
       persona_range = default_options[:author]
       feature_range = default_options[:featured]
