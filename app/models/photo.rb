@@ -147,6 +147,27 @@ class Photo < ActiveRecord::Base
   #fetch photos from last_id reference point, options can be modified in the second arguments, otherwise it will
   # defaults to options
   #
+  # Options Explaination
+  #     FETCH Options
+  #     =============
+  #     mediatype     => options are photos(default), mediaset, tagset or featured
+  #                       photos : fetch photos with :last_id as the reference point
+  #                       mediaset: fetch photos in params[:mediaset_id] with params[:last_id] the photo photo
+  #                       tagset: fetch photos with params tags params[:tags] with offset [:last_id]
+  #                       featured : similiar with photos but fetch photos with featured == true attribute
+  #                       related: get related photo of params[:last_id] with offset of params[:offset]
+  #                         eg. get related photo of id 28 with offset of 10
+  #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
+  #                       to load :limit photos at the begining of the :targetDiv ('reverse')
+  #
+  #     SHOW Options
+  #     ============
+  #     showCaption   => to load '.carousel-caption' class
+  #     showIndicators=> to load '.carousel-indicators' class
+  #     targetDiv     => Where am i going to put these photos
+  #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
+  #     highlight     => Highlight the photo in :last_id when in photo/featured mode
+  # GET /photos/get_more/:last_id(.:format)
   #return next_photos => an array of photos
   def self.get_more( last_id, options={},  
     current_persona={ :signed_in? => false, :current_persona => nil }
@@ -157,6 +178,7 @@ class Photo < ActiveRecord::Base
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
       :excludeLinks => false, :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
+      :offset => 0, 
 
       #view options
       :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
@@ -286,6 +308,11 @@ class Photo < ActiveRecord::Base
       @next_photos = Photo.find(:all, :conditions => 
         { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
         :order => 'id desc', :limit => default_options[:limit])
+    elsif default_options[:mediatype] == 'related' then
+      @next_photos = Photo.where( :id => 
+        Photo.find(default_options[:focusPhotoID]).find_related_tags.
+          limit(default_options[:limit]).offset(last_id).pluck(:'photos.id')
+      )
     end
 
     return { :photos => @next_photos, :options => default_options }

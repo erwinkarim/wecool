@@ -1,4 +1,4 @@
-var handle = $('.endless_scroll_inner_wrap');
+var handle = $('<%= @options[:targetDiv] %>');
 
 <% if  !@next_photos.empty? then %>
 
@@ -103,7 +103,7 @@ var handle = $('.endless_scroll_inner_wrap');
   <% if @options[:mediatype] == 'mediaset' then %>
      last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
       :photo_id => @next_photos.last.id).first.order %>
-  <% elsif @options[:mediatype] == 'tagset' then %>
+  <% elsif ['tagset', 'related'].include? @options[:mediatype] then %>
     last_id = parseInt($('<%= @options[:photoCountDiv] %>').attr('last')) + <%=  @next_photos.count %>
   <% else %>
     last_id = <%= @next_photos.last.id %>

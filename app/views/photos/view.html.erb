@@ -267,14 +267,15 @@
         </h3>
       </div>
       <div class="accordion-body collapse" id="collapse_related">
-        <div class="pagination pagination-centered">
-          <ul>
-            <% @related_photos.each do |photo| %>
-              <% persona = Persona.find(photo.persona_id) %>
-              <li><%= link_to image_tag(photo.avatar.square100), photo_view_path(persona.screen_name, photo) %></li>
-            <% end %>
-          </ul>
+        <div class="accordion-inner">
+          <div class="row-fluid" id="related-photos" last="0">
+          </div>
+          <div class="row-fluid">
+            <%= button_tag 'Load More', 
+              { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMoreRelatedBtn' } %>
+          </div>
         </div>
+      
       </div>
     </div>
   <% end %>
@@ -318,7 +319,8 @@
   $.ajax({
     url: '/photos/get_more/<%= @photo.id %>',
     data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
-      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true, limit:4 },
+      includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true, limit:4 ,
+      photoFocusID:<%= @photo.id %>},
     dataType: 'script'
   });
   $.ajax({
@@ -335,7 +337,7 @@
       url: '/photos/get_more/<%= @photo.id %>',
       data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
         featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
-        mediatype:'featured', showIndicators:false, highlight:true, limit:4 },
+        mediatype:'featured', showIndicators:false, highlight:true, limit:4, photoFocusID:<%= @photo.id %> },
       dataType: 'script'
     });
     $.ajax({
@@ -354,7 +356,8 @@
       url: '/photos/get_more/' + $('#mediaset-<%= mediaset.id %>').attr('last') ,
       data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
         photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
-        includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true, limit:3 },
+        includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true, limit:3, 
+        photoFocusID:<%= @photo.id %>},
       dataType: 'script'
     });
     $.ajax({
@@ -365,6 +368,15 @@
       dataType: 'script'
     });
   <% end %>
+
+  //load related photos
+  $.ajax({
+      url: '/photos/get_more/0',
+      data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
+        photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
+        focusPhotoID:<%= @photo.id %> },
+      dataType: 'script'
+  });
   //for normal users 
   $(document).ready(function(){
       //hide the caption and control, appear on mouse hover
@@ -402,7 +414,7 @@
         $.ajax({
           url: '/photos/get_more/' + $('#photostream').attr('last'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
-            author:'<%= @persona.screen_name %>', showIndicators:false },
+            author:'<%= @persona.screen_name %>', showIndicators:false},
           dataType: 'script'
         });
       });
@@ -451,6 +463,16 @@
           });
         });
       <% end %>
+
+      $('#loadMoreRelatedBtn').click( function(){
+        $.ajax({
+            url: '/photos/get_more/' + $('#related-photos').attr('last'),
+            data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
+              photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
+              focusPhotoID:<%= @photo.id %> },
+            dataType: 'script'
+        });
+      })
   });
 
   $(document).keydown(function (e) {

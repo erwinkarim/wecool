@@ -232,39 +232,15 @@ class PhotosController < ApplicationController
   end
 
   # todo: get more on trendiness and the ones that you tracked
-  # Options Explaination
-  #     FETCH Options
-  #     =============
-  #     mediatype     => options are photos(default), mediaset, tagset or featured
-  #                       photos : fetch photos with :last_id as the reference point
-  #                       mediaset: fetch photos in params[:mediaset_id] with params[:last_id] the photo photo
-  #                       tagset: fetch photos with params tags params[:tags] with offset [:last_id]
-  #                       featured : similiar with photos but fetch photos with featured == true attribute
-  #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
-  #                       to load :limit photos at the begining of the :targetDiv ('reverse')
-  #
-  #     SHOW Options
-  #     ============
-  #     showCaption   => to load '.carousel-caption' class
-  #     showIndicators=> to load '.carousel-indicators' class
-  #     targetDiv     => Where am i going to put these photos
-  #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
-  #     highlight     => Highlight the photo in :last_id when in photo/featured mode
-  # GET /photos/get_more/:last_id(.:format)
   def get_more
 
     current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
-    if !['trending', 'tracked'].include? params[:mediatype] then
-      if params[:mediatype] == 'mediaset' then
-        @current_photo = Photo.find(
-          MediasetPhoto.where(:mediaset_id => params[:mediaset_id]).where( :order => params[:last_id]).pluck(:photo_id).first
-        )
-      elsif params[:mediatype] == 'tagset' then
-        @current_photo = Photo.last.id
-      else
-        @current_photo = Photo.find(params[:last_id])
-      end
+    if params.has_key? :photoFocusID then
+      @current_photo = Photo.find(params[:photoFocusID])
+    else
+      @current_photo = nil
     end
+
     results = Photo.get_more( 
       params[:last_id].to_i, 
       current_options, 
