@@ -3,51 +3,52 @@
     <% @focus = 'welcome' %>
     <%= render "common/personaHeaderBar" %>
   </div>
-  <div class="row-fluid">
-    <h2>Your recent photos 
-      <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
-    </h2>
-      <% if @myPhotos.empty? then %>
-        <div class="well">
-          <h3>You have no photos, <%= link_to 'lets upload some', new_photo_path %></h3>
-        </div>
-      <% else %>
-        <% @myPhotos.each do |thisphoto| %>
-                <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
-                  photo_view_path(current_persona.screen_name, thisphoto.id) %>
-        <% end %>
+  <% if @myPhotos.empty? then %>
+    <div class="row-fluid well">
+      <h3>You don't have any photos yet. <%= link_to 'Upload some', new_photo_path %>...
+    </div>
+  <% else %>
+    <div class="row-fluid">
+      <h2>Your recent photos 
+        <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
+      </h2>
+      <% @myPhotos.each do |thisphoto| %>
+        <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
+          photo_view_path(current_persona.screen_name, thisphoto.id) %>
       <% end %>
-  </div>
-  <div class="row-fluid">
-    <div class="pull-left well well-small" style="margin:4px 2px;">
-      <strong>Mediasets:</strong> 
-      <% if @persona.mediasets.where{ featured.eq true }.empty? then %>
-        No mediasets yet...
-      <% else %>
-        <ul style="display:inline">
-          <% @persona.mediasets.where{ featured.eq true }.order('id desc').limit(3).each do |mediaset| %>
+    </div>
+    <div class="row-fluid">
+      <div class="pull-left well well-small" style="margin:4px 2px;">
+        <strong>Mediasets:</strong> 
+        <% if @persona.mediasets.where{ featured.eq true }.empty? then %>
+          No mediasets yet. <%= link_to 'Create new', new_mediaset_path %> from you existing photos
+        <% else %>
+          <ul style="display:inline">
+            <% @persona.mediasets.where{ featured.eq true }.order('id desc').limit(3).each do |mediaset| %>
+              <li style="display:inline">
+                <i class="icon-star"></i><%= link_to mediaset.title, 
+                  view_sets_path(@persona.screen_name, mediaset) %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+      <div class="pull-left well well-small" style="margin:4px 2px;">
+        <strong>Tags: </strong>
+        <% if @persona.photos.tag_counts.empty? then %>
+          No tags yet. Add #hashtags on your photo's title or description to add tags
+        <% else %>
+          <ul style="display:inline">
+          <% @persona.photos.tag_counts.order('id desc').limit(5).each do |tag| %>
             <li style="display:inline">
-              <i class="icon-star"></i><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
+              <i class="icon-tag"></i><%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
             </li>
           <% end %>
-        </ul>
-      <% end %>
-    </div>
-    <div class="pull-left well well-small" style="margin:4px 2px;">
-      <strong>Tags: </strong>
-      <% if @persona.photos.tag_counts.empty? then %>
-        No tags yet...
-      <% else %>
-        <ul style="display:inline">
-        <% @persona.photos.tag_counts.order('id desc').limit(5).each do |tag| %>
-          <li style="display:inline">
-            <i class="icon-tag"></i><%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
-          </li>
+          </ul>
         <% end %>
-        </ul>
-      <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
 <h2>Recently on ...</h2>
 <% if @photos.empty? then %>

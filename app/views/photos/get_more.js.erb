@@ -1,6 +1,21 @@
 var handle = $('<%= @options[:targetDiv] %>');
 
-<% if  !@next_photos.empty? then %>
+<% if  @next_photos.empty? then %>
+  /*handle.append( 
+    $('<div/>', { class:'carousel pull-left' })).append( 
+      $('<img/>', { class:'img-polaroid', src:'http://placehold.it/400x400' })
+    )
+  );*/
+  <% height = ::Magick::Image::read(Photo.first.avatar.versions[@options[:size].to_sym].path).first.rows.to_s %>
+  if (handle.find('#noMorePhoto').length == 0) {
+    handle.append(
+        $('<div/>', { class:'carousel pull-left', id:'noMorePhoto'}).append(
+          $('<img/>', { src:'http://placehold.it/<%= height + 'x' + height %>', 
+            class:'img-polaroid', style:'margin: 0px 2px 2px 0px;' } )
+        )
+    )
+  }
+<% else %>
 
   //load the photos
   <% @next_photos.each do |photo| %>
@@ -123,7 +138,4 @@ var handle = $('<%= @options[:targetDiv] %>');
       } 
     );
   <% end %>
-<% else %>
-  //remove the end 
-  //handle.append(jQuery( '<div/>', {text:'That\'s all folks!!', class:'pull-left img-polaroid', style:'height:100px; ' } )); 
 <% end %>

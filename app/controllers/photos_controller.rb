@@ -286,10 +286,14 @@ class PhotosController < ApplicationController
     @photo.visible = true
 
     if @photo.save then
-      render :status => :ok
+      respond_to do |format|
+        format.js
+        format.html
+      end
     else
       render :status => :internal_server_error
     end
+  
   end
 
   # POST   /photos/vote/:photo_id/:vote_mode/by/:persona_id(.:format)
