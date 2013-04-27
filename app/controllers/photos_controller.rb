@@ -75,7 +75,7 @@ class PhotosController < ApplicationController
       if @photo.save
         @photo.reset_tags
         #add the mediasets
-        if !params["mediaset"].empty? then
+        if params.has_key? "mediaset" && !params["mediaset"].empty? then
           @photo.update_setlist params[:mediaset]
         end
 

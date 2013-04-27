@@ -1,20 +1,23 @@
 var handle = $('<%= @options[:targetDiv] %>');
 
 <% if  @next_photos.empty? then %>
-  /*handle.append( 
-    $('<div/>', { class:'carousel pull-left' })).append( 
-      $('<img/>', { class:'img-polaroid', src:'http://placehold.it/400x400' })
-    )
-  );*/
-  <% height = ::Magick::Image::read(Photo.first.avatar.versions[@options[:size].to_sym].path).first.rows.to_s %>
-  if (handle.find('#noMorePhoto').length == 0) {
-    handle.append(
-        $('<div/>', { class:'carousel pull-left', id:'noMorePhoto'}).append(
-          $('<img/>', { src:'http://placehold.it/<%= height + 'x' + height %>', 
-            class:'img-polaroid', style:'margin: 0px 2px 2px 0px;' } )
-        )
-    )
-  }
+  <% if @options[:direction] == 'forward' then %>
+    if (handle.find('#noMorePhoto').length == 0) {
+      handle.append(
+          $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
+            '<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+          )
+      );
+    }
+  <% else %>
+    if (handle.find('#noNewerPhoto').length == 0) {
+      handle.prepend(
+          $('<div/>', { class:'pull-left carousel', id:'noNewerPhoto', style:'margin:0px 2px 2px 0px; display:inline; '}).html(
+            '<%= image_tag 'icon/first-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+          )
+      );
+    }
+  <% end %>
 <% else %>
 
   //load the photos
