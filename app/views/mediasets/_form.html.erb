@@ -156,8 +156,20 @@
 
     //handle photo being dropped into the image setlist
     function addPhotoToMediaset( $item ){
+      //$item is <img src="..."/><img src="..." />
+      $item.each( function() {
+        var idToLook = '#'  + $(this).attr('id');
+      });
+
+      if( $('#mediaset-photo-listings').find(idToLook).length != 0){
+        //skip this phoot
+        console.log('skipping '+ idToLook);
+      } else {
+        //start processings
+      }
+
       //figure out how cycle through the items
-      var idToLook = '#'  + $item.attr('id');
+      /*var idToLook = '#'  + $item.attr('id');
 
       //revert to original position of picture is already in the mediaset
       if( $('#mediaset-photo-listings').find(idToLook).length != 0){ 
@@ -178,6 +190,7 @@
 
       $item.sortable({ connectTo:'#mediaset-photo-listings' });
       $item.draggable('disable');
+      */
       //$('body').find('.ui-draggable-dragging').remove();
     }
 

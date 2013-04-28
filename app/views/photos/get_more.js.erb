@@ -155,7 +155,7 @@ var handle = $('<%= @options[:targetDiv] %>');
         revert:'invalid', connectToSortable:'<%= @options[:dragSortConnect] %>', 
         //helper:'clone', 
         helper: function(){
-          var selected = $('.carousel input:checked').parent();
+          var selected = $('.carousel input:checked').parent().find('img');
           if (selected.length == 0){
             selected =  $(this);
           }
