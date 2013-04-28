@@ -13,7 +13,7 @@
             <li>
               <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
               <% if mediaset.photos.empty? then %>
-                <%= image_tag 'icon/zero-photo.square50.jpg' %>
+                <%= image_tag 'icon/zero-photo/square50.jpg' %>
               <% else %>
                 <%= image_tag mediaset.photos.first.avatar.square50 %>
               <% end %>

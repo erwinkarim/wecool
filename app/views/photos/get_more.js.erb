@@ -3,11 +3,20 @@ var handle = $('<%= @options[:targetDiv] %>');
 <% if  @next_photos.empty? then %>
   <% if @options[:direction] == 'forward' then %>
     if (handle.find('#noMorePhoto').length == 0) {
-      handle.append(
-          $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
-            '<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
-          )
-      );
+      //check if this mediaset is empty
+      <% if @options[:mediatype] == 'mediaset' and params[:last_id] == '1' then %>
+        handle.append(
+            $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
+              '<%= image_tag 'icon/zero-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+            )
+        );
+      <% else %>
+        handle.append(
+            $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
+              '<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+            )
+        );
+      <% end %>
     }
   <% else %>
     if (handle.find('#noNewerPhoto').length == 0) {

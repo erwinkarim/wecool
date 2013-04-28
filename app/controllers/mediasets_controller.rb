@@ -57,8 +57,10 @@ class MediasetsController < ApplicationController
     @mediaset = Mediaset.find(params[:id])
 
     @mediaset_photos = Array.new
-    @mediaset.mediaset_photos.order(:order).pluck(:photo_id).each do |photo_id|
-      @mediaset_photos.push Photo.find(photo_id)
+    if !@mediaset.photos.empty? then
+      @mediaset.mediaset_photos.order(:order).pluck(:photo_id).each do |photo_id|
+        @mediaset_photos.push Photo.find(photo_id)
+      end
     end
 
     #@photos = Photo.find(:all, :order => 'id desc',  :conditions => {
