@@ -1,4 +1,4 @@
-<% content_for :title, @mediaset.title + ' by ' + @persona.screen_name  %>
+<% content_for :title, (@mediaset.title + ' by ' + @persona.screen_name).html_safe  %>
 <div class="row-fluid">
   <h2 class="page-header"><%= @mediaset.title %><small> by <%= persona_signed_in? && current_persona == @persona ? 'you' : link_to(@persona.screen_name, persona_path(@persona.screen_name)) %></h2>
 </div>

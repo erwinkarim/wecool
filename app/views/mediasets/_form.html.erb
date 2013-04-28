@@ -65,7 +65,7 @@
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
       author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
       draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
-      float:false, cssDisplay:'inline-block', showIndicators:false
+      float:false, cssDisplay:'inline-block', showIndicators:false, addCheckBox:true
   };
 
   $.ajax({
@@ -138,7 +138,8 @@
     $('#mediaset-photo-listings').droppable({
       accept:'.endless_scroll_inner_wrap img',
       drop: function( event, ui ){
-        addPhotoToMediaset(ui.draggable);
+        //addPhotoToMediaset(ui.draggable);
+        addPhotoToMediaset(ui.helper.children());
       }
     });
 
@@ -155,6 +156,7 @@
 
     //handle photo being dropped into the image setlist
     function addPhotoToMediaset( $item ){
+      //figure out how cycle through the items
       var idToLook = '#'  + $item.attr('id');
 
       //revert to original position of picture is already in the mediaset

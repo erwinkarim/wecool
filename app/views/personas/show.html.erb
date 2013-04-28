@@ -93,11 +93,10 @@
           <h3>No mediasets yet</h3>
         <% end %>
       <% else %>
-        <% @persona.mediasets.find(:all, :order => 'id desc', :limit => 5).each do |mediaset| %>
+        <% @persona.mediasets.order('id desc').limit(5).each do |mediaset| %>
             <div style="display:block; margin:0px auto; ">
               <h3><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset.id) %></h3>
-              <% Mediaset.joins{ mediaset_photos }.find(mediaset.id).
-                photos.where{ visible.eq true }.order('mediaset_photos."order"').limit(4).each do |photo| %>
+                <% mediaset.photos.where( :visible => true ).limit(4).each do |photo| %>
                 <%= link_to image_tag(photo.avatar.square200, :class=>'img-polaroid'), 
                   photo_view_path(@persona.screen_name, photo.id)  %>
               <% end %>

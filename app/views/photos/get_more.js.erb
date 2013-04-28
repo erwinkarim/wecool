@@ -66,6 +66,7 @@ var handle = $('<%= @options[:targetDiv] %>');
         ) 
         %>"
       );
+    
       <% if @options[:highlight] && photo == @current_photo then %>
         carousel.find('img').attr('style', 'border: 1px solid red;');
       <% end %>
@@ -109,6 +110,12 @@ var handle = $('<%= @options[:targetDiv] %>');
       carousel.append(caption);
     <% end %>
 
+    //add a checkbox next to the image is option selected
+    <% if @options[:addCheckBox] then %>
+      carousel.append(
+        $('<input />', {type:'checkbox' })
+      );
+    <% end %>
     <% if @options[:direction] == 'forward' then %>
       $('<%= @options[:targetDiv]  %>').append(carousel);
     <% else %>
@@ -146,7 +153,17 @@ var handle = $('<%= @options[:targetDiv] %>');
     handle.find('img').draggable(
       { 
         revert:'invalid', connectToSortable:'<%= @options[:dragSortConnect] %>', 
-        helper:'clone', opacity:0.7, appendTo:'body'
+        //helper:'clone', 
+        helper: function(){
+          var selected = $('.carousel input:checked').parent();
+          if (selected.length == 0){
+            selected =  $(this);
+          }
+          var container = $('<div/>').attr('id', 'draggingContainer');
+          container.append(selected.clone());
+          return container;
+        },
+        opacity:0.7, appendTo:'body'
       } 
     );
   <% end %>
