@@ -44,7 +44,7 @@ var handle= $('.endless_scroll_inner_wrap');
     <% end %>
     title.append(featuredVoteBox);
 
-    <% Mediaset.joins{mediaset_photos}.find(mediaset).photos.order('"order"').limit(5).each do |photo| %>
+    <% mediaset.photos.limit(5).each do |photo| %>
       handle.append('<%= escape_javascript(link_to image_tag(photo.avatar.tiny, 
         :class=>'pull-left img-polaroid', :style=>'margin: 5px;'), 
         photo_view_in_scope_path(persona.screen_name, photo,'mediaset', mediaset) ) %>');

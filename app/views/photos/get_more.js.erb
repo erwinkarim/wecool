@@ -1,4 +1,5 @@
 var handle = $('<%= @options[:targetDiv] %>');
+var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
 
 <% if  @next_photos.empty? then %>
   <% if @options[:direction] == 'forward' then %>
@@ -6,13 +7,13 @@ var handle = $('<%= @options[:targetDiv] %>');
       //check if this mediaset is empty
       <% if @options[:mediatype] == 'mediaset' and params[:last_id] == '1' then %>
         handle.append(
-            $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
+            $('<div/>', { class:'carousel '+floatHandle, id:'noMorePhoto', style:'margin: 0x 2px 2px 0px; display:<%= @options[:cssDisplay] %>;'}).html(
               '<%= image_tag 'icon/zero-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
             )
         );
       <% else %>
         handle.append(
-            $('<div/>', { class:'carousel pull-left', id:'noMorePhoto', style:'margin: 0x 2px 2px 0px;'}).html(
+            $('<div/>', { class:'carousel '+floatHandle, id:'noMorePhoto', style:'margin: 0x 2px 2px 0px; display:<%= @options[:cssDisplay] %>;'}).html(
               '<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
             )
         );
@@ -21,7 +22,7 @@ var handle = $('<%= @options[:targetDiv] %>');
   <% else %>
     if (handle.find('#noNewerPhoto').length == 0) {
       handle.prepend(
-          $('<div/>', { class:'pull-left carousel', id:'noNewerPhoto', style:'margin:0px 2px 2px 0px; display:inline; '}).html(
+          $('<div/>', { class:'carousel '+floatHandle, id:'noNewerPhoto', style:'margin:0px 2px 2px 0px; display:<%= @options[:cssDisplay] %>; '}).html(
             '<%= image_tag 'icon/first-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
           )
       );
@@ -32,7 +33,7 @@ var handle = $('<%= @options[:targetDiv] %>');
   //load the photos
   <% @next_photos.each do |photo| %>
     <% this_persona = Persona.find(photo.persona_id).screen_name %>
-      var carousel = jQuery('<div/>', {class:'<%= @options[:float] ? "pull-left" : "" %> carousel', id:'carousel_<%= photo.id %>',  
+      var carousel = jQuery('<div/>', {class:'carousel '+floatHandle, id:'carousel_<%= photo.id %>',  
         style:'margin: 0px 2px 2px 0px; display:<%= @options[:cssDisplay] %>'}).
         append(jQuery('<div/>', {class:'carousel-inner'}));
       

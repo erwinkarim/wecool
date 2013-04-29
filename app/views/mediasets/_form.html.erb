@@ -17,6 +17,19 @@
     </div>
     <div class="span9">
       <h3>...then drop & arrange your photos here...</h3>
+      <div class="navbar">
+        <div class="navbar-inner">
+          <ul class="nav">
+            <li><%= link_to 'Select All', '#' %></li>
+            <li class="dropdown">
+              <%= link_to ('Order <b class="caret"></b>').html_safe , '#', :class=>'dropdown-toggle', :'data-toggle' => 'dropdown' %>
+              <ul class="dropdown-menu" role="menu">
+                <li><%= link_to 'By date created', '#', :role=>'menuitem' %></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="well" id="mediaset-photo-listings" style="overflow:hidden; min-height:240px;" >
         <% @mediaset_photos.each do |photo| %>
           <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
