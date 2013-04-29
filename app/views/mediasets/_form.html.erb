@@ -29,8 +29,13 @@
     </div>
   </div><!-- row-fluid -->
 
-  <div class="row-fluid" id="photo-pool" >
+  <!-- photo selection -->
+  <div class="row-fluid" id="photo-pool-title" >
       <h3>...from your pool of photos</h3>
+  </div>
+  <div class="row-fluid">
+  </div>
+  <div class="row-fluid" id="photo-pool">
       <div class="">
         <select id="photo-listing-selector" name="photo-listing-selector" style="">
           <option value="photoNotInSet" selected>Photos not in this mediaset</option>
@@ -41,6 +46,10 @@
           <% end %>
           <option value="photoAll" >All Photos</option>
         </select>
+        <%= button_tag 'Select All', :type => 'button', :class=> 'btn btn-link', :id => 'selectAllButton' %> | 
+        <%= button_tag 'Deselect All', :type => 'button', :class=> 'btn btn-link', :id => 'deselectAllButton' %>
+      </div>
+      <div>
       </div>
       <br />
       <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
@@ -65,7 +74,7 @@
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
       author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
       draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
-      float:false, cssDisplay:'inline-block', showIndicators:false, addCheckBox:true
+      float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
   };
 
   $.ajax({
@@ -87,14 +96,14 @@
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false, 
           excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block', showIndicators:false
+          float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
         }
       } else if ($(this).val() == 'photoAll'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
           draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block', showIndicators:false
+          float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
         }
       } else if($(this).val().substring(0,7) == 'photoOn' ) {
         getConditions = {
@@ -102,14 +111,14 @@
           author:'<%= @persona.screen_name %>', showCaption:'false', 
           dateRange:$(this).val().split('photoOn')[1], enableLinks:false, 
           draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block', showIndicators:false
+          float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
         }
       } else if($(this).val() == 'photoFeatured'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', featured:true,  
           author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
           excludeMediaset:'<%= @mediaset.id %>', draggable:true, dragSortConnect:'#mediaset-photo-listing',
-          float:false, cssDisplay:'inline-block', showIndicators:false
+          float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
         }
       }
 
@@ -159,14 +168,36 @@
       //$item is <img src="..."/><img src="..." />
       $item.each( function() {
         var idToLook = '#'  + $(this).attr('id');
+        if( $('#mediaset-photo-listings').find(idToLook).length != 0){
+          //skip this phoot
+          console.log('skipping '+ idToLook);
+        } else {
+          /*
+            turn <img src=".."/> to
+            <div class="pull-left selected-img" style="margin:4px; position:relative">
+              <img src="..." />
+              <input name="photo[]" id="" value="" checked style="display:none" />
+            </div>
+            
+            and add to $('#mediaset-photo-listings') 
+          */
+          $(this).wrap(
+            $('<div/>', { id:idToLook.split('#')[1],  class:'pull-left selected-img',
+              style:'margin:4px; position:relative;'} )
+          );
+          var handle = $(this).parent();
+          handle.prepend(
+            $('<input/>', {
+              name:'photo[]', id:idToLook.split('#')[1], value:idToLook.split('_')[1], 
+              type:'checkbox', checked:'true', style:'display:none;'
+            })
+          );
+          $('#mediaset-photo-listings').append( handle );
+          $('#mediaset-photo-listings').find('img').removeClass('highlightPhoto');
+          //remove from where it's being dragged
+          $('.endless_scroll_inner_wrap').find('#carousel_'+idToLook.split('_')[1]).detach();
+        }
       });
-
-      if( $('#mediaset-photo-listings').find(idToLook).length != 0){
-        //skip this phoot
-        console.log('skipping '+ idToLook);
-      } else {
-        //start processings
-      }
 
       //figure out how cycle through the items
       /*var idToLook = '#'  + $item.attr('id');
@@ -199,6 +230,24 @@
       $item.remove();
       $('#mediaset-photo-checkbox').find('#' + $item.attr('id')).remove();
     }
+
+    //select all button
+    $('#selectAllButton').click( function(){
+      $('#photo-pool').find('.carousel').each( function() {
+        if (!$(this).find('input').prop('checked') ) {
+          $(this).find('img').click();
+        }
+      });      
+    });
+
+    //deselect all button
+    $('#deselectAllButton').click( function(){
+      $('#photo-pool').find('.carousel').each( function() {
+        if ($(this).find('input').prop('checked') ) {
+          $(this).find('img').click();
+        }
+      });      
+    });
 
   });
 </script>

@@ -193,7 +193,8 @@ class Photo < ActiveRecord::Base
   #     targetDiv     => Where am i going to put these photos
   #     photoCountDiv => Where am i going to update the last/first attribute count in a html container
   #     highlight     => Highlight the photo in :last_id when in photo/featured mode
-  #     addCheckBox   => Add a checkbox next to the carousel
+  #     multipleSelect   => only to be used when draggable is true. allow multiple photos to be dragged at the same
+  #                           time. if multipleSelect set to true, it will disable the links 
   # GET /photos/get_more/:last_id(.:format)
   #return next_photos => an array of photos
   def self.get_more( last_id, options={},  
@@ -210,7 +211,8 @@ class Photo < ActiveRecord::Base
       #view options
       :excludeLinks => false, :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
       :showCaption => true, :showIndicators => true, :float => true, :cssDisplay => 'inline', 
-      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos', :highlight => false, :addCheckBox => false
+      :targetDiv => '.endless_scroll_inner_wrap', :photoCountDiv => '.endless-photos', :highlight => false, 
+      :multipleSelect => false
     }
 
     #modify options
@@ -237,7 +239,7 @@ class Photo < ActiveRecord::Base
     end
 
     default_options.slice( :includeFirst, :exclueLinks, :draggable, :enableLinks, :showCaption,
-      :float, :highlight, :showIndicators, :addCheckBox).keys.each do |thisKey|
+      :float, :highlight, :showIndicators, :multipleSelect).keys.each do |thisKey|
       if default_options[thisKey].is_a? String then
         default_options[thisKey] = default_options[thisKey] == 'true'  
       end
@@ -250,9 +252,14 @@ class Photo < ActiveRecord::Base
       default_options[:featured] = [true,false]
     end
 
-    #process featured
+    #process author
     if options[:author].is_a? String then
       default_options[:author] = Persona.find(:first, :conditions => { :screen_name => options[:author] })
+    end
+
+    #if draggable and multipleSelect set to true, disable links
+    if default_options[:multipleSelect] and default_options[:draggable] then
+      default_options[:excludeLinks] = true
     end
 
     #fetch photos

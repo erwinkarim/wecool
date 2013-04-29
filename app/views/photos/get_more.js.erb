@@ -61,14 +61,20 @@ var handle = $('<%= @options[:targetDiv] %>');
       <% end %>
       carousel.append("<%= 
         escape_javascript(
-          link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
-            :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), photo_path
+          if @options[:enableLinks] then
+            link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
+              :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), photo_path
+          else
+            image_tag(photo.avatar.versions[@options[:size].to_sym],
+              :class=>'img-polaroid', :id => 'photo_'+photo.id.to_s )
+          end
         ) 
         %>"
       );
     
       <% if @options[:highlight] && photo == @current_photo then %>
-        carousel.find('img').attr('style', 'border: 1px solid red;');
+        //carousel.find('img').attr('style', 'border: 1px solid red;');
+        carousel.find('img').addClass('highlightPhoto');
       <% end %>
 
     //show caption
@@ -108,14 +114,10 @@ var handle = $('<%= @options[:targetDiv] %>');
       caption.append(voteBox);
       caption.wrapInner('<h5/>');
       carousel.append(caption);
-    <% end %>
+    <% end %>//add caption
 
-    //add a checkbox next to the image is option selected
-    <% if @options[:addCheckBox] then %>
-      carousel.append(
-        $('<input />', {type:'checkbox' })
-      );
-    <% end %>
+
+    //insert direction
     <% if @options[:direction] == 'forward' then %>
       $('<%= @options[:targetDiv]  %>').append(carousel);
     <% else %>
@@ -150,6 +152,25 @@ var handle = $('<%= @options[:targetDiv] %>');
 
   //make it draggable
   <% if @options[:draggable] then %>
+    /*
+      if allow multiple selection,
+        - add a hidden checkbox
+        - click on the picture will toggle the checkbox
+    */
+    <% if @options[:multipleSelect] then %>
+      handle.find('.carousel').append( function() {
+          if ( $(this).find('.img-select').length == 0 ) {
+            return $('<input />', {type:'checkbox', class:'img-select', style:'display:none;' })
+          }
+        }
+      );
+      handle.find('img').click( function(){
+        var imageHandle = $(this).parent();
+        imageHandle.find('input').prop('checked', !imageHandle.find('input').prop('checked'));
+        imageHandle.find('img').toggleClass('highlightPhoto');
+      });
+    <% end %>
+
     handle.find('img').draggable(
       { 
         revert:'invalid', connectToSortable:'<%= @options[:dragSortConnect] %>', 
