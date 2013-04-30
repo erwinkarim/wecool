@@ -20,13 +20,14 @@
       <div class="navbar">
         <div class="navbar-inner">
           <ul class="nav">
-            <li><%= link_to 'Select All', '#' %></li>
+            <li><%= link_to 'Select All', '#', :id => 'setlist-select-all' %></li>
             <li class="dropdown">
               <%= link_to ('Order <b class="caret"></b>').html_safe , '#', :class=>'dropdown-toggle', :'data-toggle' => 'dropdown' %>
               <ul class="dropdown-menu" role="menu">
                 <li><%= link_to 'By date created', '#', :role=>'menuitem' %></li>
               </ul>
             </li>
+            <li><%= link_to 'Remove Selected', '#', :id => 'setlist-remove-selected' %></li>
           </ul>
         </div>
       </div>
@@ -34,6 +35,8 @@
         <% @mediaset_photos.each do |photo| %>
           <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
             <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
+            <%= check_box_tag 'selected[]', photo.id, false, 
+              :id => 'photo_'+photo.id.to_s, :class=>'photo-listings-select', :style => 'display:none;' %>
             <%= image_tag photo.avatar.square100, :style => 'margin:4px;', 
               :class=> 'img-polaroid ui-widget-content' %>
           </div>
@@ -97,10 +100,6 @@
   });
 
   $(document).ready(function (){
-    //setup the interface
-    $('#mediaset-photo-listing').sortable({
-    }); 
-
     //track changes on the photo selection dropdown
     $('#photo-listing-selector').change( function() {
       //var getConditions = {};
@@ -155,8 +154,7 @@
       });
     });
     
-   
-    //allow photos in the imagelist to be dropped into image setlist
+    //allow photos to be dropped from pool to image-setlist (add photo to setlist)
     $('#mediaset-photo-listings').droppable({
       accept:'.endless_scroll_inner_wrap img',
       drop: function( event, ui ){
@@ -166,13 +164,24 @@
     });
 
     //allow the selected imagelist to be sortable
-    $('#mediaset-photo-listings').sortable();
+    $('#mediaset-photo-listings').sortable({
+      /*helper: function(event, ui){
+        var selected = $('.photo-listings-select:checked').parent().find('img');
+        if (selected.length == 0){
+         selected = ui.find('img')
+        }
+        var container = $('<div/>').attr('id', 'draggingContainer');
+        container.append(selected.clone());
+        return container;
+      }*/
+    });
 
-    //allow photos in the setlist be dropped into the imagelist (remove photo from setlist) 
+    //allow photos in the setlist be dropped into the pool (remove photo from setlist) 
     $('#photo-list').droppable({
       accept:'#mediaset-photo-listings .selected-img', 
       drop: function (event, ui){
-        revertPhotoToPool(ui.draggable);
+        //revertPhotoToPool(ui.draggable);
+        revertPhotoToPool(ui.helper.children() );
       }
     });
 
@@ -244,6 +253,7 @@
       $('#mediaset-photo-checkbox').find('#' + $item.attr('id')).remove();
     }
 
+    //for the #photo-pool
     //select all button
     $('#selectAllButton').click( function(){
       $('#photo-pool').find('.carousel').each( function() {
@@ -262,5 +272,29 @@
       });      
     });
 
+    //for the #setpool
+    $('#mediaset-photo-listings').find('img').click( function(){
+      var imageHandle = $(this).parent();
+      imageHandle.find('.photo-listings-select').prop(
+        'checked', !imageHandle.find('.photo-listings-select').prop('checked')
+      );
+      imageHandle.find('img').toggleClass('highlightPhoto');
+    });
+
+    $('#setlist-select-all').click( function() {
+      $('#mediaset-photo-listings').find('.selected-img').each( function(){
+        if(!$(this).find('.photo-listings-select').prop('checked') ) {
+          $(this).find('img').click();
+        }
+      });
+    });
+
+    $('#setlist-remove-selected').click( function() {
+      $('#mediaset-photo-listings').find('.selected-img').each( function() {
+        if($(this).find('.photo-listings-select').prop('checked') ) {
+          $(this).detach();
+        }
+      });
+    });
   });
 </script>
