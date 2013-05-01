@@ -35,7 +35,7 @@
       </div>
       <div class="well" id="mediaset-photo-listings" style="overflow:hidden; min-height:240px;" >
         <% @mediaset_photos.each do |photo| %>
-          <div id="photo_<%= photo.id %>" class="pull-left selected-img"  >
+          <div id="photo_<%= photo.id %>" class="pull-left selected-img" value="<%= photo.id %>"  >
             <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
             <%= check_box_tag 'selected[]', photo.id, false, 
               :id => 'photo_'+photo.id.to_s, :class=>'photo-listings-select', :style => 'display:none;' %>
@@ -285,7 +285,7 @@
     $('#sort-newest-upload-first').click( function(){
       var handle = $('#mediaset-photo-listings').children().remove();
       handle.sort( function(a,b){
-        return parseInt(a.id.split("_")[1] ) > parseInt( b.id.split("_")[1] )
+        return b.value - a.value;
       });
       $('#mediaset-photo-listings').append(handle);
     });

@@ -3,4 +3,10 @@ class StaticPageController < ApplicationController
 
   def tour
   end
+  
+  def aboutUs
+  end
+
+  def termsAndConditions
+  end
 end

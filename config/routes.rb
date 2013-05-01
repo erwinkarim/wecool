@@ -71,7 +71,9 @@ Wecool::Application.routes.draw do
     match '/tags/related/:photo_id' => :related, :via => :get, :as => 'tag_related'
   end
   
-  match '/tour' => 'static_page#tour', :via => :get, :as => 'tour'
+  match '/static/tour' => 'static_page#tour', :via => :get, :as => 'tour'
+  match '/static/aboutUs' => 'static_page#aboutUs', :via => :get, :as => 'aboutUs'
+  match '/static/termsAndConditions' => 'static_page#termsAndConditions', :via => :get, :as => 'termsAndConditions'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
