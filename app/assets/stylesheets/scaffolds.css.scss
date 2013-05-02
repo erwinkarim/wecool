@@ -28,12 +28,13 @@ div {
   color: green;
 }
 
-.field_with_errors {
-  padding: 2px;
-  background-color: red;
-  display: table;
-}
 
+.field_with_errors {
+  //padding: 2px;
+  //background-color: red;
+  //display: table;
+  color: #b94a48;
+}
 #error_explanation {
   width: 450px;
   border: 2px solid red;

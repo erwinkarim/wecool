@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130413173633) do
+ActiveRecord::Schema.define(:version => 20130502023645) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20130413173633) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.boolean  "agreeToTNC"
   end
 
   add_index "personas", ["email"], :name => "index_personas_on_email", :unique => true

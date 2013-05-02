@@ -31,7 +31,15 @@
       <%= f.password_field :password_confirmation %>
     </div>
   </div>
-
+  
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+         <%= f.check_box :agreeToTNC  %>
+          I've read and agree to the <%= link_to 'Terms and Conditions', termsAndConditions_path, :target => '_blank' %> of this site
+      </label>
+    </div>
+  </div>
   <div class="control-group">
     <div class="controls">
       <%= f.submit "Sign up", :class=>'btn btn-primary' %>

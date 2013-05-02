@@ -7,11 +7,13 @@ class Persona < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me ,:realname, :screen_name, :avatar
+  attr_accessible :email, :password, :password_confirmation, :remember_me ,:realname, :screen_name, 
+    :avatar, :agreeToTNC
   mount_uploader :avatar, PersonaUploader
   validates :screen_name, :presence => true, :uniqueness => true, 
     :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }, 
     :exclusion => { :in => %w(new vote unvote get_more), :message => 'You cannot use reserved word %{value}'}
+  validates_acceptance_of :agreeToTNC, :allow_nil => false, :accept=> true
   has_many :photos,:dependent=> :destroy
   has_many :mediasets, :dependent => :destroy
   has_many :followers, :dependent => :destroy

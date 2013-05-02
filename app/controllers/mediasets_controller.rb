@@ -101,6 +101,10 @@ class MediasetsController < ApplicationController
         format.json { render json: @mediaset, status: :created, location: @mediaset }
         format.js 
       else
+        @persona = current_persona
+        @mediaset_photos = Array.new
+        @upload_date_list = Photo.where(
+          :persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
         format.html { render action: "new" }
         format.json { render json: @mediaset.errors, status: :unprocessable_entity }
         format.js 
@@ -149,7 +153,7 @@ class MediasetsController < ApplicationController
         }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "edit", notice: @mediaset.errors }
         format.json { render json: @mediaset.errors, status: :unprocessable_entity }
       end
     end
