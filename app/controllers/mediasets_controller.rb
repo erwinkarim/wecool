@@ -107,7 +107,8 @@ class MediasetsController < ApplicationController
           @mediaset_photos =  @new_selection.first.id.nil? ? Array.new : @new_selection
           @upload_date_list = Photo.where(
             :persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
-          render action: "new", notice: 'errors' 
+          flash[:error] = @mediaset.errors.full_messages
+          render action: "new"
         } 
         format.json { render json: @mediaset.errors, status: :unprocessable_entity }
         format.js 
@@ -157,6 +158,7 @@ class MediasetsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { 
+          flash[:notice] = "Failed"
           render action: "edit"
         }
         format.json { render json: @mediaset.errors, status: :unprocessable_entity }
