@@ -8,6 +8,7 @@
       <!-- menubar for photo -->
       <div class="navbar-inner">
         <ul class="nav">
+          <!-- infomation  dropdown menu -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Photo<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -25,6 +26,8 @@
                 <% end %>
               </ul>
           </li>
+          <!-- end of infomation  dropdown menu -->
+          <!-- menu for editing photo, owners only -->
           <% if persona_signed_in? && current_persona.id == @persona.id then %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="editMenu">Edit<b class="caret"></b></a>
@@ -45,6 +48,38 @@
               </ul>
             </li>
           <% end %>
+          <!-- end menu for editing photo, owners only -->
+          <!-- dropdown menu for sharing -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-submenu">
+                <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
+                  <legend>Copy Link</legend>
+                  <%= label_tag 'Permanent Address:' %>
+                  <%= text_field_tag 'PermaAddress', 
+                    "#{request.protocol}#{request.host_with_port}#{request.fullpath}", 
+                    { :disable => 'true', :id => 'premaAddress' } %> 
+                  <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
+                    :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+                <% end -%>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
+                  <legend>Copy HTML</legend>
+                  <%= text_area_tag 'htmlCopy', 
+                    link_to( 
+                      image_tag(@photo.avatar.small.url), 
+                      photo_view_path(@persona.screen_name, @photo) 
+                    ) %>
+                  <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
+                    :id => 'copyHTMLToClip' %>
+                <% end -%>  
+              </li>
+            </ul>
+          </li>
+          <!-- end of dropdown menu for sharing -->
         </ul>
       </div>
     </div><!-- navbar -->
@@ -473,7 +508,22 @@
             dataType: 'script'
         });
       })
-  });
+
+      var clip = new ZeroClipboard( document.getElementById('copyToClip'), {
+        moviePath: '/assets/ZeroClipboard.swf'
+      });
+    
+      clip.on('load', function(client){
+      });
+    
+      clip.on('complete', function(client, args){
+        alert('copied text: '+ args.text);
+      });
+
+      clip.on('mouseover', function(client){
+      });
+
+  }); //$(document).ready(){}
 
   $(document).keydown(function (e) {
     var keyCode = e.keyCode || e.which,
