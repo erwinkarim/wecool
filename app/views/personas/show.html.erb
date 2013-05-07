@@ -20,7 +20,7 @@
           </dd>
         <% end %>
         <dt><strong><%= model_class.human_attribute_name(:realname) %>:</strong></dt>
-        <dd><%= @persona.realname.nil? ? 'Not set' : @persona.realname %></dd>
+        <dd><%= @persona.realname.empty? ? 'Not set' : @persona.realname %></dd>
         <dt><strong><%= model_class.human_attribute_name(:screen_name) %>:</strong></dt>
         <dd><%= @persona.screen_name %></dd>
         <dt><strong><%= model_class.human_attribute_name(:premium) %>:</strong></dt>

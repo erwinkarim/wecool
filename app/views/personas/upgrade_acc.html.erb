@@ -11,31 +11,31 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="span2">Condition</th>
+          <th class="span2">-</th>
           <th class="span5">Normal</th>
           <th class="span5">Premium</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Condition</td>
-          <td>Normal Condition</td>
-          <td>Benefit 1</td>
+          <td>Photos</td>
+          <td>Up to 1000 photos can be viewed. Olders photos will be kept in case you upgrade later</td>
+          <td>Unlimited Photos</td>
         </tr>
         <tr>
-          <td>Condition</td>
-          <td>Normal Condition</td>
-          <td>Benefit 2</td>
+          <td>Photo Size</td>
+          <td>Up to Large Size (800px) can be accessiable. Original size is will be kept in case you upgrade later</td>
+          <td>All sizes is available</td>
         </tr>
         <tr>
-          <td>Condition</td>
-          <td>Normal Condition</td>
-          <td>Benefit 3</td>
+          <td>Mediasets</td>
+          <td>Up to 5 can be viewed. Older ones will be kept in case you upgrade later</td>
+          <td>Unlimted mediasets</td>
         </tr>
         <tr>
-          <td>Condition</td>
-          <td>Normal Condition</td>
-          <td>Benefit 4</td>
+          <td>Bandwidth</td>
+          <td>300MB per month</td>
+          <td>Unlimeted Bandwidth</td>
         </tr>
         <tr>
           <td>Condition</td>
@@ -51,21 +51,35 @@
   <div class="span8 offset2">
     <h3>Upgrade Now!!</h3>
     <%= form_tag '#', :class=>'form-horizontal' do -%>
-      <legend>Select upgrade duration</legend>  
+      <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
           radio_button_tag( 'duration', '1y') + '1 year ($xx.xx)', 
           :class=> 'radio controls' 
         %>
         <%= label_tag 'duration', 
-          radio_button_tag( 'duration', '2y') + '2 year ($xx.xx)', 
+          radio_button_tag( 'duration', '2y') + '2 years ($xx.xx)', 
           :class=> 'radio controls' 
         %>
       </div> 
       <div class="form-actions">
         <%= link_to 'No Thanks', root_path , :class=> 'btn' %>
         <%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'button' %>
-      
+      </div>
+    <% end -%>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span8 offset2">
+    <%= form_tag '#', :class=>'form-horizontal' do -%>
+      <legend>...or key in your redeem codes</legend>
+      <div class="control-group">
+        <%= text_field_tag 'redeemCodes', nil, :placeholder => 'Key in your redeem codes', :class => 'controls input-xlarge' %>
+      </div>
+      <div class="form-actions">
+        <%= link_to 'No Thanks', root_path , :class=> 'btn' %>
+        <%= button_tag 'Redeem Now', :class => 'btn btn-primary', :type => 'button' %>
       </div>
     <% end -%>
   </div>
