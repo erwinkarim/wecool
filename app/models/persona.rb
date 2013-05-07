@@ -8,7 +8,7 @@ class Persona < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me ,:realname, :screen_name, 
-    :avatar, :agreeToTNC
+    :avatar, :agreeToTNC, :premium, :premiumSince, :premiumExpire
   mount_uploader :avatar, PersonaUploader
   validates :screen_name, :presence => true, :uniqueness => true, 
     :format => {:with => /[[:alnum:]]+/, :on => :create, :messsage=>'Only alphanumeric' }, 

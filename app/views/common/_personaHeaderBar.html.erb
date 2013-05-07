@@ -28,6 +28,7 @@
         <li><%= link_to '<i class="icon-user"></i> Profile'.html_safe, persona_path(@persona.screen_name) %></li>
         <% if persona_signed_in? &&  current_persona == @persona then %>
           <li><%= link_to 'Update Persona Picture', persona_get_profile_pic_path(@persona.screen_name) %></li>
+          <li><%= link_to 'Upgrade to Premium', persona_upgrade_acc_path(@persona.screen_name) %></li>
         <% end %>
       </ul>
     </div>

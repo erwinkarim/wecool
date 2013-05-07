@@ -15,6 +15,7 @@ Wecool::Application.routes.draw do
     match '/personas/get_more/:last_id' => :get_more, :via => :get, :as => 'persona_get_more'
     match '/personas/:persona_id/tags' => :tags, :via => :get , :as => 'persona_tags'
     match '/personas/:persona_id/tags/:tag_id' => :show_tag, :via => :get , :as => 'persona_show_tag'
+    match '/personas/:persona_id/upgrade_to_premium' => :upgrade_acc, :via => :get, :as => 'persona_upgrade_acc'
   end
 
   resources :mediasets, :except => [ :edit ] do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502023645) do
+ActiveRecord::Schema.define(:version => 20130507074751) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -66,14 +66,14 @@ ActiveRecord::Schema.define(:version => 20130502023645) do
 
   create_table "personas", :force => true do |t|
     t.string   "realname"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "screen_name"
-    t.integer  "up_votes",               :default => 0,  :null => false
-    t.integer  "down_votes",             :default => 0,  :null => false
+    t.integer  "up_votes",               :default => 0,     :null => false
+    t.integer  "down_votes",             :default => 0,     :null => false
     t.string   "avatar"
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -87,6 +87,9 @@ ActiveRecord::Schema.define(:version => 20130502023645) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.boolean  "agreeToTNC"
+    t.boolean  "premium",                :default => false, :null => false
+    t.date     "premiumSince"
+    t.date     "premiumExpire"
   end
 
   add_index "personas", ["email"], :name => "index_personas_on_email", :unique => true

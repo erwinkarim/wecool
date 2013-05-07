@@ -189,4 +189,15 @@ class PersonasController < ApplicationController
       format.html{ render "tags/show", :locals => {:tag => @tag, :persona => @persona } }
     end
   end
+
+  # GET /personas/:persona_id/upgrade_to_premium(.:format)
+  def upgrade_acc
+    if persona_signed_in? then 
+      @persona = current_persona
+    end 
+
+    respond_to do |format|
+      format.html
+    end
+  end
 end
