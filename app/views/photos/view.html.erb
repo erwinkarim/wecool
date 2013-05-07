@@ -55,27 +55,57 @@
             <ul class="dropdown-menu">
               <li class="dropdown-submenu">
                 <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
-                  <label>Copy Link</label>
-                  <%= text_field_tag 'PermaAddress', 
-                    photo_view_url(@persona.screen_name, @photo), 
-                    :disabled => true, :id => 'premaAddress' %> 
-                  <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
-                    :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+                  <div class="control-group">
+                    <label><i class="icon-link"></i> Copy Link</label>
+                    <%= text_field_tag 'PermaAddress', 
+                      photo_view_url(@persona.screen_name, @photo), 
+                      :disabled => true, :id => 'premaAddress', :class=>'input-xlarge' %> 
+                  </div>
+                  <div class="control-group">
+                    <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
+                      :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+                  </div>
                 <% end -%>
               </li>
               <li class="divider"></li>
               <li>
                 <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
-                  <label>Copy HTML</label>
-                  <%= text_area_tag 'htmlCopy', 
-                    link_to( 
-                      image_tag("#{request.protocol}#{request.host_with_port}" + @photo.avatar.small.url), 
-                      photo_view_url(@persona.screen_name, @photo) 
-                    ), :id => 'htmlCopyText', :disabled => true%>
-                  <%= label_tag 'Size:' %>
-                  <select id="copyHTMLSize"><%= options_for_select( @photo.avatar.versions.keys, 'small') %></select>
-                  <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
-                    :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
+                  <div class="control-group">
+                      <label><i class="icon-picture"></i> Copy HTML</label>
+                      <%= text_area_tag 'htmlCopy', 
+                        "<div>" + 
+                        link_to( 
+                          image_tag("#{request.protocol}#{request.host_with_port}" + @photo.avatar.small.url, 
+                          :alt => @photo.title
+                          ), 
+                          photo_view_url(@persona.screen_name, @photo) 
+                        ) + 
+                        "</div>" + 
+                        "\n" + 
+                        "<div>" + 
+                        link_to( 
+                          @photo.title, photo_view_url(@persona.screen_name, @photo) 
+                        ) + " by " +
+                        link_to(
+                          @persona.screen_name, persona_url(@persona.screen_name)
+                        ) + " at " +
+                        link_to(
+                          'WeCool', root_url
+                        ) +
+                        "</div>", 
+                        :id => 'htmlCopyText', :disabled => true, :class=>'input-xlarge', :rows=> 10
+                      %>
+                  </div>
+                  <div class="control-group">
+                    <%= label_tag 'Size:' %>
+                    <select id="copyHTMLSize">
+                      <%= options_for_select( @photo.avatar.versions, @photo.avatar.versions[:small]) %>
+                    </select>
+                  </div>
+                  <div class="control-group">
+                    <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
+                      :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
+                  </div>
                 <% end -%>  
               </li>
             </ul>
@@ -510,33 +540,30 @@
         });
       })
 
+      //for the link copy copy to clipboard
       var clip = new ZeroClipboard( document.getElementById('copyToClip'), {
         moviePath: '/assets/ZeroClipboard.swf'
       });
     
-      clip.on('load', function(client){
-      });
-    
       clip.on('complete', function(client, args){
-        alert('copied text: '+ args.text);
+        alert('Copied to Clipboard');
       });
 
-      clip.on('mouseover', function(client){
-      });
-
+      // for the html Code Copy to clipboard
       var htmlClip = new ZeroClipboard( document.getElementById('copyHTMLToClip'), {
         moviePath: '/assets/ZeroClipboard.swf'
       });
 
-      htmlClip.on('load', function(client){
-      });
-
       htmlClip.on('complete', function(client, args){
-        alert('copied text: '+ args.text);
+        alert('Copied to Clipboard');
       });
 
       $('#copyHTMLSize').change( function(){
-        alert('size changed');
+        //update text area
+        var tempText = $('#htmlCopyText').val();
+        tempText = tempText.replace(/src=".*"/, 
+          "src=\"<%= "#{request.protocol}#{request.host_with_port}" %>" + $("#copyHTMLSize").val() + "\"" ); 
+        $('#htmlCopyText').val(tempText);
       });
 
   }); //$(document).ready(){}
