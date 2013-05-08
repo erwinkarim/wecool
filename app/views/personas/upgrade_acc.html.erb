@@ -50,7 +50,7 @@
 <div class="row-fluid">
   <div class="span8 offset2">
     <h3>Upgrade Now!!</h3>
-    <%= form_tag store_add_to_cart_path(@persona.screen_name), :class=>'form-horizontal', :remote => true do -%>
+    <%= form_tag store_add_to_cart_path(@persona.screen_name), :class=>'form-horizontal', :id => 'buy_premium_form', :remote => true do -%>
       <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
@@ -89,10 +89,12 @@
 
 <script type="text/javascript">
   $(document).ready( function() {
-    $('#purchase_premium_btn').click( function() {
-      $(this).button('loading');
-      //add coupon to cart
-      //then do the purchase
+
+    //add subscription package to cart, and then ask for CC info
+    $('#buy_premium_form').on( 'ajax:beforeSend', function(){
+      $('#purchase_premium_btn').button('loading');
+    }).on( 'ajax:complete', function(){
+      $('#purchase_premium_btn').button('reset');
     });
   });
 </script>
