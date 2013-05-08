@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  item_type: MyString
+  item_sku: MyString
+  item_id: 1
+  persona: 
+
+two:
+  item_type: MyString
+  item_sku: MyString
+  item_id: 1
+  persona: 

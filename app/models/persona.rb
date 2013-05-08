@@ -17,6 +17,8 @@ class Persona < ActiveRecord::Base
   has_many :photos,:dependent=> :destroy
   has_many :mediasets, :dependent => :destroy
   has_many :followers, :dependent => :destroy
+  has_many :coupons, :dependent => :destroy
+  has_many :carts, :dependent => :destroy
   make_voter
 
   def tracks ( object_type, object_id) 

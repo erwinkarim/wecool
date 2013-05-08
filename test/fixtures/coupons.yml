@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  code: MyString
+  persona: 
+  redeem_date: 2013-05-08
+  expire_date: 2013-05-08
+
+two:
+  code: MyString
+  persona: 
+  redeem_date: 2013-05-08
+  expire_date: 2013-05-08

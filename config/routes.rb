@@ -16,6 +16,8 @@ Wecool::Application.routes.draw do
     match '/personas/:persona_id/tags' => :tags, :via => :get , :as => 'persona_tags'
     match '/personas/:persona_id/tags/:tag_id' => :show_tag, :via => :get , :as => 'persona_show_tag'
     match '/personas/:persona_id/upgrade_to_premium' => :upgrade_acc, :via => :get, :as => 'persona_upgrade_acc'
+    match '/personas/:persona_id/payment_details' => :payment_details, :via => :post, 
+      :as => 'persona_payment_details'
   end
 
   resources :mediasets, :except => [ :edit ] do
@@ -72,9 +74,17 @@ Wecool::Application.routes.draw do
     match '/tags/related/:photo_id' => :related, :via => :get, :as => 'tag_related'
   end
   
+  #for the store, purchase redeem coupons,etc
+  controller :store do
+    match '/store/:persona_id/add_to_cart' => :add_to_cart, :via => :post, :as => 'store_add_to_cart'
+    match '/store/:persona_id/confirming_payment' => :confirm_pay, :via => :get, :as => 'store_confirm_pay'
+    match '/store/:persona_id/redeem_coupon' => :redeem_coupon, :via => :post, :as => 'store_redeem_coupon'
+  end
+
   match '/static/tour' => 'static_page#tour', :via => :get, :as => 'tour'
   match '/static/aboutUs' => 'static_page#aboutUs', :via => :get, :as => 'aboutUs'
   match '/static/termsAndConditions' => 'static_page#termsAndConditions', :via => :get, :as => 'termsAndConditions'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

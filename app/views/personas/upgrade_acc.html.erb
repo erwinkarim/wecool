@@ -38,9 +38,9 @@
           <td>Unlimeted Bandwidth</td>
         </tr>
         <tr>
-          <td>Condition</td>
-          <td>Normal Condition</td>
-          <td>Benefit 5</td>
+          <td>Photo Visibility</td>
+          <td>All Photos are always public</td>
+          <td>You can set you photos to be private</td>
         </tr>
       </tbody>
     </table>
@@ -50,7 +50,7 @@
 <div class="row-fluid">
   <div class="span8 offset2">
     <h3>Upgrade Now!!</h3>
-    <%= form_tag '#', :class=>'form-horizontal' do -%>
+    <%= form_tag store_add_to_cart_path(@persona.screen_name), :class=>'form-horizontal', :remote => true do -%>
       <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
@@ -58,13 +58,14 @@
           :class=> 'radio controls' 
         %>
         <%= label_tag 'duration', 
-          radio_button_tag( 'duration', '2y') + '2 years ($xx.xx)', 
+          radio_button_tag( 'duration', '2y', true) + '2 years ($xx.xx)', 
           :class=> 'radio controls' 
         %>
       </div> 
       <div class="form-actions">
         <%= link_to 'No Thanks', root_path , :class=> 'btn' %>
-        <%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'button' %>
+        <%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'submit', 
+          :id => 'purchase_premium_btn', :'data-loading-text' => 'Adding to cart...' %>
       </div>
     <% end -%>
   </div>
@@ -72,15 +73,26 @@
 
 <div class="row-fluid">
   <div class="span8 offset2">
-    <%= form_tag '#', :class=>'form-horizontal' do -%>
+    <%= form_tag store_redeem_coupon_path(@persona.screen_name), :class=>'form-horizontal' do -%>
       <legend>...or key in your redeem codes</legend>
       <div class="control-group">
-        <%= text_field_tag 'redeemCodes', nil, :placeholder => 'Key in your redeem codes', :class => 'controls input-xlarge' %>
+        <%= text_field_tag 'redeemCodes', nil, :placeholder => 'Key in your redeem codes', 
+          :class => 'controls input-xlarge' %>
       </div>
       <div class="form-actions">
         <%= link_to 'No Thanks', root_path , :class=> 'btn' %>
-        <%= button_tag 'Redeem Now', :class => 'btn btn-primary', :type => 'button' %>
+        <%= button_tag 'Redeem Now', :class => 'btn btn-primary', :type => 'submit' %>
       </div>
     <% end -%>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready( function() {
+    $('#purchase_premium_btn').click( function() {
+      $(this).button('loading');
+      //add coupon to cart
+      //then do the purchase
+    });
+  });
+</script>

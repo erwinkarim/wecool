@@ -11,7 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130507074751) do
+ActiveRecord::Schema.define(:version => 20130508072438) do
+
+  create_table "carts", :force => true do |t|
+    t.string   "item_type"
+    t.string   "item_sku"
+    t.integer  "item_id"
+    t.integer  "persona_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "carts", ["persona_id"], :name => "index_carts_on_persona_id"
+
+  create_table "coupons", :force => true do |t|
+    t.string   "code"
+    t.integer  "persona_id"
+    t.date     "redeem_date"
+    t.date     "expire_date"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "coupons", ["persona_id"], :name => "index_coupons_on_persona_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
