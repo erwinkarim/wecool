@@ -1,8 +1,9 @@
 class Coupon < ActiveRecord::Base
   belongs_to :persona
-  attr_accessible :code, :expire_date, :redeem_date, :persona_id
-  validates :code, :presence => true, :uniqueness => true
-  before_validation :generate_code
+  attr_accessible :expire_date, :redeem_date, :persona_id
+  attr_readonly :code
+  validates :code, :uniqueness => true
+  before_create :generate_code
 
   #generate the codes before validation
   def generate_code

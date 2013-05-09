@@ -18,26 +18,34 @@ class StoreController < ApplicationController
       message = 'Coupon not found'
       coupon_failure = true
     elsif !@coupon.redeem_date.nil? then
-      message = 'Coupon has been taken by '+ Persona.find(@coupon.persona_id).first.screen_name
+      if @coupon.persona_id == current_persona.id then
+        message = 'You already redeem this coupon on ' + I18n.l(@coupon.redeem_date)
+      else 
+        message = 'Coupon has been taken by someone else'
+      end
       coupon_failure = true
     end
 
     #if everything ok then update the coupon to be redeem
     if !coupon_failure then
+
+      #update persona
       @persona = Persona.where(:screen_name => params[:persona_id]).first
-      @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
       @persona.update_attributes( { :premium => true })
       if @persona.premiumSince.nil? then
         @persona.update_attributes( { :premiumSince => DateTime.now } )
       end
-      if @persona.premiumExpire.nil? then
+      if @persona.premiumExpire.nil? || @persona.premiumExpire < DateTime.now then
         @persona.update_attributes( {:premiumExpire => DateTime.now + 1.year })
       else
         @persona.update_attributes( { :premiumExpire => @persona.premiumExpire + 1.year })
       end
-
-      @coupon.save
       @persona.save
+
+      #update coupon
+      @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
+      @coupon.save
+
     end
 
     if coupon_failure then 

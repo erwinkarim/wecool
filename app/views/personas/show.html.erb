@@ -20,18 +20,18 @@
           </dd>
         <% end %>
         <dt><strong><%= model_class.human_attribute_name(:realname) %>:</strong></dt>
-        <dd><%= @persona.realname.empty? ? 'Not set' : @persona.realname %></dd>
+        <dd><%= @persona.realname.nil? ? 'Not set' : @persona.realname %></dd>
         <dt><strong><%= model_class.human_attribute_name(:screen_name) %>:</strong></dt>
         <dd><%= @persona.screen_name %></dd>
         <dt><strong><%= model_class.human_attribute_name(:premium) %>:</strong></dt>
         <dd><%= @persona.premium? ? 'Yes' : 'No' %></dd>
         <% if @persona.premium? then %>
           <dt><strong>Premium Since:</strong></dt>
-          <dd><%= @persona.premiumSince %></dd>
+          <dd><%= I18n.l @persona.premiumSince %></dd>
         <% end %>
         <% if persona_signed_in? && current_persona == @persona && @persona.premium? then %>
           <dt><strong>Premium Expiration:</strong></dt>
-          <dd><%= @persona.premiumExpire %></dd>
+          <dd><%= I18n.l @persona.premiumExpire %></dd>
         <% end %>
       </dl>
     </div>

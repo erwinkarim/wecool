@@ -22,7 +22,7 @@
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
       author:'<%= @persona.screen_name %>', showCaption:'false', 
       draggable:true, dragSortConnect:'#drop-target', enableLinks:false, 
-      float:false, featured:true, cssDisplay:'inline-block'
+      float:false, featured:true, cssDisplay:'inline-block', showIndicators:false
   };
 
   $.ajax({
@@ -41,14 +41,14 @@
           limit:50, includeFirst:'true', size:'square100', 
           author:'<%= @persona.screen_name %>', showCaption:'false', enableLinks:false,
           draggable:true, dragSortConnect:'#drop-target',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       } else if($(this).val() == 'photoFeatured'){
         getConditions = {
           limit:50, includeFirst:'true', size:'square100', featured:true,  
           author:'<%= @persona.screen_name %>', showCaption:'false',  enableLinks:false,
           draggable:true, dragSortConnect:'#drop-target',
-          float:false, cssDisplay:'inline-block'
+          float:false, cssDisplay:'inline-block', showIndicators:false
         }
       }
 

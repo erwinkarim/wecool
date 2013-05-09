@@ -1,6 +1,26 @@
 
 <div class="row-fluid">
-  <div class="page-lead">
-    <h2>Redeemed '<%= @coupon_code %>'</h2>
+  <div class="page-header">
+    <h2>Successfull coupon redemption</h2>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span10 offset1">
+    <p class="lead">
+      Congratulations <%= @persona.screen_name %>! 
+    </p>
+    <p>
+      You have:-
+      <ul>
+        <li>You have redeem coupon code <strong>'<%= @coupon.code %>'</strong></li>
+        <li>You have extended your premium membership to <strong><%= I18n.l @persona.premiumExpire %></strong>.</li>
+      </ul>
+    </p>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="form-actions span10 offset1">
+    <%= link_to 'Back To Your Page', persona_path(@persona.screen_name), :class => 'btn btn-primary' %>
   </div>
 </div>
