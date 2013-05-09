@@ -29,22 +29,27 @@ class StoreController < ApplicationController
     #if everything ok then update the coupon to be redeem
     if !coupon_failure then
 
-      #update persona
+      #update coupon
       @persona = Persona.where(:screen_name => params[:persona_id]).first
+      @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
+      if @coupon.sku.code = '1ypm' then 
+        duration = 1.year
+      elsif @coupon.sku.code = '2ypm' then
+        duration = 2.year
+      end
+
+      #update persona
       @persona.update_attributes( { :premium => true })
       if @persona.premiumSince.nil? then
         @persona.update_attributes( { :premiumSince => DateTime.now } )
       end
       if @persona.premiumExpire.nil? || @persona.premiumExpire < DateTime.now then
-        @persona.update_attributes( {:premiumExpire => DateTime.now + 1.year })
+        @persona.update_attributes( {:premiumExpire => DateTime.now + duration })
       else
-        @persona.update_attributes( { :premiumExpire => @persona.premiumExpire + 1.year })
+        @persona.update_attributes( { :premiumExpire => @persona.premiumExpire + duration })
       end
       @persona.save
 
-      #update coupon
-      @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
-      @coupon.save
 
     end
 

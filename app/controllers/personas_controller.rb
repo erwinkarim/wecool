@@ -192,9 +192,7 @@ class PersonasController < ApplicationController
 
   # GET /personas/:persona_id/upgrade_to_premium(.:format)
   def upgrade_acc
-    if persona_signed_in? then 
-      @persona = current_persona
-    end 
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
 
     respond_to do |format|
       format.html

@@ -2,7 +2,15 @@
 <%= render "common/personaHeaderBar" %>
 
 <div class="page-header">
-  <h2>Upgrade to Premium</h2>
+  <h2>
+    <% if persona_signed_in? && current_persona == @persona then %>
+      <%= current_persona.premium? ? 'Extend Your Premium Account' : 'Upgrade to Premium Account' %>
+    <% else %>
+      <%= @persona.premium? ? 
+        'Extend Premium Account for '+ @persona.screen_name : 
+        'Give ' + @persona.screen_name + ' Premium Membership' %>
+    <% end %>
+  </h2>
 </div>
 
 <div class="row-fluid">

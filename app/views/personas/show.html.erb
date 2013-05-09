@@ -24,7 +24,14 @@
         <dt><strong><%= model_class.human_attribute_name(:screen_name) %>:</strong></dt>
         <dd><%= @persona.screen_name %></dd>
         <dt><strong><%= model_class.human_attribute_name(:premium) %>:</strong></dt>
-        <dd><%= @persona.premium? ? 'Yes' : 'No' %></dd>
+        <dd>
+          <%= @persona.premium? ? 
+            ('Yes - '+ 
+              link_to( 'Extend Premium Membership', persona_upgrade_acc_path(@persona.screen_name)) 
+            ).html_safe :
+            ('No - '+ link_to('Give Premium Membership', persona_upgrade_acc_path(@persona.screen_name)) ).html_safe 
+          %>
+        </dd>
         <% if @persona.premium? then %>
           <dt><strong>Premium Since:</strong></dt>
           <dd><%= I18n.l @persona.premiumSince %></dd>

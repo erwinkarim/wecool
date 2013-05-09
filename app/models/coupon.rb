@@ -3,7 +3,9 @@ class Coupon < ActiveRecord::Base
   attr_accessible :expire_date, :redeem_date, :persona_id
   attr_readonly :code
   validates :code, :uniqueness => true
+  validates :sku, :presence => true
   before_create :generate_code
+  belongs_to :sku
 
   #generate the codes before validation
   def generate_code
