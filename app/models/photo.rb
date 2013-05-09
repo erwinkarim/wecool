@@ -9,12 +9,30 @@ class Photo < ActiveRecord::Base
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos
   after_initialize :init
+  after_find :limit_view
 
   include Rails.application.routes.url_helpers
 
   def init(params={})
     self.featured ||= false;
     ActsAsTaggableOn.force_lowercase = true;
+  end
+
+  #if checked from users photos, see the first 1000 photos of free users
+  def limit_view
+    photo_owner = Persona.find(self.persona_id)  
+    if photo_owner.premium? then
+      puts 'you can see this'
+      return self
+    else
+      if photo_owner.photos.limit(2).pluck(:id).include?(self.id) then
+        puts 'you can see this'
+        return self
+      else
+        puts 'you cant see this'
+        return nil
+      end
+    end
   end
 
   def to_jq_upload 

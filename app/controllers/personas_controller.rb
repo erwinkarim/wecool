@@ -1,4 +1,13 @@
 class PersonasController < ApplicationController
+  before_filter :require_login, :only => :upgrade_acc
+
+  def require_login
+    unless persona_signed_in?
+      flash[:error] = 'You must sign in first'
+      redirect_to new_persona_session_path
+    end
+  end
+
   # GET /personas
   # GET /personas.json
   def index

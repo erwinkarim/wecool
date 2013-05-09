@@ -1,4 +1,13 @@
 class StoreController < ApplicationController
+  before_filter :require_login
+
+  #ensure that the users are logging in before accessing the store
+  def require_login
+    unless persona_signed_in? 
+      flash[:error] = "You must sign in first"
+      redirect_to new_persona_session_path
+    end 
+  end
 
   #add items to cart
   # POST   /store/:persona_id/add_to_cart(.:format)
