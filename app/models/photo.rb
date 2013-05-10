@@ -4,35 +4,19 @@ class Photo < ActiveRecord::Base
   make_voteable
   acts_as_taggable
   belongs_to :persona
-  attr_accessible :description, :title, :avatar, :featured, :visible
+  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible
   mount_uploader :avatar,AvatarUploader
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos
+  validates :persona_id, :presence => true
   after_initialize :init
-  after_find :limit_view
 
   include Rails.application.routes.url_helpers
 
   def init(params={})
     self.featured ||= false;
+    #self.system_visible ||= false;
     ActsAsTaggableOn.force_lowercase = true;
-  end
-
-  #if checked from users photos, see the first 1000 photos of free users
-  def limit_view
-    photo_owner = Persona.find(self.persona_id)  
-    if photo_owner.premium? then
-      puts 'you can see this'
-      return self
-    else
-      if photo_owner.photos.limit(2).pluck(:id).include?(self.id) then
-        puts 'you can see this'
-        return self
-      else
-        puts 'you cant see this'
-        return nil
-      end
-    end
   end
 
   def to_jq_upload 
@@ -308,7 +292,7 @@ class Photo < ActiveRecord::Base
           (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
         }.group(:id).having{
           (id.in 0..upper) & (persona_id.in persona_range) & (featured.in default_options[:featured]) &
-          (created_at.in date_range) & (id.not_in excluded_sets)
+          (created_at.in date_range) & (id.not_in excluded_sets) & (system_visible.eq true) 
         }.order('id desc').limit(default_options[:limit])
       else
         #get default_options[:limit] photos before the last_id
@@ -316,7 +300,7 @@ class Photo < ActiveRecord::Base
           (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
         }.group(:id).having{
           (id.in upper..Photo.last.id) & (persona_id.in persona_range) & (featured.in feature_range) &
-          (created_at.in date_range) & (id.not_in excluded_sets)
+          (created_at.in date_range) & (id.not_in excluded_sets) & (system_visible.eq true)
         }.order('id asc').limit(default_options[:limit])
       end
     elsif default_options[:mediatype] == 'tagset' then
@@ -324,7 +308,7 @@ class Photo < ActiveRecord::Base
       persona_range = default_options[:author]
       @next_photos = Photo.tagged_with(
         default_options[:tag]).where{ 
-          persona_id.in persona_range 
+          (persona_id.in persona_range) & (system_visible.eq true)
         }.order('updated_at desc').limit(default_options[:limit]).offset(upper)
     elsif default_options[:mediatype] == 'mediaset' then 
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
@@ -338,29 +322,31 @@ class Photo < ActiveRecord::Base
       if default_options[:direction] == 'forward' then
         order_range = upper..upper+default_options[:limit]
         @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
-          mediaset_photos.order.in order_range
+          (mediaset_photos.order.in order_range) & (photos.system_visible.eq true)
         }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
       else
         order_range = (upper-default_options[:limit])..upper
         @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
-          mediaset_photos.order.in order_range
+          (mediaset_photos.order.in order_range) & (photos.system_visible.eq true)
         }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility)
       end
     elsif default_options[:mediatype] == 'trending' then
       #list down photo based on 
       # a) popular votes
       # b) tag activity
-      @next_photos = Photo.joins{ votings }.order("votings.created_at desc").limit(default_options[:limit]).
+      @next_photos = Photo.where(:system_visible => true).joins{ votings }.
+        order("votings.created_at desc").limit(default_options[:limit]).
         offset(last_id).uniq
     elsif default_options[:mediatype] == 'tracked' then
       #get the photos that the current persona tracks
       @tracked_persona = current_persona[:current_persona].followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
         { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
-        :order => 'id desc', :limit => default_options[:limit])
+        :order => 'id desc', :limit => default_options[:limit], :system_visible => true)
     elsif default_options[:mediatype] == 'related' then
       @next_photos = Photo.where( :id => 
         Photo.find(default_options[:focusPhotoID]).find_related_tags.
+          where(:system_visible => true).
           limit(default_options[:limit]).offset(last_id).pluck(:'photos.id')
       )
     end

@@ -29,7 +29,7 @@
         <% if persona_signed_in? &&  current_persona == @persona then %>
           <li><%= link_to '<i class="icon-money"></i> Update Persona Picture'.html_safe, 
             persona_get_profile_pic_path(@persona.screen_name) %></li>
-          <% if @persona.premiumExpire < DateTime.now then %>
+          <% if !@persona.premium? || @persona.premiumExpire < DateTime.now then %>
             <li><%= link_to '<i class="icon-shopping-cart"></i> Upgrade to Premium'.html_safe, 
               persona_upgrade_acc_path(@persona.screen_name) %></li>
           <% else %>

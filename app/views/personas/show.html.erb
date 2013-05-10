@@ -29,7 +29,7 @@
             ('Yes - '+ 
               link_to( 'Extend Premium Membership', persona_upgrade_acc_path(@persona.screen_name)) 
             ).html_safe :
-            ('No - '+ link_to('Give Premium Membership', persona_upgrade_acc_path(@persona.screen_name)) ).html_safe 
+            ('No - '+ link_to('Buy Premium Membership', persona_upgrade_acc_path(@persona.screen_name)) ).html_safe 
           %>
         </dd>
         <% if @persona.premium? then %>

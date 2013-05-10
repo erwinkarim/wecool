@@ -2,6 +2,9 @@ class PhotosController < ApplicationController
   #include Twitter::Extractor
   before_filter :check_if_allowed_to_view, :only => [:view]
 
+  #how many free photos you can actually have
+  FREE_PHOTO_LIMIT = 20
+
   def check_if_allowed_to_view
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
     @photo = @persona.photos.find(params[:id])
@@ -69,10 +72,19 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = current_persona.photos.new(params[:photo])
+    @photo.system_visible = true
     @photo.title = @photo.avatar.to_s.split('/').last
 
     respond_to do |format|
       if @photo.save
+        #set photos not to be visible of the persona is not a premium user
+        if !current_persona.premium then
+          current_persona.photos.where(:system_visible => true).order('id desc').
+            offset(FREE_PHOTO_LIMIT).each do |p|
+              p.update_attribute(:system_visible, false)
+          end
+        end
+
         @photo.reset_tags
         #add the mediasets
         if params.has_key? :mediaset then 

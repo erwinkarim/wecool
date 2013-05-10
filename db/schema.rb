@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509070127) do
+ActiveRecord::Schema.define(:version => 20130510031235) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20130509070127) do
     t.integer  "sku_id"
   end
 
-  add_index "coupons", ["persona_id"], :name => "index_coupons_on_persona_id"
   add_index "coupons", ["sku_id"], :name => "index_coupons_on_sku_id"
 
   create_table "delayed_jobs", :force => true do |t|
@@ -123,13 +122,14 @@ ActiveRecord::Schema.define(:version => 20130509070127) do
     t.string   "title"
     t.text     "description"
     t.integer  "persona_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "avatar"
-    t.boolean  "featured",    :default => false, :null => false
-    t.integer  "up_votes",    :default => 0,     :null => false
-    t.integer  "down_votes",  :default => 0,     :null => false
-    t.boolean  "visible",     :default => true,  :null => false
+    t.boolean  "featured",       :default => false, :null => false
+    t.integer  "up_votes",       :default => 0,     :null => false
+    t.integer  "down_votes",     :default => 0,     :null => false
+    t.boolean  "visible",        :default => true,  :null => false
+    t.boolean  "system_visible", :default => false
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"

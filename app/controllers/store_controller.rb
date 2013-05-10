@@ -59,6 +59,8 @@ class StoreController < ApplicationController
       end
       @persona.save
 
+      #update persona
+      @persona.photos.update_all(:system_visible => true)
 
     end
 
