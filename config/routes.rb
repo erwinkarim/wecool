@@ -33,6 +33,7 @@ Wecool::Application.routes.draw do
     match '/mediasets/toggle_featured/:mediaset_id' => :toggle_featured, :via => :post, 
       :as => 'mediaset_toggle_featured'
     match '/mediasets/get_more/:last_id' => :get_more, :via => :get, :as => 'mediaset_get_more'
+    match '/mediasets/:persona_id/not_viewable' => :not_viewable, :via => :get, :as => 'mediaset_not_viewable'
   end
 
   resources :photos do

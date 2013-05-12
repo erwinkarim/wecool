@@ -1,4 +1,19 @@
 class MediasetsController < ApplicationController
+  FREE_MEDIASET_COUNT = 5
+
+  before_filter :check_if_system_visible, :only => [:view]
+
+  #check if the mediaset is viewable
+  def check_if_system_visible
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    @mediaset = Mediaset.find(params[:id])
+    unless @mediaset.system_visible
+      respond_to do |format|
+        format.html { render :not_viewable }
+      end
+    end
+  end
+
   # GET /mediasets
   # GET /mediasets.json
   def index
@@ -94,7 +109,14 @@ class MediasetsController < ApplicationController
             counter += 1
           end 
         end 
-        
+  
+        #if free account, make the anything more than 5 free sets invisible      
+        if !current_persona.premium? then
+          current_persona.mediasets.order('id desc').offset(FREE_MEDIASET_COUNT).each do |mediaset|
+            mediaset.update_attribute(:system_visible, false)
+          end
+        end
+
         format.html { redirect_to view_sets_path(current_persona.screen_name, @mediaset),
           notice: 'Mediaset was successfully created.' }
         #format.html { redirect_to :back,notice: 'Mediaset was successfully created.' }
@@ -184,6 +206,10 @@ class MediasetsController < ApplicationController
     @mediaset = @persona.mediasets.find(params[:id])
     @mediaset_photos = @mediaset.photos.empty? ? Photo.all.reverse : @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
     @total_votes = @mediaset.up_votes + @mediaset.down_votes
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   # POST   /mediasets/vote/:mediaset_id/:vote_mode/by/:persona_id
@@ -275,11 +301,11 @@ class MediasetsController < ApplicationController
         limit(@options[:limit]).offset(params[:last_id]).uniq
     elsif @options[:viewType] == 'normal' then 
       @next_mediasets = Mediaset.find(:all, :conditions => { 
-        :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured]  }, 
+        :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured], :system_visible => true  }, 
         :limit => @options[:limit], :order => 'id desc' )
     elsif @options[:viewType] == 'tracked' then
       @next_mediasets = Mediaset.find(:all, :conditions => { 
-        :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), 
+        :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :system_visible => true,
         :featured => @options[:featured]  }, 
         :limit => @options[:limit], :order => 'id desc' )
     end
@@ -289,4 +315,5 @@ class MediasetsController < ApplicationController
       format.html
     end
   end
+
 end

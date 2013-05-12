@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130510031235) do
+ActiveRecord::Schema.define(:version => 20130512152042) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -79,11 +79,12 @@ ActiveRecord::Schema.define(:version => 20130510031235) do
     t.string   "title"
     t.text     "description"
     t.integer  "persona_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "up_votes",    :default => 0,     :null => false
-    t.integer  "down_votes",  :default => 0,     :null => false
-    t.boolean  "featured",    :default => false, :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "up_votes",       :default => 0,     :null => false
+    t.integer  "down_votes",     :default => 0,     :null => false
+    t.boolean  "featured",       :default => false, :null => false
+    t.boolean  "system_visible", :default => true
   end
 
   add_index "mediasets", ["persona_id"], :name => "index_mediasets_on_persona_id"
