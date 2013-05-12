@@ -1,0 +1,32 @@
+
+<div class="row-fluid">
+  <div class="span12">
+    <h2 class="text-center">Opsss..., photo not viewable</h2>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span10 offset1 well" style="height:600px;">
+    <!-- handle cases of visible vs. system visible -->
+    <p class="text-center">
+      <% if !@photo.system_visible then %>
+        <%= image_tag @photo.avatar.square50, :class=>'img-polaroid' %>
+      <% end %>
+    </p>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span12">
+    <% if @photo.system_visible then %>
+      <p class="lead text-center">
+        Photo has been restricted by the owner
+      </p>
+    <% else %>
+      <p class="lead text-center">
+        Wish to see a bigger version of the photo? Kindly <%= link_to 'upgrade', persona_upgrade_acc_path(@persona.screen_name) %>
+        <%= @persona == current_persona ? 'Your' : @persona.screen_name+"'s" %> account
+      </p>
+    <% end %>
+  </div>
+</div>

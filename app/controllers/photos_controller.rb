@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   #include Twitter::Extractor
   before_filter :check_if_allowed_to_view, :only => [:view]
+  #before_filter :check_if_system_visible, :only => [:view]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
@@ -8,9 +9,9 @@ class PhotosController < ApplicationController
   def check_if_allowed_to_view
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
     @photo = @persona.photos.find(params[:id])
-    if !@photo.visible && current_persona != @persona then
+    if (!@photo.visible && current_persona != @persona) || !@photo.system_visible then
       respond_to do |format|
-        format.html { render :text => 'Photo is not viewable by you', :layout => true }
+        format.html { render :not_viewable }
       end
     end
   end
@@ -32,21 +33,20 @@ class PhotosController < ApplicationController
   # GET /photos/:persona_id.json
  def show
     #show photos uploaded by persona
-    if params[:id] == 'everyone' then
-      @persona = Persona.new(:screen_name => 'everyone')
-    else
-      @persona = Persona.find(:all, :conditions => { :screen_name => params[:id]}, :limit => 1 ).first
-    end
+    #@persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id]}, :limit => 1 ).first
+    @persona = Persona.where(:screen_name => params[:id]).first
 
-    if params.has_key? :view_mode then
-      
-    end
 
-    @last_photo = @persona.photos.empty? ? Photo.new : @persona.photos.last
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @persona.photos }
+    if @persona.nil? then
+      respond_to do |format|  
+        format.html { render :text => 'Persona does not exists' }
+      end
+    else 
+      @last_photo = @persona.photos.empty? ? Photo.new : @persona.photos.last
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @persona.photos }
+      end
     end
   end
 
@@ -158,8 +158,8 @@ class PhotosController < ApplicationController
         @avatar = @photo.avatar.versions[params[:size].to_sym]
       end
     else
-      @avatar = @photo.avatar.xlarge  
-      params[:size] = 'xlarge'
+      @avatar = @photo.avatar.large  
+      params[:size] = 'large'
     end
   end
 
@@ -398,5 +398,9 @@ class PhotosController < ApplicationController
     else
       render :status => :internal_server_error
     end
+  end
+
+  def not_viewable
+    
   end
 end

@@ -34,11 +34,11 @@
               <ul class="dropdown-menu">
                 <li><%= link_to '<i class="icon-undo"></i> Rotate Counter-Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
-                    :current_version => 'xlarge'), :method => :post, :remote => true %>
+                    :current_version => 'large'), :method => :post, :remote => true %>
                 </li>
                 <li><%= link_to '<i class="icon-repeat"></i> Rotate Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'right', 
-                    :current_version => 'xlarge'), :method => :post, :remote => true %>
+                    :current_version => 'large'), :method => :post, :remote => true %>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -121,13 +121,13 @@
         <div class="carousel-indicators">
           <%= link_to '<i class="icon-undo icon-2x"></i>'.html_safe, 
             photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
-              :current_version => 'xlarge'), :method => :post, :remote => true 
+              :current_version => 'large'), :method => :post, :remote => true 
           %>
         </div>
       <% end %>
       <div class="carousel-inner">
         <div class="active item">
-          <%= image_tag @photo.avatar.xlarge, 
+          <%= image_tag @photo.avatar.large, 
             :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
           <div class="carousel-caption row-fluid">
             <div class="span7" id="photo-title-and-desc">
