@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   #include Twitter::Extractor
-  before_filter :check_if_allowed_to_view, :only => [:view]
-  #before_filter :check_if_system_visible, :only => [:view]
+  before_filter :check_if_allowed_to_view, :only => [:view, :download]
+  before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
@@ -12,6 +12,15 @@ class PhotosController < ApplicationController
     if (!@photo.visible && current_persona != @persona) || !@photo.system_visible then
       respond_to do |format|
         format.html { render :not_viewable }
+      end
+    end
+  end
+
+  def check_if_allowed_to_visible
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    unless @persona.permium? then
+      respond_to do |format|
+        format.html { render :text => 'upgrade to premium' }
       end
     end
   end

@@ -179,7 +179,7 @@
                   <h4>
                     <div id="visibilityBox" style="margin-right:1em;">
                       <a name="visibilityAnchor"></a>
-                      <% if current_persona == @persona then %>
+                      <% if current_persona == @persona  && current_persona.premium then %>
                         <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
                           '"></i>').html_safe %>
                         <% if @photo.featured then %>
