@@ -6,6 +6,7 @@ class PhotosController < ApplicationController
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
+  FREE_BANDWIDTH_LIMIT = 10
 
   def check_if_allowed_to_view
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
@@ -21,7 +22,7 @@ class PhotosController < ApplicationController
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     unless @persona.permium? then
       respond_to do |format|
-        format.html { render :text => 'upgrade to premium' }
+        format.html { render :text => 'Upgrade to premium' }
       end
     end
   end
@@ -30,9 +31,22 @@ class PhotosController < ApplicationController
   def check_if_reach_quota
     if !current_persona.premium? then
       @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
-      if @bandwidth > 300*1024*1024 then
+      if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
+        error_msg = 
+            [{ :files => 
+              [{
+                "error" => "Bandwidth exceeded",
+                "size" => 1000, 
+                "url" => '',
+                "thumbnail_url" => '/assets/icon/zero-photo/square100.jpg', 
+                "delete_url" => '', 
+                'name' => 'square100.jpg', 
+                "delete_type" => "DELETE",
+              }]
+            }].to_json
         respond_to do |format|
-          format.html { render :text => 'bandwidth reached' }
+          format.html { render :json => error_msg, :content_type => 'text/html', :layout => false }
+          format.json { render :json => error_msg } 
         end
       end
     end

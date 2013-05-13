@@ -31,6 +31,7 @@ class PersonasController < ApplicationController
 
     if persona_signed_in? && @persona == current_persona && !@persona.premium? then
       @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum 
+      @exceed_bandwidth = @bandwidth > 300*1024*1024 ? true : false
     end
 
     respond_to do |format|

@@ -58,7 +58,8 @@
         <%= number_to_human_size(@bandwidth, :precision => 2) %> of 300 MB
       </div>
       <div class="progress img-polaroid">
-        <div class="bar" style="width: <%= number_to_percentage(@bandwidth/300.to_f/1024/1024*100,   :precision => 2) %> ;"></div>
+        <% bar_width = @exceed_bandwidth ? '100%' : number_to_percentage(@bandwidth/300.to_f/1024/1024*100, :precision => 0) %>
+        <div class="bar <%= @exceed_bandwidth ? 'bar-danger' : '' %>" style="width: <%= bar_width %>;"></div>
       </div>
     <% end %>
     <div class="row-fluid">
