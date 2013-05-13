@@ -2,6 +2,7 @@ class PhotosController < ApplicationController
   #include Twitter::Extractor
   before_filter :check_if_allowed_to_view, :only => [:view, :download]
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
+  before_filter :check_if_reach_quota, :only => [:create]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
@@ -9,7 +10,7 @@ class PhotosController < ApplicationController
   def check_if_allowed_to_view
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
     @photo = @persona.photos.find(params[:id])
-    if (!@photo.visible && current_persona != @persona) || !@photo.system_visible then
+     if (!@photo.visible && current_persona != @persona) || !@photo.system_visible then
       respond_to do |format|
         format.html { render :not_viewable }
       end
@@ -23,6 +24,19 @@ class PhotosController < ApplicationController
         format.html { render :text => 'upgrade to premium' }
       end
     end
+  end
+
+  #every time upload, check if can send photos
+  def check_if_reach_quota
+    if !current_persona.premium? then
+      @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
+      if @bandwidth > 300*1024*1024 then
+        respond_to do |format|
+          format.html { render :text => 'bandwidth reached' }
+        end
+      end
+    end
+    
   end
 
   # GET /photos
@@ -44,7 +58,6 @@ class PhotosController < ApplicationController
     #show photos uploaded by persona
     #@persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id]}, :limit => 1 ).first
     @persona = Persona.where(:screen_name => params[:id]).first
-
 
     if @persona.nil? then
       respond_to do |format|  

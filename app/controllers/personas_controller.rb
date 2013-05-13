@@ -29,6 +29,10 @@ class PersonasController < ApplicationController
     @following = Persona.find(:all, :conditions => { :id => @persona.followers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)}, :limit => 30)
     @followers = Persona.find(Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id))
 
+    if persona_signed_in? && @persona == current_persona && !@persona.premium? then
+      @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum 
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @persona }
