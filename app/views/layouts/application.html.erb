@@ -52,7 +52,7 @@
             <ul class="nav">
               <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" 
-                  data-toggle="dropdown">Explore<b class="caret"></b></a>
+                  data-toggle="dropdown"><i class="icon-globe"></i> Explore<b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><%= link_to '<i class="icon-picture"></i> Photos'.html_safe, photos_path  %></li>
                   <li><%= link_to '<i class="icon-th-list"></i> Sets'.html_safe, mediasets_path %></li>
@@ -79,8 +79,8 @@
                   </ul>
                 <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, new_photo_path  %></li>
               <% else %>
-                <li><%= link_to 'The Tour', tour_path %></li>
-                <li><%= link_to 'Sign Up', new_persona_registration_path %></li>
+                <li><%= link_to '<i class="icon-sitemap"></i> The Tour'.html_safe, tour_path %></li>
+                <li><%= link_to 'Sign Up'.html_safe, new_persona_registration_path %></li>
               <% end %>
             </ul>
             <ul class="nav pull-right">
@@ -106,7 +106,7 @@
               </li>
               <% else %>
                 <li>
-                  <%= link_to 'Sign In', new_persona_session_path %>
+                  <%= link_to '<i class="icon-signin"></i> Sign In'.html_safe, new_persona_session_path %>
                 </li>
                 
               <% end %>

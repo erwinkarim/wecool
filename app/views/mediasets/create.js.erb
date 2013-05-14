@@ -1,13 +1,17 @@
 //to update in photo#view action
 
 //update at the mediaset select modal box
-var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.id, true) %>";
+var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.id, true, :style => 'display:none;' ) %>";
 <% if @mediaset.photos.empty? then %>
   var thePhotoAndTitle = "<%=  escape_javascript(image_tag 'icon/zero-photo/square50.jpg' ) %> <%= @mediaset.title %>"; 
 <% else %>
   var thePhotoAndTitle = "<%=  escape_javascript(image_tag @mediaset.photos.first.avatar.square50) %> <%= @mediaset.title %>"; 
 <% end %>
-$('#newMediasetList').after("<li>" + theCheckBox + " " + thePhotoAndTitle + "</li>");
+$('#newMediasetList').find('tbody').append(
+  '<tr><td><div class="pull-left"><big>' + theCheckBox + 
+  ' ' + thePhotoAndTitle + 
+  '</big></div><div class="pull-right"><i class="checkbox-icon icon-check-sign icon-2x"></i></div></td></tr>'
+);
 
 //create at the bottom of the scrolls
 var accordionHead = jQuery('<div/>', { class:'accordion-heading'});
