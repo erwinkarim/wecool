@@ -5,19 +5,35 @@
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
       <h3 id="addToSetModalHeader">Select Mediaset...</h3>
     </div>
-    <%= form_tag photo.id.nil? ? '#' : photo_update_setlist_path(@persona.screen_name, photo.id) do %>
-      <div class="modal-body" id="selectMediasetList" >
-        <table class="table table-bordered table-hover">
-          <tr>
-            <td id="newMediasetList">
-              <p class="text-center">
-              <%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %>
-              </p>
-            </td>
-          </tr>
-            <% @persona.mediasets.each do |mediaset| %>
-              <tr class="mediasetSelectionRow"><td>
-                <div class="pull-left">
+    <% if photo.id.nil? then %>
+      <div class="modal-body" id="selectMediasetList">
+        <ul>
+          <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
+          <% @persona.mediasets.each do |mediaset| %>
+            <li>
+              <i class="icon-check icon-2x"></i>
+              <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
+              <% if mediaset.photos.empty? then %>
+                <%= image_tag 'icon/zero-photo/square50.jpg' %>
+              <% else %>
+                <%= image_tag mediaset.photos.first.avatar.square50 %>
+              <% end %>
+              <%= mediaset.title %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer" id="updateMediasetFooter">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+      </div>
+    <% else %>
+      <%= form_tag photo_update_setlist_path(@persona.screen_name, photo.id) do %>
+        <div class="modal-body" id="selectMediasetList">
+          <ul>
+            <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
+            <% @mediasets.each do |mediaset| %>
+              <li>
                 <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
                 <% if mediaset.photos.empty? then %>
                   <%= image_tag 'icon/zero-photo.square50.jpg' %>
@@ -25,25 +41,16 @@
                   <%= image_tag mediaset.photos.first.avatar.square50 %>
                 <% end %>
                 <%= mediaset.title %>
-                </div>
-                <div class="pull-right">
-                  <i class="checkbox-icon <%= mediaset.photos.include?(photo) ? 
-                    'icon-check-sign icon-2x' : '' %>"></i>
-                </div> 
-      
-              </td></tr>
+              </li>
             <% end %>
-        </table>
-      </div>
-      <div class="modal-footer" id="updateMediasetFooter">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <% if photo.id.nil? then %>
-          <%= button_tag 'Ok', :type => 'button', :class => 'btn btn-primary', :'data-dismiss' => 'modal' %>
-        <% else %>
+          </ul>
+        </div>
+        <div class="modal-footer" id="updateMediasetFooter">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
           <%= submit_tag 'Update Mediaset List', :class => 'btn btn-primary' %>
-        <% end %>
-      </div>
-    <% end %><!-- form -->
+        </div>
+      <% end %><!-- form -->
+    <% end %>
   </div>
   <div id="newMediaset">
     <!-- to create new mediaset -->
@@ -88,12 +95,6 @@
         $('#selectMediaset').show('slow');
         $('#newMediaset').hide('slow');
 
-      });
-  
-      $('.mediasetSelectionRow').click( function() {
-        $(this).find('input:checkbox').prop('checked', !$(this).find('input:checkbox').prop('checked') )
-        $(this).find('.checkbox-icon').toggleClass('icon-check-sign');
-        $(this).find('.checkbox-icon').toggleClass('icon-2x');
       });
   });
 </script>

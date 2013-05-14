@@ -40,7 +40,7 @@ gem 'jquery-ui-rails'
 #
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
-gem 'font-awesome-rails'
+gem 'font-awesome-rails', '>= 3.1.0'
 
 gem 'carrierwave'
 gem 'devise'
