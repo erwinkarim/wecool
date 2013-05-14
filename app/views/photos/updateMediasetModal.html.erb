@@ -11,6 +11,7 @@
           <li id="newMediasetList"><%= link_to 'Create new Mediaset...', '#', :id=>'newMediasetButton' %></li>
           <% @persona.mediasets.each do |mediaset| %>
             <li>
+              <i class="icon-check icon-2x"></i>
               <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo) %> 
               <% if mediaset.photos.empty? then %>
                 <%= image_tag 'icon/zero-photo/square50.jpg' %>
@@ -23,6 +24,7 @@
         </ul>
       </div>
       <div class="modal-footer" id="updateMediasetFooter">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
       </div>
     <% else %>

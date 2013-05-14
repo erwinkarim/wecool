@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
-  FREE_BANDWIDTH_LIMIT = 10
+  FREE_BANDWIDTH_LIMIT = 300
 
   def check_if_allowed_to_view
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] })
@@ -30,11 +30,14 @@ class PhotosController < ApplicationController
   #every time upload, check if can send photos
   def check_if_reach_quota
     if !current_persona.premium? then
-      @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
+      @bandwidth = current_persona.photos.where{ 
+        created_at.gt Date.today.at_beginning_of_month 
+      }.map{ |p| p.avatar.size }.sum
       if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
         error_msg = 
             [{ :files => 
               [{
+                "name" => "Bandwidth exceeded", 
                 "error" => "Bandwidth exceeded",
                 "size" => 1000, 
                 "url" => '',
@@ -46,7 +49,7 @@ class PhotosController < ApplicationController
             }].to_json
         respond_to do |format|
           format.html { render :json => error_msg, :content_type => 'text/html', :layout => false }
-          format.json { render :json => error_msg } 
+          format.json { render :json => error_msg, :status => :unauthorized } 
         end
       end
     end

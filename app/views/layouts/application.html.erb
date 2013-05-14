@@ -73,6 +73,9 @@
                       follower_path(current_persona.screen_name) %></li>
                     <li><%= link_to '<i class="icon-tags"></i> My Tags'.html_safe, 
                       persona_tags_path(current_persona.screen_name) %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to '<i class="icon-user"></i> My Profile'.html_safe, 
+                      persona_path(current_persona.screen_name) %></li>
                   </ul>
                 <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, new_photo_path  %></li>
               <% else %>
