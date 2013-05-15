@@ -61,6 +61,8 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/toggle_visibility/:photo_id' => :toggle_visibility, 
       :via => :post, :as => 'photo_toggle_visibility'
     match '/photos/:persona_id/not_viewable' => :not_viewable, :via => :get, :as => 'photo_not_viewable'
+    match '/photos/:persona_id/clear_from_queue/:photo_id' => :clear_from_upload_queue, :via => :post, 
+      :as => 'photo_clear_queue'
   end
 
   controller :followers do

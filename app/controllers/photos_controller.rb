@@ -439,7 +439,14 @@ class PhotosController < ApplicationController
     end
   end
 
+  # GET    /photos/:persona_id/not_viewable(.:format)
+  # tells the user that the photo is not viewable because of owner/system restrictions
   def not_viewable
-    
   end
+
+  # POST   /photos/:persona_id/clear_from_queue/:photo_id
+  # clear from the queue in :new action
+  def clear_from_upload_queue
+  end
+
 end
