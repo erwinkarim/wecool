@@ -47,8 +47,10 @@
       <h3>Create new Mediaset</h3>
     </div>
     <div class="modal-body" id="selectMediasetNew">
-      <%= text_field_tag :newMediasetTitle, nil,  :placeholder => 'Put your title here', 
+      <%= text_field_tag :newMediasetTitle, nil,  :placeholder => 'Title', 
         :class=>'input-block-level' %>
+      <%= text_area_tag :newMediasetDescription, nil, :placeholder => 'Description', 
+        :class=> 'input-block-level' %>
       <% if !photo.id.nil? then %>
         <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style=>'display:none;'%>
       <% end %>
@@ -85,7 +87,7 @@
         //send ajax to create new mediaset
         $.ajax({
           url:'/mediasets',
-          data: { mediaset:{ title:$('#newMediasetTitle').val() } },
+          data: { mediaset:{ title:$('#newMediasetTitle').val(), description:$('#newMediasetDescription').val() } },
           type: 'POST',
           dataType: 'script'
         });

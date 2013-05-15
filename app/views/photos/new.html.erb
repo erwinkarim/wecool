@@ -1,6 +1,8 @@
-<h2>
-  Upload photo here
+<div>
+<h2 class="page-header">
+  <i class="icon-cloud-upload"></i> Upload photo here
 </h2>
+</div>
 <% if persona_signed_in? then %>
   <div class="container">
   <%= form_for @photo, :html => {:multipart => true, :id => "fileupload" } do |f| %>

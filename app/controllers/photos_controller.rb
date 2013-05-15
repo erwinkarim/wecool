@@ -3,6 +3,7 @@ class PhotosController < ApplicationController
   before_filter :check_if_allowed_to_view, :only => [:view, :download]
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
   before_filter :check_if_reach_quota, :only => [:create]
+  before_filter :check_if_signed_in, :only => [:new]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
@@ -53,7 +54,13 @@ class PhotosController < ApplicationController
         end
       end
     end
-    
+  end
+
+  def check_if_signed_in
+    unless persona_signed_in? then
+      flash[:error] = 'You must sign in first'
+      redirect_to new_persona_session_path    
+    end
   end
 
   # GET /photos
