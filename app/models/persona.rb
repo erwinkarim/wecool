@@ -35,4 +35,9 @@ class Persona < ActiveRecord::Base
     avatar.recreate_versions!
   end
   
+  #calculate bandwith usage for the current calender month (ie; 1st to current day)
+  def bandwidth_usage
+    bandwidth = self.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
+    return bandwidth
+  end
 end

@@ -52,7 +52,7 @@
       <% end %>
       </ul>
     </div>
-    <% if !@persona.premium? then %>
+    <% if persona_signed_in? && @persona == current_persona && !@persona.premium? then %>
       <h4>Usage</h4>
       <div class="text-right">
         <%= number_to_human_size(@bandwidth, :precision => 2) %> of 300 MB

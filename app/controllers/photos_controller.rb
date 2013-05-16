@@ -83,6 +83,14 @@ class PhotosController < ApplicationController
     #@persona = Persona.find(:all, :conditions => { :screen_name => params[:persona_id]}, :limit => 1 ).first
     @persona = Persona.where(:screen_name => params[:id]).first
 
+    #check if some of the photos are invisible 
+    if persona_signed_in? && @persona == current_persona then
+      if !current_persona.photos.where(:system_visible => false).empty? then
+        flash[:warning] = 'Some photos are not visible because you have exceed the free photos limit of ' + 
+          FREE_PHOTO_LIMIT.to_s + ' photos'
+      end
+    end
+
     if @persona.nil? then
       respond_to do |format|  
         format.html { render :text => 'Persona does not exists' }
@@ -101,6 +109,17 @@ class PhotosController < ApplicationController
   def new
     @photo = current_persona.photos.new(params[:photo])
     @persona = current_persona
+    if !@persona.premium then
+      @bandwidth = @persona.bandwidth_usage    
+      if @bandwidth > 300*1024*1024*0.01 && @bandwidth < 300*1024*1024 then
+        flash[:warning] = 'You are using more than 80% of your monthly quota. <a href="'+
+          persona_upgrade_acc_path(@persona.screen_name) + '">Upgrade</a> if you plan to use more space'
+      elsif @bandwidth > 300*1024*1024 then
+        flash[:error] = 'You have exceeded your monthly quota and you may no longer load ' + 
+          'any more photos for this month unless you <a href="' + persona_upgrade_acc_path(@persona.screen_name) +
+          '">upgrade</a> to premium'
+      end
+    end
     #@photo = Photo.new
 
     respond_to do |format|

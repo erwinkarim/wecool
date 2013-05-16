@@ -83,8 +83,8 @@
                 <li><%= link_to 'Sign Up'.html_safe, new_persona_registration_path %></li>
               <% end %>
             </ul>
-            <ul class="nav pull-right">
-              <% if persona_signed_in? then %>
+            <% if persona_signed_in? then %>
+              <ul class="nav pull-right">
               <li class="dropdown">
                 <%= link_to ('<i class="icon-user"></i> ' + current_persona.screen_name + 
                   '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
@@ -104,13 +104,19 @@
                     destroy_persona_session_path, :method => :delete %></li>
                 </ul>
               </li>
-              <% else %>
-                <li>
-                  <%= link_to '<i class="icon-signin"></i> Sign In'.html_safe, new_persona_session_path %>
-                </li>
-                
+              </ul>
+            <% else %>
+              <!-- inline form -->
+              <%= form_for('persona', :url => persona_session_path, 
+                :html => { :class=> 'navbar-form form-inline pull-right' } ) do |f| %>
+                <%= f.text_field :email, :placeholder => 'email' %>
+                <%= f.password_field :password, :placeholder => 'password' %>
+                <%= f.label :remember_me, :class=> 'checkbox' do %>
+                  <%= f.check_box :remember_me, :class=> 'checkbox' %> <%= 'Remember'.html_safe %>
+                <% end %>
+                <%= f.submit 'Sign In'.html_safe, :class=>'btn' %>
               <% end %>
-            </ul>
+            <% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>

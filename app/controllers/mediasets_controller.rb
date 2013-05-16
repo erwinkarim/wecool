@@ -207,6 +207,12 @@ class MediasetsController < ApplicationController
     @mediaset_photos = @mediaset.photos.empty? ? Photo.all.reverse : @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
     @total_votes = @mediaset.up_votes + @mediaset.down_votes
 
+    if persona_signed_in? && @persona == current_persona && !@persona.premium? then
+      if !@mediaset.photos.where(:system_visible => false).empty? then
+        flash[:warning] = 'Some photos in this set is not accessible because you have exceed the free photo limits'
+      end
+    end
+
     respond_to do |format|
       format.html
     end
