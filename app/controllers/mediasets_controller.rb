@@ -2,6 +2,7 @@ class MediasetsController < ApplicationController
   FREE_MEDIASET_COUNT = 5
 
   before_filter :check_if_system_visible, :only => [:view]
+  before_filter :authenticate_persona!, :only => [:new, :edit]
 
   #check if the mediaset is viewable
   def check_if_system_visible
@@ -37,6 +38,13 @@ class MediasetsController < ApplicationController
     #@default_photos = @persona.photos.find(:all, :order => 'id desc', :limit => 10)
     #@mediasets = @persona.mediasets.find(:all, :order => 'id desc')
 
+    if persona_signed_in? && current_persona == @persona && !@persona.premium? then
+      if !@persona.mediasets.where(:system_visible => false).empty? then
+        flash[:warning] = 'Some mediaset are not visible because you breached the free limit. <a href="' + 
+          persona_upgrade_acc_path(@persona.screen_name) + '">Upgrade</a> to see them all!'
+      end
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @mediaset }
@@ -55,7 +63,11 @@ class MediasetsController < ApplicationController
     #@photos = Photo.find(:all, :order => 'id desc',  :conditions => {
     #  :persona_id => Persona.find(:first, :conditions => {:screen_name => current_persona.screen_name} )
     #})
-
+ 
+    if persona_signed_in? && !@persona.premium? && @persona.mediasets.count >= FREE_MEDIASET_COUNT then
+      flash[:warning] = 'Older mediasets may not be visible because you have breech the free limit. <a href="' +
+        persona_upgrade_acc_path(@persona.screen_name) + '">Upgrade</a> to see them all!' 
+    end 
     @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
 
     respond_to do |format|

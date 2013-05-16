@@ -3,7 +3,7 @@ class PhotosController < ApplicationController
   before_filter :check_if_allowed_to_view, :only => [:view, :download]
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
   before_filter :check_if_reach_quota, :only => [:create]
-  before_filter :check_if_signed_in, :only => [:new]
+  before_filter :authenticate_persona!, :only => [:new, :edit]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 20
@@ -31,9 +31,7 @@ class PhotosController < ApplicationController
   #every time upload, check if can send photos
   def check_if_reach_quota
     if !current_persona.premium? then
-      @bandwidth = current_persona.photos.where{ 
-        created_at.gt Date.today.at_beginning_of_month 
-      }.map{ |p| p.avatar.size }.sum
+      @bandwidth = current_persona.bandwidth_usage
       if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
         error_msg = 
             [{ :files => 
@@ -87,7 +85,8 @@ class PhotosController < ApplicationController
     if persona_signed_in? && @persona == current_persona then
       if !current_persona.photos.where(:system_visible => false).empty? then
         flash[:warning] = 'Some photos are not visible because you have exceed the free photos limit of ' + 
-          FREE_PHOTO_LIMIT.to_s + ' photos'
+          FREE_PHOTO_LIMIT.to_s + ' photos. <a href="' + persona_upgrade_acc_path(@persona.screen_name) + 
+          '">Upgrade</a> to see them all!'
       end
     end
 
@@ -111,10 +110,10 @@ class PhotosController < ApplicationController
     @persona = current_persona
     if !@persona.premium then
       @bandwidth = @persona.bandwidth_usage    
-      if @bandwidth > 300*1024*1024*0.01 && @bandwidth < 300*1024*1024 then
+      if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024*0.8 && @bandwidth < FREE_BANDWIDTH_LIMIT*1024*1024 then
         flash[:warning] = 'You are using more than 80% of your monthly quota. <a href="'+
           persona_upgrade_acc_path(@persona.screen_name) + '">Upgrade</a> if you plan to use more space'
-      elsif @bandwidth > 300*1024*1024 then
+      elsif @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
         flash[:error] = 'You have exceeded your monthly quota and you may no longer load ' + 
           'any more photos for this month unless you <a href="' + persona_upgrade_acc_path(@persona.screen_name) +
           '">upgrade</a> to premium'
