@@ -103,12 +103,41 @@
   </div>
   <div class="span9">
     <div>
-      <h3>Activity</h3>
-      <ul>
+      <h2>Activity</h2>
+      <table class="table table-striped table-hover">
+        <tbody>
         <% @activity.each do |item| %>
-          <li>Created <%= item[:type] + ' ' + ' on ' + item[:first_activity].to_s %></li>
+          <tr><td>
+            <% if item[:type] == 'mediaset' then %>
+              <div>
+                <big>
+                  Created <%= link_to item[:items].first.title, view_sets_path(@persona.screen_name, item[:items].first.id) %> mediaset
+                </big>
+                <small><%= item[:first_activity] %></small>
+              </div>
+              <div>
+                <% item[:items].first.photos.limit(8).each do |p| %>
+                  <%= link_to image_tag(p.avatar.square200, :class=> 'img-polaroid pull-left') ,
+                        photo_view_in_scope_path(@persona.screen_name, p.id, 'mediaset', item[:items].first.id) %> 
+                <% end %>
+              </div>
+            <% elsif item[:type] == 'photo' then %>
+              <div>
+                <big>Uploaded <%= pluralize item[:items].count, 'photo' %></big>
+                <small><%= item[:first_activity] %></small>
+              </div>
+              <div>
+                <% item[:items][0..7].each do |p| %>
+                  <%= link_to image_tag(p.avatar.square200, :class=>'img-polaroid pull-left'), 
+                    photo_view_path(@persona.screen_name, p.id)
+                   %>
+                <% end %>
+              </div>
+            <% end %>
+          </td></tr>
         <% end %>
-      </ul>
+        </tbody>
+      </table>
     </div>
     <div>
       <h2>Photos <small><%= link_to 'See More...', photo_path(@persona.screen_name) %> </small></h2>

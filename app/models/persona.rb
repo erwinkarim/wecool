@@ -60,6 +60,6 @@ class Persona < ActiveRecord::Base
       cluster << { :type => 'mediaset', :items => [e], :first_activity => e.updated_at }       
     end
 
-    return cluster.sort{ |e| e[:first_activity].to_i }
+    return cluster.sort{ |e| -e[:first_activity].to_i }
   end
 end
