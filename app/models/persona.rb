@@ -40,4 +40,26 @@ class Persona < ActiveRecord::Base
     bandwidth = self.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
     return bandwidth
   end
+
+  # gather activity of this persona
+  def get_activity new_options = {} 
+    options = { :last_date => 1.month.ago, :cluster_interval => 5.minutes }
+    options.merge(new_options)
+    cluster = Array.new      
+    self.photos.where{ created_at.gt options[:last_date] }.order('created_at desc').each do |e|
+      if cluster.empty? then
+       cluster = [{:type => 'photo', :items => [e] , :first_activity => e.created_at}]
+      else
+        cluster.last[:items].last.created_at < e.created_at + options[:cluster_interval] ? 
+          cluster.last[:items] << e : 
+          cluster << { :type => 'photo', :items => [e], :first_activity => e.created_at } 
+      end
+    end
+
+    self.mediasets.where{ created_at.gt options[:last_date] }.order('updated_at desc').each do |e|
+      cluster << { :type => 'mediaset', :items => [e], :first_activity => e.updated_at }       
+    end
+
+    return cluster.sort{ |e| e[:first_activity].to_i }
+  end
 end

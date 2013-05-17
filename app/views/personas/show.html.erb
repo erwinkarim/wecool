@@ -103,6 +103,14 @@
   </div>
   <div class="span9">
     <div>
+      <h3>Activity</h3>
+      <ul>
+        <% @activity.each do |item| %>
+          <li>Created <%= item[:type] + ' ' + ' on ' + item[:first_activity].to_s %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div>
       <h2>Photos <small><%= link_to 'See More...', photo_path(@persona.screen_name) %> </small></h2>
       <div class="row-fluid endless_scroll_inner_wrap">
       </div>

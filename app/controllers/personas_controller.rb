@@ -34,6 +34,9 @@ class PersonasController < ApplicationController
       @exceed_bandwidth = @bandwidth > 300*1024*1024 
     end
 
+    # gather 1 month activity by cluster of 15 minutes
+    @activity = @persona.get_activity
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @persona }
@@ -198,6 +201,7 @@ class PersonasController < ApplicationController
   def show_tag
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @tag = params[:tag_id]
+
 
     respond_to do |format|
       format.html{ render "tags/show", :locals => {:tag => @tag, :persona => @persona } }
