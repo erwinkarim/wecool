@@ -56,10 +56,10 @@ class Persona < ActiveRecord::Base
       end
     end
 
-    self.mediasets.where{ created_at.gt options[:last_date] }.order('updated_at desc').each do |e|
+    self.mediasets.where{ updated_at.gt options[:last_date] }.order('updated_at desc').each do |e|
       cluster << { :type => 'mediaset', :items => [e], :first_activity => e.updated_at }       
     end
 
-    return cluster.sort{ |e| -e[:first_activity].to_i }
+    return cluster.sort_by{ |e| -(e[:first_activity].to_i) }
   end
 end
