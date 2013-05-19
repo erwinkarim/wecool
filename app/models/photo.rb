@@ -10,6 +10,7 @@ class Photo < ActiveRecord::Base
   has_many :mediasets, :through => :mediaset_photos
   validates :persona_id, :presence => true
   after_initialize :init
+  has_paper_trail
 
   include Rails.application.routes.url_helpers
 
@@ -87,7 +88,7 @@ class Photo < ActiveRecord::Base
     if current_selection.empty? && !new_selection.empty? then
       new_selection.each do |mediaset|
         self.mediaset_photos.create(:mediaset_id => mediaset.id, 
-          :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
+          :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max.to_i + 1 
         )
       end
     elsif !current_selection.empty? && !new_selection.empty? then
@@ -96,7 +97,7 @@ class Photo < ActiveRecord::Base
           if !current_selection.include?(mediaset) then
             self.mediaset_photos.create(
               :mediaset_id => mediaset.id, 
-              :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max + 1 
+              :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max.to_i + 1 
             )
           end
         end

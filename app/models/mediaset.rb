@@ -5,4 +5,5 @@ class Mediaset < ActiveRecord::Base
   has_many :mediaset_photos, :dependent => :destroy
   has_many :photos, :through => :mediaset_photos
   make_voteable
+  has_paper_trail
 end

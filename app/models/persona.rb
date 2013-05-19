@@ -6,6 +6,8 @@ class Persona < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  has_paper_trail
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me ,:realname, :screen_name, 
     :avatar, :agreeToTNC, :premium, :premiumSince, :premiumExpire
