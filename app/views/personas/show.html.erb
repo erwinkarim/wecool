@@ -114,6 +114,8 @@
                 <li>
                 <% if act[:item] == 'Photo' && act[:event] == 'create' then %>
                   Uploaded <%= act[:count] %> new photos
+                <% elsif act[:item] == 'Photo' && act[:event] == 'update' then %>
+                  Updated <%= act[:count] %> photos
                 <% elsif act[:item] == 'Mediaset' && act[:event] == 'create' then %>
                   Created
                     <% Mediaset.find(act[:id]).each do |this_set| %>
@@ -140,6 +142,9 @@
             </div>
             <div class="row-fluid">
               <% Photo.where( :id => 
+                  item[:activity].select{ |x|
+                    (x[:item] == 'Photo' && x[:event] == 'update')
+                  }.map{ |x| x[:id] } +
                   item[:activity].select{ |x| 
                     (x[:item] == 'Photo' && x[:event] == 'create') 
                   }.map{|x| x[:id]} + 
