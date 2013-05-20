@@ -48,18 +48,23 @@ class Persona < ActiveRecord::Base
     options = { :last_date => 1.month.ago, :cluster_interval => 5.minutes }
     options.merge(new_options)
     cluster = Array.new      
-    self.photos.where{ created_at.gt options[:last_date] }.order('created_at desc').each do |e|
-      if cluster.empty? then
-       cluster = [{:type => 'photo', :items => [e] , :first_activity => e.created_at}]
+  
+    Version.where{ (whodunnit.eq self.screen_name) && (created_at.gt 1.month.ago) }.order('created_at').each do |e|
+      if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
+        cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
+          :activity => [{ :item => e.item_type, :event => e.event, :count => 1 , :id => [e.item_id] }] 
+        }
       else
-        cluster.last[:items].last.created_at < e.created_at + options[:cluster_interval] ? 
-          cluster.last[:items] << e : 
-          cluster << { :type => 'photo', :items => [e], :first_activity => e.created_at } 
+        #case where this item is created within options[:cluster_interval]     
+        cluster.last[:last_activity] = e.created_at
+        act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == e.event }.first
+        act.nil? ? 
+          cluster.last[:activity] << { :item => e.item_type, :event => e.event, :count => 1 , :id => [e.item_id] } : 
+          begin 
+            act[:count] += 1
+            act[:id] << e.item_id
+          end
       end
-    end
-
-    self.mediasets.where{ updated_at.gt options[:last_date] }.order('updated_at desc').each do |e|
-      cluster << { :type => 'mediaset', :items => [e], :first_activity => e.updated_at }       
     end
 
     return cluster.sort_by{ |e| -(e[:first_activity].to_i) }
