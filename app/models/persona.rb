@@ -49,7 +49,8 @@ class Persona < ActiveRecord::Base
     options.merge(new_options)
     cluster = Array.new      
   
-    Version.where{ (whodunnit.eq self.screen_name) && (created_at.gt 1.month.ago) }.order('created_at').each do |e|
+    myScreenName = self.screen_name
+    Version.where{ (whodunnit.eq myScreenName) & (created_at.gt 1.month.ago) }.order('created_at').each do |e|
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activity => [{ :item => e.item_type, :event => e.event, :count => 1 , :id => [e.item_id] }] 

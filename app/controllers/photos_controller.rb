@@ -361,6 +361,9 @@ class PhotosController < ApplicationController
     @photo.toggle(:featured)
     @photo.visible = true
 
+    #available on #paper trail 2.7.2 (unreleased yet)
+    #@photo.paper_trail_event = @photo.featured? ? 'featured' : 'unfeatured' 
+
     if @photo.save then
       respond_to do |format|
         format.js
