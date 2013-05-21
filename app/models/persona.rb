@@ -51,19 +51,24 @@ class Persona < ActiveRecord::Base
   
     myScreenName = self.screen_name
     Version.where{ (whodunnit.eq myScreenName) & (created_at.gt 1.month.ago) }.order('created_at').each do |e|
+      #this will be simplied on paper_trail 2.7.2
+      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+        e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
-          :activity => [{ :item => e.item_type, :event => e.event, :count => 1 , :id => [e.item_id] }] 
+          :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 
         }
       else
         #case where this item is created within options[:cluster_interval]     
         cluster.last[:last_activity] = e.created_at
-        act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == e.event }.first
+        act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == theEvent }.first
         act.nil? ? 
-          cluster.last[:activity] << { :item => e.item_type, :event => e.event, :count => 1 , :id => [e.item_id] } : 
+          cluster.last[:activity] << { :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] } : 
           begin 
-            act[:count] += 1
-            act[:id] << e.item_id
+            if !act[:id].include? e.item_id then
+              act[:count] += 1
+              act[:id] << e.item_id
+            end
           end
       end
     end

@@ -139,13 +139,14 @@
               <% if persona_signed_in? && current_persona == @persona then %>
                 <%= form_for @photo, :html => { :id=>'photo-title-form', :class=> 'form-horizontal' } do |f| %>
                   <%= f.text_field :title , :class=>'span6'%>
-                  <%= link_to 'Cancel', '#', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
+                  <%= button_tag 'Cancel', :type => 'button', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
                   <%= f.submit 'Update title', :class=>'btn btn-primary' %>
                 <% end %>
               <% end %>
               <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
                 <%= simple_format(
-                  @photo.description.nil? ? 'No Description' : @photo.description, :style=>'padding-bottom:1em;' 
+                  @photo.description.empty? || @photo.description.nil? ? 'No Description' : 
+                    @photo.description, :style=>'padding-bottom:1em;' 
                 ) %>
               </div>
               <% if persona_signed_in? && current_persona.id == @persona.id then %>
@@ -153,7 +154,7 @@
                   <%= f.text_area :description, :size => '80x6', :class=>'span9', 
                     :placeholder=>'Add description. You can use #hashtag to tag your photos' %> 
                   <br />
-                  <%= link_to 'Cancel', '#photo-desc', :id=>'photo-desc-cancel-btn', :class=>'btn' %>
+                  <%= button_tag 'Cancel', :type => 'button' , :id=>'photo-desc-cancel-btn', :class=>'btn' %>
                   <%= f.submit nil, :class=>'btn btn-primary' %>
                 <% end %>
               <% end %>

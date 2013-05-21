@@ -342,8 +342,8 @@ class Photo < ActiveRecord::Base
       #get the photos that the current persona tracks
       @tracked_persona = current_persona[:current_persona].followers.where(:tracked_object_type => 'persona')
       @next_photos = Photo.find(:all, :conditions => 
-        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true} , 
-        :order => 'id desc', :limit => default_options[:limit], :system_visible => true)
+        { :id => 0..upper, :persona_id => @tracked_persona.pluck(:tracked_object_id), :visible=>true, :system_visible => true} , 
+        :order => 'id desc', :limit => default_options[:limit])
     elsif default_options[:mediatype] == 'related' then
       @next_photos = Photo.where( :id => 
         Photo.find(default_options[:focusPhotoID]).find_related_tags.

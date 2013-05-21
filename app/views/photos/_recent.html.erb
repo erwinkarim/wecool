@@ -1,10 +1,11 @@
+<a name="navAnchor"></a>
 <ul class="nav nav-tabs" id="photoTypeSelectorTab">
-  <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
-  <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
+  <li class="active recentlyFeatured"><%= link_to 'Featured', '#navAnchor' %></li>
+  <li class="recentlyTrendy"><%= link_to 'Trending', '#navAnchor' %></li>
   <% if persona_signed_in? then %>
-    <li class="recentlyTracked"><%= link_to 'Following', '#' %></li>
+    <li class="recentlyTracked"><%= link_to 'Following', '#navAnchor' %></li>
   <% end %>
-  <li class="recentlyAddedRaw"><%= link_to 'Raw', '#' %><li>
+  <li class="recentlyAddedRaw"><%= link_to 'Raw', '#navAnchor' %><li>
 </ul>
 <div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
   <div class="last-div endless_scroll_inner_wrap"></div>

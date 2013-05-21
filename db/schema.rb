@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130519161706) do
+ActiveRecord::Schema.define(:version => 20130521103610) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130519161706) do
     t.integer  "sku_id"
   end
 
+  add_index "coupons", ["persona_id"], :name => "index_coupons_on_persona_id"
   add_index "coupons", ["sku_id"], :name => "index_coupons_on_sku_id"
 
   create_table "delayed_jobs", :force => true do |t|
@@ -161,12 +162,13 @@ ActiveRecord::Schema.define(:version => 20130519161706) do
   end
 
   create_table "versions", :force => true do |t|
-    t.string   "item_type",  :null => false
-    t.integer  "item_id",    :null => false
-    t.string   "event",      :null => false
+    t.string   "item_type",      :null => false
+    t.integer  "item_id",        :null => false
+    t.string   "event",          :null => false
     t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
