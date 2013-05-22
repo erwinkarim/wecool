@@ -106,11 +106,9 @@
       <h2>Activity</h2>
       <% if @activity.empty? then %>
         <div class="hero-unit">
+            <h3>Nothing to see yet</h3>
           <% if persona_signed_in? && @persona == current_persona then %>
-            <h1>Hello!!!! Anybody there??</h1>
             <p>Start <%= link_to 'uploading', new_photo_path %> photos</p>
-          <% else %>
-            <h1>Nothing to see yet</h1>
           <% end %>
         </div>
       <% else %>
@@ -123,39 +121,32 @@
               <% item[:activity].each do |act| %>
                 <li>
                 <% if act[:item] == 'Photo' && act[:event] == 'create' then %>
-                  Uploaded <%= act[:count] %> new photos
+                  Uploaded <%= pluralize act[:count], 'new photo' %> 
                 <% elsif act[:item] == 'Photo' && act[:event] == 'update' then %>
-                  Updated <%= act[:count] %> photos
+                  Updated <%= pluralize act[:count], 'photo' %>
                 <% elsif act[:item] == 'Photo' && act[:event] == 'featured' then %>
-                  Featured <%= act[:count] %> photos
+                  Featured <%= pluralize act[:count], 'photo' %>
+                <% elsif act[:item] == 'Photo' && act[:event] == 'up_votes' then %>
+                  Voted on <%= act[:id].map{ |x| Photo.find(x).persona_id }.uniq.map{ |x| Persona.find(x) }.map { |x| link_to x.screen_name, persona_path(x.screen_name) }.to_sentence.html_safe %> photos
                 <% elsif act[:item] == 'Mediaset' && act[:event] == 'create' then %>
                   Created
-                    <% Mediaset.find(act[:id]).each do |this_set| %>
-                      <%= link_to this_set.title, view_sets_path(@persona.screen_name, this_set.id) %>
-                    <% end %>
+                  <%= act[:id].map{ |x| Mediaset.find(x) }.map{ 
+                      |x| link_to(x.title, view_sets_path(@persona.screen_name, x.id))
+                    }.to_sentence.html_safe %>
                 <% elsif act[:item] == 'Mediaset' && act[:event] == 'featured' then %>
                   Featured
                     <% first_set = Mediaset.find(act[:id]).first %>
                     <%= link_to first_set.title, view_sets_path(@persona.screen_name, first_set) %>
                     <% if act[:count] > 1 then %>
-                      and <%= act[:count] - 1 %> other set
-                    <% else %>
-                      
+                      and <%= pluralize act[:count] - 1, 'other set' %> 
                     <% end %>
-                <% elsif act[:item] == 'MediasetPhoto' && act[:event] == 'create' then %>
-                  Added <%= act[:count] %> photos to 
-                    <% Mediaset.find(
-                          MediasetPhoto.find(act[:id]).map{ |x| x[:mediaset_id] }.uniq
-                        ).each do |this_set|  %>
-                      <%= link_to this_set.title, view_sets_path(@persona.screen_name, this_set.id) %>
-                    <% end %> 
-                <% elsif act[:item] == 'MediasetPhoto' && act[:event] == 'update' then %>
-                  Updated 
-                    <% Mediaset.find(
-                          MediasetPhoto.find(act[:id]).map{ |x| x[:mediaset_id] }.uniq
-                        ).each do |this_set|  %>
-                      <%= link_to this_set.title, view_sets_path(@persona.screen_name, this_set.id) %>
-                    <% end %> 
+                <% elsif act[:item] == 'MediasetPhoto' then %> 
+                  <%= act[:event] == 'create' ? 'Added' : 'Updated' %> on <%= pluralize act[:count], 'photo' %> 
+                  <%= act[:id].map{ |x| MediasetPhoto.find(x).mediaset_id }.uniq.map{ 
+                        |x| Mediaset.find(x) }.map{ |x| link_to x.title, view_sets_path(@persona.screen_name, x.id) 
+                      }.to_sentence.html_safe %>
+                <% else %>
+                  <%= act[:event] %>:<%= act[:item] %>
                 <% end %>
                 </li>
               <% end %>
@@ -182,9 +173,9 @@
                       x[:item] == 'Mediaset' && x[:event] == 'featured'
                     }.map{ |x| x[:id]}
                   ).map{ |set| set.photos.map{ |x| x[:id] } }
-                ).limit(8).each do |photo| 
+                ).limit(16).each do |photo| 
               %>
-                <%= link_to image_tag(photo.avatar.square100, :class=>'img-polaroid' ), 
+                <%= link_to image_tag(photo.avatar.square100, :class=>'img-polaroid', :style=>'margin:2px 0px;' ), 
                   photo_view_path(@persona.screen_name, photo)  
                 %>
               <% end %>

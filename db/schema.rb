@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20130521103610) do
     t.integer  "sku_id"
   end
 
-  add_index "coupons", ["persona_id"], :name => "index_coupons_on_persona_id"
   add_index "coupons", ["sku_id"], :name => "index_coupons_on_sku_id"
 
   create_table "delayed_jobs", :force => true do |t|

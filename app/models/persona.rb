@@ -54,6 +54,8 @@ class Persona < ActiveRecord::Base
       #this will be simplied on paper_trail 2.7.2
       theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
         e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
+      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+        e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 
