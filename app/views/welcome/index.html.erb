@@ -12,13 +12,15 @@
       <h2>Your recent photos 
         <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
       </h2>
-      <% @myPhotos.each do |thisphoto| %>
-        <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
-          photo_view_path(current_persona.screen_name, thisphoto.id) %>
-      <% end %>
+      <div style="overflow-x:scroll; white-space:nowrap;">
+        <% @myPhotos.each do |thisphoto| %>
+          <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
+            photo_view_path(current_persona.screen_name, thisphoto.id) %>
+        <% end %>
+      </div>
     </div>
     <div class="row-fluid">
-      <div class="pull-left well well-small" style="margin:4px 2px;">
+      <div class="pull-lefts span6 well well-small" style="margin:4px 2px;">
         <strong>Mediasets:</strong> 
         <% if @persona.mediasets.where{ featured.eq true }.empty? then %>
           No mediasets yet. <%= link_to 'Create new', new_mediaset_path %> from you existing photos
@@ -33,7 +35,7 @@
           </ul>
         <% end %>
       </div>
-      <div class="pull-left well well-small" style="margin:4px 2px;">
+      <div class="pull-left span6 well well-small" style="margin:4px 2px;">
         <strong>Tags: </strong>
         <% if @persona.photos.tag_counts.empty? then %>
           No tags yet. Add #hashtags on your photo's title or description to add tags

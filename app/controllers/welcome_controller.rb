@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
     @photos = Photo.find(:all, :limit=> 20, :order => 'id desc')
     if persona_signed_in? then
       @persona = current_persona
-      @myPhotos = Photo.find(:all, :limit => 5, :order => 'id desc', 
+      @myPhotos = Photo.find(:all, :limit => 20, :order => 'id desc', 
         :conditions => {:persona_id => current_persona.id})
     end
 

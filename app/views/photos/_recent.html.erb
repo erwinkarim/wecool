@@ -51,6 +51,8 @@
   });
 
   $(document).ready( function(){
+    //set the minimum height
+    $('.endless-photos').css('min-height', $(window).height() );
     //handle nav bar
     $('#photoTypeSelectorTab li').click( function(){
       $('.active').toggleClass('active');
