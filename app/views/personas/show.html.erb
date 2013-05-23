@@ -6,6 +6,7 @@
 <div class="row-fluid">
   <div class="span3 well">
     <div class="row-fluid">
+      <h4>About</h4>
       <dl class="dl-horizontal">
         <% if persona_signed_in? && current_persona != @persona then %>
           <dt><strong>Tracking:</strong></dt>
@@ -118,8 +119,8 @@
           <tr><td>
             <div class="row-fluid">
               <ul>
-              <% activity = String.new %>
               <% item[:activity].each do |act| %>
+                <% activity = String.new %>
                 <% if act[:event] == 'create' then %>
                   <% if act[:item] == 'Photo' then %>
                     <% activity = 'Uploaded ' + (pluralize act[:count], 'photo') %>
@@ -182,11 +183,11 @@
                     item[:activity].select{ |x|
                       x[:item] == 'Mediaset' && (['featured', 'up_votes'].include?(x[:event]) )
                     }.map{ |x| x[:id]}
-                  ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }
+                  ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }, :system_visible => true
                 ).limit(16).each do |photo| 
               %>
                 <%= link_to image_tag(photo.avatar.square200, :class=>'img-polaroid', :style=>'margin:2px 0px;' ), 
-                  photo_view_path(Persona.find(photo.persona_id).screen_name, photo)
+                  photo_view_path(Persona.find(photo.persona_id).screen_name, photo) + '#photo'
                 %>
               <% end %>
             </div>
