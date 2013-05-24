@@ -104,7 +104,7 @@
   </div>
   <div class="span9">
     <div>
-      <h2>Activity</h2>
+      <h2>Recently...</h2>
       <% if @activity.empty? then %>
         <div class="hero-unit">
             <h3>Nothing to see yet</h3>
@@ -196,6 +196,31 @@
                 %>
               <% end %>
             </div>
+            <% if photoset.count > 16 then %>
+              <div class="row-fluid text-right">
+                <%= link_to 'See More', photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto' + item[:first_activity].to_i.to_s, 
+                  :size => 'square200', :showCaption => 'false', :showIndicators=>'false', :mediatype=>'fromList', 
+                  :theList => photoset.map{|x| x.id }.to_s ), 
+                  :role => 'button', :class => 'btn btn-info', :'data-toggle' => 'modal', 
+                  :'data-target' => '#test' + item[:first_activity].to_i.to_s, :remote => true 
+                %>
+                <div id="test<%= item[:first_activity].to_i %>" class="modal hide fade" tabindex="-1" role="dialog" 
+                  style="width:80%; left:10%; margin-left:0px;">
+                  <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h3>More Photos</h3>
+                  </div>
+                  <div class="modal-body">
+                    <div id="morePhoto<%= item[:first_activity].to_i %>">
+                    </div>  
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                  </div>
+                </div> 
+
+              </div>
+            <% end %>
             <div class="row-fluid">
               <i class="icon-tags"></i> Tags:
               <%= photoset.map{|x| x.tags}.flatten.uniq.map{|x| link_to('#' + x.name, tag_path(x.name)) }.to_sentence.html_safe %>
@@ -212,9 +237,4 @@
   </div>
 </div>
 <script type="text/javascript">
-  $.ajax({
-    url: '/photos/get_more/<%= Photo.last.id %>',
-    data: { limit:10, mediatype:'featured',  author:'<%= @persona.screen_name %>', includeFirst:'true', size:'tiny', featured:true },
-    dataType: 'script'
-  });
 </script>

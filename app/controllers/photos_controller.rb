@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
   before_filter :authenticate_persona!, :only => [:new, :edit]
 
   #how many free photos you can actually have
-  FREE_PHOTO_LIMIT = 20
+  FREE_PHOTO_LIMIT = 1000
   FREE_BANDWIDTH_LIMIT = 300
 
   def check_if_allowed_to_view

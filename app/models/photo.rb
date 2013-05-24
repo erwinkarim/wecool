@@ -161,6 +161,7 @@ class Photo < ActiveRecord::Base
   #                       related: get related photo of params[:last_id] with offset of params[:offset]
   #                         eg. get related photo of id 28 with offset of 10
   #                       trending : get photos that popular on votes and tags
+  #                       fromList : get photos from options[:theList]
   #     limit         => limit output to option[:limit] photos
   #     includeFirst  => when fetching photos, include the last_id in the results
   #     author        => limit the photos from options[:author] only
@@ -171,6 +172,7 @@ class Photo < ActiveRecord::Base
   #     tag           => grabs photos with certain options[:tag], can only be used with :mediatype = 'tagset'
   #     direction     => to load :limit photos at the end of the :targetDiv ('forward') or
   #                       to load :limit photos at the begining of the :targetDiv ('reverse')
+  #     theList       => if options[:mediatype] set to fromList, photo id from the list will be fetched
   #
   #     SHOW Options
   #     ============
@@ -209,7 +211,7 @@ class Photo < ActiveRecord::Base
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
       :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
-      :offset => 0, 
+      :offset => 0, :theList => [],
 
       #view options
       :excludeLinks => false, :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
@@ -350,6 +352,10 @@ class Photo < ActiveRecord::Base
           where(:system_visible => true).
           limit(default_options[:limit]).offset(last_id).pluck(:'photos.id')
       )
+    elsif default_options[:mediatype] == 'fromList' then
+      theList = eval(options[:theList])
+      @next_photos = Photo.where{ id.in theList } 
+  
     end
 
     return { :photos => @next_photos, :options => default_options }
