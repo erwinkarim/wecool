@@ -9,14 +9,16 @@
     </div>
   <% else %>
     <div class="row-fluid">
-      <h2>Your recent photos 
-        <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
-      </h2>
-      <div style="overflow-x:scroll; white-space:nowrap;">
-        <% @myPhotos.each do |thisphoto| %>
-          <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
-            photo_view_path(current_persona.screen_name, thisphoto.id) %>
-        <% end %>
+      <div class="span12">
+        <h2>Your recent photos 
+          <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
+        </h2>
+        <div style="overflow-x:scroll; white-space:nowrap;">
+          <% @myPhotos.each do |thisphoto| %>
+            <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
+              photo_view_path(current_persona.screen_name, thisphoto.id) %>
+          <% end %>
+        </div>
       </div>
     </div>
     <div class="row-fluid">

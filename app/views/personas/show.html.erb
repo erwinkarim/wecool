@@ -162,6 +162,10 @@
                       |x| link_to x.screen_name, persona_path(x.screen_name) 
                     }.to_sentence.html_safe 
                   %> 
+                <% elsif act[:event] == 'update_tags' then %>
+                  <% if act[:item] == 'Photo' then %>
+                    <% activity = 'Update tags on ' + pluralize(act[:count], 'photo') %>
+                  <% end %>
                 <% end %>
                 <% if !activity.empty? then %>
                   <li><%= activity.html_safe %></li>
@@ -170,7 +174,7 @@
               </ul>
             </div>
             <div class="row-fluid">
-              <% Photo.where( :id => 
+              <% photoset = Photo.where( :id => 
                   item[:activity].select{ |x|
                     (x[:item] == 'Photo' && ['featured', 'update', 'create', 'up_votes'].include?(x[:event]) )
                   }.map{ |x| x[:id] } +
@@ -183,13 +187,18 @@
                     item[:activity].select{ |x|
                       x[:item] == 'Mediaset' && (['featured', 'up_votes'].include?(x[:event]) )
                     }.map{ |x| x[:id]}
-                  ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }, :system_visible => true
-                ).limit(16).each do |photo| 
+                  ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }, :system_visible => true, :visible => true
+                )
               %>
+              <% photoset.limit(16).each do |photo| %> 
                 <%= link_to image_tag(photo.avatar.square200, :class=>'img-polaroid', :style=>'margin:2px 0px;' ), 
                   photo_view_path(Persona.find(photo.persona_id).screen_name, photo) + '#photo'
                 %>
               <% end %>
+            </div>
+            <div class="row-fluid">
+              <i class="icon-tags"></i> Tags:
+              <%= photoset.map{|x| x.tags}.flatten.uniq.map{|x| link_to('#' + x.name, tag_path(x.name)) }.to_sentence.html_safe %>
             </div>
             <div class="row-fluid">
               <%= distance_of_time_in_words item[:first_activity].to_i, DateTime.now.to_i %> ago

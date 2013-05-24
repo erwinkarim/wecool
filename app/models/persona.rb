@@ -45,17 +45,21 @@ class Persona < ActiveRecord::Base
 
   # gather activity of this persona
   def get_activity new_options = {} 
-    options = { :last_date => 1.month.ago, :cluster_interval => 5.minutes }
+    options = { :begin_date => DateTime.now, :date_length => 1.month, :cluster_interval => 5.minutes }
     options.merge(new_options)
     cluster = Array.new      
   
     myScreenName = self.screen_name
-    Version.where{ (whodunnit.eq myScreenName) & (created_at.gt 1.month.ago) }.order('created_at').each do |e|
+    Version.where{ (whodunnit.eq myScreenName) & (created_at.lt options[:begin_date]) & 
+      (created_at.gt options[:begin_date] - options[:date_length] ) }.order('created_at').
+    each do |e|
       #this will be simplied on paper_trail 2.7.2
       theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
         e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
       theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
         e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
+      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+        e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 
