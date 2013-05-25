@@ -45,11 +45,13 @@ class Persona < ActiveRecord::Base
 
   # gather activity of this persona
   def get_activity new_options = {} 
-    options = { :begin_date => DateTime.now, :date_length => 1.month, :cluster_interval => 5.minutes }
+    options = { :begin_date => nil, :date_length => 1.month, :cluster_interval => 5.minutes }
     options.merge(new_options)
-    cluster = Array.new      
-  
     myScreenName = self.screen_name
+    options[:begin_date] = new_options.has_key?(:begin_date) ? new_options[:begin_date] : 
+      Version.where{ whodunnit.eq myScreenName }.max.created_at
+  
+    cluster = Array.new      
     Version.where{ (whodunnit.eq myScreenName) & (created_at.lt options[:begin_date]) & 
       (created_at.gt options[:begin_date] - options[:date_length] ) }.order('created_at').
     each do |e|

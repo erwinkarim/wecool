@@ -190,17 +190,18 @@
                   ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }, :system_visible => true, :visible => true
                 )
               %>
-              <% photoset.limit(16).each do |photo| %> 
+              <% photoset.limit(8).each do |photo| %> 
                 <%= link_to image_tag(photo.avatar.square200, :class=>'img-polaroid', :style=>'margin:2px 0px;' ), 
                   photo_view_path(Persona.find(photo.persona_id).screen_name, photo) + '#photo'
                 %>
               <% end %>
             </div>
-            <% if photoset.count > 16 then %>
-              <div class="row-fluid text-right">
-                <%= link_to 'See More', photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto' + item[:first_activity].to_i.to_s, 
+            <% if photoset.count > 8 then %>
+              <div class="row-fluid text-center">
+                <%= link_to 'See More Photos...', 
+                  photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto' + item[:first_activity].to_i.to_s, 
                   :size => 'square200', :showCaption => 'false', :showIndicators=>'false', :mediatype=>'fromList', 
-                  :theList => photoset.map{|x| x.id }.to_s ), 
+                  :theList => photoset.map{|x| x.id }[7..-1].to_s ), 
                   :role => 'button', :class => 'btn btn-info', :'data-toggle' => 'modal', 
                   :'data-target' => '#test' + item[:first_activity].to_i.to_s, :remote => true 
                 %>
