@@ -145,7 +145,7 @@
               <% end %>
               <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
                 <%= simple_format(
-                  @photo.description.empty? || @photo.description.nil? ? 'No Description' : 
+                  @photo.description.nil? || @photo.description.empty? ? 'No Description' : 
                     @photo.description, :style=>'padding-bottom:1em;' 
                 ) %>
               </div>
