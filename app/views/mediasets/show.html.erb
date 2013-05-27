@@ -6,15 +6,12 @@
 <div class="navbar">
   <div class="navbar-inner">
     <ul class="nav" id="mediasetTypeSelectorTab">
-      <li class="divider-vertical"></li>
-      <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
-        <li class="divider-vertical"></li>
-        <li><%= link_to 'New', new_mediaset_path %></li>
-        <li class="divider-vertical"></li>
-      <% end %>
       <% if !@persona.mediasets.empty? then %>
-        <li class="mediaset-selector active" id="recentlyFeatured"><a href="#">Featured</a></li>
-        <li class="mediaset-selector" id="recentlyRaw"><a href="#">Raw</a></li>
+        <li class="mediaset-selector active" id="recentlyFeatured"><a href="#"><i class="icon-star"></i> Featured</a></li>
+        <li class="mediaset-selector" id="recentlyRaw"><a href="#"><i class="icon-th-list"></i> Raw</a></li>
+      <% end %>
+      <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
+        <li class="divider-vertical"><%= link_to '<i class="icon-plus"></i>New'.html_safe, new_mediaset_path %></li>
       <% end %>
     </ul>
   </div>
