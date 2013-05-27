@@ -1,0 +1,102 @@
+<% default_options = { :mode => 'single_photo' } %>
+<% default_options =  defined?(option).nil? ? default_options : default_options.merge(option) %> 
+<% if default_options[:mode] == 'single_photo' then %>
+  <% photoUrl = photo_view_url(persona.screen_name, photo) %>
+<% elsif default_options[:mode] == 'persona_photos' then %>
+  <% photoUrl = photo_url(persona.screen_name) %>
+<% end %>
+<ul class="dropdown-menu">
+  <li class="dropdown-submenu">
+    <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
+      <div class="control-group">
+        <label><i class="icon-link"></i> Copy Link</label>
+        <%= text_field_tag 'PermaAddress', 
+          photoUrl, 
+          :disabled => true, :id => 'premaAddress', :class=>'input-xlarge' %> 
+      </div>
+      <div class="control-group">
+        <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
+          :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+      </div>
+    <% end -%>
+  </li>
+  <li class="divider"></li>
+  <li>
+    <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
+      <div class="control-group">
+          <label><i class="icon-code"></i> Copy HTML</label>
+          <% if photo.is_a? ActiveRecord::Relation then %>
+            <% 
+              photoList = photo.map{ |x|  link_to( 
+                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.small.url, :alt => x.title), 
+                photo_view_url(persona.screen_name, x.id) 
+                )
+              }.join  
+              photoAvatar = photo.first.avatar
+            %>
+          <% else %>
+            <%  
+              photoList = link_to( 
+                image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.small.url, 
+                :alt => photo.title), photo_view_url(persona.screen_name, photo) 
+              ) 
+              photoAvatar = photo.avatar
+            %>
+          <% end %>
+          <%= text_area_tag 'htmlCopy', 
+            "<div>" + photoList + "</div>" + 
+            "\n" + 
+            "<div>" + 
+              link_to( default_options[:mode] == 'single_photo' ?  photo.title : 'Photos' , photoUrl ) + 
+              " by " +
+              link_to( persona.screen_name, persona_url(persona.screen_name)) + 
+              " at " +
+              link_to( 'WeCool', root_url) +
+            "</div>", 
+            :id => 'htmlCopyText', :disabled => true, :class=>'input-xlarge', :rows=> 10
+          %>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'Size:' %>
+        <select id="copyHTMLSize">
+          <%= options_for_select( photoAvatar.versions, photoAvatar.versions[:small]) %>
+        </select>
+      </div>
+      <div class="control-group">
+        <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
+          :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
+      </div>
+    <% end -%>  
+  </li>
+</ul>
+<script type="text/javascript">
+$(document).ready( function() {
+  //for the link copy copy to clipboard
+  var clip = new ZeroClipboard( document.getElementById('copyToClip'), {
+    moviePath: '/assets/ZeroClipboard.swf'
+  });
+
+  clip.on('complete', function(client, args){
+    alert('Copied to Clipboard');
+  });
+
+  // for the html Code Copy to clipboard
+  var htmlClip = new ZeroClipboard( document.getElementById('copyHTMLToClip'), {
+    moviePath: '/assets/ZeroClipboard.swf'
+  });
+
+  htmlClip.on('complete', function(client, args){
+    alert('Copied to Clipboard');
+  });
+
+  $('#copyHTMLSize').change( function(){
+    //update text area
+    var tempText = $('#htmlCopyText').val();
+    tempText = tempText.replace(/src=".*"/, 
+      "src=\"<%= "#{request.protocol}#{request.host_with_port}" %>" + $("#copyHTMLSize").val() + "\"" ); 
+    $('#htmlCopyText').val(tempText);
+  });
+
+
+});
+</script>

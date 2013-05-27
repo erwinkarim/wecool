@@ -10,7 +10,8 @@
         <ul class="nav">
           <!-- infomation  dropdown menu -->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Photo<b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" 
+              data-toggle="dropdown"><i class="icon-picture"></i> Photo<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to 'Other Versions', photo_version_path(@persona.screen_name, @photo.id) %></li>
                 <li><%= link_to 'Exif Data', photo_view_exif_path(@persona.screen_name, @photo.id) %></li>
@@ -30,7 +31,8 @@
           <!-- menu for editing photo, owners only -->
           <% if persona_signed_in? && current_persona.id == @persona.id then %>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="editMenu">Edit<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                id="editMenu"><i class="icon-edit"></i> Edit<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to '<i class="icon-undo"></i> Rotate Counter-Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
@@ -51,64 +53,9 @@
           <!-- end menu for editing photo, owners only -->
           <!-- dropdown menu for sharing -->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-submenu">
-                <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
-                  <div class="control-group">
-                    <label><i class="icon-link"></i> Copy Link</label>
-                    <%= text_field_tag 'PermaAddress', 
-                      photo_view_url(@persona.screen_name, @photo), 
-                      :disabled => true, :id => 'premaAddress', :class=>'input-xlarge' %> 
-                  </div>
-                  <div class="control-group">
-                    <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
-                      :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
-                  </div>
-                <% end -%>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
-                  <div class="control-group">
-                      <label><i class="icon-code"></i> Copy HTML</label>
-                      <%= text_area_tag 'htmlCopy', 
-                        "<div>" + 
-                        link_to( 
-                          image_tag("#{request.protocol}#{request.host_with_port}" + @photo.avatar.small.url, 
-                          :alt => @photo.title
-                          ), 
-                          photo_view_url(@persona.screen_name, @photo) 
-                        ) + 
-                        "</div>" + 
-                        "\n" + 
-                        "<div>" + 
-                        link_to( 
-                          @photo.title, photo_view_url(@persona.screen_name, @photo) 
-                        ) + " by " +
-                        link_to(
-                          @persona.screen_name, persona_url(@persona.screen_name)
-                        ) + " at " +
-                        link_to(
-                          'WeCool', root_url
-                        ) +
-                        "</div>", 
-                        :id => 'htmlCopyText', :disabled => true, :class=>'input-xlarge', :rows=> 10
-                      %>
-                  </div>
-                  <div class="control-group">
-                    <%= label_tag 'Size:' %>
-                    <select id="copyHTMLSize">
-                      <%= options_for_select( @photo.avatar.versions, @photo.avatar.versions[:small]) %>
-                    </select>
-                  </div>
-                  <div class="control-group">
-                    <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
-                      :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
-                  </div>
-                <% end -%>  
-              </li>
-            </ul>
+            <a href="#" class="dropdown-toggle" 
+              data-toggle="dropdown"><i class="icon-share"></i> Share<b class="caret"></b></a>
+            <%= render :template => 'photos/shareDropdown', :locals => { :photo => @photo, :persona => @persona }  %>
           </li>
           <!-- end of dropdown menu for sharing -->
         </ul>
@@ -275,7 +222,7 @@
           <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
             :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
             :style=>'display:inline;'  %><%= link_to 'Featured photos by '+@persona.screen_name, 
-              photo_path(@persona.screen_name, :view=>'raw') %>
+              photo_path(@persona.screen_name) %>
         </h3>
       </div>
       <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
@@ -540,32 +487,6 @@
             dataType: 'script'
         });
       })
-
-      //for the link copy copy to clipboard
-      var clip = new ZeroClipboard( document.getElementById('copyToClip'), {
-        moviePath: '/assets/ZeroClipboard.swf'
-      });
-    
-      clip.on('complete', function(client, args){
-        alert('Copied to Clipboard');
-      });
-
-      // for the html Code Copy to clipboard
-      var htmlClip = new ZeroClipboard( document.getElementById('copyHTMLToClip'), {
-        moviePath: '/assets/ZeroClipboard.swf'
-      });
-
-      htmlClip.on('complete', function(client, args){
-        alert('Copied to Clipboard');
-      });
-
-      $('#copyHTMLSize').change( function(){
-        //update text area
-        var tempText = $('#htmlCopyText').val();
-        tempText = tempText.replace(/src=".*"/, 
-          "src=\"<%= "#{request.protocol}#{request.host_with_port}" %>" + $("#copyHTMLSize").val() + "\"" ); 
-        $('#htmlCopyText').val(tempText);
-      });
 
   }); //$(document).ready(){}
 

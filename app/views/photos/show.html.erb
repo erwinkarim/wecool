@@ -14,10 +14,28 @@
     </div>
   <% else %>
     <div class="row-fluid">
-      <ul class="nav nav-tabs" id="photoTypeSelectorTab">
-        <li class="<%= params[:view] == 'featured' || !(params.has_key? :view) ? 'active' : '' %> featured-photos"><a href="#">Featured</a>
-        <li class="<%= params[:view] == 'raw' ? 'active' : '' %> all-photos"><a href="#">Raw</a>
-      </ul>
+      <div class="navbar">
+        <div class="navbar-inner">
+          <ul class="nav" id="photoTypeSelectorTab">
+            <li class="photoType <%= params[:view] == 'featured' || !(params.has_key? :view) ? 'active' : '' %>" 
+              id="featured-photos"><a href="#"><i class="icon-star"></i> Featured</a>
+            <li class="photoType <%= params[:view] == 'raw' ? 'active' : '' %>" id="all-photos">
+              <a href="#"><i class="icon-picture"></i> Raw</a></li>
+            <% if persona_signed_in? && current_persona == @persona then %>
+              <li>
+                <%= link_to '<i class="icon-cloud-upload"></i>'.html_safe, new_photo_path %>
+              </li>
+            <% end %>
+            <li class="dropdown divider-vertical">
+              <a href="#" class="dropdown-toggle"
+                data-toggle="dropdown"><i class="icon-share"></i> <b class="caret"></b></a>
+              <%= render :template => 'photos/shareDropdown', 
+                :locals => { :photo => @persona.photos.order('id desc').limit(4), :persona => @persona, 
+                  :option => { :mode => 'persona_photos'} } %>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="row-fluid endless-photos" last="<%= @last_photo.id %>">
       <div class="last-div endless_scroll_inner_wrap"></div>
@@ -58,20 +76,22 @@
   });
   
   $(document).ready(function(){
-   $('#photoTypeSelectorTab li').click( function(){
-      $('.active').toggleClass('active');
-      $(this).toggleClass('active');
+  $('.last-div').css('min-height', $(window).height());
+
+   $('.photoType').click( function(event){
+      event.preventDefault();
+      $(this).parent().find('.photoType').toggleClass('active');
       //reload the photos
 
       $('.carousel').detach();
-      isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
+      isFeatured = $('#featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
 
       $.ajax({
         url: '/photos/get_more/<%= @last_photo.id %>', 
-        data: {limit:10, includeFirst:'true', size:'small', author:'<%= @persona.screen_name %>', featured:isFeatured }, 
+        data: {limit:10, includeFirst:'true', size:'small', 
+          author:'<%= @persona.screen_name %>', featured:isFeatured }, 
         dataType: 'script'
       });
     }); 
   });
-</script>
 </script>
