@@ -4,6 +4,8 @@
   <% photoUrl = photo_view_url(persona.screen_name, photo) %>
 <% elsif default_options[:mode] == 'persona_photos' then %>
   <% photoUrl = photo_url(persona.screen_name) %>
+<% elsif default_options[:mode] == 'mediaset_photos' then %>
+  <% photoUrl = view_sets_url(persona.screen_name, photo.id) %>
 <% end %>
 <ul class="dropdown-menu">
   <li class="dropdown-submenu">
@@ -27,12 +29,19 @@
           <label><i class="icon-code"></i> Copy HTML</label>
           <% if photo.is_a? ActiveRecord::Relation then %>
             <% 
-              photoList = photo.map{ |x|  link_to( 
-                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.small.url, :alt => x.title), 
-                photo_view_url(persona.screen_name, x.id) 
-                )
-              }.join  
+              photoList = photo.map{ |x| link_to( 
+                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
+                :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+              ) }.join 
               photoAvatar = photo.first.avatar
+            %>
+          <% elsif default_options[:mode] == 'mediaset_photos' then %>
+            <% 
+              photoList = photo.photos.limit(4).map{ |x| link_to( 
+                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
+                :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+              ) }.join 
+              photoAvatar = photo.photos.first.avatar
             %>
           <% else %>
             <%  
@@ -43,11 +52,18 @@
               photoAvatar = photo.avatar
             %>
           <% end %>
+          <%
+            if ['single_photo', 'mediaset_photos'].include?(default_options[:mode]) then
+              theTitle = photo.title
+            else
+              theTitle = 'Photos'
+            end
+          %>
           <%= text_area_tag 'htmlCopy', 
             "<div>" + photoList + "</div>" + 
             "\n" + 
             "<div>" + 
-              link_to( default_options[:mode] == 'single_photo' ?  photo.title : 'Photos' , photoUrl ) + 
+              link_to( theTitle , photoUrl ) + 
               " by " +
               link_to( persona.screen_name, persona_url(persona.screen_name)) + 
               " at " +
