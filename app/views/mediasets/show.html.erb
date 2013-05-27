@@ -5,15 +5,17 @@
 
 <div class="navbar">
   <div class="navbar-inner">
-    <ul class="nav">
+    <ul class="nav" id="mediasetTypeSelectorTab">
       <li class="divider-vertical"></li>
-      <li><%= link_to t('.back', :default => t("helpers.links.back")), mediasets_path %>
       <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
         <li class="divider-vertical"></li>
         <li><%= link_to 'New', new_mediaset_path %></li>
         <li class="divider-vertical"></li>
       <% end %>
-    </li>
+      <% if !@persona.mediasets.empty? then %>
+        <li class="mediaset-selector active" id="recentlyFeatured"><a href="#">Featured</a></li>
+        <li class="mediaset-selector" id="recentlyRaw"><a href="#">Raw</a></li>
+      <% end %>
     </ul>
   </div>
 </div>
@@ -27,10 +29,6 @@
     <% end %>
   </div>
 <% else %>
-  <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
-    <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
-    <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
-  </ul>
   <div class="row-fluid endless-mediaset" last="<%= Mediaset.last.id %>">
     <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
   </div>
@@ -72,14 +70,17 @@
   });
 
   $(document).ready( function(){
+    $('.last-div').css('min-height', $(window).height());
+
     //handle nav bar 
-    $('#mediasetTypeSelectorTab li').click( function(){
-      $('.active').toggleClass('active');
+    $('#mediasetTypeSelectorTab').find('.mediaset-selector').click( function(event){
+      event.preventDefault(); 
+      $(this).parent().find('.active').toggleClass('active');
       $(this).toggleClass('active');
 
       //empty out and repopulate
       $('.last-div').empty();
-      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
       <% if !@persona.mediasets.empty? then %>
         $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
       <% end %>

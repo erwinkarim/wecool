@@ -20,16 +20,31 @@
       <div class="navbar">
         <div class="navbar-inner">
           <ul class="nav">
-            <li><%= button_tag 'Select All', :type=>'button', :id => 'setlist-select-all', :class=>'btn btn-link' %></li>
-            <li><%= button_tag 'Deselect All', :type => 'button', :id => 'setlist-deselect-all', :class=>'btn btn-link' %><li>
+            <li>
+              <%= button_tag 'Select All', :type=>'button', :id => 'setlist-select-all', :class=>'btn btn-link' %>
+            </li>
+            <li>
+              <%= button_tag 'Deselect All', :type => 'button', :id => 'setlist-deselect-all', 
+                :class=>'btn btn-link' %>
+            <li>
             <li class="dropdown">
-              <%= link_to ('Order <b class="caret"></b>').html_safe , '#', :class=>'dropdown-toggle', :'data-toggle' => 'dropdown' %>
+              <%= link_to ('Order <b class="caret"></b>').html_safe , '#', :class=>'dropdown-toggle', 
+                :'data-toggle' => 'dropdown' %>
               <ul class="dropdown-menu" role="menu">
-                <li><%= link_to 'By newest uploaded first', '#', :role=>'menuitem', :id => 'sort-newest-upload-first' %></li>
-                <li><%= link_to 'By oldest uploaded first', '#', :role=>'menuitem', :id => 'sort-oldest-upload-first' %></li>
+                <li>
+                  <%= link_to 'By newest uploaded first', '#', :role=>'menuitem', 
+                    :id => 'sort-newest-upload-first' %>
+                </li>
+                <li>
+                  <%= link_to 'By oldest uploaded first', '#', :role=>'menuitem', 
+                    :id => 'sort-oldest-upload-first' %>
+                </li>
               </ul>
             </li>
-            <li><%= button_tag 'Remove Selected', :type => 'button', :id => 'setlist-remove-selected', :class=> 'btn btn-link' %></li>
+            <li>
+              <%= button_tag 'Remove Selected', :type => 'button', :id => 'setlist-remove-selected', 
+                :class=> 'btn btn-link' %>
+            </li>
           </ul>
         </div>
       </div>
@@ -60,7 +75,9 @@
           <option value="photoFeatured">Featured Photos</option>
           <option value="ignore">Last Import...</option>
           <% @upload_date_list.each do |thisDate| %>
-            <option value="photoOn<%= thisDate.beginning_of_day.to_s(:number) %>">  <%= '--' + thisDate.to_s %></option>
+            <option value="photoOn<%= thisDate.beginning_of_day.to_s(:number) %>">  
+              <%= '--' + thisDate.to_s %>
+            </option>
           <% end %>
           <option value="photoAll" >All Photos</option>
         </select>
@@ -70,7 +87,8 @@
       <div>
       </div>
       <br />
-      <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
+      <div class="control-group row-fluid endless-photos" id="photo-list" 
+        last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
         <div class="last-div endless_scroll_inner_wrap">
         </div>
       </div>
@@ -282,13 +300,30 @@
       });
     });
 
-    $('#sort-newest-upload-first').click( function(){
+    $('#sort-newest-upload-first').click( function(event){
+      event.preventDefault();
       var handle = $('#mediaset-photo-listings').children().remove();
       handle.sort( function(a,b){
-        return b.value - a.value;
+        return $(a).attr('value') > $(b).attr('value') ? -1 : 1;
       });
       $('#mediaset-photo-listings').append(handle);
+      handle.each( function(){
+        $(this).find('img').bind('click', mediasetPhotoListingClick);
+      });
     });
+
+    $('#sort-oldest-upload-first').click( function(event){
+      event.preventDefault();
+      var handle = $('#mediaset-photo-listings').children().remove();
+      handle.sort( function(a,b){
+        return $(a).attr('value') > $(b).attr('value') ? 1 : -1;
+      });
+      $('#mediaset-photo-listings').append(handle);
+      handle.each( function(){
+        $(this).find('img').bind('click', mediasetPhotoListingClick);
+      });
+    });
+
 
     $('#setlist-remove-selected').click( function() {
       $('#mediaset-photo-listings').find('.selected-img').each( function() {
