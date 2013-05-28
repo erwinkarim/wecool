@@ -1,7 +1,7 @@
 <% if persona.nil? then %> 
   <% content_for :title, 'trendy tags' %>
   <div class="page-header">
-    <h1>Trendy Tags for the past 24 hours</h1>
+    <h1><i class="icon-tags"></i> Tags</h1>
   </div>
 <% else %>
   <% content_for :title, persona.screen_name + ' - tags' %>
@@ -9,22 +9,21 @@
   <%= render :partial => "common/personaHeaderBar" %>
 <% end %>
 
-<div class="row-fluid" id="trendytags">
-  <ul class="nav nav-tabs">
-    <li id="last24h" class="active"><%= link_to 'Since yesterday', '#', :id => 'last24h' %></li>
-    <li id="last1w"><%= link_to 'Since Last Week', '#' %></li>
-    <li id="last1m"><%= link_to 'Since Last Month', '#' %></li>
-    <li id="dawnoftime"><%= link_to 'From Begining of Time', '#' %></li>
-  </ul>
+<div class="row-fluid navbar">
+  <div class="navbar-inner">
+    <ul class="nav" id="trendytags">
+      <li class="active" id="recentTags"><a href="#">Recent</a></li>
+      <li id="trendyTags"><a href="#">Trending</a></li>
+    </ul>
+  </div>
 </div>
-<div class"row-fluid">
+<div id="tagsResults" class"row-fluid">
   <div class="span8">
     <table class="table">
       <thead>
         <tr>
           <th>No</th>
           <th>Tag</th>
-          <th>Count</th>
         </tr>
       </thead>
       <tbody id="tagcontent">
@@ -36,13 +35,10 @@
           <td>
             <i class="icon-tag"></i> 
             <% if persona.nil? then %>
-              <%= link_to tag.name, tag_path(tag.name) %>
+              <%= link_to tag, tag_path(tag) %>
             <% else %>
-              <%= link_to tag.name, persona_show_tag_path(persona.screen_name, tag.name) %>
+              <%= link_to tag, persona_show_tag_path(persona.screen_name, tag) %>
             <% end %>
-          </td>
-          <td>
-            <%= tag.count %>
           </td>
         </tr>
       <% end %>
@@ -52,25 +48,17 @@
 </div>
 <script type="text/javascript">
   $(document).ready( function(){
-    $('#trendytags li').click( function(){
+    $('#tagsResults').css('min-height', $(window).height()); 
+    var sendParams = { mode: 'recent' } 
+
+    $('#trendytags li').click( function(event){
+      event.preventDefault();
       $('.active').toggleClass('active');
       $(this).toggleClass('active');
+      sendParams['mode'] = $('#recentTags').hasClass('active') ? 'recent' : 'trending';
 
-      var dateRange = '1d';
-      if ( $('#last24h').hasClass('active') ) {
-        dateRange = '1d'; 
-      } else if ( $('#last1w').hasClass('active') ) {
-        dateRange = '1w'; 
-      } else if ( $('#last1m').hasClass('active') ) {
-        dateRange = '1m'; 
-      } else if ( $('#dawnoftime').hasClass('active') ) {
-        dateRange = 'forever'; 
-      }
-   
-      <% if persona.nil? then %>
-        sendParams = { new_range:dateRange }
-      <% else %>
-        sendParams = { new_range:dateRange, persona:<%= persona.id %> }
+      <% if !persona.nil? then %>
+        sendParams['persona_range'] = '<%= persona.id %>';
       <% end %> 
 
       //reload tags

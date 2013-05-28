@@ -1,12 +1,16 @@
-<% default_options = { :mode => 'single_photo' } %>
-<% default_options =  defined?(option).nil? ? default_options : default_options.merge(option) %> 
-<% if default_options[:mode] == 'single_photo' then %>
-  <% photoUrl = photo_view_url(persona.screen_name, photo) %>
-<% elsif default_options[:mode] == 'persona_photos' then %>
-  <% photoUrl = photo_url(persona.screen_name) %>
-<% elsif default_options[:mode] == 'mediaset_photos' then %>
-  <% photoUrl = view_sets_url(persona.screen_name, photo.id) %>
-<% end %>
+<% 
+  default_options = { :mode => 'single_photo' } 
+  default_options =  defined?(option).nil? ? default_options : default_options.merge(option) 
+  if default_options[:mode] == 'single_photo' then 
+    photoUrl = photo_view_url(persona.screen_name, photo) 
+  elsif default_options[:mode] == 'persona_photos' then 
+    photoUrl = photo_url(persona.screen_name) 
+  elsif default_options[:mode] == 'mediaset_photos' then 
+    photoUrl = view_sets_url(persona.screen_name, photo.id) 
+  elsif default_options[:mode] == 'mediasets' then
+    photoUrl = mediaset_url(persona.screen_name)
+  end 
+%>
 <ul class="dropdown-menu">
   <li class="dropdown-submenu">
     <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
@@ -27,32 +31,26 @@
     <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
       <div class="control-group">
           <label><i class="icon-code"></i> Copy HTML</label>
-          <% if photo.is_a? ActiveRecord::Relation then %>
-            <% 
+          <% 
+            if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
               photoList = photo.map{ |x| link_to( 
                 image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                 :alt => x.title), photo_view_url(persona.screen_name, x.id) 
               ) }.join 
               photoAvatar = photo.first.avatar
-            %>
-          <% elsif default_options[:mode] == 'mediaset_photos' then %>
-            <% 
+            elsif default_options[:mode] == 'mediaset_photos' then 
               photoList = photo.photos.limit(4).map{ |x| link_to( 
                 image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                 :alt => x.title), photo_view_url(persona.screen_name, x.id) 
               ) }.join 
               photoAvatar = photo.photos.first.avatar
-            %>
-          <% else %>
-            <%  
+            else 
               photoList = link_to( 
                 image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
                 :alt => photo.title), photo_view_url(persona.screen_name, photo) 
               ) 
               photoAvatar = photo.avatar
-            %>
-          <% end %>
-          <%
+            end 
             if ['single_photo', 'mediaset_photos'].include?(default_options[:mode]) then
               theTitle = photo.title
             else

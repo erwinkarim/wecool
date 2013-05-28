@@ -21,12 +21,13 @@ class TagsController < ApplicationController
     end
   end
   
+  # GET    /tags/get_more(.:format)
   def get_more
-
+    current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
     if params.has_key? :persona then
       @persona = Persona.find(params[:persona]) 
     end
-    @tags = Photo.get_tags(params)
+    @tags = Photo.get_tags(current_options)
 
     respond_to do |format|
       format.html

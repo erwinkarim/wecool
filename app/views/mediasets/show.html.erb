@@ -7,11 +7,22 @@
   <div class="navbar-inner">
     <ul class="nav" id="mediasetTypeSelectorTab">
       <% if !@persona.mediasets.empty? then %>
-        <li class="mediaset-selector active" id="recentlyFeatured"><a href="#"><i class="icon-star"></i> Featured</a></li>
+        <li class="mediaset-selector active" id="recentlyFeatured">
+          <a href="#"><i class="icon-star"></i> Featured</a>
+        </li>
         <li class="mediaset-selector" id="recentlyRaw"><a href="#"><i class="icon-th-list"></i> Raw</a></li>
       <% end %>
       <% if persona_signed_in? && current_persona.screen_name == params[:id] %>
         <li class="divider-vertical"><%= link_to '<i class="icon-plus"></i>New'.html_safe, new_mediaset_path %></li>
+      <% end %>
+      <% if !@persona.mediasets.empty? then %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle"
+            data-toggle="dropdown"><i class="icon-share"></i> <b class="caret"></b></a>
+          <%= render :template => 'photos/shareDropdown', 
+            :locals => { :photo => @persona.mediasets.order('id desc').limit(20).map{ |x| x.photos.first } , :persona => @persona, 
+              :option => { :mode => 'mediasets' } } %>
+        </li>
       <% end %>
     </ul>
   </div>

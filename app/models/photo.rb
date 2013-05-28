@@ -115,33 +115,35 @@ class Photo < ActiveRecord::Base
 
   def self.get_tags ( options = {} )
     default_options = {
-      :date_range => 1.day.ago..1.minute.ago, :persona_range => 0..Persona.last.id
+      :mode => 'recent', :persona_range => 0..Persona.last.id
     }
-   
-    if options.has_key? :new_range then
-      puts 'new_range=' + options[:new_range]
-      if options[:new_range] == '1d' then
-        default_options[:date_range] = 1.day.ago..1.minute.ago
-      elsif options[:new_range] == '1w' then
-        default_options[:date_range] = 1.week.ago..1.minute.ago
-      elsif options[:new_range] == '1m' then
-        default_options[:date_range] = 1.month.ago..1.minute.ago
-      elsif options[:new_range] == 'forever' then
-        default_options[:date_range] = 30.years.ago..1.minute.ago
-      end
-    end
-
-    if options.has_key? :persona then
-      default_options[:persona_range] = options[:persona]
-    end
+    
+    puts options 
+    default_options = default_options.merge(options)
+    puts default_options
     #get recent tags for the last 24 hours, order by tag count
-    tags = Photo.joins{ 
-      taggings 
-    }.group{
-      taggings.created_at 
-    }.having{ 
-      (taggings.created_at.in default_options[:date_range]) & ( persona_id.in default_options[:persona_range] )
-    }.tag_counts.order('"count" desc') 
+    if default_options[:mode] == 'recent' then 
+      tags = Photo.joins{ 
+        taggings 
+      }.order{ 
+        'taggings.created_at desc'
+      }.group{
+        taggings.created_at 
+      }.having{ 
+        (persona_id.in default_options[:persona_range] )
+      }.tag_counts.reverse.map{ |x| x.name }
+    elsif default_options[:mode] == 'popular'
+      #get by most popular tags
+    elsif default_options[:mode] == 'trending'
+      #this is not good, need to get better way of doing it
+      # read http://www.michael-noll.com/blog/2013/01/18/implementing-real-time-trending-topics-in-storm/
+      test = Array.new
+      
+      Photo.where{ created_at.gt 2.weeks.ago }.order('created_at desc').map{ |x| test.empty? ? test << [x] :
+        (test.last.last.created_at.to_date == x.created_at.to_date ? test.last << x : test << [x]) 
+      }
+      tags = test.map{ |thatDay| thatDay.map{ |x| x.tags.map{ |y| y.name }}.uniq }.flatten
+    end 
 
 
     return tags
