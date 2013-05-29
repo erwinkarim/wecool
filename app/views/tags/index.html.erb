@@ -26,37 +26,19 @@
         </tr>
       </thead>
       <tbody id="tagcontent">
-      <% tags.each do |tag| %>
-        <tr>
-          <td>
-            <h3><%= link_to tag, tag_path(tag) %></h3>
-            <div class="accordion" id="accordion-<%= tag %>">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                    <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#body-'+tag, 
-                      :class=>'accordion-toggle', :'data-toggle'=> 'collapse', 
-                      :'data-parent'=> '#accordion-'+tag %>
-                </div>
-                <div id="body-<%= tag %>" class="accordion-body collapse" tag="<%= tag %>" >
-                  <div class="accordion-inner">
-                    <div class="row-fluid"id="accordion-inner-<%= tag %>" >
-                    </div>
-                    <div class="row-fluid">
-                      <%= link_to 'See more...', tag_path(tag) , :class=>'btn btn-mini btn-info' %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      <% end %>
       </tbody>
     </table>
   </div>
 </div>
 <script type="text/javascript">
   $(document).ready( function(){
+    sendParams = { <%= persona.nil? ? "" : "persona_range:" + persona.id.to_s %> }
+    //load initial content
+    $.ajax({
+      url: '/tags/get_more',
+      data: sendParams, 
+      dataType: 'script'
+    });
 
     //load tag pictures where loaded
     $('.collapse').on('shown', function(){
@@ -65,7 +47,8 @@
         data: { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
           targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
           showIndicators:false
-        }  
+        } ,
+        dataType: 'script' 
       });
     });
 

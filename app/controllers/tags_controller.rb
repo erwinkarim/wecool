@@ -1,10 +1,6 @@
 class TagsController < ApplicationController
   def index
-    #get recent tags
-    #@tags = Photo.tag_counts.order('id desc').limit(20)
-
-    #get recent tags for the last 24 hours, order by tag count
-    @tags = Photo.get_tags 
+    #all content loaded by ajax
 
     respond_to do |format|
       format.html { render "tags/index", :locals => { :tags => @tags, :persona => nil } }
@@ -24,8 +20,8 @@ class TagsController < ApplicationController
   # GET    /tags/get_more(.:format)
   def get_more
     current_options = params.inject({}){ |memo, (k,v)| memo[k.to_sym] = v; memo }
-    if params.has_key? :persona then
-      @persona = Persona.find(params[:persona]) 
+    if params.has_key? :persona_range then
+      @persona = Persona.find(params[:persona_range]) 
     end
     @tags = Photo.get_tags(current_options)
 

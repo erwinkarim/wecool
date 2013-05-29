@@ -2,13 +2,39 @@ var handle = $('#tagcontent');
 var x = 1;
 <% @tags.each do |tag| %>
   handle.append( $('<tr/>') );
-  <% if (defined? @persona).nil? then %>
-    handle.find('tr:last').append( $('<td/>').
-      html('<h3><%= link_to tag, tag_path(tag) %></h3>') );
-  <% else %>
-    handle.find('tr:last').append( $('<td/>').
-      html('<i class="icon-tag"></i> <%= link_to tag, 
-        persona_show_tag_path(@persona.screen_name, tag) %>') 
-    );
-  <% end %>
+  var data = $('<td/>').html('\
+            <h3><%= @persona.nil? ? link_to(tag, tag_path(tag)) : link_to(tag, persona_show_tag_path(@persona.screen_name, tag)) %></h3>\
+            <div class="accordion" id="accordion-<%= tag %>">\
+              <div class="accordion-group">\
+                <div class="accordion-heading">\
+                    <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#body-'+tag, \
+                      :class=>'accordion-toggle', :'data-toggle'=> 'collapse', \
+                      :'data-parent'=> '#accordion-'+tag %>\
+                </div>\
+                <div id="body-<%= tag %>" class="accordion-body collapse" tag="<%= tag %>" >\
+                  <div class="accordion-inner">\
+                    <div class="row-fluid"id="accordion-inner-<%= tag %>" >\
+                    </div>\
+                    <div class="row-fluid">\
+                      <%= link_to 'See more...', tag_path(tag) , :class=>'btn btn-mini btn-info' %>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>\
+            </div>\
+          </td>\
+      ');
+    handle.find('tr:last').append( data); 
 <% end %>
+
+//load tag pictures where loaded
+$('.collapse').on('shown', function(){
+  $.ajax({
+    url: '/photos/get_more/0', 
+    data: { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
+      targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
+      showIndicators:false
+    } ,
+    dataType: 'script' 
+  });
+});
