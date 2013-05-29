@@ -18,27 +18,36 @@
   </div>
 </div>
 <div id="tagsResults" class"row-fluid">
-  <div class="span8">
-    <table class="table">
+  <div class="span6 offset4">
+    <table class="table table-bordered table-striped table-hover">
       <thead>
         <tr>
-          <th>No</th>
           <th>Tag</th>
         </tr>
       </thead>
       <tbody id="tagcontent">
-      <% number = 1 %>
       <% tags.each do |tag| %>
         <tr>
-          <td><%= number %></td>
-          <% number += 1 %> 
           <td>
-            <i class="icon-tag"></i> 
-            <% if persona.nil? then %>
-              <%= link_to tag, tag_path(tag) %>
-            <% else %>
-              <%= link_to tag, persona_show_tag_path(persona.screen_name, tag) %>
-            <% end %>
+            <h3><%= link_to tag, tag_path(tag) %></h3>
+            <div class="accordion" id="accordion-<%= tag %>">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                    <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#body-'+tag, 
+                      :class=>'accordion-toggle', :'data-toggle'=> 'collapse', 
+                      :'data-parent'=> '#accordion-'+tag %>
+                </div>
+                <div id="body-<%= tag %>" class="accordion-body collapse" tag="<%= tag %>" >
+                  <div class="accordion-inner">
+                    <div class="row-fluid"id="accordion-inner-<%= tag %>" >
+                    </div>
+                    <div class="row-fluid">
+                      <%= link_to 'See more...', tag_path(tag) , :class=>'btn btn-mini btn-info' %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       <% end %>
@@ -48,9 +57,22 @@
 </div>
 <script type="text/javascript">
   $(document).ready( function(){
+
+    //load tag pictures where loaded
+    $('.collapse').on('shown', function(){
+      $.ajax({
+        url: '/photos/get_more/0', 
+        data: { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
+          targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
+          showIndicators:false
+        }  
+      });
+    });
+
     $('#tagsResults').css('min-height', $(window).height()); 
     var sendParams = { mode: 'recent' } 
 
+    //reload when the tab changes
     $('#trendytags li').click( function(event){
       event.preventDefault();
       $('.active').toggleClass('active');
