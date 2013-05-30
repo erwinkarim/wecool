@@ -15,7 +15,7 @@ class Photo < ActiveRecord::Base
   include Rails.application.routes.url_helpers
 
   def init(params={})
-    self.featured ||= false;
+    #self.featured ||= false;
     #self.system_visible ||= false;
     ActsAsTaggableOn.force_lowercase = true;
   end
@@ -122,23 +122,21 @@ class Photo < ActiveRecord::Base
     default_options = default_options.merge(options)
     puts default_options
     #get recent tags for the last 24 hours, order by tag count
+    persona_range = default_options[:persona_range]
     if default_options[:mode] == 'recent' then 
       tags = Photo.joins{ 
-        taggings 
-      }.order{ 
-        'taggings.created_at desc'
-      }.group{
-        taggings.created_at 
-      }.having{ 
-        (persona_id.in default_options[:persona_range] )
-      }.tag_counts.reverse.map{ |x| x.name }
+        :tags 
+      }.select( 
+        'tags.name, min(taggings.created_at) as first_mention, max(taggings.created_at) as last_mention, count(*) as count' 
+      ).group('tags.name').order('last_mention desc').having{ 
+        (persona_id.in persona_range)
+      }.map{ |x| {:name => x.name, :first_mention => x.first_mention, :last_mention => x.last_mention, :count => x.count } }
     elsif default_options[:mode] == 'popular'
       #get by most popular tags
     elsif default_options[:mode] == 'trending'
       #this is not good, need to get better way of doing it
       # read http://www.michael-noll.com/blog/2013/01/18/implementing-real-time-trending-topics-in-storm/
       test = Array.new
-      persona_range = default_options[:persona_range]
       date_range = Persona.where{ id.in persona_range }.pluck(:created_at).max - 2.weeks
       Photo.where{ (created_at.gt date_range ) & (persona_id.in persona_range) }. order(
         'created_at desc').map{ |x| test.empty? ? test << [x] :

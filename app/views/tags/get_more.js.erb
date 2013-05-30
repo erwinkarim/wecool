@@ -4,22 +4,25 @@ var x = 1;
   handle.append( $('<tr/>') );
   var data = $('<td/>').html('\
             <h3><%= @persona.nil? ? 
-              link_to(tag, tag_path(tag)) : 
-              link_to(tag, persona_show_tag_path(@persona.screen_name, tag)) %></h3>\
-            <div class="accordion" id="accordion-<%= tag %>">\
+              link_to(tag[:name], tag_path(tag[:name])) : 
+              link_to(tag[:name], persona_show_tag_path(@persona.screen_name, tag[:name])) %>\
+              <small>Mentioned <%= pluralize tag[:count],'time' %> since <%= 
+                distance_of_time_in_words(Time.now, tag[:last_mention] ) %> ago</small>\
+            </h3>\
+            <div class="accordion" id="accordion-<%= tag[:name] %>">\
               <div class="accordion-group">\
                 <div class="accordion-heading">\
                     <%= link_to '<i class="icon-chevron-down"></i> <i class="icon-picture"></i>'.html_safe, \
-                      '#body-'+tag, \
+                      '#body-'+tag[:name], \
                       :class=>'accordion-toggle', :'data-toggle'=> 'collapse', \
-                      :'data-parent'=> '#accordion-'+tag %>\
+                      :'data-parent'=> '#accordion-'+tag[:name] %>\
                 </div>\
-                <div id="body-<%= tag %>" class="accordion-body collapse" tag="<%= tag %>" >\
+                <div id="body-<%= tag[:name] %>" class="accordion-body collapse" tag="<%= tag[:name] %>" >\
                   <div class="accordion-inner">\
-                    <div class="row-fluid"id="accordion-inner-<%= tag %>" >\
+                    <div class="row-fluid"id="accordion-inner-<%= tag[:name] %>" >\
                     </div>\
                     <div class="row-fluid">\
-                      <%= link_to 'See more...', tag_path(tag) , :class=>'btn btn-mini btn-info' %>\
+                      <%= link_to 'See more...', tag_path(tag[:name]) , :class=>'btn btn-mini btn-info' %>\
                     </div>\
                   </div>\
                 </div>\
