@@ -3,11 +3,14 @@ var x = 1;
 <% @tags.each do |tag| %>
   handle.append( $('<tr/>') );
   var data = $('<td/>').html('\
-            <h3><%= @persona.nil? ? link_to(tag, tag_path(tag)) : link_to(tag, persona_show_tag_path(@persona.screen_name, tag)) %></h3>\
+            <h3><%= @persona.nil? ? 
+              link_to(tag, tag_path(tag)) : 
+              link_to(tag, persona_show_tag_path(@persona.screen_name, tag)) %></h3>\
             <div class="accordion" id="accordion-<%= tag %>">\
               <div class="accordion-group">\
                 <div class="accordion-heading">\
-                    <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#body-'+tag, \
+                    <%= link_to '<i class="icon-chevron-down"></i> <i class="icon-picture"></i>'.html_safe, \
+                      '#body-'+tag, \
                       :class=>'accordion-toggle', :'data-toggle'=> 'collapse', \
                       :'data-parent'=> '#accordion-'+tag %>\
                 </div>\
@@ -29,12 +32,18 @@ var x = 1;
 
 //load tag pictures where loaded
 $('.collapse').on('shown', function(){
-  $.ajax({
-    url: '/photos/get_more/0', 
-    data: { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
-      targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
-      showIndicators:false
-    } ,
-    dataType: 'script' 
-  });
+  if( $(this).find('.carousel').length == 0) {
+    var sendData = { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
+        targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
+        showIndicators:false
+    }; 
+    <% if !@persona.nil? then %>
+      sendData['author'] = '<%= @persona.screen_name %>';
+    <% end %>
+    $.ajax({
+      url: '/photos/get_more/0', 
+      data: sendData,
+      dataType: 'script' 
+    });
+  };
 });

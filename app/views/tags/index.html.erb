@@ -32,28 +32,16 @@
 </div>
 <script type="text/javascript">
   $(document).ready( function(){
-    sendParams = { <%= persona.nil? ? "" : "persona_range:" + persona.id.to_s %> }
+    $('#tagsResults').css('min-height', $(window).height()); 
+    var sendParams = { mode: 'recent' } 
+
     //load initial content
+    sendParams = { <%= persona.nil? ? "" : "persona_range:" + persona.id.to_s %> }
     $.ajax({
       url: '/tags/get_more',
       data: sendParams, 
       dataType: 'script'
     });
-
-    //load tag pictures where loaded
-    $('.collapse').on('shown', function(){
-      $.ajax({
-        url: '/photos/get_more/0', 
-        data: { size:'square100', mediatype:'tagset', tag:$(this).attr('tag'), 
-          targetDiv:'#accordion-inner-'+$(this).attr('tag'), includeFirst:true, showCaption:false, 
-          showIndicators:false
-        } ,
-        dataType: 'script' 
-      });
-    });
-
-    $('#tagsResults').css('min-height', $(window).height()); 
-    var sendParams = { mode: 'recent' } 
 
     //reload when the tab changes
     $('#trendytags li').click( function(event){
