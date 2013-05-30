@@ -43,7 +43,7 @@
   <% end %>
 </div>
 <script type="text/javascript">
-  var isFeatured = $('.featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
+  var isFeatured = $('#featured-photos').hasClass('active') ? true : ['true', 'false'];
 
   //get the first few
   $.ajax({
@@ -84,7 +84,7 @@
       //reload the photos
 
       $('.carousel').detach();
-      isFeatured = $('#featured-photos').hasClass('active') ? 'true' : ['true', 'false'];
+      isFeatured = $('#featured-photos').hasClass('active') ? true : ['true', 'false'];
 
       $.ajax({
         url: '/photos/get_more/<%= @last_photo.id %>', 
