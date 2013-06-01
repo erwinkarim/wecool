@@ -3,15 +3,17 @@
 <div class="page-header">
   <h1><%=t '.title', :default => 'Recent ' + model_class.model_name.human.pluralize %></h1>
 </div>
-<div class="row-fluid">
-  <ul class="nav nav-tabs" id="mediasetTypeSelectorTab">
-    <li class="active recentlyFeatured"><%= link_to 'Featured', '#' %></li>
-    <li class="recentlyTrendy"><%= link_to 'Trending', '#' %></li>
-    <% if persona_signed_in? then %>
-      <li class="recentlyTracked"><%= link_to 'Following', '#' %></li>
-    <% end %>
-    <li class="recentlyRaw"><%= link_to 'Raw', '#' %></li>
-  </ul>
+<div class="row-fluid navbar" id="photoSelectorType">
+  <div class="navbar-inner">
+    <ul class="nav" id="mediasetTypeSelectorTab">
+      <li class="active" id="recentlyFeatured"><a href="#"><i class="icon-star"></i> Featured</a><li>
+      <li class="" id="recentlyTrendy"><%= link_to '<i class="icon-reorder"></i> Trendy'.html_safe, '#' %></li>
+      <% if persona_signed_in? then %>
+        <li id="recentlyTracked"><%= link_to '<i class="icon-screenshot"></i> Following'.html_safe, '#' %></li>
+      <% end %>
+      <li id="recentlyRaw"><%= link_to '<i class="icon-th-list"></i> Raw'.html_safe, '#' %><li>
+    </ul>
+  </div>
 </div>
 <div class="row-fluid endless-mediaset" last="<%= @mediasets.last.id %>" >
   <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
@@ -58,10 +60,10 @@
       $('.last-div').empty();
       $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
 
-      isFeatured = $('.recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-      if ( $('.recentlyTracked').hasClass('active') ) {
+      isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+      if ( $('#recentlyTracked').hasClass('active') ) {
         theView = 'tracked'; 
-      } else if ( $('.recentlyTrendy').hasClass('active') == true ) {
+      } else if ( $('#recentlyTrendy').hasClass('active') == true ) {
         theView = 'trending';
         $('.endless-mediaset').attr('last', '0');
       } else {
