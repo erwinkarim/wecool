@@ -51,3 +51,7 @@ $('.collapse').on('shown', function(){
     });
   };
 });
+
+//update the results
+var newValue = parseInt($('#tagsResults').attr('results')) + <%= @tags.count %> ;
+$('#tagsResults').attr('results', newValue);

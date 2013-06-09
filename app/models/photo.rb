@@ -115,7 +115,7 @@ class Photo < ActiveRecord::Base
 
   def self.get_tags ( options = {} )
     default_options = {
-      :mode => 'recent', :persona_range => 0..Persona.last.id
+      :mode => 'recent', :persona_range => 0..Persona.last.id, :limit => 10, :offset => 0
     }
     
     puts options 
@@ -130,7 +130,8 @@ class Photo < ActiveRecord::Base
         'tags.name, min(taggings.created_at) as first_mention, max(taggings.created_at) as last_mention, count(*) as count' 
       ).group('tags.name').order('last_mention desc').having{ 
         (persona_id.in persona_range)
-      }.map{ |x| {:name => x.name, :first_mention => x.first_mention, :last_mention => x.last_mention, :count => x.count } }
+      }.offset(default_options[:offset]).limit(default_options[:limit]).
+      map{ |x| {:name => x.name, :first_mention => x.first_mention, :last_mention => x.last_mention, :count => x.count } }
     elsif default_options[:mode] == 'popular'
       #get by most popular tags
     elsif default_options[:mode] == 'trending'
