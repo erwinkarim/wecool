@@ -52,7 +52,9 @@
   });
 
   $(document).ready ( function(){
-    $('#mediasetTypeSelectorTab li').click( function(){
+    $('.last-div').css('min-height', $(window).height());
+    $('#mediasetTypeSelectorTab li').click( function(event){
+      event.preventDefault();
       $('.active').toggleClass('active');
       $(this).toggleClass('active'); 
 

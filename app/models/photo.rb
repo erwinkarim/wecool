@@ -336,14 +336,16 @@ class Photo < ActiveRecord::Base
       featured = default_options[:featured]
       if default_options[:direction] == 'forward' then
         order_range = upper..upper+default_options[:limit]
-        @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
-          (mediaset_photos.order.in order_range) & (photos.system_visible.eq true) & (photos.featured.in featured) 
-        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility)
+        @next_photos = Mediaset.joins{ mediaset_photos}.find(options[:mediaset_id]).photos.where{
+          (mediaset_photos.order.gt upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
+        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility).limit(default_options[:limit])
       else
         order_range = (upper-default_options[:limit])..upper
         @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
-          (mediaset_photos.order.in order_range) & (photos.system_visible.eq true) & (photos.featured.in featured)
-        }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility)
+        #  (mediaset_photos.order.in order_range) & (photos.system_visible.eq true) & (photos.featured.in featured)
+          (mediaset_photos.order.lt upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
+        }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility).
+        limit(default_options[:limit])
       end
     elsif default_options[:mediatype] == 'trending' then
       #list down photo based on 
