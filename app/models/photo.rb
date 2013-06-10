@@ -149,10 +149,15 @@ class Photo < ActiveRecord::Base
       }.where{
         (taggings.created_at.gt date_range)
       }.select( 
-        'tags.name, min(taggings.created_at) as first_mention, max(taggings.created_at) as last_mention, count(*) as count' 
+        'tags.name, min(taggings.created_at) as first_mention, 
+          max(taggings.created_at) as last_mention, count(*) as count' 
       ).group('tags.name').order('count desc, first_mention desc').having{ 
         (persona_id.in persona_range) 
-      }.map{ |x| {:name => x.name, :first_mention => x.first_mention, :last_mention => x.last_mention, :count => x.count } }
+      }.offset(default_options[:offset]).limit(default_options[:limit]).map{ 
+        |x| {
+          :name => x.name, :first_mention => x.first_mention, :last_mention => x.last_mention, :count => x.count 
+        } 
+      }
     end 
 
 
