@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521103610) do
+ActiveRecord::Schema.define(:version => 20130611024441) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20130521103610) do
     t.integer  "down_votes",     :default => 0,     :null => false
     t.boolean  "visible",        :default => true,  :null => false
     t.boolean  "system_visible", :default => false
+    t.datetime "taken_at"
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"

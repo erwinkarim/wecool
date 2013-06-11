@@ -4,7 +4,7 @@ class Photo < ActiveRecord::Base
   make_voteable
   acts_as_taggable
   belongs_to :persona
-  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible
+  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible, :taken_at
   mount_uploader :avatar,AvatarUploader
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos
@@ -343,13 +343,14 @@ class Photo < ActiveRecord::Base
       if default_options[:direction] == 'forward' then
         order_range = upper..upper+default_options[:limit]
         @next_photos = Mediaset.joins{ mediaset_photos}.find(options[:mediaset_id]).photos.where{
-          (mediaset_photos.order.gt upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
-        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility).limit(default_options[:limit])
+          (mediaset_photos.order.gteq upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
+        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility).
+        limit(default_options[:limit])
       else
         order_range = (upper-default_options[:limit])..upper
         @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
         #  (mediaset_photos.order.in order_range) & (photos.system_visible.eq true) & (photos.featured.in featured)
-          (mediaset_photos.order.lt upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
+          (mediaset_photos.order.lteq upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
         }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility).
         limit(default_options[:limit])
       end

@@ -150,6 +150,11 @@ class PhotosController < ApplicationController
         end
 
         @photo.reset_tags
+        exif_data = EXIFR::JPEG.new(@photo.avatar.path).exif
+        if !exif_data.nil? then
+          @photo.update_attribute(:taken_at, exif_data[:date_time_original])
+        end
+
         #add the mediasets
         if params.has_key? :mediaset then 
           @photo.update_setlist params[:mediaset]

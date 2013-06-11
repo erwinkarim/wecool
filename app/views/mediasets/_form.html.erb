@@ -39,6 +39,15 @@
                   <%= link_to 'By oldest uploaded first', '#', :role=>'menuitem', 
                     :id => 'sort-oldest-upload-first' %>
                 </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to 'By oldest taken first', '#', :role=>'menuitem', 
+                    :id => 'sort-oldest-taken-first' %>
+                </li>
+                <li>
+                  <%= link_to 'By newest taken first', '#', :role=>'menuitem', 
+                    :id => 'sort-newest-taken-first' %>
+                </li>
               </ul>
             </li>
             <li>
@@ -50,7 +59,8 @@
       </div>
       <div class="well" id="mediaset-photo-listings" style="overflow:hidden; min-height:240px;" >
         <% @mediaset_photos.each do |photo| %>
-          <div id="photo_<%= photo.id %>" class="pull-left selected-img" value="<%= photo.id %>"  >
+          <div id="photo_<%= photo.id %>" class="pull-left selected-img" value="<%= photo.id %>" 
+            taken_at="<%= photo.taken_at.to_i %>" >
             <%= check_box_tag 'photo[]', photo.id, true, :id => 'photo_'+photo.id.to_s, :style => 'display:none;' %>
             <%= check_box_tag 'selected[]', photo.id, false, 
               :id => 'photo_'+photo.id.to_s, :class=>'photo-listings-select', :style => 'display:none;' %>
@@ -217,15 +227,6 @@
           //skip this phoot
           console.log('skipping '+ idToLook);
         } else {
-          /*
-            turn <img src=".."/> to
-            <div class="pull-left selected-img" style="margin:4px; position:relative">
-              <img src="..." />
-              <input name="photo[]" id="" value="" checked style="display:none" />
-            </div>
-            
-            and add to $('#mediaset-photo-listings') 
-          */
           //bind the image and imbdue w/ proper behavior when the image is clicked
           $(this).wrap(
             $('<div/>', { id:idToLook.split('#')[1],  class:'pull-left selected-img',
@@ -247,6 +248,9 @@
               type:'checkbox', checked:'true', style:'display:none;'
             })
           );
+          //add value and taken_at attribute
+          handle.attr('value', $(this).attr('value'));
+          handle.attr('taken_at', $(this).attr('taken_at'));
           $('#mediaset-photo-listings').append( handle );
           $('#mediaset-photo-listings').find('img').removeClass('highlightPhoto');
           //remove from where it's being dragged
@@ -324,6 +328,29 @@
       });
     });
 
+    $('#sort-newest-taken-first').click( function(event){
+      event.preventDefault();
+      var handle = $('#mediaset-photo-listings').children().remove();
+      handle.sort( function(a,b){
+        return $(a).attr('taken_at') > $(b).attr('taken_at') ? -1 : 1;
+      });
+      $('#mediaset-photo-listings').append(handle);
+      handle.each( function(){
+        $(this).find('img').bind('click', mediasetPhotoListingClick);
+      });
+    });
+
+    $('#sort-oldest-taken-first').click( function(event){
+      event.preventDefault();
+      var handle = $('#mediaset-photo-listings').children().remove();
+      handle.sort( function(a,b){
+        return $(a).attr('taken_at') > $(b).attr('taken_at') ? 1 : -1;
+      });
+      $('#mediaset-photo-listings').append(handle);
+      handle.each( function(){
+        $(this).find('img').bind('click', mediasetPhotoListingClick);
+      });
+    });
 
     $('#setlist-remove-selected').click( function() {
       $('#mediaset-photo-listings').find('.selected-img').each( function() {

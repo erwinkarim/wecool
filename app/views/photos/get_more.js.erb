@@ -63,11 +63,13 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
       carousel.append("<%= 
         escape_javascript(
           if @options[:enableLinks] then
-            link_to image_tag(photo.avatar.versions[@options[:size].to_sym], 
-              :class=>'img-polaroid', :id=> 'photo_' + photo.id.to_s ), photo_path
+            link_to image_tag( photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid', 
+              :id=> 'photo_' + photo.id.to_s, :value => photo.id, :taken_at => photo.taken_at.to_i ), photo_path
           else
-            image_tag(photo.avatar.versions[@options[:size].to_sym],
-              :class=>'img-polaroid', :id => 'photo_'+photo.id.to_s )
+            image_tag(
+              photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid', 
+              :id => 'photo_'+photo.id.to_s, :value => photo.id , :taken_at => photo.taken_at.to_i
+            )
           end
         ) 
         %>"
