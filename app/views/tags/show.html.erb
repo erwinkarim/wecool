@@ -12,6 +12,14 @@
   <%= render :partial => "common/personaHeaderBar" %>
 <% end %>
 
+<div class="row-fluid">
+  <%= nav_bar do %>
+    <ul class="nav" id="photoSelector">
+      <li class="active"><%= link_to '<i class="icon-picture"></i> Everything'.html_safe, '#', :id=>'everyPhoto' %></li>
+      <li><%= link_to '<i class="icon-star"></i> Featured'.html_safe, '#', :id => 'featuredPhoto' %></li>
+    </ul>
+  <% end %>
+</div>
 <div class="row-fluid endless-photos" last="0" >
     <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
@@ -68,5 +76,11 @@
         dataType: 'script'
       });
     });  
+
+    $('#photoSelector li').click( function(event){
+      event.preventDefault();
+      $(this).parent().children().toggleClass('active');
+      //reload the photos according the featured or not...
+    });
   });
 </script>
