@@ -23,7 +23,7 @@
     </div>
     <div class="row-fluid">
       <div class="pull-lefts span6 well well-small" style="margin:4px 2px;">
-        <strong>Mediasets:</strong> 
+        <strong><%= link_to 'Mediasets', mediaset_path(@persona.screen_name) %>:</strong>
         <% if @persona.mediasets.where{ featured.eq true }.empty? then %>
           No mediasets yet. <%= link_to 'Create new', new_mediaset_path %> from you existing photos
         <% else %>
@@ -34,20 +34,22 @@
                   view_sets_path(@persona.screen_name, mediaset) %>
               </li>
             <% end %>
+            <li style="display:inline;"><i class="icon-th-list"></i><%= link_to 'See More...', mediaset_path(@persona.screen_name) %></li>
           </ul>
         <% end %>
       </div>
       <div class="pull-left span6 well well-small" style="margin:4px 2px;">
-        <strong>Tags: </strong>
+        <strong><%= link_to 'Tags', persona_tags_path(@persona.screen_name) %>: </strong>
         <% if @persona.photos.tag_counts.empty? then %>
           No tags yet. Add #hashtags on your photo's title or description to add tags
         <% else %>
           <ul style="display:inline">
-          <% @persona.photos.tag_counts.order('id desc').limit(5).each do |tag| %>
+          <% @persona.photos.tag_counts.order('id desc').limit(4).each do |tag| %>
             <li style="display:inline">
               <i class="icon-tag"></i><%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
             </li>
           <% end %>
+          <li style="display:inline"><i class="icon-tags"></i><%= link_to 'See More...', persona_tags_path(@persona.screen_name) %></li>
           </ul>
         <% end %>
       </div>
