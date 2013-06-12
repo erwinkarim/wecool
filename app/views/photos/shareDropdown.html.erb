@@ -12,17 +12,39 @@
   end 
 %>
 <ul class="dropdown-menu">
+  <li>
+    <%= form_tag '#', :style => 'padding:3px 20px;' do %>
+      <label><i id="copy-via-caret" class="icon-caret-down"></i> <i class="icon-share"></i> Share via...</label>
+      <div class="row" id="copy-via-display">
+        <div class="offset1 span2 text-center">
+          <i class="icon-envelope-alt icon-2x"></i>
+        </div>
+        <div class="span2 text-center">
+          <i class="icon-facebook icon-2x"></i>
+        </div>
+        <div class="span2 text-center">
+          <i class="icon-twitter icon-2x"></i>
+        </div>
+        <div class="span2 text-center">
+          <i class="icon-google-plus icon-2x"></i>
+        </div>
+      </div>
+    <% end %>
+  </li>
+  <li class="divider"></li>
   <li class="dropdown-submenu">
     <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
       <div class="control-group">
-        <label><i class="icon-link"></i> Copy Link</label>
-        <%= text_field_tag 'PermaAddress', 
-          photoUrl, 
-          :disabled => true, :id => 'premaAddress', :class=>'input-xlarge' %> 
-      </div>
-      <div class="control-group">
-        <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
-          :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+        <label><i id="copy-link-caret" class="icon-caret-down"></i> <i class="icon-link"></i> Copy Link</label>
+        <div id="copy-link-display">
+          <%= text_field_tag 'PermaAddress', 
+            photoUrl, 
+            :disabled => true, :id => 'premaAddress', :class=>'input-xlarge' %> 
+          <div class="control-group">
+            <%= button_tag 'Copy To Clipboard', :type => 'button' , :class => 'btn btn-info',
+              :id => 'copyToClip', :'data-clipboard-target' => 'premaAddress' %>
+          </div>
+        </div>
       </div>
     <% end -%>
   </li>
@@ -30,57 +52,59 @@
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
       <div class="control-group">
-          <label><i class="icon-code"></i> Copy HTML</label>
-          <% 
-            if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
-              photoList = photo.map{ |x| link_to( 
-                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
-                :alt => x.title), photo_view_url(persona.screen_name, x.id) 
-              ) }.join 
-              photoAvatar = photo.first.avatar
-            elsif default_options[:mode] == 'mediaset_photos' then 
-              photoList = photo.photos.limit(4).map{ |x| link_to( 
-                image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
-                :alt => x.title), photo_view_url(persona.screen_name, x.id) 
-              ) }.join 
-              photoAvatar = photo.photos.first.avatar
-            else 
-              photoList = link_to( 
-                image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
-                :alt => photo.title), photo_view_url(persona.screen_name, photo) 
-              ) 
-              photoAvatar = photo.avatar
-            end 
-            if ['single_photo', 'mediaset_photos'].include?(default_options[:mode]) then
-              theTitle = photo.title
-            else
-              theTitle = 'Photos'
-            end
-          %>
-          <%= text_area_tag 'htmlCopy', 
-            "<div>" + photoList + "</div>" + 
-            "\n" + 
-            "<div>" + 
-              link_to( theTitle , photoUrl ) + 
-              " by " +
-              link_to( persona.screen_name, persona_url(persona.screen_name)) + 
-              " at " +
-              link_to( 'WeCool', root_url) +
-            "</div>", 
-            :id => 'htmlCopyText', :disabled => true, :class=>'input-xlarge', :rows=> 10
-          %>
-      </div>
-      <% if default_options[:mode] == 'single_photo' then %>
-        <div class="control-group">
-          <%= label_tag 'Size:' %>
-          <select id="copyHTMLSize">
-            <%= options_for_select( photoAvatar.versions, photoAvatar.versions[:small]) %>
-          </select>
-        </div>
-      <% end %>
-      <div class="control-group">
-        <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
-          :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
+          <label><i id="copy-html-caret" class="icon-caret-down"></i> <i class="icon-code"></i> Copy HTML</label>
+          <div id="copy-html-display">
+            <% 
+              if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
+                photoList = photo.map{ |x| link_to( 
+                  image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
+                  :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+                ) }.join 
+                photoAvatar = photo.first.avatar
+              elsif default_options[:mode] == 'mediaset_photos' then 
+                photoList = photo.photos.limit(4).map{ |x| link_to( 
+                  image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
+                  :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+                ) }.join 
+                photoAvatar = photo.photos.first.avatar
+              else 
+                photoList = link_to( 
+                  image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
+                  :alt => photo.title), photo_view_url(persona.screen_name, photo) 
+                ) 
+                photoAvatar = photo.avatar
+              end 
+              if ['single_photo', 'mediaset_photos'].include?(default_options[:mode]) then
+                theTitle = photo.title
+              else
+                theTitle = 'Photos'
+              end
+            %>
+            <%= text_area_tag 'htmlCopy', 
+              "<div>" + photoList + "</div>" + 
+              "\n" + 
+              "<div>" + 
+                link_to( theTitle , photoUrl ) + 
+                " by " +
+                link_to( persona.screen_name, persona_url(persona.screen_name)) + 
+                " at " +
+                link_to( 'WeCool', root_url) +
+              "</div>", 
+              :id => 'htmlCopyText', :disabled => true, :class=>'input-xlarge', :rows=> 10
+            %>
+            <% if default_options[:mode] == 'single_photo' then %>
+              <div class="control-group">
+                <%= label_tag 'Size:' %>
+                <select id="copyHTMLSize">
+                  <%= options_for_select( photoAvatar.versions, photoAvatar.versions[:small]) %>
+                </select>
+              </div>
+            <% end %>
+            <div class="control-group">
+              <%= button_tag 'Copy To Clipboard', :type => 'button', :class => 'btn btn-info', 
+                :id => 'copyHTMLToClip', :'data-clipboard-target' => 'htmlCopyText' %>
+            </div>
+          </div>
       </div>
     <% end -%>  
   </li>
@@ -113,6 +137,17 @@ $(document).ready( function() {
     $('#htmlCopyText').val(tempText);
   });
 
+  $('#copy-link-caret').click( function(){
+    $('#copy-link-display').fadeToggle();
+    $('#copy-link-caret').toggleClass('icon-caret-down');
+    $('#copy-link-caret').toggleClass('icon-caret-right');
+  });
+
+  $('#copy-html-caret').click( function(){
+    $('#copy-html-display').fadeToggle();
+    $('#copy-html-caret').toggleClass('icon-caret-down');
+    $('#copy-html-caret').toggleClass('icon-caret-right');
+  });
 
 });
 </script>
