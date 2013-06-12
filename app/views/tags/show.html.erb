@@ -15,8 +15,10 @@
 <div class="row-fluid">
   <%= nav_bar do %>
     <ul class="nav" id="photoSelector">
-      <li class="active"><%= link_to '<i class="icon-picture"></i> Everything'.html_safe, '#', :id=>'everyPhoto' %></li>
-      <li><%= link_to '<i class="icon-star"></i> Featured'.html_safe, '#', :id => 'featuredPhoto' %></li>
+      <li class="active" id="everyPhoto" >
+        <%= link_to '<i class="icon-picture"></i> Everything'.html_safe, '#' %>
+      </li>
+      <li id="featuredPhoto"><%= link_to '<i class="icon-star"></i> Featured'.html_safe, '#' %></li>
     </ul>
   <% end %>
 </div>
@@ -81,6 +83,16 @@
       event.preventDefault();
       $(this).parent().children().toggleClass('active');
       //reload the photos according the featured or not...
+      params['featured'] = $('#featuredPhoto').hasClass('active') ? 'true' : ['true','false'];
+
+      $('.last-div').children().detach();
+      $('.endless-photos').attr('last','0');
+      $.ajax({
+        url: '/photos/get_more/' + $('.endless-photos').attr('last') ,
+        data: params,
+        dataType: 'script'
+      });
+
     });
   });
 </script>

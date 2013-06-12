@@ -328,7 +328,7 @@ class Photo < ActiveRecord::Base
       persona_range = default_options[:author]
       @next_photos = Photo.tagged_with(
         default_options[:tag]).where{ 
-          (persona_id.in persona_range) & (system_visible.eq true) & (featured.in deafult_options[:featured])
+          (persona_id.in persona_range) & (system_visible.eq true) & (featured.in default_options[:featured])
         }.order('updated_at desc').limit(default_options[:limit]).offset(upper)
     elsif default_options[:mediatype] == 'mediaset' then 
       #if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to
