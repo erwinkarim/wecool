@@ -97,6 +97,7 @@ GEM
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
+    pg (0.15.1)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
@@ -137,7 +138,6 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.7)
     squeel (1.0.18)
       activerecord (~> 3.0)
       activesupport (~> 3.0)
@@ -194,10 +194,10 @@ DEPENDENCIES
   make_voteable
   omniauth
   paper_trail (~> 2)
+  pg
   rails (= 3.2.8)
   rmagick
   sass-rails (~> 3.2.3)
-  sqlite3
   squeel
   therubyracer
   twitter-bootstrap-rails
