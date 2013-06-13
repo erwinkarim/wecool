@@ -481,5 +481,19 @@ class PhotosController < ApplicationController
   # clear from the queue in :new action
   def clear_from_upload_queue
   end
+  
+  # POST   /photos/:persona_id/share/:id(.:format) 
+  # required parameters in params:-
+  #   :mode   in what way that this photo will be shared
+  def share 
+    if params[:mode] == 'email' then
+      #send email about sharing this photo :id from :persona_id
+      #format email and the send it out
+    end
 
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
 end

@@ -14,9 +14,9 @@
 <ul class="dropdown-menu">
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do %>
-      <label><i class="icon-share"></i> Share via...</label>
-      <div class="row" id="copy-via-display">
-        <div class="offset1 span2 text-center img-polaroid">
+      <label><i class="icon-share-alt"></i> Via...</label>
+      <div class="row-fluid" id="copy-via-display">
+        <div class="">
           <%= content_tag :a, '<i class="icon-envelope-alt icon-2x"></i>'.html_safe, 
             :href => '#share-via-email', :data => { :toggle=> 'modal' }
           %>
@@ -104,12 +104,17 @@
 </ul>
 <div>
   <%= 
-    modal_dialog :id => 'share-via-email', :class=>'form-inline', 
+    modal_dialog :id => 'share-via-email', 
       :header => { :show_close => true, :dismiss => 'modal', :title => 'Share Via Email' },
-      :body => label_tag('email') + 
-        text_field_tag('email', nil, :placeholder => 'Type email here', :class=>'span10') + 
-        label_tag('Description') + 
-        text_area_tag('Description', nil, :placeholder => 'Type Description Here', :class=> 'span10' ) , 
+      :body => 
+        content_tag( :div, 
+          label_tag('email-share-label', 'Email:',  :class=>'control-label') + 
+            text_field_tag('email-field', nil, :placeholder => 'Type email here', :class=>'span10'), 
+          :class => 'control-group', :id => 'email-control-group' ) + 
+        content_tag( :div, 
+          label_tag('share-via-email-description-label', 'Description:') + 
+            text_area_tag('description-field', nil, :placeholder => 'Type Description Here', :class=> 'span10' ), 
+          :class=>'control-group', :id => 'description-control-group' ) , 
       :footer => content_tag(:button, 'Cancel', :class => 'btn', :'data-dismiss' => 'modal') + 
         content_tag(:button, 'Send', :class => 'btn btn-primary', :id => 'share-via-email-exec') 
   %>
@@ -157,9 +162,30 @@ $(document).ready( function() {
   //when share via email send button is clicked
   $('#share-via-email-exec').click( function(){
     //check the form
-    //if ok, send command to send email
-    //the close the window
-    $('#share-via-email').modal('hide');
+    var r = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+    if ($('#email-field').val().match(r) == null) { 
+      $('#email-control-group').addClass('warning');
+    } else {
+      $('#email-control-group').removeClass('warning');
+      //if ok, send command to send email
+      shareURL = '<%=
+        if photo.is_a?(Photo) then
+          photo_share_path(persona.screen_name, photo.id)
+        end
+      %>'; 
+      $.ajax({
+        type: 'POST', 
+        url: shareURL,
+        data: { mode:'email', email:$('#email-field').val(), description:$('#description-field').val() } ,
+        dataType: 'script',
+        success: function(){
+          $('#email-field').val('');
+          //the close the window
+          $('#share-via-email').modal('hide');
+        }
+      });
+
+    }
   });
 });
 </script>
