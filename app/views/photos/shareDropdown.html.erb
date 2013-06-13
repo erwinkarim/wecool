@@ -14,19 +14,12 @@
 <ul class="dropdown-menu">
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do %>
-      <label><i id="copy-via-caret" class="icon-caret-down"></i> <i class="icon-share"></i> Share via...</label>
+      <label><i class="icon-share"></i> Share via...</label>
       <div class="row" id="copy-via-display">
-        <div class="offset1 span2 text-center">
-          <i class="icon-envelope-alt icon-2x"></i>
-        </div>
-        <div class="span2 text-center">
-          <i class="icon-facebook icon-2x"></i>
-        </div>
-        <div class="span2 text-center">
-          <i class="icon-twitter icon-2x"></i>
-        </div>
-        <div class="span2 text-center">
-          <i class="icon-google-plus icon-2x"></i>
+        <div class="offset1 span2 text-center img-polaroid">
+          <%= content_tag :a, '<i class="icon-envelope-alt icon-2x"></i>'.html_safe, 
+            :href => '#share-via-email', :data => { :toggle=> 'modal' }
+          %>
         </div>
       </div>
     <% end %>
@@ -109,6 +102,18 @@
     <% end -%>  
   </li>
 </ul>
+<div>
+  <%= 
+    modal_dialog :id => 'share-via-email', :class=>'form-inline', 
+      :header => { :show_close => true, :dismiss => 'modal', :title => 'Share Via Email' },
+      :body => label_tag('email') + 
+        text_field_tag('email', nil, :placeholder => 'Type email here', :class=>'span10') + 
+        label_tag('Description') + 
+        text_area_tag('Description', nil, :placeholder => 'Type Description Here', :class=> 'span10' ) , 
+      :footer => content_tag(:button, 'Cancel', :class => 'btn', :'data-dismiss' => 'modal') + 
+        content_tag(:button, 'Send', :class => 'btn btn-primary', :id => 'share-via-email-exec') 
+  %>
+</div>
 <script type="text/javascript">
 $(document).ready( function() {
   //for the link copy copy to clipboard
@@ -149,5 +154,12 @@ $(document).ready( function() {
     $('#copy-html-caret').toggleClass('icon-caret-right');
   });
 
+  //when share via email send button is clicked
+  $('#share-via-email-exec').click( function(){
+    //check the form
+    //if ok, send command to send email
+    //the close the window
+    $('#share-via-email').modal('hide');
+  });
 });
 </script>

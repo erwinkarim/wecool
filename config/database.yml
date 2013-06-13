@@ -13,7 +13,7 @@ development:
   database: store_development
   pool: 5
   username: wecool
-  password:
+  password: 
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -29,7 +29,7 @@ test:
   database: store_test
   pool: 5
   username: wecool
-  password:
+  password: 
   host: localhost
 
 production:
@@ -42,5 +42,5 @@ production:
   database: store_production
   pool: 5
   username: wecool
-  password:
+  password: 
   host: localhost

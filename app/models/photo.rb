@@ -344,15 +344,15 @@ class Photo < ActiveRecord::Base
         order_range = upper..upper+default_options[:limit]
         @next_photos = Mediaset.joins{ mediaset_photos}.find(options[:mediaset_id]).photos.where{
           (mediaset_photos.order.gteq upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
-        }.order('mediaset_photos."order"').group('mediaset_photos."order"').having(:visible => visibility).
-        limit(default_options[:limit])
+        }.order('mediaset_photos."order"').group('mediaset_photos."order", photos.visible, photos.id').
+        having(:visible => visibility).limit(default_options[:limit])
       else
         order_range = (upper-default_options[:limit])..upper
         @next_photos = Mediaset.joins{ mediaset_photos }.find(options[:mediaset_id]).photos.where{
         #  (mediaset_photos.order.in order_range) & (photos.system_visible.eq true) & (photos.featured.in featured)
           (mediaset_photos.order.lteq upper) & (photos.system_visible.eq true) & (photos.featured.in featured)
-        }.order('mediaset_photos."order" desc').group('mediaset_photos."order"').having(:visible => visibility).
-        limit(default_options[:limit])
+        }.order('mediaset_photos."order" desc').group('mediaset_photos."order", photos.visible, photos.id').
+        having(:visible => visibility).limit(default_options[:limit])
       end
     elsif default_options[:mediatype] == 'trending' then
       #list down photo based on 
@@ -360,7 +360,7 @@ class Photo < ActiveRecord::Base
       # b) tag activity
       @next_photos = Photo.where(:system_visible => true).joins{ votings }.
         order("votings.created_at desc").limit(default_options[:limit]).
-        offset(last_id).uniq
+        offset(last_id).select('photos.*, votings.created_at').uniq
     elsif default_options[:mediatype] == 'tracked' then
       #get the photos that the current persona tracks
       @tracked_persona = current_persona[:current_persona].followers.where(:tracked_object_type => 'persona')

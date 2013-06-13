@@ -318,7 +318,7 @@ class MediasetsController < ApplicationController
     if @options[:viewType] == 'trending' then
       puts 'getting trendy'
       @next_mediasets = Mediaset.joins{ votings }.order(" votings.created_at desc").
-        limit(@options[:limit]).offset(params[:last_id]).uniq
+        limit(@options[:limit]).offset(params[:last_id]).select('mediasets.*, votings.created_at').uniq
     elsif @options[:viewType] == 'normal' then 
       @next_mediasets = Mediaset.find(:all, :conditions => { 
         :id => 0..upper, :persona_id => @options[:persona], :featured => @options[:featured], :system_visible => true  }, 
