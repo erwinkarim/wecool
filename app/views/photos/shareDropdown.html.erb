@@ -168,15 +168,13 @@ $(document).ready( function() {
     } else {
       $('#email-control-group').removeClass('warning');
       //if ok, send command to send email
-      shareURL = '<%=
-        if photo.is_a?(Photo) then
-          photo_share_path(persona.screen_name, photo.id)
-        end
-      %>'; 
+      shareURL = '<%= photo_share_path(persona.screen_name) %>'; 
       $.ajax({
         type: 'POST', 
         url: shareURL,
-        data: { mode:'email', email:$('#email-field').val(), description:$('#description-field').val() } ,
+        data: { mode:'email', email:$('#email-field').val(), 
+          description:$('#description-field').val(), 
+          url:'<%= "#{request.protocol}#{request.host_with_port}#{request.fullpath}" %>' } ,
         dataType: 'script',
         success: function(){
           $('#email-field').val('');
