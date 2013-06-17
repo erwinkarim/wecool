@@ -4,6 +4,11 @@
   <p><%= @default_options[:url] %></p>
 </div>
 
+<% if !@default_options[:message].nil? then %>
+  <div>
+    <%= simple_format(@default_options[:message]) %>
+  </div>
+<% end %>
 <div>
   <p>Photo selection here</p>
 </div>
