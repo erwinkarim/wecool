@@ -15,6 +15,8 @@ class AppMailer < Devise::Mailer
       :url => 'http://localhost:3000/test', :persona_sender => nil, :message => nil }
     @default_options = @default_options.merge options
 
-    mail(:to => @default_options[:to], :subject => @default_options[:subject], :from => @default_options[:from] )
+    mail(:to => @default_options[:to], :subject => @default_options[:subject], :from => @default_options[:from] ) do |format|
+      format.html { render :layout => 'mail' }
+    end
   end
 end
