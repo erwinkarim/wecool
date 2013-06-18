@@ -5,8 +5,16 @@
         <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#'  %>
         <%= menu_item '<i class="icon-rotate-left icon-4x"></i>'.html_safe , '#' %>
         <%= menu_item '<i class="icon-rotate-right icon-4x"></i>'.html_safe, '#'  %>
-        <%= menu_item '<i class="icon-certificate icon-4x"></i>'.html_safe, '#'  %>
-        <%= menu_item '<i class="icon-adjust icon-4x"></i>'.html_safe , '#'%>
+        <%= drop_down '<i class="icon-certificate icon-4x"></i>'.html_safe do %>
+            <li style="padding:3px 20px;">
+              <div class="slider" id="brightness-slider"></div>
+            </li>
+        <% end %>
+        <%= drop_down '<i class="icon-adjust icon-4x"></i>'.html_safe do %> 
+          <li style="padding:3px 20px;">
+            <div class="slider" id="contrast-slider"></div>
+            </li>
+        <% end %>
       <% end %>
     <% end %>
   </div>
@@ -16,4 +24,8 @@
     <%= image_tag @photo.avatar.large %>
   </div><!-- span9 -->
 </div><!-- row -->
-  
+<script type="text/javascript">
+  $(function(){
+    $('.slider').slider();
+  });
+</script> 
