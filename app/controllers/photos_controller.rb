@@ -484,18 +484,17 @@ class PhotosController < ApplicationController
   
   #  POST   /photos/:persona_id/share
   # required parameters in params:-
-  #   :url    the url that will be shared
-  #   :object_type    The type of object to be share
-  #   :object_id      The id of the object to shared
-  #   :mode   in what way that this photo will be shared valid options:-
-  #           email   share via email, required variables are 
-  #                   :email - list of email
-  #                   :description - additional description to be written in the email
-  #     
-  def shar 
+  #   :url          the url that will be shared
+  #   :photoList    html coded list of photos
+  #   :mode         in what way that this photo will be shared valid options:-
+  #                   email   share via email, required variables are 
+  #                           :email - list of email to be send
+  #                           :description - additional description to be written in the email
+  def share 
     if params[:mode] == 'email' then
       #send email about sharing this photo :url from :persona_id
-      options = { :to => params[:email], :url => params[:url], :message => params[:description] }
+      options = { :to => params[:email], :url => params[:url], :message => params[:description], 
+        :photoList => params[:photoList] }
       #format email and the send it out
       test = AppMailer.share( options)
       puts test

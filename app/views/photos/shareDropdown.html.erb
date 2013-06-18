@@ -49,19 +49,19 @@
           <div id="copy-html-display">
             <% 
               if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
-                photoList = photo.map{ |x| link_to( 
+                @photoList = photo.map{ |x| link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                   :alt => x.title), photo_view_url(persona.screen_name, x.id) 
-                ) }.join 
+                ).html_safe }.join 
                 photoAvatar = photo.first.avatar
               elsif default_options[:mode] == 'mediaset_photos' then 
-                photoList = photo.photos.limit(4).map{ |x| link_to( 
+                @photoList = photo.photos.limit(4).map{ |x| link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                   :alt => x.title), photo_view_url(persona.screen_name, x.id) 
-                ) }.join 
+                ).html_safe }.join 
                 photoAvatar = photo.photos.first.avatar
               else 
-                photoList = link_to( 
+                @photoList = link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
                   :alt => photo.title), photo_view_url(persona.screen_name, photo) 
                 ) 
@@ -74,7 +74,7 @@
               end
             %>
             <%= text_area_tag 'htmlCopy', 
-              "<div>" + photoList + "</div>" + 
+              "<div>" + @photoList + "</div>" + 
               "\n" + 
               "<div>" + 
                 link_to( theTitle , photoUrl ) + 
@@ -174,7 +174,8 @@ $(document).ready( function() {
         url: shareURL,
         data: { mode:'email', email:$('#email-field').val(), 
           description:$('#description-field').val(), 
-          url:'<%= "#{request.protocol}#{request.host_with_port}#{request.fullpath}" %>' } ,
+          photoList:'<%= escape_javascript(@photoList).html_safe %>', 
+          url:'<%= photoUrl %>' }, 
         dataType: 'script',
         success: function(){
           $('#email-field').val('');

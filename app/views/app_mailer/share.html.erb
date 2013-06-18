@@ -1,14 +1,28 @@
-<p><%= @default_options[:persona_sender].nil? ? 'We' : @default_options[:persona_sender].screen_name %> would like to share something</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <div>
+      <div>
+        <p><%= @default_options[:persona_sender].nil? ? 'We' : @default_options[:persona_sender].screen_name %> 
+          would like to share something from <%= link_to 'wecool', root_url %></p>
+      </div>
 
-<div>
-  <p><%= @default_options[:url] %></p>
-</div>
+      <div>
+        <p><%= @default_options[:url] %></p>
+      </div>
 
-<% if !@default_options[:message].nil? then %>
-  <div>
-    <%= simple_format(@default_options[:message]) %>
-  </div>
-<% end %>
-<div>
-  <p>Photo selection here</p>
-</div>
+      <% if !@default_options[:message].nil? then %>
+        <div>
+          <%= simple_format(@default_options[:message]) %>
+        </div>
+      <% end %>
+
+      <div>
+        <%= @default_options[:photoList].html_safe %>
+      </div>
+    </div>
+  </body>
+</html>
