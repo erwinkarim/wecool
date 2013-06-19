@@ -42,7 +42,7 @@ gem 'unicorn-rails'
 #
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
-gem 'font-awesome-rails', '>= 3.1.0'
+gem 'font-awesome-rails', '= 3.2.1'
 
 gem 'carrierwave'
 gem 'devise'

@@ -5,7 +5,7 @@
         <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#'  %>
         <%= menu_item '<i class="icon-rotate-left icon-4x"></i>'.html_safe , '#' %>
         <%= menu_item '<i class="icon-rotate-right icon-4x"></i>'.html_safe, '#'  %>
-        <%= drop_down '<i class="icon-certificate icon-4x"></i>'.html_safe do %>
+        <%= drop_down '<i class="icon-sun icon-4x"></i>'.html_safe do %>
             <li style="padding:3px 20px;">
               <div class="slider" id="brightness-slider"></div>
             </li>
@@ -20,12 +20,30 @@
   </div>
 </div>
 <div class="row-fluid">
-  <div class="span9">
-    <%= image_tag @photo.avatar.large %>
-  </div><!-- span9 -->
-</div><!-- row -->
+  <% img = ::Magick::Image::read(@photo.avatar.large.path).first %>
+  <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" style="max-width:none; width:<%= img.columns %>px;" >
+  </canvas>
+</div>
 <script type="text/javascript">
   $(function(){
-    $('.slider').slider();
+    $('.slider').slider({ value:0, min:-128, max:128 });
+    $('#brightness-slider').on('slidechange', updateBrightness( event, $(this) ) );
+
+    //get canvas handle
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var origImageData, imageDataDelta;
+
+    //fill up the canvas w/ picture
+    var img = new Image();
+    img.src = '<%= @photo.avatar.large.url %>'; 
+    img.onload = function(){
+      ctx.drawImage(img, 0, 0);
+      origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
+    };
+
+    function updateBrightness( event, ui){
+      console.log('update brightness');
+    };
   });
 </script> 
