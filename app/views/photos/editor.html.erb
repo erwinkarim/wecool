@@ -26,8 +26,6 @@
 </div>
 <script type="text/javascript">
   $(function(){
-    $('.slider').slider({ value:0, min:-128, max:128 });
-    $('#brightness-slider').on('slidechange', updateBrightness( event, $(this) ) );
 
     //get canvas handle
     var canvas = document.getElementById('canvas');
@@ -42,8 +40,20 @@
       origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
     };
 
-    function updateBrightness( event, ui){
-      console.log('update brightness');
-    };
+    //setup the sliders for brightness and contrast
+    $('.slider').slider({ value:0, min:-128, max:128 });
+    $('#brightness-slider').on('slide', function(event, ui){
+      console.log('update brightness value:' + ui.value);
+    } );
+
+    $('#contrast-slider').on('slide', function(event, ui){
+      console.log('update contrast value:' + ui.value);
+    } );
+
+    // see http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
+    Filters = {};
+    
+
+
   });
 </script> 
