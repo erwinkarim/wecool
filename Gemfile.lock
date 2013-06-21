@@ -138,6 +138,7 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.7)
     squeel (1.0.18)
       activerecord (~> 3.0)
       activesupport (~> 3.0)
@@ -198,6 +199,7 @@ DEPENDENCIES
   rails (= 3.2.8)
   rmagick
   sass-rails (~> 3.2.3)
+  sqlite3
   squeel
   therubyracer
   twitter-bootstrap-rails
