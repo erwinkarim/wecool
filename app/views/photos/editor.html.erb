@@ -38,57 +38,71 @@
     img.onload = function(){
       ctx.drawImage(img, 0, 0);
       origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
-	initData = new Array();
-	for(i=0; i< origImageData.data.length; i++){
-		initData.push(origImageData.data[i]);
-	}
+			initData = new Array();
+			for(i=0; i< origImageData.data.length; i++){
+				initData.push(origImageData.data[i]);
+			}
     };
 
     //setup the sliders for brightness and contrast
     $('.slider').slider({ value:0, min:-128, max:128 });
     $('#brightness-slider').on('slide', function(event, ui){
       console.log('update brightness value:' + ui.value);
-	newData = Filters.filterImage( Filters.brightness, document.getElementById('canvas'), ui.value);
-	ctx.putImageData(newData, 0,0);
+			newData = Filters.filterImage( Filters.brightness, document.getElementById('canvas'), ui.value);
+			ctx.putImageData(newData, 0,0);
     } );
 
     $('#contrast-slider').on('slide', function(event, ui){
       console.log('update contrast value:' + ui.value);
+			newData = Filters.filterImage( Filters.contrast, document.getElementById('canvas'), ui.value);
+			ctx.putImageData(newData, 0,0);
     } );
 
     // see http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
     Filters = {};
 
-	Filters.getPixels = function(){
-		//return c.getContext('2d').getImageData(0,0, c.width, c.height);
-		for( i=0; i<initData.length; i++){
-			origImageData.data[i] = initData[i];
+		Filters.getPixels = function(){
+			//return c.getContext('2d').getImageData(0,0, c.width, c.height);
+			for( i=0; i<initData.length; i++){
+				origImageData.data[i] = initData[i];
+			}
+			return origImageData;
+		};
+
+		Filters.filterImage = function(filter, var_args){
+			var args = [Filters.getPixels()];
+			for (var i=2; i < arguments.length; i++){
+				args.push(arguments[i]);
+			}
+		
+			return filter.apply(null, args);
+		};
+
+		//brightness filter
+		Filters.brightness = function(pixels, adjustment){
+			var d = pixels.data;
+			for (var i =0; i < d.length; i+=4){
+				d[i] += adjustment;
+				d[i+1] += adjustment;
+				d[i+2] += adjustment;
+			}
+			return pixels;
+		};
+
+		//constrast filter
+		Filters.contrast = function(pixels, adjustment){
+			//contrast here
+			var d = pixels.data;
+			var contrastFactor = (259 * (adjustment + 255))/(255 * (259 - adjustment));
+		
+			for (var i=0; i < d.length; i+=4){
+				d[i] = contrastFactor * ( d[i] - 128 ) + 128;
+				d[i+1] = contrastFactor * ( d[i+1] - 128 ) + 128;
+				d[i+2] = contrastFactor * ( d[i+2] - 128 ) + 128;
+			}
+
+			return pixels;
 		}
-		return origImageData;
-	};
 
-	Filters.filterImage = function(filter, var_args){
-		var args = [Filters.getPixels()];
-		for (var i=2; i < arguments.length; i++){
-			args.push(arguments[i]);
-		}
-	
-		return filter.apply(null, args);
-	};
-
-	Filters.brightness = function(pixels, adjustment){
-		var d = pixels.data;
-		for (var i =0; i < d.length; i+=4){
-			d[i] += adjustment;
-			d[i+1] += adjustment;
-			d[i+2] += adjustment;
-		}
-		return pixels;
-	};
-
-	Filters.contrast = function(pixels, adjustment){
-		//contrast here
-	}
-
-  });
+	});
 </script> 

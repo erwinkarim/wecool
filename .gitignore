@@ -15,4 +15,4 @@
 /tmp
 
 #ignore uploads
-/public/uploads/
+/public/uploads/*
