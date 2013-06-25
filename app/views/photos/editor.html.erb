@@ -37,7 +37,7 @@
     <% end %>  
   <% end %>
 </div>
-<div class="row-fluid">
+<div class="row-fluid" id="canvas-area">
   <% img = ::Magick::Image::read(@photo.avatar.large.path).first %>
   <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" style="max-width:none; width:<%= img.columns %>px;" >
   </canvas>
@@ -62,7 +62,23 @@
 			}
     };
 
-    var jcrop_api;
+    var jcrop_api, canvas_obj;
+		function cancel_crop(){
+			$('#crop').parent().removeClass('active');
+			$('#sub-menu').css('display', 'none');  
+			$('#crop-submenu').css('display', 'none');  
+			jcrop_api.destroy();
+			canvas_obj.attr('style', '');
+			$('#canvas-area').append(canvas_obj);
+		};
+
+		function crop_picture(c){
+		};
+
+		function updateCoor(c){
+			console.log('x: ' + c.x + ' y: ' + c.y + ' x2:' + c.x2  + ' y2:' + c.y2);
+		};
+
 
     //toggle crop
     $('#crop').click( function(){
@@ -70,35 +86,25 @@
       if ( $('#crop').parent().hasClass('active') ) {
         $('#sub-menu').css('display', 'block');  
         $('#crop-submenu').css('display', 'block');  
-        jcrop_api = $.Jcrop('#canvas');
+        jcrop_api = $.Jcrop('#canvas', { minSize:[150,150], allowSelect:false, setSelect:[0,0,150,150], onChange: updateCoor });
+				canvas_obj = $('#canvas').first();
       } else {
-        $('#sub-menu').css('display', 'none');  
-        $('#crop-submenu').css('display', 'none');  
-        jcrop_api.destroy();
+				cancel_crop();
       }
     });
 
     
     //done cropping
     $('#crop-done').click( function(){
-      $('#sub-menu').css('display', 'none');  
-      $('#crop-submenu').css('display', 'none');  
-      $('#crop').parent().toggleClass('active');
-      
       //do something to crop the picture out
 
       //then remove the jcrop api
-      jcrop_api.destroy();
+			cancel_crop();
     });
 
     //cancel cropping
     $('#crop-cancel').click( function(){
-      $('#sub-menu').css('display', 'none');  
-      $('#crop-submenu').css('display', 'none');  
-      $('#crop').parent().toggleClass('active');
-
-      //then remove the jcrop api
-      jcrop_api.destroy();
+			cancel_crop();
     });
 
 		//setup for rotate
