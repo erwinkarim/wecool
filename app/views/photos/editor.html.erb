@@ -29,7 +29,7 @@
     <% end %>
   </div>
 </div>
-<div class="row-fluid" id="crop-submenu" style="display:none;" x="0" y="0" x2="150" y2="150" >
+<div class="row-fluid" id="crop-submenu" style="display:none;" x="0" y="0" x2="0" y2="0" >
   <%= nav_bar do %>
     <%= menu_group do %>
       <%= menu_item 'Done', '#', :id => 'crop-done' %>
@@ -43,198 +43,202 @@
   </canvas>
 </div>
 <script type="text/javascript">
-  $(document).ready( function(){
-    //get canvas handle
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var origImageData, initData , imageDataDelta;
-		var img;
-    var jcrop_api, canvas_obj;
+  //Canvas handle and other variables
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  var origImageData, initData , imageDataDelta;
+  var img;
+  var jcrop_api, canvas_obj;
 
-		//load init image
-		theCanvas = {};
+  //load init image
+  theCanvas = {};
 
-		//reset the canvas
-		theCanvas.reset = function(){
-			img = new Image();
-			img.src = '<%= @photo.avatar.large.url %>';
-			canvas = document.getElementById('canvas');
-			canvas.width = img.width;
-			canvas.height = img.height;
-			$('#canvas').css('width', img.width);
-			$('#canvas').css('height', img.height);
+  //reset the canvas
+  theCanvas.reset = function(){
+    //redraw the original image and crop if required	
+    canvas = document.getElementById('canvas');
 
-			//redraw the original image	
-			ctx = canvas.getContext('2d');
-			ctx.clearRect(0,0, canvas.width, canvas.height);
-			ctx.drawImage(img, 0,0);
-			canvas_obj = $('#canvas').first();
-		};
-
-
-		//set the init data. usually called after the image has been loaded or cropped
-		theCanvas.setInitData = function(){
-			imageData = ctx.getImageData(0,0, canvas.width, canvas.height);
-			initData = new Array(imageData.data)[0];
-		};
-
-		function cancel_crop(){
-			//need to reset when they cropped it
-			$('#crop').parent().removeClass('active');
-			$('#crop-submenu').css('display', 'none');  
-			jcrop_api.destroy();
-			canvas_obj.attr('style', '');
-			$('#canvas-area').append(canvas_obj);
-	
-			//crop back the picture
-		};
-
-		function crop_picture(c){
-		};
-
-		function updateCoor(c){
-			$('#crop-submenu').attr('x', c.x);
-			$('#crop-submenu').attr('y', c.y);
-			$('#crop-submenu').attr('x2', c.x2);
-			$('#crop-submenu').attr('y2', c.y2);
-		};
+    ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    img = new Image();
+    img.src = '<%= @photo.avatar.large.url %>';
+      $('#canvas').css('width', img.width);
+      $('#canvas').css('height', img.height);
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0,0);
+    canvas_obj = $('#canvas').first();
+  };
 
 
-    //toggle crop
-    $('#crop').click( function(){
-      $('#crop').parent().toggleClass('active');
-      if ( $('#crop').parent().hasClass('active') ) {
-				//reload from orignal image
-				theCanvas.reset();
+  //set the init data. usually called after the image has been loaded or cropped
+  theCanvas.setInitData = function(){
+    imageData = ctx.getImageData(0,0, canvas.width, canvas.height);
+    initData = new Array(imageData.data)[0];
+  };
 
-				//properly set the brightness and contrast
-				theCanvas.setInitData();
-				newData = Filters.filterImage( 
-					Filters.brightnessAndContrast, document.getElementById('canvas'), 
-					$('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
-				);
-				ctx.putImageData(newData, 0,0);
+  //if canceld or toggle is pressed, re-hide the submenu
+  // and restore the picture and crop it if required
+  // and applied the  
+  function cancel_crop(){
+    //need to reset when they cropped it
+    $('#crop').parent().removeClass('active');
+    $('#crop-submenu').css('display', 'none');  
+    jcrop_api.destroy();
+    canvas_obj.attr('style', '');
+    $('#canvas-area').append(canvas_obj);
 
-				//display the submenu and the crop square
-        $('#crop-submenu').css('display', 'block');  
-        jcrop_api = $.Jcrop('#canvas', { minSize:[150,150], allowSelect:false, 
-					setSelect:[
-						$('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
-						$('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
-					],
-					onChange: updateCoor }
-				);
-      } else {
-				cancel_crop();
-      }
-    });
+    //crop back the picture
+  };
 
+  //convey the x,y and x2,y2 coordinates to the crop-submenu for tracking
+  function updateCoor(c){
+    $('#crop-submenu').attr('x', c.x);
+    $('#crop-submenu').attr('y', c.y);
+    $('#crop-submenu').attr('x2', c.x2);
+    $('#crop-submenu').attr('y2', c.y2);
+  };
+
+
+  //toggle crop
+  $('#crop').click( function(){
+    $('#crop').parent().toggleClass('active');
+    if ( $('#crop').parent().hasClass('active') ) {
+      //reload from orignal image
+      theCanvas.reset();
+
+      //properly set the brightness and contrast
+      theCanvas.setInitData();
+      newData = Filters.filterImage( 
+        Filters.brightnessAndContrast, document.getElementById('canvas'), 
+        $('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
+      );
+      ctx.putImageData(newData, 0,0);
+
+      //display the submenu and the crop square
+      $('#crop-submenu').css('display', 'block');  
+      jcrop_api = $.Jcrop('#canvas', { minSize:[150,150], allowSelect:false, 
+        setSelect:[
+          $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
+          $('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
+        ],
+        onChange: updateCoor }
+      );
+    } else {
+      cancel_crop();
+      theCanvas.crop();
+    }
+  });
+
+  theCanvas.crop = function(){
+    //crop the picture out
+    if ($('#crop-submenu').attr('x') != $('#crop-submenu').attr('x2') ){
+      newHeight = parseInt($('#crop-submenu').attr('y2') - $('#crop-submenu').attr('y'));
+      newWidth = parseInt($('#crop-submenu').attr('x2') - $('#crop-submenu').attr('x'));
+      $('#canvas').css('width', newWidth);
+      $('#canvas').css('height', newHeight);
+      canvas.height = newHeight;
+      canvas.width = newWidth;
+      ctx.clearRect(0,0, newWidth, newHeight);
     
-    //done cropping
-    $('#crop-done').click( function(){
-      //remove the jcrop api
-			cancel_crop();
+      ctx.drawImage(img, 
+        $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
+        newWidth, newHeight, 
+        0, 0, 
+        newWidth, newHeight
+      );
 
-			//crop the picture out
-			newHeight = parseInt($('#crop-submenu').attr('y2') - $('#crop-submenu').attr('y'));
-			newWidth = parseInt($('#crop-submenu').attr('x2') - $('#crop-submenu').attr('x'));
-			$('#canvas').css('width', newWidth);
-			$('#canvas').css('height', newHeight);
-			canvas.height = newHeight;
-			canvas.width = newWidth;
-			ctx.clearRect(0,0, newWidth, newHeight);
-		
-			ctx.drawImage(img, 
-				$('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
-				newWidth, newHeight, 
-				0, 0, 
-				newWidth, newHeight
-			);
+      //reset the initData to the cropped pic
+      theCanvas.setInitData();
+      newData = Filters.filterImage( 
+        Filters.brightnessAndContrast, document.getElementById('canvas'), 
+        $('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
+      );
+      ctx.putImageData(newData, 0,0);
+    }
+  }
+  
+  //done cropping
+  $('#crop-done').click( function(){
+    //remove the jcrop api
+    cancel_crop();
+    theCanvas.crop();
+  });
 
-			//reset the initData to the cropped pic
-			theCanvas.setInitData();
-			newData = Filters.filterImage( 
-				Filters.brightnessAndContrast, document.getElementById('canvas'), 
-				$('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
-			);
-			ctx.putImageData(newData, 0,0);
-			
-    });
+  //cancel cropping
+  $('#crop-cancel').click( function(){
+    cancel_crop();
+    theCanvas.crop();
+  });
 
-    //cancel cropping
-    $('#crop-cancel').click( function(){
-			cancel_crop();
-    });
+  //setup for rotate
+  $('#rotate-left').click( function(){
+  });
 
-		//setup for rotate
-		$('#rotate-left').click( function(){
-		});
+  //setup the sliders for brightness and contrast
+  $('.slider').slider({ value:0, min:-128, max:128 });
+  $('#brightness-slider').on('slide', function(event, ui){
+    $('#brightness-value').val(ui.value);
+    newData = Filters.filterImage( 
+      Filters.brightnessAndContrast, document.getElementById('canvas'), 
+      ui.value, $('#contrast-slider').slider('option', 'value') 
+    );
+    ctx.putImageData(newData, 0,0);
+  } );
 
-    //setup the sliders for brightness and contrast
-    $('.slider').slider({ value:0, min:-128, max:128 });
-    $('#brightness-slider').on('slide', function(event, ui){
-			$('#brightness-value').val(ui.value);
-			newData = Filters.filterImage( 
-				Filters.brightnessAndContrast, document.getElementById('canvas'), 
-				ui.value, $('#contrast-slider').slider('option', 'value') 
-			);
-			ctx.putImageData(newData, 0,0);
-    } );
+  $('#contrast-slider').on('slide', function(event, ui){
+    $('#contrast-value').val(ui.value);
+    newData = Filters.filterImage( 
+      Filters.brightnessAndContrast, document.getElementById('canvas'), 
+      $('#brightness-slider').slider('option', 'value'), ui.value
+    );
+    ctx.putImageData(newData, 0,0);
+  } );
 
-    $('#contrast-slider').on('slide', function(event, ui){
-			$('#contrast-value').val(ui.value);
-			newData = Filters.filterImage( 
-				Filters.brightnessAndContrast, document.getElementById('canvas'), 
-				$('#brightness-slider').slider('option', 'value'), ui.value
-			);
-			ctx.putImageData(newData, 0,0);
-    } );
+  // see http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
+  Filters = {};
 
-    // see http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
-    Filters = {};
+  Filters.getPixels = function(){
+    //return c.getContext('2d').getImageData(0,0, c.width, c.height);
+    origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
+    for( i=0; i<initData.length; i++){
+      origImageData.data[i] = initData[i];
+    }
+    return origImageData;
+  };
 
-		Filters.getPixels = function(){
-			//return c.getContext('2d').getImageData(0,0, c.width, c.height);
-			origImageData = ctx.getImageData(0,0, canvas.width, canvas.height);
-			for( i=0; i<initData.length; i++){
-				origImageData.data[i] = initData[i];
-			}
-			return origImageData;
-		};
+  Filters.filterImage = function(filter, var_args){
+    var args = [Filters.getPixels()];
+    for (var i=2; i < arguments.length; i++){
+      args.push(arguments[i]);
+    }
+  
+    return filter.apply(null, args);
+  };
 
-		Filters.filterImage = function(filter, var_args){
-			var args = [Filters.getPixels()];
-			for (var i=2; i < arguments.length; i++){
-				args.push(arguments[i]);
-			}
-		
-			return filter.apply(null, args);
-		};
+  //brightness and contrast filters
+  Filters.brightnessAndContrast = function(pixels, brightnessAdjustment, contrastAdjustment){
+    console.log('brightness: ' + brightnessAdjustment + ' contrast: ' + contrastAdjustment);
+    var d = pixels.data;
+    var contrastFactor = contrastAdjustment == 0 ? 1 : (259 * (contrastAdjustment + 255))/(255 * (259 - contrastAdjustment));
+    for (var i =0; i < d.length; i+=4){
+      d[i] = (contrastFactor * ( d[i] - 128 ) + 128) + brightnessAdjustment;
+      d[i+1] = (contrastFactor * ( d[i+1] - 128 ) + 128) + brightnessAdjustment;
+      d[i+2] = (contrastFactor * ( d[i+2] - 128 ) + 128) + brightnessAdjustment;
+    }
+    return pixels;
+  }
 
-		//brightness and contrast filters
-		Filters.brightnessAndContrast = function(pixels, brightnessAdjustment, contrastAdjustment){
-			console.log('brightness: ' + brightnessAdjustment + ' contrast: ' + contrastAdjustment);
-			var d = pixels.data;
-			var contrastFactor = contrastAdjustment == 0 ? 1 : (259 * (contrastAdjustment + 255))/(255 * (259 - contrastAdjustment));
-			for (var i =0; i < d.length; i+=4){
-				d[i] = (contrastFactor * ( d[i] - 128 ) + 128) + brightnessAdjustment;
-				d[i+1] = (contrastFactor * ( d[i+1] - 128 ) + 128) + brightnessAdjustment;
-				d[i+2] = (contrastFactor * ( d[i+2] - 128 ) + 128) + brightnessAdjustment;
-			}
+  // adjustment is 'left' or 'right'
+  Filters.rotate = function(pixels, adjustment){
+    //get pixel data
+    //rotate
+    //redraw the canvas
+    return pixels;
+  }
 
-			return pixels;
-		}
-
-		// adjustment is 'left' or 'right'
-		Filters.rotate = function(pixels, adjustment){
-			//get pixel data
-			//rotate
-			//redraw the canvas
-			return pixels;
-		}
-
-	});
-	
-	$(document).ready( function(){
-	});
+  $(document).ready( function(){
+    //setup the canvas
+    theCanvas.reset();
+  });
 </script> 
