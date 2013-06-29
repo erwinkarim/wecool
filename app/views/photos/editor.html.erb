@@ -31,10 +31,10 @@
 </div>
 <div class="row-fluid" id="crop-submenu" style="display:none;" x="0" y="0" x2="0" y2="0" >
   <%= nav_bar do %>
-    <%= menu_group do %>
-      <%= menu_item 'Done', '#', :id => 'crop-done' %>
-      <%= menu_item 'Cancel', '#', :id => 'crop-cancel' %>
-    <% end %>  
+    <form class="navbar-form pull-left">
+      <%= button_tag 'Done', :type=>'button' , :id => 'crop-done', :class=>'btn' %>
+      <%= button_tag 'Cancel', :type=>'button' , :id => 'crop-cancel', :class=>'btn' %>
+    </form>
   <% end %>
 </div>
 <div class="row-fluid" id="canvas-area">
@@ -66,10 +66,23 @@
       $('#canvas').css('height', img.height);
       canvas.width = img.width;
       canvas.height = img.height;
+    img.onload = function(){
       ctx.drawImage(img, 0,0);
+    };
     canvas_obj = $('#canvas').first();
   };
-
+  
+  //first boot. load properly
+  theCanvas.firstBoot = function(){
+    img = new Image();
+    img.src = '<%= @photo.avatar.large.url %>';
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    img.onload = function(){
+      ctx.drawImage(img, 0, 0);
+      theCanvas.setInitData();
+    }; 
+  };
 
   //set the init data. usually called after the image has been loaded or cropped
   theCanvas.setInitData = function(){
@@ -239,6 +252,6 @@
 
   $(document).ready( function(){
     //setup the canvas
-    theCanvas.reset();
+    theCanvas.firstBoot();
   });
 </script> 
