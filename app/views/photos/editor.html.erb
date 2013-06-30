@@ -81,6 +81,10 @@
     img.onload = function(){
       ctx.drawImage(img, 0, 0);
       theCanvas.setInitData();
+			$('#crop-cancel').attr('x', 0);
+			$('#crop-cancel').attr('y', 0);
+			$('#crop-cancel').attr('x2', img.width);
+			$('#crop-cancel').attr('y2', img.height);
     }; 
   };
 
@@ -117,6 +121,14 @@
   $('#crop').click( function(){
     $('#crop').parent().toggleClass('active');
     if ( $('#crop').parent().hasClass('active') ) {
+			//capture original crop co-ordinates if it's not full screen
+			if ( $('#crop-submenu').attr('x') != $('#crop-submenu').attr('x2') ) {
+				$('#crop-cancel').attr('x', $('#crop-submenu').attr('x') );
+				$('#crop-cancel').attr('y', $('#crop-submenu').attr('y') );
+				$('#crop-cancel').attr('x2', $('#crop-submenu').attr('x2') );
+				$('#crop-cancel').attr('y2', $('#crop-submenu').attr('y2') );
+			};
+
       //reload from orignal image
       theCanvas.reset();
 
@@ -139,15 +151,34 @@
       );
     } else {
       cancel_crop();
-      theCanvas.crop();
+      theCanvas.crop( true );
     }
   });
 
-  theCanvas.crop = function(){
+  theCanvas.crop = function( cancel ){
     //crop the picture out
     if ($('#crop-submenu').attr('x') != $('#crop-submenu').attr('x2') ){
-      newHeight = parseInt($('#crop-submenu').attr('y2') - $('#crop-submenu').attr('y'));
-      newWidth = parseInt($('#crop-submenu').attr('x2') - $('#crop-submenu').attr('x'));
+			if (cancel) {
+				//crop to original image or orignal crop if cancelled
+				newHeight = parseInt($('#crop-cancel').attr('y2') - $('#crop-cancel').attr('y'));
+				newWidth = parseInt($('#crop-cancel').attr('x2') - $('#crop-cancel').attr('x'));
+				startX = $('#crop-cancel').attr('x');
+				startY = $('#crop-cancel').attr('y');
+
+				//reset crop position
+				$('#crop-submenu').attr('x', $('#crop-cancel').attr('x') );
+				$('#crop-submenu').attr('x2', $('#crop-cancel').attr('x2') );
+				$('#crop-submenu').attr('y', $('#crop-cancel').attr('y') );
+				$('#crop-submenu').attr('y2', $('#crop-cancel').attr('y2') );
+			} else {
+				newHeight = parseInt($('#crop-submenu').attr('y2') - $('#crop-submenu').attr('y'));
+				newWidth = parseInt($('#crop-submenu').attr('x2') - $('#crop-submenu').attr('x'));
+				startX = $('#crop-submenu').attr('x');
+				startY = $('#crop-submenu').attr('y');
+			};
+
+			console.log('newHeight =' + newHeight);
+
       $('#canvas').css('width', newWidth);
       $('#canvas').css('height', newHeight);
       canvas.height = newHeight;
@@ -155,7 +186,7 @@
       ctx.clearRect(0,0, newWidth, newHeight);
     
       ctx.drawImage(img, 
-        $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
+				startX, startY,
         newWidth, newHeight, 
         0, 0, 
         newWidth, newHeight
@@ -181,7 +212,8 @@
   //cancel cropping
   $('#crop-cancel').click( function(){
     cancel_crop();
-    theCanvas.crop();
+		//fix this
+    theCanvas.crop(true );
   });
 
   //setup for rotate
