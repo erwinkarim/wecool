@@ -31,9 +31,13 @@
 </div>
 <div class="row-fluid" id="crop-submenu" style="display:none;" x="0" y="0" x2="0" y2="0" >
   <%= nav_bar do %>
-    <form class="navbar-form pull-left">
+    <form class="navbar-form form-inline pull-left">
       <%= button_tag 'Done', :type=>'button' , :id => 'crop-done', :class=>'btn' %>
       <%= button_tag 'Cancel', :type=>'button' , :id => 'crop-cancel', :class=>'btn' %>
+      <%= label_tag 'constraint', 'constraint' do %>
+        <%= check_box_tag 'crop-constraint-check' %> 
+      <% end %>
+      <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'] %>
     </form>
   <% end %>
 </div>
@@ -81,10 +85,10 @@
     img.onload = function(){
       ctx.drawImage(img, 0, 0);
       theCanvas.setInitData();
-			$('#crop-cancel').attr('x', 0);
-			$('#crop-cancel').attr('y', 0);
-			$('#crop-cancel').attr('x2', img.width);
-			$('#crop-cancel').attr('y2', img.height);
+        $('#crop-cancel').attr('x', 0);
+	$('#crop-cancel').attr('y', 0);
+	$('#crop-cancel').attr('x2', img.width);
+	$('#crop-cancel').attr('y2', img.height);
     }; 
   };
 
@@ -92,6 +96,16 @@
   theCanvas.setInitData = function(){
     imageData = ctx.getImageData(0,0, canvas.width, canvas.height);
     initData = new Array(imageData.data)[0];
+  };
+
+  
+  theCanvas.toggleMainMenu = function(){
+    //toggle main menu functions (enable or disable them)
+    $('.icon-sun').parent().toggleClass('disabled');
+    $('.icon-adjust').parent().toggleClass('disabled');
+    $('.icon-rotate-right').parent().toggleClass('disabled');
+    $('.icon-rotate-left').parent().toggleClass('disabled');
+    $('.icon-save').parent().toggleClass('disabled');
   };
 
   //if canceld or toggle is pressed, re-hide the submenu
@@ -149,9 +163,13 @@
         ],
         onChange: updateCoor }
       );
+
+      theCanvas.toggleMainMenu();
     } else {
       cancel_crop();
       theCanvas.crop( true );
+
+      theCanvas.toggleMainMenu();
     }
   });
 
@@ -207,13 +225,14 @@
     //remove the jcrop api
     cancel_crop();
     theCanvas.crop();
+    theCanvas.toggleMainMenu();
   });
 
   //cancel cropping
   $('#crop-cancel').click( function(){
     cancel_crop();
-		//fix this
     theCanvas.crop(true );
+    theCanvas.toggleMainMenu();
   });
 
   //setup for rotate
