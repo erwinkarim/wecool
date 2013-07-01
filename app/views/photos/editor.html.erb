@@ -37,7 +37,7 @@
       <%= label_tag 'constraint', 'constraint' do %>
         <%= check_box_tag 'crop-constraint-check' %> 
       <% end %>
-      <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'] %>
+      <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'], {}, {:disabled => 'disabled'} %>
     </form>
   <% end %>
 </div>
@@ -106,6 +106,12 @@
     $('.icon-rotate-right').parent().toggleClass('disabled');
     $('.icon-rotate-left').parent().toggleClass('disabled');
     $('.icon-save').parent().toggleClass('disabled');
+
+    //check if the crop-submenu is closed and the check box is checked, then uncheck it
+    if ( !$('icon-crop').parent().parent().hasClass('active') && $('#crop-submenu form input:checked').length != 0 ){
+      console.log('clicked');
+      $('#crop-constraint-check').click();
+    }
   };
 
   //if canceld or toggle is pressed, re-hide the submenu
@@ -171,6 +177,26 @@
 
       theCanvas.toggleMainMenu();
     }
+  });
+
+  //handle when aspect ratio is selected
+  $('#crop-constraint-check').change( function(){
+    if ( $('#crop-submenu form input:checked').length) {
+      //set aspect ratio to the crop square
+      ratio = $('#ratio_size').val().split('x');
+      jcrop_api.setOptions({ aspectRatio: ratio[0] / ratio[1] });  
+      $('#ratio_size').prop('disabled', false);
+    } else {
+      //unset aspect ratio to the crop square
+      jcrop_api.setOptions({ aspectRatio: null });
+      $('#ratio_size').prop('disabled', true);
+    };
+  });
+
+  //handle when aspect ratio select is changed
+  $('#ratio_size').change( function(){
+    ratio = $('#ratio_size').val().split('x'); 
+    jcrop_api.setOptions({ aspectRatio: ratio[0] / ratio[1] });
   });
 
   theCanvas.crop = function( cancel ){
