@@ -269,6 +269,22 @@
       ctx.putImageData(newData, 0,0);
     }
   }
+
+	theCanvas.rotate = function(direction){
+		if(direction == 'left') {
+			console.log('rotate left');
+			newData = new Array(initData.length);
+			
+			for(i = 0; i < initData.length; i+=4){
+				newData[i] = initData[i];
+				newData[i] = initData[i+1];
+				newData[i] = initData[i+2];
+				newData[i] = initData[i+3];
+			}
+		} else if (direction == 'right') {
+			console.log('rotate right');
+		}
+	}
   
   //done cropping
   $('#crop-done').click( function(){
@@ -287,6 +303,7 @@
 
   //setup for rotate
   $('#rotate-left').click( function(){
+		theCanvas.rotate('left');
   });
 
   //setup the sliders for brightness and contrast
@@ -340,14 +357,6 @@
       d[i+1] = (contrastFactor * ( d[i+1] - 128 ) + 128) + brightnessAdjustment;
       d[i+2] = (contrastFactor * ( d[i+2] - 128 ) + 128) + brightnessAdjustment;
     }
-    return pixels;
-  }
-
-  // adjustment is 'left' or 'right'
-  Filters.rotate = function(pixels, adjustment){
-    //get pixel data
-    //rotate
-    //redraw the canvas
     return pixels;
   }
 
