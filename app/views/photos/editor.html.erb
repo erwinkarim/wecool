@@ -34,10 +34,17 @@
     <form class="navbar-form form-inline pull-left">
       <%= button_tag 'Done', :type=>'button' , :id => 'crop-done', :class=>'btn' %>
       <%= button_tag 'Cancel', :type=>'button' , :id => 'crop-cancel', :class=>'btn' %>
-      <%= label_tag 'constraint', 'constraint' do %>
-        <%= check_box_tag 'crop-constraint-check' %> 
-      <% end %>
-      <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'], {}, {:disabled => 'disabled'} %>
+      <label class="checkbox">
+        <%= check_box_tag 'crop-constraint-check' %> Aspect Ratio:
+      </label>
+      <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'], 
+        {}, {:disabled => 'disabled'} %>
+      <div class="btn-group" data-toggle="buttons-radio" id="crop-orientation">
+        <%= button_tag '<i class="icon-picture"></i> Landscape'.html_safe, :type => 'button', 
+          :id => 'crop-landscape', :class => 'btn active', :disabled=>true %>
+        <%= button_tag '<i class="icon-user"></i> Potrait'.html_safe, :type => 'button', 
+          :id => 'crop-potrait', :class => 'btn' , :disabled=>true%>
+      </div>
     </form>
   <% end %>
 </div>
@@ -108,8 +115,9 @@
     $('.icon-save').parent().toggleClass('disabled');
 
     //check if the crop-submenu is closed and the check box is checked, then uncheck it
-    if ( !$('icon-crop').parent().parent().hasClass('active') && $('#crop-submenu form input:checked').length != 0 ){
-      console.log('clicked');
+    if ( !$('icon-crop').parent().parent().hasClass('active') && 
+      $('#crop-submenu form input:checked').length != 0 ){
+      //console.log('clicked');
       $('#crop-constraint-check').click();
     }
   };
@@ -186,10 +194,12 @@
       ratio = $('#ratio_size').val().split('x');
       jcrop_api.setOptions({ aspectRatio: ratio[0] / ratio[1] });  
       $('#ratio_size').prop('disabled', false);
+      $('#crop-orientation button').prop('disabled', false);
     } else {
       //unset aspect ratio to the crop square
       jcrop_api.setOptions({ aspectRatio: null });
       $('#ratio_size').prop('disabled', true);
+      $('#crop-orientation button').prop('disabled', true);
     };
   });
 
@@ -197,6 +207,20 @@
   $('#ratio_size').change( function(){
     ratio = $('#ratio_size').val().split('x'); 
     jcrop_api.setOptions({ aspectRatio: ratio[0] / ratio[1] });
+  });
+
+  //handle when crop square orientation changed
+  $('#crop-orientation button').click( function() {
+    //flip each
+    $('#ratio_size option').each( function(){
+      ratio = $(this).val().split('x');
+      $(this).val( ratio[1] + 'x' + ratio[0] );
+      $(this).text( ratio[1] + 'x' + ratio[0] );
+    });
+
+    //reset the aspect ratio
+    newRatio = $('#ratio_size option:selected').val().split('x'); 
+    jcrop_api.setOptions({ aspectRatio: newRatio[0]/newRatio[1] });
   });
 
   theCanvas.crop = function( cancel ){
@@ -221,7 +245,7 @@
 				startY = $('#crop-submenu').attr('y');
 			};
 
-			console.log('newHeight =' + newHeight);
+			//console.log('newHeight =' + newHeight);
 
       $('#canvas').css('width', newWidth);
       $('#canvas').css('height', newHeight);
@@ -308,7 +332,7 @@
 
   //brightness and contrast filters
   Filters.brightnessAndContrast = function(pixels, brightnessAdjustment, contrastAdjustment){
-    console.log('brightness: ' + brightnessAdjustment + ' contrast: ' + contrastAdjustment);
+    //console.log('brightness: ' + brightnessAdjustment + ' contrast: ' + contrastAdjustment);
     var d = pixels.data;
     var contrastFactor = contrastAdjustment == 0 ? 1 : (259 * (contrastAdjustment + 255))/(255 * (259 - contrastAdjustment));
     for (var i =0; i < d.length; i+=4){
