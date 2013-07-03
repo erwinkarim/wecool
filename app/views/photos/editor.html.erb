@@ -271,19 +271,34 @@
   }
 
 	theCanvas.rotate = function(direction){
+    newData = new Array(initData.length);
 		if(direction == 'left') {
 			console.log('rotate left');
-			newData = new Array(initData.length);
-			
-			for(i = 0; i < initData.length; i+=4){
-				newData[i] = initData[i];
-				newData[i] = initData[i+1];
-				newData[i] = initData[i+2];
-				newData[i] = initData[i+3];
-			}
+      
+      //resize the canvas
+      newWidth = canvas.height;
+      newHeight = canvas.width;
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      $('#canvas').width(newWidth);
+      $('#canvas').height(newHeight);
+
+      //rotate the canvas at center point
+      ctx.translate(newWidth/2, newHeight/2);
+      ctx.rotate( (Math.PI/180) * -90);
+      ctx.translate(-newWidth/2, -newHeight/2);
+
+      //redraw the image
+      ctx.clearRect(0,0, newWidth, newHeight);
+      ctx.drawImage(img, 0,0);
+      ctx.restore;
+		
 		} else if (direction == 'right') {
 			console.log('rotate right');
+
 		}
+
+    return newData;
 	}
   
   //done cropping
