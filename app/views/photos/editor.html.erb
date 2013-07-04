@@ -50,7 +50,7 @@
 </div>
 <div class="row-fluid" id="canvas-area">
   <% img = ::Magick::Image::read(@photo.avatar.large.path).first %>
-  <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" style="max-width:none; width:<%= img.columns %>px;" >
+  <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" style="max-width:none; width:<%= img.columns %>px;" rotation=0 >
   </canvas>
 </div>
 <script type="text/javascript">
@@ -273,30 +273,29 @@
 	theCanvas.rotate = function(direction){
     newData = new Array(initData.length);
 		if(direction == 'left') {
-			console.log('rotate left');
-      
-      //resize the canvas
-      newWidth = canvas.height;
-      newHeight = canvas.width;
-      canvas.width = newWidth;
-      canvas.height = newHeight;
-      $('#canvas').width(newWidth);
-      $('#canvas').height(newHeight);
-
-      //rotate the canvas at center point
-      ctx.translate(newWidth/2, newHeight/2);
-      ctx.rotate( (Math.PI/180) * -90);
-      ctx.translate(-newWidth/2, -newHeight/2);
-
-      //redraw the image
-      ctx.clearRect(0,0, newWidth, newHeight);
-      ctx.drawImage(img, 0,0);
-      ctx.restore;
-		
+      $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '0' ? '270' : $('#canvas').attr('rotation') - 90);
 		} else if (direction == 'right') {
-			console.log('rotate right');
-
+      $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '360' ? '0' : parseInt($('#canvas').attr('rotation')) + 90);
 		}
+    
+    //setup new dimension and resize the canvas
+    newWidth = canvas.height;
+    newHeight = canvas.width;
+
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+
+    //rotate the canvas at center point
+    ctx.translate(newWidth/2, newHeight/2);
+    ctx.rotate( (Math.PI/180) * parseInt( $('#canvas').attr('rotation') ) );
+
+    //redraw the image
+    //TODO: fix this to redraw based on the cropped area
+    ctx.drawImage(img, -img.width/2,-img.height/2);
+    //TODO: apply brightness/contrast modifiers
+
+    ctx.restore;
+  
 
     return newData;
 	}
@@ -319,6 +318,10 @@
   //setup for rotate
   $('#rotate-left').click( function(){
 		theCanvas.rotate('left');
+  });
+
+  $('#rotate-right').click( function(){
+		theCanvas.rotate('right');
   });
 
   //setup the sliders for brightness and contrast
