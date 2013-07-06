@@ -160,6 +160,8 @@
       //reload from orignal image
       theCanvas.reset();
 
+			//TODO: show img based on orientation and show the crop by orientation too.
+
       //properly set the brightness and contrast
       theCanvas.setInitData();
       newData = Filters.filterImage( 
@@ -272,10 +274,31 @@
 
 	theCanvas.rotate = function(direction){
     newData = new Array(initData.length);
+		origXY = [
+			parseInt($('#crop-submenu').attr('x')),
+			parseInt($('#crop-submenu').attr('y')),
+			parseInt($('#crop-submenu').attr('x2')),
+			parseInt($('#crop-submenu').attr('y2')),
+		];	
+		
+		//add rotation data
+		//switch the coordinate system appriopiately
 		if(direction == 'left') {
       $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '0' ? '270' : $('#canvas').attr('rotation') - 90);
+			newXy = [
+				$('#crop-submenu').attr('x'),
+				$('#crop-submenu').attr('y2'),
+				$('#crop-submenu').attr('x2'),
+				$('#crop-submenu').attr('y')
+			];
 		} else if (direction == 'right') {
       $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '360' ? '0' : parseInt($('#canvas').attr('rotation')) + 90);
+			newXy = [
+				$('#crop-submenu').attr('x2'),
+				$('#crop-submenu').attr('y'),
+				$('#crop-submenu').attr('x'),
+				$('#crop-submenu').attr('y2')
+			];
 		}
     
     //setup new dimension and resize the canvas
@@ -283,17 +306,33 @@
     newHeight = canvas.width;
 
     canvas.width = newWidth;
+		$('#canvas').width(newWidth);
     canvas.height = newHeight;
+		$('#canvas').height(newHeight);
 
     //rotate the canvas at center point
     ctx.translate(newWidth/2, newHeight/2);
     ctx.rotate( (Math.PI/180) * parseInt( $('#canvas').attr('rotation') ) );
 
-    //redraw the image
-    //TODO: fix this to redraw based on the cropped area
-    ctx.drawImage(img, -img.width/2,-img.height/2);
-    //TODO: apply brightness/contrast modifiers
+    //redraw the image based on crop settings
+		imgWidth = origXY[0] == origXY[2] ? img.width : origXY[2] - origXY[0];
+		imgHeight = origXY[1] == origXY[3] ? img.height : origXY[3] - origXY[1];
+    ctx.drawImage(img, 
+			origXY[0],origXY[1],
+			imgWidth, imgHeight,
+			-imgWidth/2, -imgHeight/2,
+			imgWidth, imgHeight
+		);
 
+    // apply brightness/contrast modifiers
+		theCanvas.setInitData();
+		newData = Filters.filterImage( 
+			Filters.brightnessAndContrast, document.getElementById('canvas'), 
+			$('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
+		);
+		ctx.putImageData(newData, 0,0);
+
+		//restore the coordinate system for next use
     ctx.restore;
   
 
