@@ -3,12 +3,17 @@
     <%= nav_bar do %>
       <% menu_group do %>
 				<%= drop_down '<i class="icon-save icon-4x"></i>'.html_safe do %>
-					<%= menu_item 'Upload as a new photo', '#' %>
-					<%= menu_item 'Replace current photo' ,'#' %>
+					<%= menu_item 'Upload as a new photo', '#', :id => 'photo-upload-new' %>
+					<%= menu_item 'Replace current photo' ,'#', :id => 'photo-replace-current' %>
+          <%= menu_divider %>
+          <%= menu_item 'Download the photo', '#', :id =>'photo-download' %>
 				<% end %>
         <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#', :id => 'crop'  %>
+        <!--
+          deal with this when website is launched
         <%= menu_item '<i class="icon-rotate-left icon-4x"></i>'.html_safe , '#', :id => 'rotate-left' %>
         <%= menu_item '<i class="icon-rotate-right icon-4x"></i>'.html_safe, '#', :id => 'rotate-right' %>
+        -->
         <%= drop_down '<i class="icon-sun icon-4x"></i>'.html_safe do %>
             <li style="padding:3px 20px;">
               <div class="row-fluid slider" id="brightness-slider" style="margin:10px 0px;"></div>
@@ -161,7 +166,7 @@
       theCanvas.reset();
 
 			//TODO: show img based on proper orientation and show the crop by orientation too.
-      theCanvas.displayRotatedImage();
+      //theCanvas.displayRotatedImage();
 
       //properly set the brightness and contrast
       theCanvas.setInitData();
@@ -182,6 +187,7 @@
       );
 
       theCanvas.toggleMainMenu();
+    
     } else {
       cancel_crop();
       theCanvas.crop( true );
@@ -250,13 +256,14 @@
 
 			//console.log('newHeight =' + newHeight);
 
+      //rotate the image then cropped it 
       $('#canvas').css('width', newWidth);
       $('#canvas').css('height', newHeight);
       canvas.height = newHeight;
       canvas.width = newWidth;
       ctx.clearRect(0,0, newWidth, newHeight);
    
-      //rotate the image then cropped it 
+      
 
       ctx.drawImage(img, 
 				startX, startY,
@@ -294,6 +301,7 @@
     $('#canvas').height(newHeight);
 
     //rotate the canvas at center point
+    ctx.clearRect(0,0, img.width, img.height);
     ctx.translate(newWidth/2, newHeight/2);
     ctx.rotate( (Math.PI/180) * parseInt( $('#canvas').attr('rotation') ) );
    
@@ -301,14 +309,18 @@
     ctx.drawImage(img, -img.width/2, -img.height/2);
 
     //apply brightness/contrast settings
+    /*
 		theCanvas.setInitData();
 		newData = Filters.filterImage( 
 			Filters.brightnessAndContrast, document.getElementById('canvas'), 
 			$('#brightness-slider').slider('option', 'value'), $('#contrast-slider').slider('option', 'value') 
 		);
 		ctx.putImageData(newData, 0,0);
+    */
 
-    ctx.restore();
+    //set the coordinate back to the top-left hand conner
+    ctx.translate(-newWidth/2, -newHeight/2);
+    //ctx.restore();
   };
 
   /*rotate the picture
