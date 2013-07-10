@@ -58,6 +58,34 @@
             <%= render :template => 'photos/shareDropdown', :locals => { :photo => @photo, :persona => @persona }  %>
           </li>
           <!-- end of dropdown menu for sharing -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+              id="infoMenu"><i class="icon-info"></i> Extra Info<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= form_tag '3', :style=>'padding:3px 20px;' do %>
+                  <div>
+                    <% if !@exif[:date_time_original].nil? then %>
+                      <div class="control-group">
+                        <label>Taken: </label> 
+                        <%= 
+                          text_field_tag 'taken', 
+                            distance_of_time_in_words( DateTime.now, @exif[:date_time_original]  )+' ago.', 
+                            :disabled => true
+                        %>
+                      </div>
+                    <% end %>
+                    <% if !@exif[:model].nil? then %>
+                      <p>
+                        Taken using <%= @exif[:model] %> with settings of aperture of f/<%= @exif[:f_number].to_f %>, exposure of <%= @exif[:exposure_time] %>s and focal length of <%= @exif[:focal_length].to_f%>mm  
+                      </p>
+                <%= link_to 'More Data', photo_view_exif_path(@persona.screen_name, @photo), 
+                  :class => 'btn btn-info' %>
+                    <% end %>
+                <% end %>
+              </li>
+            <ul>
+          </li>
         </ul>
       </div>
     </div><!-- navbar -->
@@ -189,111 +217,115 @@
 </div><!-- row -->
 
 <!-- photo-gallery -->
-<div class="accordion" id="accordion2">
-  <div class="accordion-group">
-      <!-- show which mediasets this photo belongs to -->
-    <div class="accordion-heading">
-      <h3>
-        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapseDefault', 
-          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
-          :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, 
-            photo_path(@persona.screen_name, :view=>'raw') %>
-      </h3>
-    </div>
-    <div class="accordion-body collapse <%= params[:scope].nil? ? 'in' : '' %>" id="collapseDefault">
-      <div class="accordion-inner">
-        <div class="row-fluid">
-          <%= button_tag 'Load Newer', 
-            { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadPrevPhotosBtn' } %>
+<div class ="row-fluid">
+  <div class="span12">
+    <div class="accordion" id="accordion2">
+      <div class="accordion-group">
+          <!-- show which mediasets this photo belongs to -->
+        <div class="accordion-heading">
+          <h3>
+            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapseDefault', 
+              :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
+              :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, 
+                photo_path(@persona.screen_name, :view=>'raw') %>
+          </h3>
         </div>
-        <div id="photostream" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>">
-        </div>
-        <div class="row-fluid">
-          <%= button_tag 'Load Older', 
-            { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMorePhotosBtn' } %>
-        </div>
-      </div>
-    </div>
-  </div>
-  <% if @photo.featured then %>
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <h3>
-          <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
-            :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
-            :style=>'display:inline;'  %><%= link_to 'Featured photos by '+@persona.screen_name, 
-              photo_path(@persona.screen_name) %>
-        </h3>
-      </div>
-      <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
-        <div class="accordion-inner">
+        <div class="accordion-body collapse <%= params[:scope].nil? ? 'in' : '' %>" id="collapseDefault">
+          <div class="accordion-inner">
             <div class="row-fluid">
               <%= button_tag 'Load Newer', 
-                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadNewerFeaturedBtn' } %>
+                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadPrevPhotosBtn' } %>
             </div>
-            <div id="featuredPhotos" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>" >
+            <div id="photostream" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>">
             </div>
             <div class="row-fluid">
               <%= button_tag 'Load Older', 
-                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadOlderFeaturedBtn' } %>
+                { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMorePhotosBtn' } %>
             </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-  <% @photo.mediasets.each do |mediaset| %>
-    <div class="accordion-group">  
-      <div class="accordion-heading">
-        <h3>
-        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse'+mediaset.id.to_s, 
-          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
-          :style=>'display:inline;' %><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
-        </h3>
-      </div>
-      <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
-        <div class="accordion-inner">
-          <div class="row-fluid">
-            <%= button_tag 'Load Newer', 
-              { :class => 'btn btn-mini btn-info', :role => 'button', 
-                :id => 'loadNewerMediaset-' + mediaset.id.to_s + '-btn' } %>
-          </div>
-          <% photo_order = @photo.mediaset_photos.where( :mediaset_id => mediaset).pluck('"order"').first %>
-          <div class="row-fluid" id="mediaset-<%= mediaset.id %>" 
-            first="<%= photo_order %>" last="<%= photo_order %>" >
-          </div>
-          <div class="row-fluid">
-            <%= button_tag 'Load Older', 
-              { :class => 'btn btn-mini btn-info', :role => 'button', 
-                :id => 'loadOlderMediaset-' + mediaset.id.to_s + '-btn' } %>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
-  <!-- tag related photos -->
-  <% if !@related_photos.first.nil? then %>
-    <div class="accordion-group">  
-      <div class="accordion-heading">
-        <h3>
-        <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse_related',
-          :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
-          :style=>'display:inline;' %><%= link_to 'Related Photos', tag_related_path(@photo) %>
-        </h3>
-      </div>
-      <div class="accordion-body collapse" id="collapse_related">
-        <div class="accordion-inner">
-          <div class="row-fluid" id="related-photos" last="0">
+      <% if @photo.featured then %>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <h3>
+              <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
+                :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
+                :style=>'display:inline;'  %><%= link_to 'Featured photos by '+@persona.screen_name, 
+                  photo_path(@persona.screen_name) %>
+            </h3>
           </div>
-          <div class="row-fluid">
-            <%= button_tag 'Load More', 
-              { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMoreRelatedBtn' } %>
+          <div class="accordion-body collapse <%= params[:scope] == 'featured' ? 'in' : '' %>" id="collapsedFeatured">
+            <div class="accordion-inner">
+                <div class="row-fluid">
+                  <%= button_tag 'Load Newer', 
+                    { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadNewerFeaturedBtn' } %>
+                </div>
+                <div id="featuredPhotos" class="row-fluid" first="<%= @photo.id %>" last="<%= @photo.id %>" >
+                </div>
+                <div class="row-fluid">
+                  <%= button_tag 'Load Older', 
+                    { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadOlderFeaturedBtn' } %>
+                </div>
+            </div>
           </div>
         </div>
-      
-      </div>
-    </div>
-  <% end %>
+      <% end %>
+      <% @photo.mediasets.each do |mediaset| %>
+        <div class="accordion-group">  
+          <div class="accordion-heading">
+            <h3>
+            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse'+mediaset.id.to_s, 
+              :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
+              :style=>'display:inline;' %><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
+            </h3>
+          </div>
+          <div class="accordion-body collapse <%= @current_mediaset == mediaset ? 'in' : '' %>" id="collapse<%= mediaset.id %>">
+            <div class="accordion-inner">
+              <div class="row-fluid">
+                <%= button_tag 'Load Newer', 
+                  { :class => 'btn btn-mini btn-info', :role => 'button', 
+                    :id => 'loadNewerMediaset-' + mediaset.id.to_s + '-btn' } %>
+              </div>
+              <% photo_order = @photo.mediaset_photos.where( :mediaset_id => mediaset).pluck('"order"').first %>
+              <div class="row-fluid" id="mediaset-<%= mediaset.id %>" 
+                first="<%= photo_order %>" last="<%= photo_order %>" >
+              </div>
+              <div class="row-fluid">
+                <%= button_tag 'Load Older', 
+                  { :class => 'btn btn-mini btn-info', :role => 'button', 
+                    :id => 'loadOlderMediaset-' + mediaset.id.to_s + '-btn' } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <!-- tag related photos -->
+      <% if !@related_photos.first.nil? then %>
+        <div class="accordion-group">  
+          <div class="accordion-heading">
+            <h3>
+            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse_related',
+              :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
+              :style=>'display:inline;' %><%= link_to 'Related Photos', tag_related_path(@photo) %>
+            </h3>
+          </div>
+          <div class="accordion-body collapse" id="collapse_related">
+            <div class="accordion-inner">
+              <div class="row-fluid" id="related-photos" last="0">
+              </div>
+              <div class="row-fluid">
+                <%= button_tag 'Load More', 
+                  { :class => 'btn btn-mini btn-info', :role => 'button', :id => 'loadMoreRelatedBtn' } %>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      <% end %>
 </div>
+  </div><!-- span8-->
+</div><!-- row for the image gallery -->
 
 
 <!-- modal for updating mediaset selection -->

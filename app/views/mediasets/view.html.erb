@@ -109,6 +109,7 @@
         $('#mediaset-show-featured-photos').toggleClass('active');
         
         loadConditions['featured'] = $('#mediaset-show-all-photos').hasClass('active') ? ['true', 'false'] : 'true';
+        loadConditions['includeFirst'] = true;
         $('.last-div').find('.carousel').detach();
         $('.endless-photos').attr('last', '1');
         $.ajax({

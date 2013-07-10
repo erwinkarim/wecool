@@ -14,6 +14,7 @@
         <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#', :id => 'crop'  %>
         <!--
           deal with this when website is launched
+          rotation  + crop is harder than i thought
         <%= menu_item '<i class="icon-rotate-left icon-4x"></i>'.html_safe , '#', :id => 'rotate-left' %>
         <%= menu_item '<i class="icon-rotate-right icon-4x"></i>'.html_safe, '#', :id => 'rotate-right' %>
         -->
@@ -114,6 +115,7 @@
   };
 
   
+  //enable or disable buttons in the main menu
   theCanvas.toggleMainMenu = function(){
     //toggle main menu functions (enable or disable them)
     $('.icon-sun').parent().toggleClass('disabled');
@@ -130,7 +132,7 @@
     }
   };
 
-  //if canceld or toggle is pressed, re-hide the submenu
+  //if cancel or toggle is pressed, re-hide the submenu
   // and restore the picture and crop it if required
   // and applied the  
   function cancel_crop(){
@@ -152,12 +154,14 @@
     $('#crop-submenu').attr('y2', c.y2);
   };
 
-  //save files or shit
+  //send the files to your machine
   $('#photo-download').click( function(){
     Canvas2Image.saveAsJPEG(canvas);
   });
 
-  //toggle crop
+  //toggle the crop button
+  // if open, show the crop square
+  // if close, cancel the crop process
   $('#crop').click( function(){
     $('#crop').parent().toggleClass('active');
     if ( $('#crop').parent().hasClass('active') ) {
@@ -173,7 +177,7 @@
       theCanvas.reset();
 
 			//TODO: show img based on proper orientation and show the crop by orientation too.
-      //theCanvas.displayRotatedImage();
+      theCanvas.displayRotatedImage();
 
       //properly set the brightness and contrast
       theCanvas.setInitData();
@@ -243,6 +247,7 @@
     //crop the picture out
     if ($('#crop-submenu').attr('x') != $('#crop-submenu').attr('x2') ){
 			if (cancel) {
+
 				//crop to original image or orignal crop if cancelled
 				newHeight = parseInt($('#crop-cancel').attr('y2') - $('#crop-cancel').attr('y'));
 				newWidth = parseInt($('#crop-cancel').attr('x2') - $('#crop-cancel').attr('x'));
@@ -263,15 +268,14 @@
 
 			//console.log('newHeight =' + newHeight);
 
-      //rotate the image then cropped it 
+
       $('#canvas').css('width', newWidth);
       $('#canvas').css('height', newHeight);
       canvas.height = newHeight;
       canvas.width = newWidth;
       ctx.clearRect(0,0, newWidth, newHeight);
    
-      
-
+      //rotate the image
       ctx.drawImage(img, 
 				startX, startY,
         newWidth, newHeight, 
@@ -347,20 +351,22 @@
 		//add rotation data
 		//switch the coordinate system appriopiately
 		if(direction == 'left') {
-      $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '0' ? '270' : $('#canvas').attr('rotation') - 90);
+      $('#canvas').attr('rotation', 
+        $('#canvas').attr('rotation') == '0' ? '270' : $('#canvas').attr('rotation') - 90
+      );
 			newXy = [
-				$('#crop-submenu').attr('x'),
 				$('#crop-submenu').attr('y2'),
-				$('#crop-submenu').attr('x2'),
-				$('#crop-submenu').attr('y')
+				$('#crop-submenu').attr('x'),
+				$('#crop-submenu').attr('y'),
+				$('#crop-submenu').attr('x2')
 			];
 		} else if (direction == 'right') {
       $('#canvas').attr('rotation', $('#canvas').attr('rotation') == '360' ? '0' : parseInt($('#canvas').attr('rotation')) + 90);
 			newXy = [
-				$('#crop-submenu').attr('x2'),
 				$('#crop-submenu').attr('y'),
-				$('#crop-submenu').attr('x'),
-				$('#crop-submenu').attr('y2')
+				$('#crop-submenu').attr('x2'),
+				$('#crop-submenu').attr('y2'),
+				$('#crop-submenu').attr('x')
 			];
 		}
 
@@ -399,6 +405,11 @@
 		//restore the coordinate system for next use
     ctx.restore;
   
+    //setup new coordinates for the crop square
+    $('#crop-submenu').attr('x', newXy[0]);
+    $('#crop-submenu').attr('y', newXy[1]);
+    $('#crop-submenu').attr('x2', newXy[2]);
+    $('#crop-submenu').attr('y2', newXy[3]);
 
     return newData;
 	}

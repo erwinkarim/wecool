@@ -282,6 +282,9 @@ class PhotosController < ApplicationController
       @next_photo_path = @next_photo.nil? ? '#' : photo_view_path(@persona.screen_name, @next_photo) + '#photo'
     end
 
+    #capture addional info
+    @exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+
     respond_to do |format|
       format.html # view.html.erb
       format.json { render json: @photo.to_jq_upload.to_json, status: :created, location: @photo }
