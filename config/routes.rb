@@ -64,6 +64,8 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/clear_from_queue/:photo_id' => :clear_from_upload_queue, :via => :post, 
       :as => 'photo_clear_queue'
     match '/photos/:persona_id/share' => :share, :via => :post, :as => 'photo_share'
+    #match '/photos/download' => :download, :via => :post, :as => 'photo_download'
+    match '/photos/:persona_id/dl_test' => :dl_test, :via => :get, :as => 'photos_dl_test'
   end
 
   controller :followers do

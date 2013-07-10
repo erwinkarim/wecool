@@ -3,10 +3,13 @@
     <%= nav_bar do %>
       <% menu_group do %>
 				<%= drop_down '<i class="icon-save icon-4x"></i>'.html_safe do %>
+          <!-- 
+            this is harder than i thought
 					<%= menu_item 'Upload as a new photo', '#', :id => 'photo-upload-new' %>
 					<%= menu_item 'Replace current photo' ,'#', :id => 'photo-replace-current' %>
-          <%= menu_divider %>
-          <%= menu_item 'Download the photo', '#', :id =>'photo-download' %>
+          <%= drop_down_divider %>
+          -->
+          <%= menu_item 'Download', '#', :id =>'photo-download' %>
 				<% end %>
         <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#', :id => 'crop'  %>
         <!--
@@ -149,6 +152,10 @@
     $('#crop-submenu').attr('y2', c.y2);
   };
 
+  //save files or shit
+  $('#photo-download').click( function(){
+    Canvas2Image.saveAsJPEG(canvas);
+  });
 
   //toggle crop
   $('#crop').click( function(){

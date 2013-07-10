@@ -506,4 +506,8 @@ class PhotosController < ApplicationController
       format.js
     end
   end
+
+  # GET    /photos/:persona_id/dl_test
+  def dl_test
+  end
 end
