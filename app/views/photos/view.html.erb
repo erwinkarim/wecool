@@ -63,25 +63,58 @@
               id="infoMenu"><i class="icon-info"></i> Extra Info<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li>
-                <%= form_tag '3', :style=>'padding:3px 20px;' do %>
-                  <div>
-                    <% if !@exif[:date_time_original].nil? then %>
-                      <div class="control-group">
-                        <label>Taken: </label> 
-                        <%= 
-                          text_field_tag 'taken', 
-                            distance_of_time_in_words( DateTime.now, @exif[:date_time_original]  )+' ago.', 
-                            :disabled => true
-                        %>
-                      </div>
-                    <% end %>
-                    <% if !@exif[:model].nil? then %>
-                      <p>
-                        Taken using <%= @exif[:model] %> with settings of aperture of f/<%= @exif[:f_number].to_f %>, exposure of <%= @exif[:exposure_time] %>s and focal length of <%= @exif[:focal_length].to_f%>mm  
-                      </p>
-                <%= link_to 'More Data', photo_view_exif_path(@persona.screen_name, @photo), 
-                  :class => 'btn btn-info' %>
-                    <% end %>
+                <%= form_tag '3', :style=>'padding:3px 20px;', :class=>'form-horizontal' do %>
+                  <% if @exif.nil? then %>
+                    No data
+                  <% else %>
+                    <div>
+                      <% if !@exif[:date_time_original].nil? then %>
+                        <div class="control-group">
+                          <label class="control-label"><i class="icon-calendar"></i></label> 
+                          <div class="controls">
+                            <%= text_field_tag 'taken', 
+                                  distance_of_time_in_words( DateTime.now, @exif[:date_time_original]  )+' ago.', :disabled => true
+                            %>
+                          </div>
+                        </div>
+                      <% end %>
+                      <% if !@exif[:model].nil? then %>
+                        <div class="control-group">
+                          <label class="control-label"><i class="icon-camera"></i></label>
+                          <div class="controls"><%= text_field_tag 'model', @exif[:model], :disabled => true %></div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label"><i class="icon-circle-blank"></i></label>
+                          <div class="controls">
+                            <%= text_field_tag 'aperture', 'f/'+@exif[:f_number].to_f.to_s , :disabled => true %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label"><i class="icon-eye-open"></i></label>
+                          <div class="controls">
+                            <%= text_field_tag 'shutter', @exif[:exposure_time].to_s + 's' , :disabled => true %>
+                           </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label"><i class="icon-resize-horizontal"></i></label>
+                          <div class="controls">
+                            <%= text_field_tag 'focal-length', @exif[:focal_length].to_f.to_s + ' mm' , :disabled => true %></div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">ISO</label>
+                          <div class="controls"><%= text_field_tag 'iso', @exif[:iso_speed_ratings] , :disabled => true %></div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">
+                            <i class="icon-plus-sign-alt icon-white"></i><i class="icon-minus-sign-alt"></i>
+                          </label>
+                          <div class="controls"><%= text_field_tag 'iso', @exif[:exposure_bias_value] , :disabled => true %></div>
+                        </div>
+                      <% end %>
+                      <%= link_to 'More Data', photo_view_exif_path(@persona.screen_name, @photo), 
+                        :class => 'btn btn-info' %>
+                    </div>
+                  <% end %>
                 <% end %>
               </li>
             <ul>
