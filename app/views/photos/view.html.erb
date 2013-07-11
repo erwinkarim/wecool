@@ -80,6 +80,14 @@
                           %>
                         </div>
                         <div class="input-prepend">
+                          <span class="add-on" data-toggle="tooltip" title="Location">
+                            <i class="icon-map-marker"></i>
+                          </span>
+                          <%= text_field_tag 'model', @exif[:gps_latitude_ref].nil?  ? 
+                            'No Data' : @exif[:gps_latitude_ref] + ' ' + @exif[:gps_latitude].to_f.round(4).to_s + ' ' + 
+                              @exif[:gps_longitude_ref] + ' ' + @exif[:gps_longitude].to_f.round(4).to_s, :disabled => true %>
+                        </div>
+                        <div class="input-prepend">
                           <span class="add-on" data-toggle="tooltip" title="Camera Model">
                             <i class="icon-camera"></i>
                           </span>
