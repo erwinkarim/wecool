@@ -12,8 +12,10 @@
           <tr class="mediasetSelectionRow"><td>
             <div class="pull-left">
               <big>
-                <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo), :style => 'display:none;' %> 
-                <%= image_tag ( mediaset.photos.empty? ? 'icon/zero-photo/square50.jpg' : mediaset.photos.first.avatar.square50 )%>
+                <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo), 
+                  :style => 'display:none;' %> 
+                <%= image_tag ( mediaset.photos.empty? ? 'icon/zero-photo/square50.jpg' : 
+                  mediaset.photos.first.avatar.square50 )%>
                 <%= mediaset.title %>
               </big>
             </div>
@@ -66,10 +68,20 @@
   //generate form in #selectMediaset if photo.id.nil is false
   <% if !photo.id.nil? then %>
     $('#selectMediaset').wrapInner(
-      $('<form/>', {
-        action:'<%= photo_update_setlist_path(@persona.screen_name, photo.id) %>', method:'post' 
-      })
+      /*
+        $('<form/>', {
+          action:'<%= photo_update_setlist_path(@persona.screen_name, photo.id) %>', method:'post' 
+        })
+      */
+      '<%= escape_javascript(form_tag( photo_update_setlist_path(@persona.screen_name, photo.id))+"</form>".html_safe)  %>' 
     );
+    //reattach to the the form as wrapiiner will push to the first input
+    handle = $('#selectMediaset').find('.modal-header').detach();
+    $('#selectMediaset').find('form').append(handle);
+    handle = $('#selectMediaset').find('.modal-body').detach();
+    $('#selectMediaset').find('form').append(handle);
+    handle = $('#selectMediaset').find('.modal-footer').detach();
+    $('#selectMediaset').find('form').append(handle);
   <% end %>
   $(document).ready(function() {
       $("#newMediaset").hide();

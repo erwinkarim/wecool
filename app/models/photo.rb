@@ -84,8 +84,13 @@ class Photo < ActiveRecord::Base
     #end
 
     current_selection = self.mediasets
-    new_selection = Mediaset.find(newSetlist)
+    if newSetlist.nil? || newSetlist.empty? then
+      new_selection = Array.new
+    else
+      new_selection = Mediaset.find(newSetlist)
+    end
     if current_selection.empty? && !new_selection.empty? then
+      #brand new selection, only adding new ones 
       new_selection.each do |mediaset|
         self.mediaset_photos.create(:mediaset_id => mediaset.id, 
           :order => Mediaset.find(mediaset).mediaset_photos.pluck('"order"').max.to_i + 1 
@@ -109,6 +114,11 @@ class Photo < ActiveRecord::Base
             :all, :conditions => {:mediaset_id => mediaset.id}
           ))
         end
+      end
+    elsif !current_selection.empty? && new_selection.empty? then
+      #clear out mediaset association
+      current_selection.each do |mediaset|
+        self.mediaset_photos.destroy(self.mediaset_photos.where(:mediaset_id => mediaset.id) )
       end
     end
   end
