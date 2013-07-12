@@ -67,3 +67,7 @@ gem 'twitter-text'
 gem 'acts-as-taggable-on'
 
 gem 'paper_trail', '~> 2'
+
+#for heroku
+gem 'heroku'
+gem 'foreman'
