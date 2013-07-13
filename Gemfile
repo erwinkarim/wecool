@@ -6,8 +6,8 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #for development use sqlite3, heroku use pg
-#gem 'sqlite3'
-gem 'pg'
+gem 'sqlite3', :group => :development
+gem 'pg', :group => :production
 
 
 # Gems used only for assets and not required
