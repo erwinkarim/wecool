@@ -49,12 +49,14 @@ Wecool::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
 
+  config.action_mailer.perform_deliveries = true
+
   # Disable delivery errors, bad email addresses will be ignored
   config.action_mailer.raise_delivery_errors = false
   #
 
   # Mail defaults
-  config.action_mailer.default_url_options = { :host => 'localhost' }
+  config.action_mailer.default_url_options = { :host => 'fast-reaches-4090.herokuapp.com' }
 
   # Enable threaded mode
   # config.threadsafe!
