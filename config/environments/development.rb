@@ -21,6 +21,12 @@ Wecool::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  # send to stdout
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get(
+    ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG'
+  )
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
