@@ -493,6 +493,11 @@
       if( $('.isFeatured').hasClass('icon-star') ){
         $('#visibilityBox').find('a').popover();
       }
+      
+      //some spinning picture to indicate the pictures are comming
+      function accordionLoad(){
+        console.log('loading images..');
+      };
 
       $('#loadPrevPhotosBtn').click( function(){
         //load more
@@ -500,8 +505,9 @@
           url: '/photos/get_more/' + $('#photostream').attr('first'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
             author:'<%= @persona.screen_name %>', showIndicators:false, direction:'reverse' },
+          beforeSend: accordionLoad(),
           dataType: 'script'
-        });
+        })
       });
 
       $('#loadMorePhotosBtn').click( function(){
@@ -510,6 +516,7 @@
           url: '/photos/get_more/' + $('#photostream').attr('last'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
             author:'<%= @persona.screen_name %>', showIndicators:false},
+          beforeSend: accordionLoad(),
           dataType: 'script'
         });
       });
@@ -520,6 +527,7 @@
           data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
             featured:true, author:'<%= @persona.screen_name %>', 
             mediatype:'featured', showIndicators:false, direction:'reverse' },
+          beforeSend: accordionLoad(),
           dataType: 'script'
         });
       });
@@ -531,6 +539,7 @@
           data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
             featured:true, author:'<%= @persona.screen_name %>', 
             mediatype:'featured', showIndicators:false },
+          beforeSend: accordionLoad(),
           dataType: 'script'
         });
       });
@@ -542,6 +551,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
               photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
               mediatype:'mediaset', showIndicators:false, direction:'reverse' },
+            beforeSend: accordionLoad(),
             dataType: 'script'
           });
 
@@ -553,6 +563,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
               photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
               mediatype:'mediaset', showIndicators:false },
+            beforeSend: accordionLoad(),
             dataType: 'script'
 
           });
@@ -565,6 +576,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
               photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
               focusPhotoID:<%= @photo.id %> },
+            beforeSend: accordionLoad(),
             dataType: 'script'
         });
       })

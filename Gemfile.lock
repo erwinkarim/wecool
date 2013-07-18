@@ -58,14 +58,26 @@ GEM
       warden (~> 1.2.1)
     dotenv (0.8.0)
     erubis (2.7.0)
+    excon (0.16.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
     exifr (1.1.3)
+    fog (1.5.0)
+      builder
+      excon (~> 0.14)
+      formatador (~> 0.2.0)
+      mime-types
+      multi_json (~> 1.0)
+      net-scp (~> 1.0.4)
+      net-ssh (>= 2.1.3)
+      nokogiri (~> 1.5.0)
+      ruby-hmac
     font-awesome-rails (3.2.1.0)
       railties (>= 3.2, < 5.0)
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
+    formatador (0.2.3)
     hashie (2.0.5)
     hike (1.2.3)
     i18n (0.6.4)
@@ -95,6 +107,10 @@ GEM
       activerecord (~> 3.0)
     mime-types (1.23)
     multi_json (1.7.7)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-ssh (2.5.2)
+    nokogiri (1.5.5)
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)
       rack
@@ -134,6 +150,7 @@ GEM
       json (~> 1.4)
     ref (1.0.5)
     rmagick (2.13.2)
+    ruby-hmac (0.4.0)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -192,6 +209,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   exifr
+  fog
   font-awesome-rails (= 3.2.1)
   foreman
   jquery-fileupload-rails
