@@ -495,8 +495,10 @@
       }
       
       //some spinning picture to indicate the pictures are comming
-      function accordionLoad(){
-        console.log('loading images..');
+      //arguments: target => which accordion to put the load in
+      //            position => to prepend or append the load icons
+      function accordionLoad(target, position){
+        console.log('loading images at ' + target + ' at ' + position );
       };
 
       $('#loadPrevPhotosBtn').click( function(){
@@ -505,7 +507,7 @@
           url: '/photos/get_more/' + $('#photostream').attr('first'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
             author:'<%= @persona.screen_name %>', showIndicators:false, direction:'reverse' },
-          beforeSend: accordionLoad(),
+          beforeSend: accordionLoad( '#photostream', 'prepend' ),
           dataType: 'script'
         })
       });
