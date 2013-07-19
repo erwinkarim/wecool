@@ -497,8 +497,25 @@
       //some spinning picture to indicate the pictures are comming
       //arguments: target => which accordion to put the load in
       //            position => to prepend or append the load icons
-      function accordionLoad(target, position){
+      loadingIndicator = {};
+
+      
+      loadingIndicator.start = function(target, position){
         console.log('loading images at ' + target + ' at ' + position );
+        spin = '<div class="loading" style="float:left;"><i class="icon-spinner icon-4x icon-spin"></i></div>';
+        if ( position == 'before') {
+          handle = $(target).find('.carousel:first');
+          handle.before(spin);
+        } else if ( position == 'after') {
+          handle = $(target).find('.carousel:last');
+          handle.after(spin);
+        };
+      };
+   
+      //remove the loading stuff when done 
+      loadingIndicator.stop = function (target){
+        console.log('remove indicator');
+        $(target).find('.loading').detach();
       };
 
       $('#loadPrevPhotosBtn').click( function(){
@@ -507,7 +524,7 @@
           url: '/photos/get_more/' + $('#photostream').attr('first'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
             author:'<%= @persona.screen_name %>', showIndicators:false, direction:'reverse' },
-          beforeSend: accordionLoad( '#photostream', 'prepend' ),
+          beforeSend: loadingIndicator.start('#photostream', 'before'),
           dataType: 'script'
         })
       });
@@ -518,7 +535,7 @@
           url: '/photos/get_more/' + $('#photostream').attr('last'), 
           data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
             author:'<%= @persona.screen_name %>', showIndicators:false},
-          beforeSend: accordionLoad(),
+          beforeSend: loadingIndicator.start('#photostream', 'after'),
           dataType: 'script'
         });
       });
@@ -529,7 +546,7 @@
           data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
             featured:true, author:'<%= @persona.screen_name %>', 
             mediatype:'featured', showIndicators:false, direction:'reverse' },
-          beforeSend: accordionLoad(),
+          beforeSend: loadingIndicator.start('#featuredPhotos', 'before'),
           dataType: 'script'
         });
       });
@@ -541,7 +558,7 @@
           data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
             featured:true, author:'<%= @persona.screen_name %>', 
             mediatype:'featured', showIndicators:false },
-          beforeSend: accordionLoad(),
+          beforeSend: loadingIndicator.start('#featuredPhotos', 'after'),
           dataType: 'script'
         });
       });
@@ -553,7 +570,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
               photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
               mediatype:'mediaset', showIndicators:false, direction:'reverse' },
-            beforeSend: accordionLoad(),
+            beforeSend: loadingIndicator.start('#mediaset-<%= mediaset.id %>', 'before'),
             dataType: 'script'
           });
 
@@ -565,7 +582,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#mediaset-<%= mediaset.id %>', 
               photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
               mediatype:'mediaset', showIndicators:false },
-            beforeSend: accordionLoad(),
+            beforeSend: loadingIndicator.start('#mediaset-<%= mediaset.id %>', 'after'),
             dataType: 'script'
 
           });
@@ -578,7 +595,7 @@
             data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
               photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
               focusPhotoID:<%= @photo.id %> },
-            beforeSend: accordionLoad(),
+            beforeSend: loadingIndicator.start('#related-photos', 'after'),
             dataType: 'script'
         });
       })

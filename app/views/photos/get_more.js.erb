@@ -191,4 +191,8 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
       } 
     );
   <% end %>
+
 <% end %>
+
+//remove loading indicator if found 
+$('<%= @options[:targetDiv] %>').find('.loading').detach();
