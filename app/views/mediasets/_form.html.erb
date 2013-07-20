@@ -126,6 +126,7 @@
   $.ajax({
     url: '/photos/get_more/<%= Photo.last.id %>',
     data: getConditions, 
+		beforeSend: indicator.load('.last-div', 'after'),
     dataType: 'script'
   });
 
@@ -191,6 +192,7 @@
       $.ajax({
         url: '/photos/get_more/' + $('#photo-list').attr('last'),
         data: getConditions,
+				beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });

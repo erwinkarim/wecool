@@ -61,6 +61,7 @@
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
           data: params,
+					beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script'
         });
     }, 
@@ -75,6 +76,7 @@
       $.ajax({
         url: '/photos/get_more/' + $('.endless-photos').attr('last') ,
         data: params,
+				beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });  
@@ -90,6 +92,7 @@
       $.ajax({
         url: '/photos/get_more/' + $('.endless-photos').attr('last') ,
         data: params,
+				beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
 

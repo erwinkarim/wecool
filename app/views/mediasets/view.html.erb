@@ -136,6 +136,7 @@
     callback: function(){
         $.ajax({
           url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+					beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script', 
           data: loadConditions
         });
