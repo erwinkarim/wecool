@@ -27,6 +27,7 @@
   $.ajax({
     url: '/photos/get_more/<%= @photos.first.id %>', 
     data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
+		beforeSend: indicator.load('.last-div', 'after'),
     dataType: 'script'
   });
  
@@ -90,6 +91,7 @@
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
         data: { size:fetchSize, limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
+				beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });
@@ -99,6 +101,7 @@
       $.ajax({
         url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
         data: { size:fetchSize,  limit:20, featured:isFeatured, mediatype:theMediaType } ,
+				beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });
