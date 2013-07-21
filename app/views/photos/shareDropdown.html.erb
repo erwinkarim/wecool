@@ -49,18 +49,21 @@
           <div id="copy-html-display">
             <% 
               if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
-                @photoList = photo.map{ |x| link_to( 
+                # executed when viewing photostream or mediasets
+                @photoList = photo.map{ |x| x.nil? ? '' : link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                   :alt => x.title), photo_view_url(persona.screen_name, x.id) 
                 ).html_safe }.join 
                 photoAvatar = photo.first.avatar
               elsif default_options[:mode] == 'mediaset_photos' then 
-                @photoList = photo.photos.limit(4).map{ |x| link_to( 
+                # executed when viewing mediaset photos
+                @photoList = photo.photos.limit(4).map{ |x| x.nil? ? '' : link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
                   :alt => x.title), photo_view_url(persona.screen_name, x.id) 
                 ).html_safe }.join 
-                photoAvatar = photo.photos.first.avatar
+                photoAvatar = photo.photos.empty? ? nil : photo.photos.first.avatar
               else 
+                #usually executed when viewing single photos
                 @photoList = link_to( 
                   image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
                   :alt => photo.title), photo_view_url(persona.screen_name, photo) 
