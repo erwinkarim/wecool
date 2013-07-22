@@ -51,7 +51,9 @@ class Persona < ActiveRecord::Base
     options.merge(new_options)
     myScreenName = self.screen_name
     options[:begin_date] = new_options.has_key?(:begin_date) ? new_options[:begin_date] : 
-      Version.where{ whodunnit.eq myScreenName }.max.created_at
+      (Version.where{ whodunnit.eq myScreenName }.max.nil? ? 
+        1.month.ago : Version.where{ whodunnit.eq myScreenName }.max.created_at
+      )
   
     cluster = Array.new      
     Version.where{ (whodunnit.eq myScreenName) & (created_at.lt options[:begin_date]) & 

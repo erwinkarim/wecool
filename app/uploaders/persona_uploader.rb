@@ -54,6 +54,18 @@ class PersonaUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+  
+  version:icon do
+    process :resize_to_fill => [16,16]
+  end
+
+  version:icon2x do
+    process :resize_to_fill => [32,32]
+  end
+
+  version:icon4x do
+    process :resize_to_fill => [64,64]
+  end
 
   version :large do
     process :resize_to_fill => [150,150]

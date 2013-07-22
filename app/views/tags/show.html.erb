@@ -43,6 +43,7 @@
   $.ajax({
     url: '/photos/get_more/0',
     data: params,  
+    beforeSend: indicator.load('.last-div', 'after'),
     dataType: 'script'
   });
 

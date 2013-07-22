@@ -416,6 +416,7 @@
     data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
       includeFirst:true, author:'<%= @persona.screen_name %>', showIndicators:false, highlight:true, limit:4 ,
       photoFocusID:<%= @photo.id %>},
+    beforeSend: indicator.load('#photostream', 'after'),
     dataType: 'script'
   });
   $.ajax({
@@ -433,6 +434,7 @@
       data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
         featured:true, includeFirst:true, author:'<%= @persona.screen_name %>', 
         mediatype:'featured', showIndicators:false, highlight:true, limit:4, photoFocusID:<%= @photo.id %> },
+      beforeSend: indicator.load('#featuredPhotos', 'after'),
       dataType: 'script'
     });
     $.ajax({
@@ -453,6 +455,7 @@
         photoCountDiv:'#mediaset-<%= mediaset.id %>', mediaset_id:<%= mediaset.id %>,  
         includeFirst:true, mediatype:'mediaset', showIndicators:false, highlight:true, limit:3, 
         photoFocusID:<%= @photo.id %>},
+      beforeSend: indicator.load('#mediaset-<%= mediaset.id %>', 'after'),
       dataType: 'script'
     });
     $.ajax({
@@ -470,6 +473,7 @@
       data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
         photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
         focusPhotoID:<%= @photo.id %> },
+      beforeSend: indicator.load('#related-photos', 'after'),
       dataType: 'script'
   });
   //for normal users 

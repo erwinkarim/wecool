@@ -47,6 +47,7 @@ $('.collapse').on('shown', function(){
     $.ajax({
       url: '/photos/get_more/0', 
       data: sendData,
+      beforeSend: indicator.load('#accordion-inner-' + $(this).attr('tag'), 'after'),
       dataType: 'script' 
     });
   };

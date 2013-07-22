@@ -61,22 +61,6 @@
                 </ul>
               </li>
               <% if persona_signed_in? then %>
-                <li class="dropdown">
-                  <a href="#" role="button" class="dropdown-toggle" 
-                    data-toggle="dropdown">Me<b class="caret"></b></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><%= link_to '<i class="icon-picture"></i> My Photos'.html_safe, 
-                      photo_path(current_persona.screen_name) %></li>
-                    <li><%= link_to '<i class="icon-th-list"></i> My Sets'.html_safe, 
-                      mediaset_path(current_persona.screen_name) %></li>
-                    <li><%= link_to '<i class="icon-group"></i> My Followers'.html_safe, 
-                      follower_path(current_persona.screen_name) %></li>
-                    <li><%= link_to '<i class="icon-tags"></i> My Tags'.html_safe, 
-                      persona_tags_path(current_persona.screen_name) %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to '<i class="icon-user"></i> My Profile'.html_safe, 
-                      persona_path(current_persona.screen_name) %></li>
-                  </ul>
                 <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, new_photo_path  %></li>
               <% else %>
                 <li><%= link_to '<i class="icon-sitemap"></i> The Tour'.html_safe, tour_path %></li>
@@ -90,15 +74,26 @@
                   '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to 'View Your Page', persona_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-picture"></i> My Photos'.html_safe, 
+                    photo_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-th-list"></i> My Sets'.html_safe, 
+                    mediaset_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-group"></i> My Followers'.html_safe, 
+                    follower_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-tags"></i> My Tags'.html_safe, 
+                    persona_tags_path(current_persona.screen_name) %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to '<i class="icon-user"></i> View Your Page'.html_safe, 
+                    persona_path(current_persona.screen_name) %></li>
                   <li><%= link_to '<i class="icon-wrench"></i> Edit Your Profile'.html_safe, 
                     edit_persona_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>
                   <li>
-                    <%= link_to 'Update Persona Picture', 
+                    <%= link_to '<i class="icon-money"></i> Update Persona Picture'.html_safe, 
                       persona_get_profile_pic_path(current_persona.screen_name) %>
                   </li>
-                  <li><%= link_to 'Change Password', edit_persona_registration_path %></li>
+                  <li><%= link_to '<i class="icon-key"></i> Change Password'.html_safe, 
+                    edit_persona_registration_path %></li>
                   <li class="divider"></li>
                   <li><%= link_to '<i class="icon-signout"></i> Sign Out'.html_safe, 
                     destroy_persona_session_path, :method => :delete %></li>
