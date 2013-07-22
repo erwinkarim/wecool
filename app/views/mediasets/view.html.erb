@@ -98,6 +98,7 @@
     $.ajax({
       url: '/photos/get_more/1',
       data: loadConditions, 
+      beforeSend: indicator.load('.last-div', 'after'),
       dataType: 'script'
     });
 
@@ -115,6 +116,7 @@
         $.ajax({
           url: '/photos/get_more/1',
           data: loadConditions, 
+          beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script'
         });
       });  
