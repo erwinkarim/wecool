@@ -79,7 +79,7 @@
     </ul>
   </div>
 </div>
-<div class="row-fluid endless-photos" last="1">
+<div class="row-fluid endless-photos" last="0">
   <% if  @mediaset_photos.empty? then %>
     <h2>No photos on this set, why don't you 
       <%= link_to 'add some...', edit_mediaset_path(@persona.screen_name, @mediaset) %>
@@ -104,6 +104,7 @@
 
   $(document).ready( function(){
 
+		 //handle showing all/features photos
      $('.view-mode').click( function(event){
         event.preventDefault();
         $('#mediaset-show-all-photos').toggleClass('active');
@@ -112,9 +113,9 @@
         loadConditions['featured'] = $('#mediaset-show-all-photos').hasClass('active') ? ['true', 'false'] : 'true';
         loadConditions['includeFirst'] = true;
         $('.last-div').find('.carousel').detach();
-        $('.endless-photos').attr('last', '1');
+        $('.endless-photos').attr('last', '0');
         $.ajax({
-          url: '/photos/get_more/1',
+          url: '/photos/get_more/0',
           data: loadConditions, 
           beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script'
@@ -124,7 +125,6 @@
   //load first 10
 
   //load the rest as you scroll
-  loadConditions['includeFirst'] = false;
   $(document).endlessScroll({
     fireOnce: true,
     fireDelay: 500, 
@@ -136,12 +136,13 @@
     }, 
     loader: '<div>loading...</div>', 
     callback: function(){
-        $.ajax({
-          url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-					beforeSend: indicator.load('.last-div', 'after'),
-          dataType: 'script', 
-          data: loadConditions
-        });
+			loadConditions['includeFirst'] = false;
+			$.ajax({
+				url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+				beforeSend: indicator.load('.last-div', 'after'),
+				dataType: 'script', 
+				data: loadConditions
+			});
     }, 
     ceaseFire: function(s){
       s<5 ? false : true;

@@ -5,7 +5,7 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
   <% if @options[:direction] == 'forward' then %>
     if (handle.find('#noMorePhoto').length == 0) {
       //check if this mediaset is empty
-      <% if @options[:mediatype] == 'mediaset' and params[:last_id] == '1' then %>
+      <% if @options[:mediatype] == 'mediaset' and params[:last_id] == '0' then %>
         handle.append(
             $('<div/>', { class:'carousel '+floatHandle, id:'noMorePhoto', style:'margin: 0x 2px 2px 0px; display:<%= @options[:cssDisplay] %>;'}).html(
               '<%= image_tag 'icon/zero-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
