@@ -1,19 +1,23 @@
 //need to handle when @next_personas is nil
 var handle = $('<%= @options[:handle] %>');
 
-<% @next_personas.each do |persona| %>
-  var frame = $('<div/>', { class:'carousel pull-left img-polaroid', style:'margin:2px;'} );
-  frame.append($('<div/>', { class:'carousel-inner' } ) )
-  frame.find('.carousel-inner').append( $('<div/>', { class:'carousel-caption'} ) )
-  frame.find('.carousel-inner').append('<%= escape_javascript(link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150': persona.avatar.large), persona_path(persona.screen_name) ) %> ' );
-  frame.find('.carousel-caption').append( '<%= escape_javascript( link_to persona.screen_name, persona_path(persona.screen_name) ) %>' );
-  handle.append(frame);
+<% if !@next_personas.empty? then %>
+  <% @next_personas.each do |persona| %>
+    var frame = $('<div/>', { class:'carousel pull-left img-polaroid', style:'margin:2px;'} );
+    frame.append($('<div/>', { class:'carousel-inner' } ) )
+    frame.find('.carousel-inner').append( $('<div/>', { class:'carousel-caption'} ) )
+    frame.find('.carousel-inner').append('<%= escape_javascript(link_to image_tag(persona.avatar.url.nil? ? 'http://placehold.it/150x150': persona.avatar.large), persona_path(persona.screen_name) ) %> ' );
+    frame.find('.carousel-caption').append( '<%= escape_javascript( link_to persona.screen_name, persona_path(persona.screen_name) ) %>' );
+    handle.append(frame);
+  <% end %>
+
+  handle.attr('last', '<%= @next_personas.last.id %>');
+  $('.carousel-caption').hide();
+  $('.carousel').hover( function(){
+    $(this).find('.carousel-caption').show();
+  }, function(){
+    $(this).find('.carousel-caption').hide('slow');
+  });
 <% end %>
 
-handle.attr('last', '<%= @next_personas.last.id %>');
-$('.carousel-caption').hide();
-$('.carousel').hover( function(){
-  $(this).find('.carousel-caption').show();
-}, function(){
-  $(this).find('.carousel-caption').hide('slow');
-});
+handle.find('.loading').detach();

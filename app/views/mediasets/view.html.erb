@@ -62,7 +62,7 @@
             <ul class="dropdown-menu">
               <li><%= link_to '<i class="icon-edit"></i> Edit'.html_safe, edit_mediaset_path(params[:persona_id], params[:id]) %></li>
               <li class="divider"></li>
-              <li><%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              <li><%= link_to '<i class="icon-remove"></i> Delete'.html_safe,
                 mediaset_path(@mediaset),
                 :method => 'delete',
                 :data => { :confirm => t('.confirm', 

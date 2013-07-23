@@ -43,6 +43,7 @@
     $.ajax({
       url: '/tags/get_more',
       data: sendParams, 
+      beforeSend: indicator.tagLoad('#tagcontent'),
       dataType: 'script'
     });
 
@@ -52,6 +53,7 @@
       $.ajax({
         url: '/tags/get_more',
         data: sendParams, 
+        beforeSend: indicator.tagLoad('#tagcontent'),
         dataType: 'script'
       });
 
@@ -74,6 +76,7 @@
       $.ajax({
         url: '/tags/get_more',
         data: sendParams, 
+        beforeSend: indicator.tagLoad('#tagcontent'),
         dataType: 'script'
       });
     });

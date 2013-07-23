@@ -23,3 +23,14 @@ indicator.load = function(target, position, css_float, css_display ){
 	};
 };
 
+//indicate loading at tag index page
+indicator.tagLoad = function( target ){
+  spin = '<tr class="loading"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>';
+
+  if( $(target).find('tr').length == 0 ) {
+    $(target).append(spin);
+  } else {
+    $(target).find('tr:last').after(spin);
+  };
+};
+

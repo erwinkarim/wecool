@@ -13,13 +13,18 @@
   <%= link_to 'Load More Personas', '#last-frame', :class=>'btn btn-primary', :id=>'load-more-personas' %>
 </div>
 <script type="text/javascript">
-  
+ 
+  callback_fn = function( first){
+    $.ajax({
+      url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
+      data: { includeFirst:first },
+      beforeSend: indicator.load('.last-div', 'after'),
+      dataType: 'script'
+    });
+  };
+
   //get the first few personas
-  $.ajax({
-    url: '/personas/get_more/<%= Persona.last.id %>',
-    data: { includeFirst:true },
-    dataType: 'script'
-  });
+  callback_fn( true );
 
   //keep loading personas until the end
   $(document).endlessScroll({
@@ -34,8 +39,8 @@
     loader: '<div class="pull-left">loading...</div>', 
     callback: function(){
         $.ajax({
-          url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
           data: { includeFirst:false },
+          beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script'
         });
     }, 
@@ -46,6 +51,7 @@
       $.ajax({
         url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
         data: { includeFirst:false },
+        beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });

@@ -60,12 +60,17 @@ class Persona < ActiveRecord::Base
       (created_at.gt options[:begin_date] - options[:date_length] ) }.order('created_at').
     each do |e|
       #this will be simplied on paper_trail 2.7.2
-      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-        e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
-      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-        e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
-      theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-        e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
+      # ensure that the item has not already been deleted!!
+      if ( e.item_type == 'Photo' && !Photo.where{ id.eq e.item_id }.empty? ) || 
+        ( e.item_type == 'Mediaset' && !Mediaset.where{ id.eq e.item_id }.empty? ) || 
+        ( e.item_type == 'MeidasetPhoto' && !MediasetPhoto.where{ id.eq e.item_id }.empty? ) then
+        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+          e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
+        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+          e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
+        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+          e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
+      end
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 

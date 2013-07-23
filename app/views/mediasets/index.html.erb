@@ -29,6 +29,7 @@
   $.ajax({
     url: '/mediasets/get_more/<%= @mediasets.first.id %>',
     data: {includeFirst:true, limit:10, featured:isFeatured, viewType:theView },
+    beforeSend: indicator.load('.last-div', 'after'),
     dataType: 'script'
   });
 
@@ -46,6 +47,7 @@
         $.ajax({
           url: '/mediasets/get_more/'+$('.endless-mediaset').attr('last'), 
           data: { featured:isFeatured, viewType:theView  } ,
+          beforeSend: indicator.load('.last-div', 'after'),
           dataType: 'script'
         });
     } 
@@ -53,6 +55,8 @@
 
   $(document).ready ( function(){
     $('.last-div').css('min-height', $(window).height());
+
+    //event when the type of mediaset is clicked
     $('#mediasetTypeSelectorTab li').click( function(event){
       event.preventDefault();
       $('.active').toggleClass('active');
@@ -75,6 +79,7 @@
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
         data: { featured:isFeatured, viewType:theView, includeFirst:true },
+        beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });
@@ -84,6 +89,7 @@
       $.ajax({
         url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
         data: { featured:isFeatured, viewType:theView },
+        beforeSend: indicator.load('.last-div', 'after'),
         dataType: 'script'
       });
     });

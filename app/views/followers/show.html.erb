@@ -50,13 +50,17 @@
   //load a few for each class
   $.ajax({
     url: '/personas/get_more/<%= Persona.last.id %>',
-    data: { includeFirst:true, handle:'#following-personas', fetch_mode:'following', fetch_focus_id:'<%= @persona.id %>' },
+    data: { includeFirst:true, handle:'#following-personas', fetch_mode:'following', 
+      fetch_focus_id:'<%= @persona.id %>' },
+    beforeSend: indicator.load('#following-personas', 'after'),
     dataType: 'script'
   });
   
   $.ajax({
     url: '/personas/get_more/<%= Persona.last.id %>',
-    data: { includeFirst:true, handle:'#being-tracked-personas', fetch_mode:'followers', fetch_focus_id:'<%= @persona.id %>' },
+    data: { includeFirst:true, handle:'#being-tracked-personas', fetch_mode:'followers', 
+      fetch_focus_id:'<%= @persona.id %>' },
+    beforeSend: indicator.load('#being-tracked-personas', 'after'),
     dataType: 'script'
   });
   
@@ -65,7 +69,9 @@
     $('#load-more-following').click( function(){
       $.ajax({
         url: '/personas/get_more/' + $('#following-personas').attr('last') , 
-        data: { includeFirst:false, handle:'#following-personas', fetch_mode:'following', fetch_focus_id:'<%= @persona.id %>' },
+        data: { includeFirst:false, handle:'#following-personas', fetch_mode:'following', 
+          fetch_focus_id:'<%= @persona.id %>' },
+        beforeSend: indicator.load('#following-personas', 'after'),
         dataType: 'script'
       });
     });
@@ -73,7 +79,9 @@
     $('#load-more-followers').click( function(){
       $.ajax({
         url: '/personas/get_more/'+$('#being-tracked-personas').attr('last'),
-        data: { includeFirst:false, handle:'#being-tracked-personas', fetch_mode:'followers', fetch_focus_id:'<%= @persona.id %>' },
+        data: { includeFirst:false, handle:'#being-tracked-personas', fetch_mode:'followers', 
+          fetch_focus_id:'<%= @persona.id %>' },
+        beforeSend: indicator.load('#being-tracked-personas', 'after'),
         dataType: 'script'
       });
 

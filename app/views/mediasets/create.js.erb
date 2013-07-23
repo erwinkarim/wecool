@@ -13,6 +13,9 @@ $('#newMediasetList').find('tbody').append(
   '</big></div><div class="pull-right"><i class="checkbox-icon icon-check-sign icon-2x"></i></div></td></tr>'
 );
 
+//remove indicator icon
+$('#newMediasetList').find('.loading').detach();
+
 //create at the bottom of the scrolls
 var accordionHead = jQuery('<div/>', { class:'accordion-heading'});
 accordionHead.append(jQuery('<h3/>', {}));

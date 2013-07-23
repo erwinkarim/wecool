@@ -34,6 +34,9 @@ var x = 1;
     handle.find('tr:last').append( data); 
 <% end %>
 
+//remove the loading icon
+handle.find('.loading').detach();
+
 //load tag pictures where loaded
 $('.collapse').on('shown', function(){
   if( $(this).find('.carousel').length == 0) {
@@ -56,3 +59,4 @@ $('.collapse').on('shown', function(){
 //update the results
 var newValue = parseInt($('#tagsResults').attr('results')) + <%= @tags.count %> ;
 $('#tagsResults').attr('results', newValue);
+

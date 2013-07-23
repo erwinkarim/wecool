@@ -60,3 +60,6 @@ var handle= $('.endless_scroll_inner_wrap');
     handle.append(jQuery('<div/>', { text:'That\'s all folks!', class:'pull-left img-polaroid', id:'end-of-mediasets', style:'height:200px; margin:5px;' } )); 
   }
 <% end %>
+
+//delete the loading page
+handle.find('.loading').detach();
