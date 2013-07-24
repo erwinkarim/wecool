@@ -7,3 +7,4 @@
 # used in editor
 //= require jquery.ui.slider
 //= require ZeroClipboard
+//= require jquery.Jcrop

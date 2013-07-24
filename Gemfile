@@ -21,10 +21,10 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+	gem 'twitter-bootstrap-rails'
+	gem 'font-awesome-rails', '= 3.2.1'
 end
 
-gem 'twitter-bootstrap-rails'
-gem 'font-awesome-rails', '= 3.2.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
