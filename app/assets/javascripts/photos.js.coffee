@@ -6,3 +6,4 @@
 //= require jquery-fileupload
 # used in editor
 //= require jquery.ui.slider
+//= require ZeroClipboard

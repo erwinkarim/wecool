@@ -3,4 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 #
-# //= require jquery.Jcrop.js
+#//= require jquery.ui.droppable
+#//= require jquery.Jcrop

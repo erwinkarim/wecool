@@ -23,6 +23,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'twitter-bootstrap-rails'
+gem 'font-awesome-rails', '= 3.2.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
@@ -43,8 +45,6 @@ gem 'unicorn-rails'
 # gem 'debugger'
 #
 gem 'less-rails'
-gem 'twitter-bootstrap-rails'
-gem 'font-awesome-rails', '= 3.2.1'
 
 gem 'fog'
 gem 'carrierwave'
