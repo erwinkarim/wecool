@@ -115,6 +115,8 @@ GEM
       hashie (>= 1.2, < 3)
       rack
     orm_adapter (0.4.0)
+    paloma (2.0.6)
+      jquery-rails
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
@@ -218,6 +220,7 @@ DEPENDENCIES
   less-rails
   make_voteable
   omniauth
+  paloma
   paper_trail (~> 2)
   pg
   rails (= 3.2.8)

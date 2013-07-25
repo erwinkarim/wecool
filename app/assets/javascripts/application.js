@@ -15,5 +15,4 @@
 //= require twitter/bootstrap
 //= require indicator
 //= require jquery.endless-scroll
-
-$('.dropdown-toggle').dropdown();
+//= require paloma

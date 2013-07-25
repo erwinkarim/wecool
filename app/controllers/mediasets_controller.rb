@@ -18,14 +18,17 @@ class MediasetsController < ApplicationController
   # GET /mediasets
   # GET /mediasets.json
   def index
-    @mediasets = Mediaset.find(:all, :limit =>10, :order => 'id desc')
-    if @mediasets.nil? then
-      @mediasets = Mediaset.new
-    end
+    #@mediasets = Mediaset.find(:all, :limit =>10, :order => 'id desc')
+    #if @mediasets.nil? then
+    #  @mediasets = Mediaset.new
+    #end
+    @last_id = Mediaset.last.nil? ? 1 : Mediaset.last.id
+
+    js :params => { :last_id => @last_id }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @mediasets }
+      #format.json { render json: Mediaset.all }
       format.js 
     end
   end
@@ -220,6 +223,8 @@ class MediasetsController < ApplicationController
     @mediaset = @persona.mediasets.find(params[:id])
     @mediaset_photos = @mediaset.photos.empty? ? Photo.all.reverse : @mediaset.photos.find(:all, :order => 'id desc', :limit=>10)
     @total_votes = @mediaset.up_votes + @mediaset.down_votes
+
+    js :params => { :mediaset_id => @mediaset.id }
 
     if persona_signed_in? && @persona == current_persona && !@persona.premium? then
       if !@mediaset.photos.where(:system_visible => false).empty? then

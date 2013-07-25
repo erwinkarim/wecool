@@ -13,47 +13,4 @@
   <%= link_to 'Load More Personas', '#last-frame', :class=>'btn btn-primary', :id=>'load-more-personas' %>
 </div>
 <script type="text/javascript">
- 
-  callback_fn = function( first){
-    $.ajax({
-      url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
-      data: { includeFirst:first },
-      beforeSend: indicator.load('.last-div', 'after'),
-      dataType: 'script'
-    });
-  };
-
-  //get the first few personas
-  callback_fn( true );
-
-  //keep loading personas until the end
-  $(document).endlessScroll({
-    fireOnce: true,
-    fireDelay: 500, 
-    bottomPixels: 250, 
-    intervalFrequency: 100, 
-    ceaseFireOnEmpty: false, 
-    ceaseFire: function(){
-      return $('.last-div').length ? false : true;
-    }, 
-    loader: '<div class="pull-left">loading...</div>', 
-    callback: function(){
-        $.ajax({
-          data: { includeFirst:false },
-          beforeSend: indicator.load('.last-div', 'after'),
-          dataType: 'script'
-        });
-    }, 
-  });
-
-  $(document).ready( function(){
-    $('#load-more-personas').click( function(){
-      $.ajax({
-        url: '/personas/get_more/' + $('.endless_scroll_inner_wrap').attr('last') ,
-        data: { includeFirst:false },
-        beforeSend: indicator.load('.last-div', 'after'),
-        dataType: 'script'
-      });
-    });
-  });
 </script>

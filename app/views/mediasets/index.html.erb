@@ -15,83 +15,9 @@
     </ul>
   </div>
 </div>
-<div class="row-fluid endless-mediaset" last="<%= @mediasets.last.id %>" >
+<div class="row-fluid endless-mediaset" last="<%= @last_id %>" >
   <div class="last-div endless_scroll_inner_wrap" id="last-frame"></div>
 </div>
 <div class="row-fluid">
   <%= link_to 'Get More Mediasets', '#', :class=>'btn btn-primary', :id=>'getMoreSets' %>
 </div>
-
-<script type="text/javascript">
-  var isFeatured = true;
-  var theView = 'normal'; 
-
-  $.ajax({
-    url: '/mediasets/get_more/<%= @mediasets.first.id %>',
-    data: {includeFirst:true, limit:10, featured:isFeatured, viewType:theView },
-    beforeSend: indicator.load('.last-div', 'after'),
-    dataType: 'script'
-  });
-
-  $(document).endlessScroll({
-    fireOnce: true,
-    fireDelay: 500, 
-    bottomPixels: 250, 
-    intervalFrequency: 100, 
-    ceaseFireOnEmpty: false, 
-    ceaseFire: function(){
-      return $('.last-div').length ? false : true;
-    }, 
-    loader: '<div>loading...</div>', 
-    callback: function(){
-        $.ajax({
-          url: '/mediasets/get_more/'+$('.endless-mediaset').attr('last'), 
-          data: { featured:isFeatured, viewType:theView  } ,
-          beforeSend: indicator.load('.last-div', 'after'),
-          dataType: 'script'
-        });
-    } 
-  });
-
-  $(document).ready ( function(){
-    $('.last-div').css('min-height', $(window).height());
-
-    //event when the type of mediaset is clicked
-    $('#mediasetTypeSelectorTab li').click( function(event){
-      event.preventDefault();
-      $('.active').toggleClass('active');
-      $(this).toggleClass('active'); 
-
-      //empty out and repopulate
-      $('.last-div').empty();
-      $('.endless-mediaset').attr('last', '<%= Mediaset.last.id %>');
-
-      isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-      if ( $('#recentlyTracked').hasClass('active') ) {
-        theView = 'tracked'; 
-      } else if ( $('#recentlyTrendy').hasClass('active') == true ) {
-        theView = 'trending';
-        $('.endless-mediaset').attr('last', '0');
-      } else {
-        theView = 'normal';
-      }
-
-      $.ajax({
-        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
-        data: { featured:isFeatured, viewType:theView, includeFirst:true },
-        beforeSend: indicator.load('.last-div', 'after'),
-        dataType: 'script'
-      });
-    });
-
-    //manually load more mediasets
-    $('#getMoreSets').click( function(){
-      $.ajax({
-        url: '/mediasets/get_more/'+ $('.endless-mediaset').attr('last') , 
-        data: { featured:isFeatured, viewType:theView },
-        beforeSend: indicator.load('.last-div', 'after'),
-        dataType: 'script'
-      });
-    });
-  });
-</script>

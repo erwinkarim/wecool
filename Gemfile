@@ -23,10 +23,14 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'twitter-bootstrap-rails'
-gem 'font-awesome-rails', '= 3.2.1'
+# front-end interface
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'twitter-bootstrap-rails'
+gem 'font-awesome-rails', '= 3.2.1'
+
+# javascript management
+gem 'paloma'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -34,7 +38,7 @@ gem 'jquery-ui-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
+# Use unicorn as the web server
 gem 'unicorn'
 gem 'unicorn-rails'
 
@@ -46,30 +50,32 @@ gem 'unicorn-rails'
 #
 gem 'less-rails'
 
+#file/image management
 gem 'fog'
 gem 'carrierwave'
-gem 'devise'
 gem 'rmagick'
 gem 'exifr'
-
-gem 'jquery-rails'
+# to help upload files
 gem 'jquery-fileupload-rails'
 
+
+#user management/authentication
 gem 'omniauth'
+gem 'devise'
 #gem 'omniauth-facebook'
 #gem 'omniauth-google-oauth2'
 
+#utility
 gem 'squeel'
 gem 'make_voteable'
+gem 'twitter-text'
+gem 'acts-as-taggable-on'
+gem 'paper_trail', '~> 2'
 
+#background jobs
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
-gem 'twitter-text'
-gem 'acts-as-taggable-on'
-
-gem 'paper_trail', '~> 2'
-
-#for heroku
+#process management 
 gem 'foreman'

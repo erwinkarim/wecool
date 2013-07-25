@@ -236,6 +236,8 @@ class PhotosController < ApplicationController
   def editor
     @photo = Photo.find(params[:photo_id])
     @persona = Persona.find(@photo.persona_id)
+    
+    js :params => { :img_src => @photo.avatar.large.url } 
   end
 
   #  GET    /photos/:persona_id/view/:id(.:format)
@@ -284,6 +286,13 @@ class PhotosController < ApplicationController
 
     #capture addional info
     @exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+
+    #setup javascript 
+    js :params => { :mediaset_ids => @photo.mediasets.map{ |x| x.id }, :photo_id => @photo.id, 
+      :screen_name => @persona.screen_name , :prev_photo_path => @prev_photo_path, 
+      :next_photo_path => @next_photo_path, :featured_photo => @photo.featured? ,
+      :persona_signed_in =>  persona_signed_in? && @persona.id == current_persona.id 
+    }
 
     respond_to do |format|
       format.html # view.html.erb
