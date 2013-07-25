@@ -202,6 +202,7 @@ class PersonasController < ApplicationController
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @tag = params[:tag_id]
 
+		js :params => { :persona => @persona.screen_name, :tag => @tag } 
 
     respond_to do |format|
       format.html{ render "tags/show", :locals => {:tag => @tag, :persona => @persona } }

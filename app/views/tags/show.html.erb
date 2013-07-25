@@ -1,4 +1,4 @@
-
+<!-- local ruby variable persona will exists if rendered from persona controller persona/show_tag -->
 <% if (defined? persona).nil? then %>
   <% content_for :title, 'Photos with ' + tag + ' tag' %>
   <div class="page-header">
@@ -30,73 +30,3 @@
   <a name="last-frame"></a>
   <%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary', :id=>'load-more-photos' %>
 </div>
-
-<script type="text/javascript">
-  //get the first few
-  <% if (defined? persona).nil? then %>
-    var params = { mediatype:'tagset', tag:'<%= tag %>', includeFirst:true, size:'small' }
-  <% else %>
-    var params = { mediatype:'tagset', tag:'<%= tag %>', includeFirst:true, size:'small', 
-      author:'<%= persona.screen_name %>' }
-  <% end %>
-
-  $.ajax({
-    url: '/photos/get_more/0',
-    data: params,  
-    beforeSend: indicator.load('.last-div', 'after'),
-    dataType: 'script'
-  });
-
-  //keep loading until the end
-  $(document).endlessScroll({
-    fireOnce: true,
-    fireDelay: 500, 
-    bottomPixels: 250, 
-    intervalFrequency: 100, 
-    ceaseFireOnEmpty: false, 
-    ceaseFire: function(){
-      return $('.last-div').length ? false : true;
-    }, 
-    loader: '<div class="pull-left">loading...</div>', 
-    callback: function(){
-        $.ajax({
-          url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-          data: params,
-					beforeSend: indicator.load('.last-div', 'after'),
-          dataType: 'script'
-        });
-    }, 
-    ceaseFire: function(s){
-      s<5 ? false : true;
-    }
-  });
-
-  //load more photos
-  $(document).ready( function(){
-    $('#load-more-photos').click( function(){
-      $.ajax({
-        url: '/photos/get_more/' + $('.endless-photos').attr('last') ,
-        data: params,
-				beforeSend: indicator.load('.last-div', 'after'),
-        dataType: 'script'
-      });
-    });  
-
-    $('#photoSelector li').click( function(event){
-      event.preventDefault();
-      $(this).parent().children().toggleClass('active');
-      //reload the photos according the featured or not...
-      params['featured'] = $('#featuredPhoto').hasClass('active') ? 'true' : ['true','false'];
-
-      $('.last-div').children().detach();
-      $('.endless-photos').attr('last','0');
-      $.ajax({
-        url: '/photos/get_more/' + $('.endless-photos').attr('last') ,
-        data: params,
-				beforeSend: indicator.load('.last-div', 'after'),
-        dataType: 'script'
-      });
-
-    });
-  });
-</script>

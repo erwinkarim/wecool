@@ -12,6 +12,8 @@ class TagsController < ApplicationController
     @tag = params[:tag_id]
     @photos = Photo.tagged_with(@tag)
 
+		js :params => { :persona => '', :tag => @tag }
+
     respond_to do |format|
       format.html { render "tags/show", :locals => { :tag => @tag} }
     end
@@ -37,6 +39,7 @@ class TagsController < ApplicationController
     @photo = Photo.find(params[:photo_id])
     @related_photos = @photo.find_related_tags.limit(8)
     
+		js :params => { :photo_id => @photo.id }
     respond_to do |format|  
       format.html
     end

@@ -28,22 +28,4 @@
   </div>
 </div>
 <script type="text/javascript">
-  $(document).ready( function(){
-    //load the related photos
-    $.ajax({
-      url: '/photos/get_more/' + $('.endless-photos').attr('last'),
-      data: { mediatype:'related', focusPhotoID:<%= @photo.id %> },
-      dataType: 'script'
-    });
-
-
-    $('#loadMore').click( function() {
-      $.ajax({
-        url: '/photos/get_more/' + $('.endless-photos').attr('last'),
-        data: { mediatype:'related', focusPhotoID:<%= @photo.id %> },
-        dataType: 'script'
-      });
-      
-    });
-  });
 </script>

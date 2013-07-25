@@ -4,3 +4,4 @@
 //= require ./personas/_manifest.js
 //= require ./mediasets/_manifest.js
 //= require ./photos/_manifest.js
+//= require ./tags/_manifest.js
