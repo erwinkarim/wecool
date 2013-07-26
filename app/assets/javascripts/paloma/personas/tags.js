@@ -19,6 +19,6 @@
 
   Paloma.callbacks['personas']['tags'] = function(params){
     // Do something here.
-    Paloma.callbacks['tags']['index'](params);
+    //Paloma.callbacks['tags']['index'](params);
   };
 })();

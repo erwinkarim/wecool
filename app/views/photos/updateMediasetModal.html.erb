@@ -64,26 +64,27 @@
     </div>
   </div>
 </div>
+<%= content_for :other_javascript do %>
 <script script="text/javascript">
   //generate form in #selectMediaset if photo.id.nil is false
-  <% if !photo.id.nil? then %>
-    $('#selectMediaset').wrapInner(
-      /*
-        $('<form/>', {
-          action:'<%= photo_update_setlist_path(@persona.screen_name, photo.id) %>', method:'post' 
-        })
-      */
-      '<%= escape_javascript(form_tag( photo_update_setlist_path(@persona.screen_name, photo.id))+"</form>".html_safe)  %>' 
-    );
-    //reattach to the the form as wrapiiner will push to the first input
-    handle = $('#selectMediaset').find('.modal-header').detach();
-    $('#selectMediaset').find('form').append(handle);
-    handle = $('#selectMediaset').find('.modal-body').detach();
-    $('#selectMediaset').find('form').append(handle);
-    handle = $('#selectMediaset').find('.modal-footer').detach();
-    $('#selectMediaset').find('form').append(handle);
-  <% end %>
   $(document).ready(function() {
+    <% if !photo.id.nil? then %>
+      $('#selectMediaset').wrapInner(
+        /*
+          $('<form/>', {
+            action:'<%= photo_update_setlist_path(@persona.screen_name, photo.id) %>', method:'post' 
+          })
+        */
+        '<%= escape_javascript(form_tag( photo_update_setlist_path(@persona.screen_name, photo.id))+"</form>".html_safe)  %>' 
+      );
+      //reattach to the the form as wrapiiner will push to the first input
+      handle = $('#selectMediaset').find('.modal-header').detach();
+      $('#selectMediaset').find('form').append(handle);
+      handle = $('#selectMediaset').find('.modal-body').detach();
+      $('#selectMediaset').find('form').append(handle);
+      handle = $('#selectMediaset').find('.modal-footer').detach();
+      $('#selectMediaset').find('form').append(handle);
+    <% end %>
       $("#newMediaset").hide();
       $('#newMediasetButton').click(function (event){
         $('#selectMediaset').hide('slow');
@@ -116,3 +117,4 @@
       });
   });
 </script>
+<% end %>

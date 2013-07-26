@@ -194,6 +194,7 @@ class PersonasController < ApplicationController
     @tags = Photo.get_tags( { :persona => @persona.id } )
 
     js :params => { :persona => @persona.id }
+    js :controller => 'tags', :action => 'index'
 
     respond_to do |format|
       format.html { render "tags/index", :locals => {:tags => @tags, :persona => @persona }  }
@@ -207,6 +208,7 @@ class PersonasController < ApplicationController
     @tag = params[:tag_id]
 
 		js :params => { :persona => @persona.screen_name, :tag => @tag } 
+    js :controller => 'tags' , :action => 'show'
 
     respond_to do |format|
       format.html{ render "tags/show", :locals => {:tag => @tag, :persona => @persona } }

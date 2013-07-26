@@ -122,6 +122,7 @@
         content_tag(:button, 'Send', :class => 'btn btn-primary', :id => 'share-via-email-exec') 
   %>
 </div>
+<%= content_for :other_javascript do %>
 <script type="text/javascript">
 $(document).ready( function() {
   //for the link copy copy to clipboard
@@ -191,3 +192,4 @@ $(document).ready( function() {
   });
 });
 </script>
+<% end %>

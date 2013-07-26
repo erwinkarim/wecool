@@ -114,34 +114,34 @@
   </div>
 <% end %>
 
-
+<%= content_for :other_javascript do %>
 <script type="text/javascript">
-  var getConditions = {};
-  getConditions = {limit:20, includeFirst:'true', size:'square100', 
-      author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
-      draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
-      float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
-  };
-
-  $.ajax({
-    url: '/photos/get_more/<%= Photo.last.id %>',
-    data: getConditions, 
-		beforeSend: indicator.load('.last-div', 'after', 'none', 'inline-block'),
-    dataType: 'script'
-  });
-
-  /*
-    Function declarations
-  */
-  var mediasetPhotoListingClick = function(){
-    var imageHandle = $(this).parent();
-    imageHandle.find('.photo-listings-select').prop(
-      'checked', !imageHandle.find('.photo-listings-select').prop('checked')
-    );
-    imageHandle.find('img').toggleClass('highlightPhoto');
-  }
-
   $(document).ready(function (){
+    var getConditions = {};
+    getConditions = {limit:20, includeFirst:'true', size:'square100', 
+        author:'<%= @persona.screen_name %>', showCaption:'false', excludeMediaset:'<%= @mediaset.id %>', 
+        draggable:true, dragSortConnect:'#mediaset-photo-listing', enableLinks:false, 
+        float:false, cssDisplay:'inline-block', showIndicators:false, multipleSelect:true
+    };
+
+    $.ajax({
+      url: '/photos/get_more/<%= Photo.last.id %>',
+      data: getConditions, 
+      beforeSend: indicator.load('.last-div', 'after', 'none', 'inline-block'),
+      dataType: 'script'
+    });
+
+    /*
+      Function declarations
+    */
+    var mediasetPhotoListingClick = function(){
+      var imageHandle = $(this).parent();
+      imageHandle.find('.photo-listings-select').prop(
+      'checked', !imageHandle.find('.photo-listings-select').prop('checked')
+      );
+      imageHandle.find('img').toggleClass('highlightPhoto');
+    }
+
     //track changes on the photo selection dropdown
     $('#photo-listing-selector').change( function() {
       //var getConditions = {};
@@ -363,3 +363,4 @@
     });
   });
 </script>
+<% end %>

@@ -18,44 +18,45 @@
   <a name="last-frame"></a>
   <%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary', :id=>'load-more-photos' %>
 </div>
+<%= content_for :other_javascript do %>
 <script type="text/javascript">
-  var isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
-  var theMediaType = 'featured';
-  var fetchSize = 'small';
-
-  //get the first few photos
-  $.ajax({
-    url: '/photos/get_more/<%= @photos.first.id %>', 
-    data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
-		beforeSend: indicator.load('.last-div', 'after'),
-    dataType: 'script'
-  });
- 
-  //keep loading until the end
-  $(document).endlessScroll({
-    fireOnce: true,
-    fireDelay: 500, 
-    bottomPixels: 250, 
-    intervalFrequency: 100, 
-    ceaseFireOnEmpty: false, 
-    ceaseFire: function(){
-      return $('.last-div').length ? false : true;
-    }, 
-    loader: '<div class="pull-left">loading...</div>', 
-    callback: function(){
-        $.ajax({
-          url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
-          data: { size:fetchSize, featured:isFeatured, mediatype:theMediaType } ,
-          beforeSend: indicator.load('.last-div', 'after'),
-          dataType: 'script'
-        });
-    }, 
-    ceaseFire: function(s){
-      s<5 ? false : true;
-    }
-  });
-
   $(document).ready( function(){
+    var isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+    var theMediaType = 'featured';
+    var fetchSize = 'small';
+
+    //get the first few photos
+    $.ajax({
+      url: '/photos/get_more/<%= @photos.first.id %>', 
+      data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
+      beforeSend: indicator.load('.last-div', 'after'),
+      dataType: 'script'
+    });
+   
+    //keep loading until the end
+    $(document).endlessScroll({
+      fireOnce: true,
+      fireDelay: 500, 
+      bottomPixels: 250, 
+      intervalFrequency: 100, 
+      ceaseFireOnEmpty: false, 
+      ceaseFire: function(){
+        return $('.last-div').length ? false : true;
+      }, 
+      loader: '<div class="pull-left">loading...</div>', 
+      callback: function(){
+          $.ajax({
+            url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+            data: { size:fetchSize, featured:isFeatured, mediatype:theMediaType } ,
+            beforeSend: indicator.load('.last-div', 'after'),
+            dataType: 'script'
+          });
+      }, 
+      ceaseFire: function(s){
+        s<5 ? false : true;
+      }
+    });
+
     //set the minimum height
     $('.endless-photos').css('min-height', $(window).height() );
     //handle nav bar
@@ -109,3 +110,4 @@
 
   });
 </script>
+<% end %>
