@@ -1,6 +1,8 @@
 class TagsController < ApplicationController
   def index
     #all content loaded by ajax
+    
+    js :params => { :persona => 0 }
 
     respond_to do |format|
       format.html { render "tags/index", :locals => { :tags => @tags, :persona => nil } }

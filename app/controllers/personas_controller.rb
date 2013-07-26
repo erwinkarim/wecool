@@ -110,6 +110,8 @@ class PersonasController < ApplicationController
     if persona_signed_in? then
       @persona = current_persona
 
+      js :params => { :persona => @persona.screen_name }
+
       respond_to do |format| 
         format.html
       end
@@ -190,6 +192,8 @@ class PersonasController < ApplicationController
   def tags
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @tags = Photo.get_tags( { :persona => @persona.id } )
+
+    js :params => { :persona => @persona.id }
 
     respond_to do |format|
       format.html { render "tags/index", :locals => {:tags => @tags, :persona => @persona }  }

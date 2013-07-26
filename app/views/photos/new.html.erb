@@ -76,17 +76,6 @@
   <% end %><!-- form_for -->
   </div>
 
-<script>
-  var fileUploadErrors = {
-  maxFileSize: 'File is too big',
-  minFileSize: 'File is too small',
-  acceptFileTypes: 'Filetype not allowed',
-  maxNumberOfFiles: 'Max number of files exceeded',
-  uploadedBytes: 'Uploaded bytes exceed file size',
-  emptyResult: 'Empty file upload result'
-  };
-</script>
-
 
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
@@ -154,46 +143,6 @@
       </td>
     </tr>
     {% } %}
-</script>
-
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload({
-      dropZone: $('#dropzone')
-    });
-
-    //clear uploaded files
-    $('.clear').click( function() {
-      $('.files').find('input:checkbox:checked').each( function() {
-        $(this).closest('tr').detach();
-      });
-    });
-
-    //drop zone
-    $(document).bind('dragover', function (e) {
-      var dropZone = $('#dropzone'),
-          timeout = window.dropZoneTimeout;
-      if (!timeout) {
-          dropZone.addClass('in');
-      } else {
-          clearTimeout(timeout);
-      }
-      if (e.target === dropZone[0]) {
-          dropZone.addClass('hover');
-      } else {
-          dropZone.removeClass('hover');
-      }
-      window.dropZoneTimeout = setTimeout(function () {
-          window.dropZoneTimeout = null;
-        dropZone.removeClass('in hover');
-      }, 100);
-    });
-
-    $(document).bind('drop dragover', function (e) {
-      e.preventDefault();
-    });
-  });
 </script>
 
 <% else %>

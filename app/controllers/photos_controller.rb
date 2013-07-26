@@ -89,6 +89,7 @@ class PhotosController < ApplicationController
           '">Upgrade</a> to see them all!'
       end
     end
+  
 
     if @persona.nil? then
       respond_to do |format|  
@@ -96,6 +97,7 @@ class PhotosController < ApplicationController
       end
     else 
       @last_photo = @persona.photos.empty? ? Photo.new : @persona.photos.last
+      js :params =>{ :last_photo_id => @last_photo.id, :persona => @persona.screen_name }
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @persona.photos }

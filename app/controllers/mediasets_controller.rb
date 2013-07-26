@@ -48,6 +48,9 @@ class MediasetsController < ApplicationController
       end
     end
 
+    js :params => { :mediaset_id => Mediaset.last.id , :persona_id => @persona.id, 
+      :has_mediaset => !@persona.mediasets.empty?  }
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @mediaset }
