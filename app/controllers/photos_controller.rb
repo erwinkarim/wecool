@@ -239,8 +239,15 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:photo_id])
     @persona = Persona.find(@photo.persona_id)
     
-    js :params => { :img_src => @photo.avatar.large.url } 
+    js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id  } 
   end
+  
+  #  POST   /photos/:persona_id/editor/:photo_id/generate
+  #   generate the photo from canvas.toDataPath in jpg format to physical file and send it out to client
+  #
+  def editor_gen
+  end
+  
 
   #  GET    /photos/:persona_id/view/:id(.:format)
   def view

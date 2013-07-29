@@ -8,3 +8,4 @@
 //= require jquery.ui.slider
 //= require ZeroClipboard
 //= require jquery.Jcrop
+//= require_tree ./canvas2image

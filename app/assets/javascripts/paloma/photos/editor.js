@@ -113,6 +113,7 @@
     //send the files to your machine
     $('#photo-download').click( function(){
       Canvas2Image.saveAsJPEG(canvas);
+      
     });
 
     //toggle the crop button
