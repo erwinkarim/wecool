@@ -112,8 +112,29 @@
 
     //send the files to your machine
     $('#photo-download').click( function(){
-      Canvas2Image.saveAsJPEG(canvas);
-      
+      //Canvas2Image.saveAsJPEG(canvas);
+      //
+      //get the canvas data and save as  image/octet-stream
+   
+      //setup image data 
+      imageData = canvas.toDataURL('image/jpeg');
+      imageData = imageData.substr(imageData.indexOf(',') + 1).toString();
+        
+      //generate the form and post it
+      //
+      var dataInput = $('<input/>', { name:'imagedata', value:imageData, type:'hidden' });
+      var nameInput = $('<input/>', { name:'filename', value:'thisimage.jpg' });
+
+      var picForm = $('<form/>', { method:'post', action:params['photo_gen_path'] }); 
+      picForm.append(dataInput);
+      picForm.append(nameInput);
+  
+      $.ajax({
+        type:'POST', 
+        url:params['photo_gen_path'], 
+        data: picForm.serialize()
+      }) 
+       
     });
 
     //toggle the crop button
