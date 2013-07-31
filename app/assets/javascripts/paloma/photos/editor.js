@@ -128,12 +128,8 @@
       var picForm = $('<form/>', { method:'post', action:params['photo_gen_path'] }); 
       picForm.append(dataInput);
       picForm.append(nameInput);
-  
-      $.ajax({
-        type:'POST', 
-        url:params['photo_gen_path'], 
-        data: picForm.serialize()
-      }) 
+ 
+      picForm.submit();
        
     });
 

@@ -247,8 +247,8 @@ class PhotosController < ApplicationController
   #   generate the photo from canvas.toDataPath in jpg format to physical file and send it out to client
   #
   def editor_gen
-    
-    send_file params[:imagedata], filename: params[:filename]
+    #need to optimize this
+    send_data Base64.decode64(params[:imagedata]), { :filename => params[:filename] , :disposition => 'attachment' }  
   end
   
 
