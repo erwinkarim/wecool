@@ -123,7 +123,8 @@
       //generate the form and post it
       //
       var dataInput = $('<input/>', { name:'imagedata', value:imageData, type:'hidden' });
-      var nameInput = $('<input/>', { name:'filename', value:'thisimage.jpg' });
+      var nameInput = $('<input/>', { name:'filename', 
+        value:params['photo_title'].replace(/.jpg/,'') + '_edited.jpg' });
 
       var picForm = $('<form/>', { method:'post', action:params['photo_gen_path'] }); 
       picForm.append(dataInput);

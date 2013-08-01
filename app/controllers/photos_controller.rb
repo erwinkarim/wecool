@@ -240,7 +240,7 @@ class PhotosController < ApplicationController
     @persona = Persona.find(@photo.persona_id)
     
     js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, 
-      :photo_gen_path => photo_editor_gen_path(@persona.screen_name, @photo.id)  } 
+      :photo_gen_path => photo_editor_gen_path(@persona.screen_name, @photo.id), :photo_title => @photo.title  } 
   end
   
   #  POST   /photos/:persona_id/editor/:photo_id/generate
