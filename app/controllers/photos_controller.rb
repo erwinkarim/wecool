@@ -3,7 +3,7 @@ class PhotosController < ApplicationController
   before_filter :check_if_allowed_to_view, :only => [:view, :download]
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
   before_filter :check_if_reach_quota, :only => [:create]
-  before_filter :authenticate_persona!, :only => [:new, :edit]
+  before_filter :authenticate_persona!, :only => [:new, :edit, :editor]
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 1000
@@ -240,15 +240,45 @@ class PhotosController < ApplicationController
     @persona = Persona.find(@photo.persona_id)
     
     js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, 
-      :photo_gen_path => photo_editor_gen_path(@persona.screen_name, @photo.id), :photo_title => @photo.title  } 
+      :photo_gen_path => photo_editor_gen_path(@persona.screen_name, @photo.id), :photo_title => @photo.title ,
+      :photo_upload_new_path => photo_editor_upload_path(@persona.screen_name, @photo.id), 
+      :form_auth_token => SecureRandom.base64(32) } 
   end
   
   #  POST   /photos/:persona_id/editor/:photo_id/generate
   #   generate the photo from canvas.toDataPath in jpg format to physical file and send it out to client
   #
+  # parameters:-
+  #     imagedata canvas.toDataURL()
+  #     filename  the file name to send the data as
   def editor_gen
     #need to optimize this
     send_data Base64.decode64(params[:imagedata]), { :filename => params[:filename] , :disposition => 'attachment' }  
+  end
+
+  # POST   /photos/:persona_id/editor/:photo_id/upload_to_sys
+  # upload canvas data to the system (generate a new picture in the system)
+  # parameters:-
+  #   imagedata canvas.toDataURL()
+  def editor_upload_to_sys
+      @old_photo = Photo.find(params[:photo_id])
+     thisFile = File.new('/tmp/' + SecureRandom.urlsafe_base64 + '.jpg' , 'w+')
+     if thisFile
+      thisFile.syswrite( Base64.decode64(params[:imagedata]) )
+     end
+
+    @photo = Persona.where(:screen_name => params[:persona_id]).first.photos.new
+    @photo.avatar = thisFile
+    @photo.title = @old_photo.title.gsub(/.[jJ][pP][gG]/, '_edited')
+    @photo.system_visible = true
+    if @photo.save then
+      respond_to do |format|
+        format.js
+        format.html
+      end
+    else
+      render :status => :internal_server_error
+    end
   end
   
 

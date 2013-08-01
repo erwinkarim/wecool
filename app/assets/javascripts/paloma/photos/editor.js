@@ -110,6 +110,22 @@
       $('#crop-submenu').attr('y2', c.y2);
     };
 
+
+    //save the image into the system
+    $('#photo-upload-new').click( function(){
+      imageData = canvas.toDataURL('image/jpeg');
+      imageData = imageData.substr(imageData.indexOf(',') + 1).toString();
+
+      var dataInput = $('<input/>', { name:'imagedata', value:imageData, type:'hidden', id:'imagedata' });
+       $('#upload_new').append(dataInput);
+
+       $('#upload_new').submit();
+
+       $('#upload_new').find('#imagedata').detach();
+
+      //send the image back to the server and post it as a new image
+    });
+
     //send the files to your machine
     $('#photo-download').click( function(){
       //Canvas2Image.saveAsJPEG(canvas);
@@ -122,15 +138,17 @@
         
       //generate the form and post it
       //
-      var dataInput = $('<input/>', { name:'imagedata', value:imageData, type:'hidden' });
+      var dataInput = $('<input/>', { name:'imagedata', value:imageData, type:'hidden', id:'imagedata' });
       var nameInput = $('<input/>', { name:'filename', 
-        value:params['photo_title'].replace(/.jpg/,'') + '_edited.jpg' });
+        value:params['photo_title'].replace(/.jpg/,'') + '_edited.jpg' , id:'filename' });
 
-      var picForm = $('<form/>', { method:'post', action:params['photo_gen_path'] }); 
-      picForm.append(dataInput);
-      picForm.append(nameInput);
+      $('#dl_file').append(dataInput);
+      $('#dl_file').append(nameInput);
  
-      picForm.submit();
+      $('#dl_file').submit();
+    
+      $('#dl_file').find('#imagedata').detach();
+      $('#dl_file').find('#filename').detach();
        
     });
 

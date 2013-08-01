@@ -64,5 +64,8 @@
   <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" style="max-width:none; width:<%= img.columns %>px;" rotation=0 >
   </canvas>
 </div>
-<script type="text/javascript">
-</script> 
+<%= form_tag photo_editor_gen_path(@persona.screen_name, @photo.id), :id => 'dl_file' do %>
+<% end %>
+<%= form_tag photo_editor_upload_path(@persona.screen_name, @photo.id),:remote => true,  :id => 'upload_new' do %>
+<% end %>
+
