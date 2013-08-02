@@ -26,7 +26,7 @@ end
 # front-end interface
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '=2.2.7'
 gem 'font-awesome-rails', '= 3.2.1'
 
 # javascript management

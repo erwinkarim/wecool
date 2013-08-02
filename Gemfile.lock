@@ -229,7 +229,7 @@ DEPENDENCIES
   sqlite3
   squeel
   therubyracer
-  twitter-bootstrap-rails
+  twitter-bootstrap-rails (= 2.2.7)
   twitter-text
   uglifier (>= 1.0.3)
   unicorn

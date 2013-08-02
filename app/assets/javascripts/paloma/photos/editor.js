@@ -110,6 +110,13 @@
       $('#crop-submenu').attr('y2', c.y2);
     };
 
+    //bind messages to the photo upload form
+    $('#upload_new').bind('ajax:complete', function(  ){
+      var alertmsg = $('<div/>', { class:'alert fade in', text:'New file created' });
+      alertmsg.append( $('<button/>', { class:'close', 'data-dismiss':'alert', text:'×' }) );
+      
+      $('.container-fluid:first').prepend(alertmsg); 
+    });
 
     //save the image into the system
     $('#photo-upload-new').click( function(){

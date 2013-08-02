@@ -272,6 +272,7 @@ class PhotosController < ApplicationController
     @photo.title = @old_photo.title.gsub(/.[jJ][pP][gG]/, '_edited')
     @photo.system_visible = true
     if @photo.save then
+      flash[:warning] = 'File created'
       respond_to do |format|
         format.js
         format.html
