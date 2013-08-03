@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class StoreController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/store_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-add_to_cart">#add_to_cart</a>
+    
+    <li><a href="#method-i-redeem_coupon">#redeem_coupon</a>
+    
+    <li><a href="#method-i-require_login">#require_login</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AppMailer.html">AppMailer</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./AvatarUploader.html">AvatarUploader</a>
+  
+    <li><a href="./Cart.html">Cart</a>
+  
+    <li><a href="./Coupon.html">Coupon</a>
+  
+    <li><a href="./DeviseHelper.html">DeviseHelper</a>
+  
+    <li><a href="./Follower.html">Follower</a>
+  
+    <li><a href="./FollowersController.html">FollowersController</a>
+  
+    <li><a href="./FollowersHelper.html">FollowersHelper</a>
+  
+    <li><a href="./Mediaset.html">Mediaset</a>
+  
+    <li><a href="./MediasetPhoto.html">MediasetPhoto</a>
+  
+    <li><a href="./MediasetsController.html">MediasetsController</a>
+  
+    <li><a href="./MediasetsHelper.html">MediasetsHelper</a>
+  
+    <li><a href="./Persona.html">Persona</a>
+  
+    <li><a href="./PersonaUploader.html">PersonaUploader</a>
+  
+    <li><a href="./PersonasController.html">PersonasController</a>
+  
+    <li><a href="./PersonasHelper.html">PersonasHelper</a>
+  
+    <li><a href="./Photo.html">Photo</a>
+  
+    <li><a href="./PhotosController.html">PhotosController</a>
+  
+    <li><a href="./PhotosHelper.html">PhotosHelper</a>
+  
+    <li><a href="./Sku.html">Sku</a>
+  
+    <li><a href="./StaticPageController.html">StaticPageController</a>
+  
+    <li><a href="./StaticPageHelper.html">StaticPageHelper</a>
+  
+    <li><a href="./StoreController.html">StoreController</a>
+  
+    <li><a href="./StoreHelper.html">StoreHelper</a>
+  
+    <li><a href="./TagsController.html">TagsController</a>
+  
+    <li><a href="./TagsHelper.html">TagsHelper</a>
+  
+    <li><a href="./Tracker.html">Tracker</a>
+  
+    <li><a href="./TrackersController.html">TrackersController</a>
+  
+    <li><a href="./TrackersHelper.html">TrackersHelper</a>
+  
+    <li><a href="./WelcomeController.html">WelcomeController</a>
+  
+    <li><a href="./WelcomeHelper.html">WelcomeHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class StoreController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-add_to_cart" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_to_cart</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>add items to cart</p>
+
+<pre>POST   /store/:persona_id/add_to_cart(.:format)</pre>
+          
+
+          
+          <div class="method-source-code" id="add_to_cart-source">
+            <pre><span class="ruby-comment"># File app/controllers/store_controller.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_cart</span>
+  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_to_cart-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_to_cart-method -->
+
+    
+      <div id="method-i-redeem_coupon" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">redeem_coupon</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>redeem coupons that is purchased else where</p>
+
+<pre>POST   /store/:persona_id/redeem_coupon(.:format)</pre>
+          
+
+          
+          <div class="method-source-code" id="redeem_coupon-source">
+            <pre><span class="ruby-comment"># File app/controllers/store_controller.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">redeem_coupon</span>
+  <span class="ruby-ivar">@coupon_code</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:redeemCodes</span>]
+
+  <span class="ruby-comment">#check if the coupon is valid and not taken</span>
+  <span class="ruby-ivar">@coupon</span> = <span class="ruby-constant">Coupon</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:code</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:redeemCodes</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-identifier">coupon_failure</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">message</span> = <span class="ruby-string">'Coupon not found'</span>
+    <span class="ruby-identifier">coupon_failure</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">redeem_date</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">persona_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">id</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">message</span> = <span class="ruby-string">'You already redeem this coupon on '</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">redeem_date</span>)
+    <span class="ruby-keyword">else</span> 
+      <span class="ruby-identifier">message</span> = <span class="ruby-string">'Coupon has been taken by someone else'</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">coupon_failure</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#if everything ok then update the coupon to be redeem</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">coupon_failure</span> <span class="ruby-keyword">then</span>
+
+    <span class="ruby-comment">#update coupon</span>
+    <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]).<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">update_attributes</span>({ <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:redeem_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> } )
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">sku</span>.<span class="ruby-identifier">code</span> = <span class="ruby-string">'1ypm'</span> <span class="ruby-keyword">then</span> 
+      <span class="ruby-identifier">duration</span> = <span class="ruby-value">1</span>.<span class="ruby-identifier">year</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@coupon</span>.<span class="ruby-identifier">sku</span>.<span class="ruby-identifier">code</span> = <span class="ruby-string">'2ypm'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">duration</span> = <span class="ruby-value">2</span>.<span class="ruby-identifier">year</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#update persona</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">update_attributes</span>( { <span class="ruby-value">:premium</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> })
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premiumSince</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">update_attributes</span>( { <span class="ruby-value">:premiumSince</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> } )
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premiumExpire</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premiumExpire</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">update_attributes</span>( {<span class="ruby-value">:premiumExpire</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">duration</span> })
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">update_attributes</span>( { <span class="ruby-value">:premiumExpire</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premiumExpire</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">duration</span> })
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">save</span>
+
+    <span class="ruby-comment">#update persona</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">update_all</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">coupon_failure</span> <span class="ruby-keyword">then</span> 
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">alert</span><span class="ruby-operator">:</span> <span class="ruby-identifier">message</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- redeem_coupon-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- redeem_coupon-method -->
+
+    
+      <div id="method-i-require_login" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">require_login</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>ensure that the users are logging in before accessing the store</p>
+          
+
+          
+          <div class="method-source-code" id="require_login-source">
+            <pre><span class="ruby-comment"># File app/controllers/store_controller.rb, line 5</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">require_login</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">persona_signed_in?</span> 
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-string">&quot;You must sign in first&quot;</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_persona_session_path</span>
+  <span class="ruby-keyword">end</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- require_login-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- require_login-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

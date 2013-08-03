@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Photo - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/photo.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">Twitter::Extractor</span>
+  
+  
+  
+    <li><span class="include">Rails</span>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-get_more">::get_more</a>
+    
+    <li><a href="#method-c-get_tags">::get_tags</a>
+    
+    <li><a href="#method-i-init">#init</a>
+    
+    <li><a href="#method-i-rebuild_original_after_transform">#rebuild_original_after_transform</a>
+    
+    <li><a href="#method-i-reset_tags">#reset_tags</a>
+    
+    <li><a href="#method-i-rotate">#rotate</a>
+    
+    <li><a href="#method-i-to_jq_upload">#to_jq_upload</a>
+    
+    <li><a href="#method-i-update_setlist">#update_setlist</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AppMailer.html">AppMailer</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./AvatarUploader.html">AvatarUploader</a>
+  
+    <li><a href="./Cart.html">Cart</a>
+  
+    <li><a href="./Coupon.html">Coupon</a>
+  
+    <li><a href="./DeviseHelper.html">DeviseHelper</a>
+  
+    <li><a href="./Follower.html">Follower</a>
+  
+    <li><a href="./FollowersController.html">FollowersController</a>
+  
+    <li><a href="./FollowersHelper.html">FollowersHelper</a>
+  
+    <li><a href="./Mediaset.html">Mediaset</a>
+  
+    <li><a href="./MediasetPhoto.html">MediasetPhoto</a>
+  
+    <li><a href="./MediasetsController.html">MediasetsController</a>
+  
+    <li><a href="./MediasetsHelper.html">MediasetsHelper</a>
+  
+    <li><a href="./Persona.html">Persona</a>
+  
+    <li><a href="./PersonaUploader.html">PersonaUploader</a>
+  
+    <li><a href="./PersonasController.html">PersonasController</a>
+  
+    <li><a href="./PersonasHelper.html">PersonasHelper</a>
+  
+    <li><a href="./Photo.html">Photo</a>
+  
+    <li><a href="./PhotosController.html">PhotosController</a>
+  
+    <li><a href="./PhotosHelper.html">PhotosHelper</a>
+  
+    <li><a href="./Sku.html">Sku</a>
+  
+    <li><a href="./StaticPageController.html">StaticPageController</a>
+  
+    <li><a href="./StaticPageHelper.html">StaticPageHelper</a>
+  
+    <li><a href="./StoreController.html">StoreController</a>
+  
+    <li><a href="./StoreHelper.html">StoreHelper</a>
+  
+    <li><a href="./TagsController.html">TagsController</a>
+  
+    <li><a href="./TagsHelper.html">TagsHelper</a>
+  
+    <li><a href="./Tracker.html">Tracker</a>
+  
+    <li><a href="./TrackersController.html">TrackersController</a>
+  
+    <li><a href="./TrackersHelper.html">TrackersHelper</a>
+  
+    <li><a href="./WelcomeController.html">WelcomeController</a>
+  
+    <li><a href="./WelcomeHelper.html">WelcomeHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Photo</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-get_more" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_more</span><span
+            class="method-args">( last_id, options={}, current_persona={ :signed_in? => false, :current_persona => nil } )</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>fetch photos from last_id reference point, options can be modified in the
+second arguments, otherwise it will</p>
+
+<pre class="ruby"><span class="ruby-identifier">defaults</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">options</span>
+
+<span class="ruby-constant">Options</span> <span class="ruby-constant">Explaination</span>
+    <span class="ruby-constant">FETCH</span> <span class="ruby-constant">Options</span>
+    <span class="ruby-operator">===</span><span class="ruby-operator">===</span><span class="ruby-operator">===</span><span class="ruby-operator">===</span>=
+    <span class="ruby-identifier">mediatype</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span> <span class="ruby-identifier">are</span> <span class="ruby-identifier">photos</span>(<span class="ruby-identifier">default</span>), <span class="ruby-identifier">mediaset</span>, <span class="ruby-identifier">tagset</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">featured</span>
+                      <span class="ruby-identifier">photos</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">fetch</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">with</span> :<span class="ruby-identifier">last_id</span> <span class="ruby-identifier">as</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">reference</span> <span class="ruby-identifier">point</span>
+                      <span class="ruby-identifier">mediaset</span><span class="ruby-operator">:</span> <span class="ruby-identifier">fetch</span> <span class="ruby-identifier">photos</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">params</span>[:<span class="ruby-identifier">mediaset_id</span>] <span class="ruby-identifier">with</span> <span class="ruby-identifier">params</span>[:<span class="ruby-identifier">last_id</span>] <span class="ruby-identifier">the</span> <span class="ruby-identifier">photo</span> <span class="ruby-identifier">photo</span>
+                      <span class="ruby-identifier">tagset</span><span class="ruby-operator">:</span> <span class="ruby-identifier">fetch</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">params</span> <span class="ruby-identifier">tags</span> <span class="ruby-identifier">params</span>[:<span class="ruby-identifier">tags</span>] <span class="ruby-identifier">with</span> <span class="ruby-identifier">offset</span> [:<span class="ruby-identifier">last_id</span>]
+                      <span class="ruby-identifier">featured</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">similiar</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">but</span> <span class="ruby-identifier">fetch</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">featured</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span> <span class="ruby-identifier">attribute</span>
+                      <span class="ruby-identifier">related</span><span class="ruby-operator">:</span> <span class="ruby-identifier">get</span> <span class="ruby-identifier">related</span> <span class="ruby-identifier">photo</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">params</span>[:<span class="ruby-identifier">last_id</span>] <span class="ruby-identifier">with</span> <span class="ruby-identifier">offset</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">params</span>[:<span class="ruby-identifier">offset</span>]
+                        <span class="ruby-identifier">eg</span>. <span class="ruby-identifier">get</span> <span class="ruby-identifier">related</span> <span class="ruby-identifier">photo</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">id</span> <span class="ruby-value">28</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">offset</span> <span class="ruby-identifier">of</span> <span class="ruby-value">10</span>
+                      <span class="ruby-identifier">trending</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">get</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">that</span> <span class="ruby-identifier">popular</span> <span class="ruby-identifier">on</span> <span class="ruby-identifier">votes</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">tags</span>
+                      <span class="ruby-identifier">fromList</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">get</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">options</span>[:<span class="ruby-identifier">theList</span>]
+    <span class="ruby-identifier">limit</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">limit</span> <span class="ruby-identifier">output</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">option</span>[:<span class="ruby-identifier">limit</span>] <span class="ruby-identifier">photos</span>
+    <span class="ruby-identifier">includeFirst</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">when</span> <span class="ruby-identifier">fetching</span> <span class="ruby-identifier">photos</span>, <span class="ruby-identifier">include</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">last_id</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">results</span>
+    <span class="ruby-identifier">author</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">limit</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">options</span>[:<span class="ruby-identifier">author</span>] <span class="ruby-identifier">only</span>
+    <span class="ruby-identifier">featured</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">limit</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">featured</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">only</span>, <span class="ruby-identifier">defaults</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">any</span> <span class="ruby-identifier">photos</span> 
+                      [<span class="ruby-keyword">true</span>,<span class="ruby-keyword">false</span>].<span class="ruby-identifier">include?</span> <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(:<span class="ruby-identifier">last_id</span>).<span class="ruby-identifier">featured</span>
+    <span class="ruby-identifier">excludeMediaset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">when</span> <span class="ruby-identifier">fetching</span> <span class="ruby-identifier">photos</span>, <span class="ruby-identifier">exclude</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">certain</span> <span class="ruby-identifier">mediaset</span>
+    <span class="ruby-identifier">dataRange</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">grabs</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">dateRange</span>, <span class="ruby-identifier">must</span> <span class="ruby-identifier">be</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">firstDate</span><span class="ruby-operator">..</span><span class="ruby-identifier">lastDate</span> <span class="ruby-identifier">format</span>
+    <span class="ruby-identifier">tag</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">grabs</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">certain</span> <span class="ruby-identifier">options</span>[:<span class="ruby-identifier">tag</span>], <span class="ruby-identifier">can</span> <span class="ruby-identifier">only</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">used</span> <span class="ruby-identifier">with</span> :<span class="ruby-identifier">mediatype</span> = <span class="ruby-string">'tagset'</span>
+    <span class="ruby-identifier">direction</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">load</span> :<span class="ruby-identifier">limit</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">at</span> <span class="ruby-identifier">the</span> <span class="ruby-keyword">end</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">the</span> <span class="ruby-operator">:</span><span class="ruby-identifier">targetDiv</span> (<span class="ruby-string">'forward'</span>) <span class="ruby-keyword">or</span>
+                      <span class="ruby-identifier">to</span> <span class="ruby-identifier">load</span> :<span class="ruby-identifier">limit</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">at</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">begining</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">the</span> <span class="ruby-operator">:</span><span class="ruby-identifier">targetDiv</span> (<span class="ruby-string">'reverse'</span>)
+    <span class="ruby-identifier">theList</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[:<span class="ruby-identifier">mediatype</span>] <span class="ruby-identifier">set</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">fromList</span>, <span class="ruby-identifier">photo</span> <span class="ruby-identifier">id</span> <span class="ruby-identifier">from</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">list</span> <span class="ruby-identifier">will</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">fetched</span>
+
+    <span class="ruby-constant">SHOW</span> <span class="ruby-constant">Options</span>
+    <span class="ruby-operator">===</span><span class="ruby-operator">===</span><span class="ruby-operator">===</span><span class="ruby-operator">===</span>
+    <span class="ruby-identifier">by</span> <span class="ruby-identifier">default</span>, <span class="ruby-identifier">show</span> <span class="ruby-identifier">options</span> <span class="ruby-identifier">will</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">processed</span> <span class="ruby-keyword">in</span> <span class="ruby-string">'/photos/get_more.js.erb'</span> <span class="ruby-identifier">view</span>
+      <span class="ruby-keyword">and</span> <span class="ruby-identifier">displayed</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">this</span> <span class="ruby-identifier">format</span>:<span class="ruby-operator">-</span>
+
+      <span class="ruby-identifier">photos</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">photo</span><span class="ruby-operator">|</span>
+        <span class="ruby-operator">&lt;</span><span class="ruby-identifier">div</span> <span class="ruby-identifier">class</span>=<span class="ruby-string">&quot;carousel&quot;</span><span class="ruby-operator">&gt;</span>
+          <span class="ruby-identifier">photo</span>.<span class="ruby-identifier">avatar</span>.(:<span class="ruby-identifier">size</span>).<span class="ruby-identifier">url</span>
+          <span class="ruby-operator">&lt;</span><span class="ruby-identifier">div</span> <span class="ruby-identifier">class</span>=<span class="ruby-string">&quot;carousel-indicators&quot;</span><span class="ruby-operator">&gt;</span><span class="ruby-operator">&lt;</span><span class="ruby-regexp">/div&gt;
+          &lt;div class=&quot;carousel-caption&quot;&gt;&lt;/</span><span class="ruby-identifier">div</span><span class="ruby-operator">&gt;</span>
+        <span class="ruby-operator">&lt;</span><span class="ruby-node">/div&gt;
+      end
+    showCaption   =&gt; to load '.carousel-caption' class
+    draggable     =&gt; implement the jquery-ui draggable class
+    dragSortConnect =&gt; specify the jquery-ui sortable class that the draggable element will connect to
+                    :draggable must be set to something
+    excludeLinks  =&gt; when showing the photo, to allow linkage the photo or '#'
+    showCaption   =&gt; to load '.carousel-caption' class
+    showIndicators=&gt; to load '.carousel-indicators' class
+    float         =&gt; to implement '.pull-left' class in the carousel
+    cssDisplay    =&gt; how the photos will arranged 
+    targetDiv     =&gt; Where am i going to put these photos
+    photoCountDiv =&gt; Where am i going to update the last/</span><span class="ruby-identifier">first</span> <span class="ruby-identifier">attribute</span> <span class="ruby-identifier">count</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">html</span> <span class="ruby-identifier">container</span>
+    <span class="ruby-identifier">highlight</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Highlight</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">photo</span> <span class="ruby-keyword">in</span> :<span class="ruby-identifier">last_id</span> <span class="ruby-keyword">when</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">photo</span><span class="ruby-operator">/</span><span class="ruby-identifier">featured</span> <span class="ruby-identifier">mode</span>
+    <span class="ruby-identifier">multipleSelect</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">only</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">used</span> <span class="ruby-keyword">when</span> <span class="ruby-identifier">draggable</span> <span class="ruby-identifier">is</span> <span class="ruby-keyword">true</span>. <span class="ruby-identifier">allow</span> <span class="ruby-identifier">multiple</span> <span class="ruby-identifier">photos</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">be</span> <span class="ruby-identifier">dragged</span> <span class="ruby-identifier">at</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">same</span>
+                          <span class="ruby-identifier">time</span>. <span class="ruby-identifier">if</span> <span class="ruby-identifier">multipleSelect</span> <span class="ruby-identifier">set</span> <span class="ruby-identifier">to</span> <span class="ruby-keyword">true</span>, <span class="ruby-identifier">it</span> <span class="ruby-identifier">will</span> <span class="ruby-identifier">disable</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">links</span> 
+<span class="ruby-constant">GET</span> <span class="ruby-regexp">/photos/</span><span class="ruby-identifier">get_more</span><span class="ruby-operator">/</span>:<span class="ruby-identifier">last_id</span>(.:<span class="ruby-identifier">format</span>)
+</pre>
+
+<p>return next_photos =&gt; an array of photos</p>
+          
+
+          
+          <div class="method-source-code" id="get_more-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 232</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_more</span>( <span class="ruby-identifier">last_id</span>, <span class="ruby-identifier">options</span>={},  
+  <span class="ruby-identifier">current_persona</span>={ <span class="ruby-value">:signed_in?</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:current_persona</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span> }
+)
+  <span class="ruby-comment">#default options</span>
+  <span class="ruby-identifier">default_options</span> = {
+    <span class="ruby-comment">#fetch options</span>
+    <span class="ruby-value">:mediatype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'photos'</span>, <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>, <span class="ruby-value">:includeFirst</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:author</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-constant">Persona</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span>, 
+    <span class="ruby-value">:featured</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>], <span class="ruby-value">:excludeMediaset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>,
+    <span class="ruby-value">:dateRange</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">50</span>.<span class="ruby-identifier">years</span>.<span class="ruby-identifier">ago</span><span class="ruby-operator">..</span><span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>, <span class="ruby-value">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">:direction</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'forward'</span>,
+    <span class="ruby-value">:offset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:theList</span> =<span class="ruby-operator">&gt;</span> [],
+
+    <span class="ruby-comment">#view options</span>
+    <span class="ruby-value">:excludeLinks</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:draggable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:dragSortConnect</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span> , <span class="ruby-value">:enableLinks</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'tiny'</span>,
+    <span class="ruby-value">:showCaption</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:showIndicators</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:float</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:cssDisplay</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'inline'</span>, 
+    <span class="ruby-value">:targetDiv</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'.endless_scroll_inner_wrap'</span>, <span class="ruby-value">:photoCountDiv</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'.endless-photos'</span>, <span class="ruby-value">:highlight</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, 
+    <span class="ruby-value">:multipleSelect</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
+  }
+
+  <span class="ruby-comment">#modify options</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:author</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:author</span>] = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:author</span>]})
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:excludeMediaset</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:excludeMediaset</span>].<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@excluded_mediaset_photos</span> = <span class="ruby-value">0</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@excluded_mediaset_photos</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:excludeMediaset</span>]).<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:photo_id</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@excluded_mediaset_photos</span> = <span class="ruby-value">0</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">default_options</span> = <span class="ruby-identifier">default_options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+
+  <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>] = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>].<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:dateRange</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@theDate</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:dateRange</span>]
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:dateRange</span>] = <span class="ruby-ivar">@theDate</span><span class="ruby-operator">..</span><span class="ruby-ivar">@theDate</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">default_options</span>.<span class="ruby-identifier">slice</span>( <span class="ruby-value">:includeFirst</span>, <span class="ruby-value">:exclueLinks</span>, <span class="ruby-value">:draggable</span>, <span class="ruby-value">:enableLinks</span>, <span class="ruby-value">:showCaption</span>,
+    <span class="ruby-value">:float</span>, <span class="ruby-value">:highlight</span>, <span class="ruby-value">:showIndicators</span>, <span class="ruby-value">:multipleSelect</span>).<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">thisKey</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-identifier">thisKey</span>].<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">default_options</span>[<span class="ruby-identifier">thisKey</span>] = <span class="ruby-identifier">default_options</span>[<span class="ruby-identifier">thisKey</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'true'</span>  
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#process featured </span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>].<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>) <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>] = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'true'</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>] = [<span class="ruby-keyword">true</span>,<span class="ruby-keyword">false</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#process author</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:author</span>].<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:author</span>] = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:author</span>] })
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#if draggable and multipleSelect set to true, disable links</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:multipleSelect</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:draggable</span>] <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:excludeLinks</span>] = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#fetch photos</span>
+  <span class="ruby-keyword">if</span> [<span class="ruby-string">'photos'</span>, <span class="ruby-string">'featured'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-keyword">then</span> 
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'forward'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'forward'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">upper</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">last_id</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'featured'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'photos'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">persona_range</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:author</span>]
+    <span class="ruby-identifier">feature_range</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>]
+    <span class="ruby-identifier">date_range</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:dateRange</span>]
+    <span class="ruby-identifier">thisPersona</span> = <span class="ruby-identifier">current_persona</span>[<span class="ruby-value">:signed_in?</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">current_persona</span>[<span class="ruby-value">:current_persona</span>].<span class="ruby-identifier">id</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span> 
+    <span class="ruby-identifier">excluded_sets</span> = <span class="ruby-ivar">@excluded_mediaset_photos</span>
+    <span class="ruby-identifier">persona_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">thisPersona</span> }
+    <span class="ruby-identifier">other_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{ (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">not_eq</span> <span class="ruby-identifier">thisPersona</span> ) &amp; (<span class="ruby-identifier">visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) }
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'forward'</span> <span class="ruby-keyword">then</span> 
+      <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{
+        (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span>(<span class="ruby-identifier">persona_photos</span>.<span class="ruby-identifier">select</span>{<span class="ruby-identifier">id</span>})) <span class="ruby-operator">|</span> (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span>(<span class="ruby-identifier">other_photos</span>.<span class="ruby-identifier">select</span>{<span class="ruby-identifier">id</span>}))
+      }.<span class="ruby-identifier">group</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">having</span>{
+        (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">upper</span>) &amp; (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span>) &amp; (<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>]) &amp;
+        (<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">date_range</span>) &amp; (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">not_in</span> <span class="ruby-identifier">excluded_sets</span>) &amp; (<span class="ruby-identifier">system_visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) 
+      }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'id desc'</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment">#get default_options[:limit] photos before the last_id</span>
+      <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{
+        (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span>(<span class="ruby-identifier">persona_photos</span>.<span class="ruby-identifier">select</span>{<span class="ruby-identifier">id</span>})) <span class="ruby-operator">|</span> (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span>(<span class="ruby-identifier">other_photos</span>.<span class="ruby-identifier">select</span>{<span class="ruby-identifier">id</span>}))
+      }.<span class="ruby-identifier">group</span>(<span class="ruby-value">:id</span>).<span class="ruby-identifier">having</span>{
+        (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">upper</span><span class="ruby-operator">..</span><span class="ruby-constant">Photo</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span>) &amp; (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span>) &amp; (<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">feature_range</span>) &amp;
+        (<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">date_range</span>) &amp; (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">not_in</span> <span class="ruby-identifier">excluded_sets</span>) &amp; (<span class="ruby-identifier">system_visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>)
+      }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'id asc'</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'tagset'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#get latest photos by @opions[:tag]</span>
+    <span class="ruby-identifier">persona_range</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:author</span>]
+    <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">tagged_with</span>(
+      <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:tag</span>]).<span class="ruby-identifier">where</span>{ 
+        (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span>) &amp; (<span class="ruby-identifier">system_visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) &amp; (<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>])
+      }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'updated_at desc'</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]).<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">upper</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'mediaset'</span> <span class="ruby-keyword">then</span> 
+    <span class="ruby-comment">#if you the owner of the set, you can see all photos, otherwise, only that the ones that you allowed to</span>
+    <span class="ruby-comment"># see</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_persona</span>[<span class="ruby-value">:signed_in?</span>] <span class="ruby-operator">&amp;&amp;</span> 
+      <span class="ruby-identifier">current_persona</span>[<span class="ruby-value">:current_persona</span>].<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:mediaset_id</span>]).<span class="ruby-identifier">persona_id</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">visibility</span> = [<span class="ruby-keyword">true</span>,<span class="ruby-keyword">false</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">visibility</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">featured</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:featured</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'forward'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">order_range</span> = <span class="ruby-identifier">upper</span><span class="ruby-operator">..</span><span class="ruby-identifier">upper</span><span class="ruby-operator">+</span><span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]
+      <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">mediaset_photos</span>}.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:mediaset_id</span>]).<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{
+        (<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">order</span>.<span class="ruby-identifier">gteq</span> <span class="ruby-identifier">upper</span>) &amp; (<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">system_visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) &amp; (<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">featured</span>)
+      }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'mediaset_photos.&quot;order&quot;'</span>).<span class="ruby-identifier">group</span>(<span class="ruby-string">'mediaset_photos.&quot;order&quot;, photos.visible, photos.id'</span>).
+      <span class="ruby-identifier">having</span>(<span class="ruby-value">:visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">visibility</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">order_range</span> = (<span class="ruby-identifier">upper</span><span class="ruby-operator">-</span><span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])<span class="ruby-operator">..</span><span class="ruby-identifier">upper</span>
+      <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">mediaset_photos</span> }.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:mediaset_id</span>]).<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{
+      <span class="ruby-comment">#  (mediaset_photos.order.in order_range) &amp; (photos.system_visible.eq true) &amp; (photos.featured.in featured)</span>
+        (<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">order</span>.<span class="ruby-identifier">lteq</span> <span class="ruby-identifier">upper</span>) &amp; (<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">system_visible</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) &amp; (<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">featured</span>)
+      }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'mediaset_photos.&quot;order&quot; desc'</span>).<span class="ruby-identifier">group</span>(<span class="ruby-string">'mediaset_photos.&quot;order&quot;, photos.visible, photos.id'</span>).
+      <span class="ruby-identifier">having</span>(<span class="ruby-value">:visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">visibility</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'trending'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#list down photo based on </span>
+    <span class="ruby-comment"># a) popular votes</span>
+    <span class="ruby-comment"># b) tag activity</span>
+    <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>).<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">votings</span> }.
+      <span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;votings.created_at desc&quot;</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]).
+      <span class="ruby-identifier">offset</span>(<span class="ruby-identifier">last_id</span>).<span class="ruby-identifier">select</span>(<span class="ruby-string">'photos.*, votings.created_at'</span>).<span class="ruby-identifier">uniq</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'tracked'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#get the photos that the current persona tracks</span>
+    <span class="ruby-ivar">@tracked_persona</span> = <span class="ruby-identifier">current_persona</span>[<span class="ruby-value">:current_persona</span>].<span class="ruby-identifier">followers</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:tracked_object_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'persona'</span>)
+    <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> 
+      { <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">upper</span>, <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@tracked_persona</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:tracked_object_id</span>), <span class="ruby-value">:visible=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>} , 
+      <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'id desc'</span>, <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>])
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'related'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>( <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> 
+      <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:focusPhotoID</span>]).<span class="ruby-identifier">find_related_tags</span>.
+        <span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>).
+        <span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]).<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">last_id</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:'photos.id'</span>)
+    )
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mediatype</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'fromList'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">theList</span> = <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:theList</span>])
+    <span class="ruby-ivar">@next_photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">theList</span> } 
+
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> { <span class="ruby-value">:photos</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_photos</span>, <span class="ruby-value">:options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">default_options</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_more-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_more-method -->
+
+    
+      <div id="method-c-get_tags" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_tags</span><span
+            class="method-args">( options = {} )</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_tags-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 126</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_tags</span> ( <span class="ruby-identifier">options</span> = {} )
+  <span class="ruby-identifier">default_options</span> = {
+    <span class="ruby-value">:mode</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'recent'</span>, <span class="ruby-value">:persona_range</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-constant">Persona</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>, <span class="ruby-value">:offset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+  }
+  
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">options</span> 
+  <span class="ruby-identifier">default_options</span> = <span class="ruby-identifier">default_options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">default_options</span>
+  <span class="ruby-comment">#get recent tags for the last 24 hours, order by tag count</span>
+  <span class="ruby-identifier">persona_range</span> = <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:persona_range</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'recent'</span> <span class="ruby-keyword">then</span> 
+    <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">joins</span>{ 
+      <span class="ruby-value">:tags</span> 
+    }.<span class="ruby-identifier">select</span>( 
+      <span class="ruby-string">'tags.name, min(taggings.created_at) as first_mention, max(taggings.created_at) as last_mention, count(*) as count'</span> 
+    ).<span class="ruby-identifier">group</span>(<span class="ruby-string">'tags.name'</span>).<span class="ruby-identifier">order</span>(<span class="ruby-string">'last_mention desc'</span>).<span class="ruby-identifier">having</span>{ 
+      (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span>)
+    }.<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:offset</span>]).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]).
+    <span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> {<span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">name</span>, <span class="ruby-value">:first_mention</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">first_mention</span>, <span class="ruby-value">:last_mention</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">last_mention</span>, <span class="ruby-value">:count</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">count</span> } }
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'popular'</span>
+    <span class="ruby-comment">#get by most popular tags</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">default_options</span>[<span class="ruby-value">:mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'trending'</span>
+    <span class="ruby-comment">#this is not good, need to get better way of doing it</span>
+    <span class="ruby-comment"># read http://www.michael-noll.com/blog/2013/01/18/implementing-real-time-trending-topics-in-storm/</span>
+    <span class="ruby-identifier">test</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">date_range</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span> }.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:created_at</span>).<span class="ruby-identifier">max</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>.<span class="ruby-identifier">weeks</span>
+    <span class="ruby-comment">#Photo.where{ (created_at.gt date_range ) &amp; (persona_id.in persona_range) }. order(</span>
+    <span class="ruby-comment">#  'created_at desc').map{ |x| test.empty? ? test &lt;&lt; [x] :</span>
+    <span class="ruby-comment">#  (test.last.last.created_at.to_date == x.created_at.to_date ? test.last &lt;&lt; x : test &lt;&lt; [x]) </span>
+    <span class="ruby-comment">#}</span>
+    <span class="ruby-comment">#tags = test.map{ |thatDay| thatDay.map{ |x| x.tags.map{ |y| y.name }}.uniq }.flatten</span>
+    <span class="ruby-identifier">tags</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">joins</span>{ 
+      <span class="ruby-value">:tags</span> 
+    }.<span class="ruby-identifier">where</span>{
+      (<span class="ruby-identifier">taggings</span>.<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">gt</span> <span class="ruby-identifier">date_range</span>)
+    }.<span class="ruby-identifier">select</span>( 
+      <span class="ruby-string">'tags.name, min(taggings.created_at) as first_mention, 
+        max(taggings.created_at) as last_mention, count(*) as count'</span> 
+    ).<span class="ruby-identifier">group</span>(<span class="ruby-string">'tags.name'</span>).<span class="ruby-identifier">order</span>(<span class="ruby-string">'count desc, first_mention desc'</span>).<span class="ruby-identifier">having</span>{ 
+      (<span class="ruby-identifier">persona_id</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">persona_range</span>) 
+    }.<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:offset</span>]).<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">default_options</span>[<span class="ruby-value">:limit</span>]).<span class="ruby-identifier">map</span>{ 
+      <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> {
+        <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">name</span>, <span class="ruby-value">:first_mention</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">first_mention</span>, <span class="ruby-value">:last_mention</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">last_mention</span>, <span class="ruby-value">:count</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">count</span> 
+      } 
+    }
+  <span class="ruby-keyword">end</span> 
+
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">tags</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_tags-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_tags-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-init" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init</span><span
+            class="method-args">(params={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="init-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">params</span>={})
+  <span class="ruby-comment">#self.featured ||= false;</span>
+  <span class="ruby-comment">#self.system_visible ||= false;</span>
+  <span class="ruby-constant">ActsAsTaggableOn</span>.<span class="ruby-identifier">force_lowercase</span> = <span class="ruby-keyword">true</span>;
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init-method -->
+
+    
+      <div id="method-i-rebuild_original_after_transform" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rebuild_original_after_transform</span><span
+            class="method-args">( command, options={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="rebuild_original_after_transform-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rebuild_original_after_transform</span>( <span class="ruby-identifier">command</span>, <span class="ruby-identifier">options</span>={})
+  <span class="ruby-ivar">@path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>
+  <span class="ruby-ivar">@original_photo</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">Image</span>.<span class="ruby-identifier">read</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">==</span> <span class="ruby-string">'rotate'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@original_photo</span>.<span class="ruby-identifier">rotate!</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:degree</span>])
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@original_photo</span>.<span class="ruby-identifier">write</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">recreate_versions!</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rebuild_original_after_transform-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rebuild_original_after_transform-method -->
+
+    
+      <div id="method-i-reset_tags" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">reset_tags</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>rebuilt the tag list. useful when you update the title/description</p>
+
+<pre>and need to know what's tag that are being used</pre>
+          
+
+          
+          <div class="method-source-code" id="reset_tags-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">reset_tags</span>
+  <span class="ruby-comment">#check for tags in the title/description</span>
+  <span class="ruby-identifier">tags</span> = <span class="ruby-identifier">extract_hashtags</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">title</span>
+  <span class="ruby-identifier">tags</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">extract_hashtags</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">description</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tag_list</span> = <span class="ruby-identifier">tags</span>
+  <span class="ruby-comment">#self.tag_list.add(tags)</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">save!</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- reset_tags-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- reset_tags-method -->
+
+    
+      <div id="method-i-rotate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rotate</span><span
+            class="method-args">(degree, version = 'all')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="rotate-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rotate</span> (<span class="ruby-identifier">degree</span>, <span class="ruby-identifier">version</span> = <span class="ruby-string">'all'</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">version</span> <span class="ruby-operator">==</span> <span class="ruby-string">'all'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span> 
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">versions</span>[<span class="ruby-identifier">version</span>.<span class="ruby-identifier">to_sym</span>].<span class="ruby-identifier">path</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">Image</span>.<span class="ruby-identifier">read</span>(<span class="ruby-ivar">@path</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">rotate!</span>(<span class="ruby-identifier">degree</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">version</span> <span class="ruby-operator">==</span> <span class="ruby-string">'all'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">write</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">recreate_versions!</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">write</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">versions</span>[<span class="ruby-identifier">version</span>.<span class="ruby-identifier">to_sym</span>].<span class="ruby-identifier">path</span>)
+    <span class="ruby-comment">#rewrite the original and recreate the rest</span>
+    <span class="ruby-comment">#don't forget to run /script/delayed_job start or else this won't work</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">delay</span>.<span class="ruby-identifier">rebuild_original_after_transform</span>(<span class="ruby-string">'rotate'</span>, { <span class="ruby-value">:degree</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">degree</span> })
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rotate-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rotate-method -->
+
+    
+      <div id="method-i-to_jq_upload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_jq_upload</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_jq_upload-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 23</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_jq_upload</span> 
+  { <span class="ruby-value">:files</span> =<span class="ruby-operator">&gt;</span> 
+    [{
+      <span class="ruby-string">&quot;name&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>).<span class="ruby-identifier">last</span>, 
+      <span class="ruby-string">&quot;size&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">size</span>,
+      <span class="ruby-string">&quot;url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">url</span>, 
+      <span class="ruby-string">&quot;thumbnail_url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">tiny</span>.<span class="ruby-identifier">url</span>,
+      <span class="ruby-string">&quot;delete_url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">photo_path</span>(<span class="ruby-keyword">self</span>),
+      <span class="ruby-string">&quot;delete_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;DELETE&quot;</span>,
+      <span class="ruby-string">&quot;persona_screen_name&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">persona_id</span>).<span class="ruby-identifier">screen_name</span>,
+      <span class="ruby-string">&quot;photo_id&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>
+    }]
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_jq_upload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_jq_upload-method -->
+
+    
+      <div id="method-i-update_setlist" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_setlist</span><span
+            class="method-args">(newSetlist = Array.new)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>update what photos that this mediaset belongs</p>
+          
+
+          
+          <div class="method-source-code" id="update_setlist-source">
+            <pre><span class="ruby-comment"># File app/models/photo.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update_setlist</span> (<span class="ruby-identifier">newSetlist</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>)
+  <span class="ruby-comment">#if !newSetlist.empty? then </span>
+  <span class="ruby-comment">#  return</span>
+  <span class="ruby-comment">#end</span>
+
+  <span class="ruby-identifier">current_selection</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediasets</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">newSetlist</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">newSetlist</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">new_selection</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">new_selection</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">newSetlist</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#brand new selection, only adding new ones </span>
+    <span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mediaset</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mediaset</span>.<span class="ruby-identifier">id</span>, 
+        <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">mediaset</span>).<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-string">'&quot;order&quot;'</span>).<span class="ruby-identifier">max</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span> 
+      )
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#add new selection</span>
+      <span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mediaset</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">mediaset</span>) <span class="ruby-keyword">then</span>
+          <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">create</span>(
+            <span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mediaset</span>.<span class="ruby-identifier">id</span>, 
+            <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">mediaset</span>).<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-string">'&quot;order&quot;'</span>).<span class="ruby-identifier">max</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span> 
+          )
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#delete the ones that are there, but not anymore</span>
+    <span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mediaset</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">mediaset</span>) <span class="ruby-keyword">then</span>
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">find</span>(
+          <span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mediaset</span>.<span class="ruby-identifier">id</span>}
+        ))
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">new_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#clear out mediaset association</span>
+    <span class="ruby-identifier">current_selection</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mediaset</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">mediaset</span>.<span class="ruby-identifier">id</span>) )
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_setlist-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_setlist-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

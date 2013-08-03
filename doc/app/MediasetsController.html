@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class MediasetsController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/mediasets_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-check_if_system_visible">#check_if_system_visible</a>
+    
+    <li><a href="#method-i-create">#create</a>
+    
+    <li><a href="#method-i-destroy">#destroy</a>
+    
+    <li><a href="#method-i-edit">#edit</a>
+    
+    <li><a href="#method-i-get_more">#get_more</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-new">#new</a>
+    
+    <li><a href="#method-i-show">#show</a>
+    
+    <li><a href="#method-i-toggle_featured">#toggle_featured</a>
+    
+    <li><a href="#method-i-unvote">#unvote</a>
+    
+    <li><a href="#method-i-update">#update</a>
+    
+    <li><a href="#method-i-view">#view</a>
+    
+    <li><a href="#method-i-vote">#vote</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AppMailer.html">AppMailer</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./AvatarUploader.html">AvatarUploader</a>
+  
+    <li><a href="./Cart.html">Cart</a>
+  
+    <li><a href="./Coupon.html">Coupon</a>
+  
+    <li><a href="./DeviseHelper.html">DeviseHelper</a>
+  
+    <li><a href="./Follower.html">Follower</a>
+  
+    <li><a href="./FollowersController.html">FollowersController</a>
+  
+    <li><a href="./FollowersHelper.html">FollowersHelper</a>
+  
+    <li><a href="./Mediaset.html">Mediaset</a>
+  
+    <li><a href="./MediasetPhoto.html">MediasetPhoto</a>
+  
+    <li><a href="./MediasetsController.html">MediasetsController</a>
+  
+    <li><a href="./MediasetsHelper.html">MediasetsHelper</a>
+  
+    <li><a href="./Persona.html">Persona</a>
+  
+    <li><a href="./PersonaUploader.html">PersonaUploader</a>
+  
+    <li><a href="./PersonasController.html">PersonasController</a>
+  
+    <li><a href="./PersonasHelper.html">PersonasHelper</a>
+  
+    <li><a href="./Photo.html">Photo</a>
+  
+    <li><a href="./PhotosController.html">PhotosController</a>
+  
+    <li><a href="./PhotosHelper.html">PhotosHelper</a>
+  
+    <li><a href="./Sku.html">Sku</a>
+  
+    <li><a href="./StaticPageController.html">StaticPageController</a>
+  
+    <li><a href="./StaticPageHelper.html">StaticPageHelper</a>
+  
+    <li><a href="./StoreController.html">StoreController</a>
+  
+    <li><a href="./StoreHelper.html">StoreHelper</a>
+  
+    <li><a href="./TagsController.html">TagsController</a>
+  
+    <li><a href="./TagsHelper.html">TagsHelper</a>
+  
+    <li><a href="./Tracker.html">Tracker</a>
+  
+    <li><a href="./TrackersController.html">TrackersController</a>
+  
+    <li><a href="./TrackersHelper.html">TrackersHelper</a>
+  
+    <li><a href="./WelcomeController.html">WelcomeController</a>
+  
+    <li><a href="./WelcomeHelper.html">WelcomeHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class MediasetsController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="FREE_MEDIASET_COUNT">FREE_MEDIASET_COUNT
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-check_if_system_visible" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_if_system_visible</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>check if the mediaset is viewable</p>
+          
+
+          
+          <div class="method-source-code" id="check_if_system_visible-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_if_system_visible</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">system_visible</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:not_viewable</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_if_system_visible-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_if_system_visible-method -->
+
+    
+      <div id="method-i-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST /mediasets POST /mediasets.json</p>
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+  <span class="ruby-comment">#@mediaset = Mediaset.new(params[:mediaset])</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@mediaset</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:photo</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@new_selection</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@new_selection</span>.<span class="ruby-identifier">push</span> <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@new_selection</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-comment">#add the photos</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@new_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-identifier">counter</span> = <span class="ruby-value">1</span>
+        <span class="ruby-ivar">@new_selection</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">photo</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">photo</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span> 
+            <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">photo</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">counter</span>)
+            <span class="ruby-identifier">counter</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span> 
+      <span class="ruby-keyword">end</span> 
+
+      <span class="ruby-comment">#if free account, make the anything more than 5 free sets invisible      </span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">premium?</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">'id desc'</span>).<span class="ruby-identifier">offset</span>(<span class="ruby-constant">FREE_MEDIASET_COUNT</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">mediaset</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">mediaset</span>.<span class="ruby-identifier">update_attribute</span>(<span class="ruby-value">:system_visible</span>, <span class="ruby-keyword">false</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">view_sets_path</span>(<span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@mediaset</span>),
+        <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'Mediaset was successfully created.'</span> }
+      <span class="ruby-comment">#format.html { redirect_to :back,notice: 'Mediaset was successfully created.' }</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:created</span>, <span class="ruby-identifier">location</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span> 
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { 
+        <span class="ruby-identifier">puts</span> <span class="ruby-string">'@new_selection='</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@new_selection</span>.<span class="ruby-identifier">to_s</span>
+        <span class="ruby-ivar">@persona</span> = <span class="ruby-identifier">current_persona</span>
+        <span class="ruby-ivar">@mediaset_photos</span> =  <span class="ruby-ivar">@new_selection</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">id</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@new_selection</span>
+        <span class="ruby-ivar">@upload_date_list</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>(
+          <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:created_at</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_date</span> }.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">reverse</span>
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>
+        <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;new&quot;</span>
+      } 
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span> 
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create-method -->
+
+    
+      <div id="method-i-destroy" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">destroy</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>DELETE /mediasets/1 DELETE /mediasets/1.json</p>
+          
+
+          
+          <div class="method-source-code" id="destroy-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 213</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">destroy</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">mediasets_url</span> }
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">head</span> <span class="ruby-value">:no_content</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- destroy-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- destroy-method -->
+
+    
+      <div id="method-i-edit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /mediasets/1/edit GET /mediasets/:persona_id/edit/:id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="edit-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 88</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] })
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+  <span class="ruby-ivar">@mediaset_photos</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:order</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:photo_id</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">photo_id</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@mediaset_photos</span>.<span class="ruby-identifier">push</span> <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">photo_id</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#@photos = Photo.find(:all, :order =&gt; 'id desc',  :conditions =&gt; {</span>
+  <span class="ruby-comment">#  :persona_id =&gt; Persona.find(:first, :conditions =&gt; {:screen_name =&gt; params[:persona_id]} )</span>
+  <span class="ruby-comment">#})</span>
+
+  <span class="ruby-ivar">@upload_date_list</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:created_at</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_date</span> }.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">reverse</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit-method -->
+
+    
+      <div id="method-i-get_more" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_more</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>get more mediasets from last_id GET    /mediasets/get_more/:last_id</p>
+          
+
+          
+          <div class="method-source-code" id="get_more-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 289</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_more</span>
+  <span class="ruby-ivar">@options</span> = { <span class="ruby-value">:includeFirst</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> , <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>, <span class="ruby-value">:persona</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-constant">Persona</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span> , 
+    <span class="ruby-value">:featured</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-keyword">true</span>,<span class="ruby-keyword">false</span>], <span class="ruby-value">:viewType</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'normal'</span> }
+  
+  <span class="ruby-ivar">@options</span>[<span class="ruby-value">:includeFirst</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'true'</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span> 
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:persona</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@options</span>[<span class="ruby-value">:persona</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona</span>].<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:limit</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@options</span>[<span class="ruby-value">:limit</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:limit</span>].<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:featured</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:featured</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'true'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@options</span>[<span class="ruby-value">:featured</span>] = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:featured</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'false'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@options</span>[<span class="ruby-value">:featured</span>] = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:viewType</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'tracked'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:viewType</span>]
+      <span class="ruby-ivar">@tracked_persona</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">followers</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:tracked_object_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'persona'</span>)
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'trending'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:viewType</span>]
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'trending'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">upper</span> = <span class="ruby-ivar">@options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">upper</span> = <span class="ruby-ivar">@options</span>[<span class="ruby-value">:includeFirst</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'trending'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-string">'getting trendy'</span>
+    <span class="ruby-ivar">@next_mediasets</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">votings</span> }.<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot; votings.created_at desc&quot;</span>).
+      <span class="ruby-identifier">limit</span>(<span class="ruby-ivar">@options</span>[<span class="ruby-value">:limit</span>]).<span class="ruby-identifier">offset</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>]).<span class="ruby-identifier">select</span>(<span class="ruby-string">'mediasets.*, votings.created_at'</span>).<span class="ruby-identifier">uniq</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'normal'</span> <span class="ruby-keyword">then</span> 
+    <span class="ruby-ivar">@next_mediasets</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { 
+      <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">upper</span>, <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:persona</span>], <span class="ruby-value">:featured</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:featured</span>], <span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>  }, 
+      <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:limit</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'id desc'</span> )
+  <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:viewType</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'tracked'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@next_mediasets</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { 
+      <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">upper</span>, <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@tracked_persona</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:tracked_object_id</span>), <span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+      <span class="ruby-value">:featured</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:featured</span>]  }, 
+      <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@options</span>[<span class="ruby-value">:limit</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'id desc'</span> )
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_more-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_more-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /mediasets GET /mediasets.json</p>
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-comment">#@mediasets = Mediaset.find(:all, :limit =&gt;10, :order =&gt; 'id desc')</span>
+  <span class="ruby-comment">#if @mediasets.nil? then</span>
+  <span class="ruby-comment">#  @mediasets = Mediaset.new</span>
+  <span class="ruby-comment">#end</span>
+  <span class="ruby-ivar">@last_id</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span>
+
+  <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:last_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@last_id</span> }
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># index.html.erb</span>
+    <span class="ruby-comment">#format.json { render json: Mediaset.all }</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span> 
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /mediasets/new GET /mediasets/new.json</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+  <span class="ruby-comment">#@mediaset = Mediaset.new</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@mediaset</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@persona</span> = <span class="ruby-identifier">current_persona</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@mediaset_photos</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-comment">#@photos = Photo.find(:all, :order =&gt; 'id desc',  :conditions =&gt; {</span>
+  <span class="ruby-comment">#  :persona_id =&gt; Persona.find(:first, :conditions =&gt; {:screen_name =&gt; current_persona.screen_name} )</span>
+  <span class="ruby-comment">#})</span>
+ 
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premium?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-constant">FREE_MEDIASET_COUNT</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'Older mediasets may not be visible because you have breech the free limit. &lt;a href=&quot;'</span> <span class="ruby-operator">+</span>
+      <span class="ruby-identifier">persona_upgrade_acc_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'&quot;&gt;Upgrade&lt;/a&gt; to see them all!'</span> 
+  <span class="ruby-keyword">end</span> 
+  <span class="ruby-ivar">@upload_date_list</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:created_at</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_date</span> }.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">reverse</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># new.html.erb</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span> }
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /mediasets/persona_id GET /mediasets/persona_id.json</p>
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+  <span class="ruby-comment">#@mediaset = Mediaset.find(params[:id])</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] }).<span class="ruby-identifier">first</span>
+  <span class="ruby-comment">#@default_photos = @persona.photos.find(:all, :order =&gt; 'id desc', :limit =&gt; 10)</span>
+  <span class="ruby-comment">#@mediasets = @persona.mediasets.find(:all, :order =&gt; 'id desc')</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_persona</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@persona</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premium?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>).<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'Some mediaset are not visible because you breached the free limit. &lt;a href=&quot;'</span> <span class="ruby-operator">+</span> 
+        <span class="ruby-identifier">persona_upgrade_acc_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'&quot;&gt;Upgrade&lt;/a&gt; to see them all!'</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">id</span> , <span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>, 
+    <span class="ruby-value">:has_mediaset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">empty?</span>  }
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># show.html.erb</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show-method -->
+
+    
+      <div id="method-i-toggle_featured" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">toggle_featured</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /mediasets/toggle_featured/:mediaset_id</p>
+          
+
+          
+          <div class="method-source-code" id="toggle_featured-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 277</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">toggle_featured</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset_id</span>])
+  <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">toggle</span>(<span class="ruby-value">:featured</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:ok</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:internal_server_error</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- toggle_featured-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- toggle_featured-method -->
+
+    
+      <div id="method-i-unvote" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unvote</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /mediasets/unvote/:mediaset_id/by/:persona_id</p>
+          
+
+          
+          <div class="method-source-code" id="unvote-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 262</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unvote</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset_id</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]})
+
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">unvote</span>(<span class="ruby-ivar">@mediaset</span>) <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@total_votes</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">up_votes</span> <span class="ruby-operator">+</span>  <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">down_votes</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:ok</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:internal_server_error</span>
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unvote-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unvote-method -->
+
+    
+      <div id="method-i-update" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>PUT /mediasets/1 PUT /mediasets/1.json <a href="http://">params[:photo</a>]
+holds photolist in order</p>
+          
+
+          
+          <div class="method-source-code" id="update-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 164</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-identifier">current_persona</span>
+  <span class="ruby-ivar">@upload_date_list</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:persona_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:created_at</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_date</span> }.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">reverse</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@current_selection</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">photos</span>
+
+  <span class="ruby-identifier">current_order</span> = <span class="ruby-value">1</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_selection</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#empty mediaset, create new ones</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">photo</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">photo</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">current_order</span>)
+      <span class="ruby-identifier">current_order</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment">#reset ordering</span>
+    <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">update_all</span>(<span class="ruby-string">'&quot;order&quot; = 0'</span>)
+
+    <span class="ruby-comment">#reset ordering, add new entries if not found in current list</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">photo_id</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@current_photo</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">photo_id</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_photo</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">photo_id</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">current_order</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-ivar">@current_photo</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">update_attribute</span>(<span class="ruby-value">:order</span>, <span class="ruby-identifier">current_order</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">current_order</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span> 
+    <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>).<span class="ruby-identifier">delete_all</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset</span>])
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { 
+        <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">view_sets_path</span>(<span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">screen_name</span>, 
+          <span class="ruby-ivar">@mediaset</span>), <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'Mediaset was successfully updated'</span>
+      }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">head</span> <span class="ruby-value">:no_content</span> }
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { 
+        <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Failed&quot;</span>
+        <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;edit&quot;</span>
+      }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update-method -->
+
+    
+      <div id="method-i-view" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /mediasets/:persona_id/view/:id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="view-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] }).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@mediaset_photos</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">reverse</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'id desc'</span>, <span class="ruby-value">:limit=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">10</span>)
+  <span class="ruby-ivar">@total_votes</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">up_votes</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">down_votes</span>
+
+  <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:mediaset_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">id</span> }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@persona</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_persona</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premium?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>).<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'Some photos in this set is not accessible because you have exceed the free photo limits'</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- view-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- view-method -->
+
+    
+      <div id="method-i-vote" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">vote</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /mediasets/vote/:mediaset_id/:vote_mode/by/:persona_id</p>
+          
+
+          
+          <div class="method-source-code" id="vote-source">
+            <pre><span class="ruby-comment"># File app/controllers/mediasets_controller.rb, line 244</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">vote</span>
+  <span class="ruby-ivar">@mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset_id</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]})
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:vote_mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'up'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">up_vote</span>(<span class="ruby-ivar">@mediaset</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:vote_mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'down'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">down_vote</span>(<span class="ruby-ivar">@mediaset</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@total_votes</span> = <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">up_votes</span> <span class="ruby-operator">+</span>  <span class="ruby-ivar">@mediaset</span>.<span class="ruby-identifier">down_votes</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- vote-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- vote-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

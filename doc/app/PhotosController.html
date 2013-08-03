@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class PhotosController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/photos_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-check_if_allowed_to_view">#check_if_allowed_to_view</a>
+    
+    <li><a href="#method-i-check_if_allowed_to_visible">#check_if_allowed_to_visible</a>
+    
+    <li><a href="#method-i-check_if_reach_quota">#check_if_reach_quota</a>
+    
+    <li><a href="#method-i-check_if_signed_in">#check_if_signed_in</a>
+    
+    <li><a href="#method-i-clear_from_upload_queue">#clear_from_upload_queue</a>
+    
+    <li><a href="#method-i-create">#create</a>
+    
+    <li><a href="#method-i-destroy">#destroy</a>
+    
+    <li><a href="#method-i-dl_test">#dl_test</a>
+    
+    <li><a href="#method-i-download">#download</a>
+    
+    <li><a href="#method-i-edit">#edit</a>
+    
+    <li><a href="#method-i-editor">#editor</a>
+    
+    <li><a href="#method-i-editor_gen">#editor_gen</a>
+    
+    <li><a href="#method-i-editor_upload_to_sys">#editor_upload_to_sys</a>
+    
+    <li><a href="#method-i-get_more">#get_more</a>
+    
+    <li><a href="#method-i-get_single">#get_single</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-new">#new</a>
+    
+    <li><a href="#method-i-not_viewable">#not_viewable</a>
+    
+    <li><a href="#method-i-share">#share</a>
+    
+    <li><a href="#method-i-show">#show</a>
+    
+    <li><a href="#method-i-toggle_featured">#toggle_featured</a>
+    
+    <li><a href="#method-i-toggle_visibility">#toggle_visibility</a>
+    
+    <li><a href="#method-i-transform">#transform</a>
+    
+    <li><a href="#method-i-unvote">#unvote</a>
+    
+    <li><a href="#method-i-update">#update</a>
+    
+    <li><a href="#method-i-update_setlist">#update_setlist</a>
+    
+    <li><a href="#method-i-upload">#upload</a>
+    
+    <li><a href="#method-i-version">#version</a>
+    
+    <li><a href="#method-i-view">#view</a>
+    
+    <li><a href="#method-i-view_exif">#view_exif</a>
+    
+    <li><a href="#method-i-vote">#vote</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AppMailer.html">AppMailer</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./AvatarUploader.html">AvatarUploader</a>
+  
+    <li><a href="./Cart.html">Cart</a>
+  
+    <li><a href="./Coupon.html">Coupon</a>
+  
+    <li><a href="./DeviseHelper.html">DeviseHelper</a>
+  
+    <li><a href="./Follower.html">Follower</a>
+  
+    <li><a href="./FollowersController.html">FollowersController</a>
+  
+    <li><a href="./FollowersHelper.html">FollowersHelper</a>
+  
+    <li><a href="./Mediaset.html">Mediaset</a>
+  
+    <li><a href="./MediasetPhoto.html">MediasetPhoto</a>
+  
+    <li><a href="./MediasetsController.html">MediasetsController</a>
+  
+    <li><a href="./MediasetsHelper.html">MediasetsHelper</a>
+  
+    <li><a href="./Persona.html">Persona</a>
+  
+    <li><a href="./PersonaUploader.html">PersonaUploader</a>
+  
+    <li><a href="./PersonasController.html">PersonasController</a>
+  
+    <li><a href="./PersonasHelper.html">PersonasHelper</a>
+  
+    <li><a href="./Photo.html">Photo</a>
+  
+    <li><a href="./PhotosController.html">PhotosController</a>
+  
+    <li><a href="./PhotosHelper.html">PhotosHelper</a>
+  
+    <li><a href="./Sku.html">Sku</a>
+  
+    <li><a href="./StaticPageController.html">StaticPageController</a>
+  
+    <li><a href="./StaticPageHelper.html">StaticPageHelper</a>
+  
+    <li><a href="./StoreController.html">StoreController</a>
+  
+    <li><a href="./StoreHelper.html">StoreHelper</a>
+  
+    <li><a href="./TagsController.html">TagsController</a>
+  
+    <li><a href="./TagsHelper.html">TagsHelper</a>
+  
+    <li><a href="./Tracker.html">Tracker</a>
+  
+    <li><a href="./TrackersController.html">TrackersController</a>
+  
+    <li><a href="./TrackersHelper.html">TrackersHelper</a>
+  
+    <li><a href="./WelcomeController.html">WelcomeController</a>
+  
+    <li><a href="./WelcomeHelper.html">WelcomeHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class PhotosController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="FREE_BANDWIDTH_LIMIT">FREE_BANDWIDTH_LIMIT
+        
+        <dd class="description">
+        
+      
+        <dt id="FREE_PHOTO_LIMIT">FREE_PHOTO_LIMIT
+        
+        <dd class="description"><p>how many free photos you can actually have</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-check_if_allowed_to_view" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_if_allowed_to_view</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_if_allowed_to_view-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_if_allowed_to_view</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] })
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">visible</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_persona</span> <span class="ruby-operator">!=</span> <span class="ruby-ivar">@persona</span>) <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">system_visible</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:not_viewable</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_if_allowed_to_view-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_if_allowed_to_view-method -->
+
+    
+      <div id="method-i-check_if_allowed_to_visible" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_if_allowed_to_visible</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_if_allowed_to_visible-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_if_allowed_to_visible</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">permium?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'Upgrade to premium'</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_if_allowed_to_visible-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_if_allowed_to_visible-method -->
+
+    
+      <div id="method-i-check_if_reach_quota" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_if_reach_quota</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>every time upload, check if can send photos</p>
+          
+
+          
+          <div class="method-source-code" id="check_if_reach_quota-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_if_reach_quota</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">premium?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@bandwidth</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">bandwidth_usage</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bandwidth</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">FREE_BANDWIDTH_LIMIT</span>*<span class="ruby-value">1024</span>*<span class="ruby-value">1024</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">error_msg</span> = 
+          [{ <span class="ruby-value">:files</span> =<span class="ruby-operator">&gt;</span> 
+            [{
+              <span class="ruby-string">&quot;name&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Bandwidth exceeded&quot;</span>, 
+              <span class="ruby-string">&quot;error&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Bandwidth exceeded&quot;</span>,
+              <span class="ruby-string">&quot;size&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1000</span>, 
+              <span class="ruby-string">&quot;url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+              <span class="ruby-string">&quot;thumbnail_url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'/assets/icon/zero-photo/square100.jpg'</span>, 
+              <span class="ruby-string">&quot;delete_url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>, 
+              <span class="ruby-string">'name'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'square100.jpg'</span>, 
+              <span class="ruby-string">&quot;delete_type&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;DELETE&quot;</span>,
+            }]
+          }].<span class="ruby-identifier">to_json</span>
+      <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error_msg</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'text/html'</span>, <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> }
+        <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error_msg</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:unauthorized</span> } 
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_if_reach_quota-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_if_reach_quota-method -->
+
+    
+      <div id="method-i-check_if_signed_in" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_if_signed_in</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_if_signed_in-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_if_signed_in</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-string">'You must sign in first'</span>
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_persona_session_path</span>    
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_if_signed_in-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_if_signed_in-method -->
+
+    
+      <div id="method-i-clear_from_upload_queue" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_from_upload_queue</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/clear_from_queue/:photo_id clear from the queue
+in :new action</p>
+          
+
+          
+          <div class="method-source-code" id="clear_from_upload_queue-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 535</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_from_upload_queue</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_from_upload_queue-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_from_upload_queue-method -->
+
+    
+      <div id="method-i-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST /photos POST /photos.json</p>
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>])
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">system_visible</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">title</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>).<span class="ruby-identifier">last</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-comment">#set photos not to be visible of the persona is not a premium user</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">premium</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>).<span class="ruby-identifier">order</span>(<span class="ruby-string">'id desc'</span>).
+          <span class="ruby-identifier">offset</span>(<span class="ruby-constant">FREE_PHOTO_LIMIT</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">p</span>.<span class="ruby-identifier">update_attribute</span>(<span class="ruby-value">:system_visible</span>, <span class="ruby-keyword">false</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">reset_tags</span>
+      <span class="ruby-identifier">exif_data</span> = <span class="ruby-constant">EXIFR</span><span class="ruby-operator">::</span><span class="ruby-constant">JPEG</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>).<span class="ruby-identifier">exif</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">exif_data</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">update_attribute</span>(<span class="ruby-value">:taken_at</span>, <span class="ruby-identifier">exif_data</span>[<span class="ruby-value">:date_time_original</span>])
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-comment">#add the mediasets</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:mediaset</span> <span class="ruby-keyword">then</span> 
+        <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">update_setlist</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset</span>]
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> {
+        <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">to_jq_upload</span>].<span class="ruby-identifier">to_json</span>,
+        <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'text/html'</span>,
+        <span class="ruby-value">:layout</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
+      }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> {
+        <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">to_jq_upload</span>.<span class="ruby-identifier">to_json</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:created</span>, <span class="ruby-identifier">location</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span>
+      }
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;new&quot;</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create-method -->
+
+    
+      <div id="method-i-destroy" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">destroy</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>DELETE /photos/1 DELETE /photos/1.json</p>
+          
+
+          
+          <div class="method-source-code" id="destroy-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 202</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-comment">#todo</span>
+  <span class="ruby-comment"># Ensure that updates is allowed by the owner</span>
+  
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">destroy</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">photos_url</span> }
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">head</span> <span class="ruby-value">:no_content</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- destroy-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- destroy-method -->
+
+    
+      <div id="method-i-dl_test" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">dl_test</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:persona_id/dl_test</p>
+          
+
+          
+          <div class="method-source-code" id="dl_test-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 564</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">dl_test</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- dl_test-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- dl_test-method -->
+
+    
+      <div id="method-i-download" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">download</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/download/:id( download pictures</p>
+          
+
+          
+          <div class="method-source-code" id="download-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 493</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">download</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] }).<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-value">:notice</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'photo not found'</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:size</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'original'</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">versions</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>].<span class="ruby-identifier">to_sym</span>]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">xlarge</span>
+    <span class="ruby-keyword">end</span>
+  
+    <span class="ruby-identifier">send_file</span> <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">path</span>
+  <span class="ruby-keyword">end</span>
+  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- download-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- download-method -->
+
+    
+      <div id="method-i-edit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /photos/1/edit</p>
+          
+
+          
+          <div class="method-source-code" id="edit-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 133</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit-method -->
+
+    
+      <div id="method-i-editor" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">editor</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:persona_id/editor/:photo_id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="editor-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 238</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">editor</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">persona_id</span>)
+  
+  <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:img_src</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">large</span>.<span class="ruby-identifier">url</span>, <span class="ruby-value">:persona</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:photo_title</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">title</span> 
+    } 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- editor-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- editor-method -->
+
+    
+      <div id="method-i-editor_gen" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">editor_gen</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <pre>POST   /photos/:persona_id/editor/:photo_id/generate
+ generate the photo from canvas.toDataPath in jpg format to physical file and send it out to client</pre>
+
+<p>parameters:-</p>
+
+<pre>imagedata canvas.toDataURL()
+filename  the file name to send the data as</pre>
+          
+
+          
+          <div class="method-source-code" id="editor_gen-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 252</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">editor_gen</span>
+  <span class="ruby-comment">#need to optimize this</span>
+  <span class="ruby-identifier">send_data</span> <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:imagedata</span>]), { <span class="ruby-value">:filename</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:filename</span>] , <span class="ruby-value">:disposition</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'attachment'</span> }  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- editor_gen-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- editor_gen-method -->
+
+    
+      <div id="method-i-editor_upload_to_sys" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">editor_upload_to_sys</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/editor/:photo_id/upload_to_sys upload canvas
+data to the system (generate a new picture in the system) parameters:-</p>
+
+<pre>imagedata canvas.toDataURL()</pre>
+          
+
+          
+          <div class="method-source-code" id="editor_upload_to_sys-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 261</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">editor_upload_to_sys</span>
+    <span class="ruby-ivar">@old_photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+   <span class="ruby-identifier">thisFile</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">'/tmp/'</span> <span class="ruby-operator">+</span> <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">urlsafe_base64</span> <span class="ruby-operator">+</span> <span class="ruby-string">'.jpg'</span> , <span class="ruby-string">'w+'</span>)
+   <span class="ruby-keyword">if</span> <span class="ruby-identifier">thisFile</span>
+    <span class="ruby-identifier">thisFile</span>.<span class="ruby-identifier">syswrite</span>( <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:imagedata</span>]) )
+   <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]).<span class="ruby-identifier">first</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span> = <span class="ruby-identifier">thisFile</span>
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">title</span> = <span class="ruby-ivar">@old_photo</span>.<span class="ruby-identifier">title</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/.[jJ][pP][gG]/</span>, <span class="ruby-string">'_edited'</span>)
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">system_visible</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'File created'</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:internal_server_error</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- editor_upload_to_sys-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- editor_upload_to_sys-method -->
+
+    
+      <div id="method-i-get_more" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_more</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>todo: get more on trendiness and the ones that you tracked GET   
+/photos/get_more/:last_id</p>
+          
+
+          
+          <div class="method-source-code" id="get_more-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 370</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_more</span>
+
+  <span class="ruby-comment"># convert from { &quot;key&quot; =&gt; &quot;value&quot; } to { :key =&gt; &quot;value&quot; }</span>
+  <span class="ruby-identifier">current_options</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">inject</span>({}){ <span class="ruby-operator">|</span><span class="ruby-identifier">memo</span>, (<span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span>)<span class="ruby-operator">|</span> <span class="ruby-identifier">memo</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>; <span class="ruby-identifier">memo</span> }
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:photoFocusID</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@current_photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photoFocusID</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@current_photo</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#fetch the photos</span>
+  <span class="ruby-identifier">results</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">get_more</span>( 
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:last_id</span>].<span class="ruby-identifier">to_i</span>, 
+    <span class="ruby-identifier">current_options</span>, 
+    { <span class="ruby-value">:signed_in?</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">persona_signed_in?</span> , <span class="ruby-value">:current_persona</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">current_persona</span> }
+  )
+
+  <span class="ruby-ivar">@options</span> = <span class="ruby-identifier">results</span>[<span class="ruby-value">:options</span>]
+  <span class="ruby-ivar">@next_photos</span> = <span class="ruby-identifier">results</span>[<span class="ruby-value">:photos</span>]
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_more-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_more-method -->
+
+    
+      <div id="method-i-get_single" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_single</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:persona_id/get_single/:photo_id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="get_single-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 396</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_single</span>
+  <span class="ruby-ivar">@options</span> = {
+      <span class="ruby-comment">#view options</span>
+      <span class="ruby-value">:size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'tiny'</span>,
+  }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:size</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@options</span>[<span class="ruby-value">:size</span>] = <span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]})
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+  <span class="ruby-ivar">@photo_path</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">send</span>(<span class="ruby-ivar">@options</span>[<span class="ruby-value">:size</span>])
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_single-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_single-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /photos GET /photos.json</p>
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-comment">#show recent 40</span>
+  <span class="ruby-ivar">@photos</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:limit=</span><span class="ruby-operator">&gt;</span> <span class="ruby-value">35</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'id desc'</span>)
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># index.html.erb</span>
+    <span class="ruby-comment">#format.html { render :action =&gt; 'show' }</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photos</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /photos/new GET /photos/new.json</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-identifier">current_persona</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">premium</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@bandwidth</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">bandwidth_usage</span>    
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@bandwidth</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">FREE_BANDWIDTH_LIMIT</span>*<span class="ruby-value">1024</span>*<span class="ruby-value">1024</span>*<span class="ruby-value">0.8</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@bandwidth</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">FREE_BANDWIDTH_LIMIT</span>*<span class="ruby-value">1024</span>*<span class="ruby-value">1024</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'You are using more than 80% of your monthly quota. &lt;a href=&quot;'</span><span class="ruby-operator">+</span>
+        <span class="ruby-identifier">persona_upgrade_acc_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'&quot;&gt;Upgrade&lt;/a&gt; if you plan to use more space'</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@bandwidth</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">FREE_BANDWIDTH_LIMIT</span>*<span class="ruby-value">1024</span>*<span class="ruby-value">1024</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-string">'You have exceeded your monthly quota and you may no longer load '</span> <span class="ruby-operator">+</span> 
+        <span class="ruby-string">'any more photos for this month unless you &lt;a href=&quot;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">persona_upgrade_acc_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>) <span class="ruby-operator">+</span>
+        <span class="ruby-string">'&quot;&gt;upgrade&lt;/a&gt; to premium'</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#@photo = Photo.new</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># new.html.erb</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-i-not_viewable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">not_viewable</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:persona_id/not_viewable(.:format) tells the user that the
+photo is not viewable because of owner/system restrictions</p>
+          
+
+          
+          <div class="method-source-code" id="not_viewable-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 530</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">not_viewable</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- not_viewable-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- not_viewable-method -->
+
+    
+      <div id="method-i-share" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">share</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <pre>POST   /photos/:persona_id/share</pre>
+
+<p>required parameters in params:-</p>
+
+<pre>:url          the url that will be shared
+:photoList    html coded list of photos
+:mode         in what way that this photo will be shared valid options:-
+                email   share via email, required variables are 
+                        :email - list of email to be send
+                        :description - additional description to be written in the email</pre>
+          
+
+          
+          <div class="method-source-code" id="share-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 546</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">share</span> 
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'email'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-comment">#send email about sharing this photo :url from :persona_id</span>
+    <span class="ruby-identifier">options</span> = { <span class="ruby-value">:to</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>], <span class="ruby-value">:url</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:url</span>], <span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:description</span>], 
+      <span class="ruby-value">:photoList</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:photoList</span>] }
+    <span class="ruby-comment">#format email and the send it out</span>
+    <span class="ruby-identifier">test</span> = <span class="ruby-constant">AppMailer</span>.<span class="ruby-identifier">share</span>( <span class="ruby-identifier">options</span> )
+    <span class="ruby-identifier">puts</span> <span class="ruby-identifier">test</span>
+
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- share-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- share-method -->
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /photos/:persona_id GET /photos/:persona_id.json</p>
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+   <span class="ruby-comment">#show photos uploaded by persona</span>
+   <span class="ruby-comment">#@persona = Persona.find(:all, :conditions =&gt; { :screen_name =&gt; params[:persona_id]}, :limit =&gt; 1 ).first</span>
+   <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]).<span class="ruby-identifier">first</span>
+
+   <span class="ruby-comment">#check if some of the photos are invisible </span>
+   <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@persona</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_persona</span> <span class="ruby-keyword">then</span>
+     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:system_visible</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>).<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
+       <span class="ruby-identifier">flash</span>[<span class="ruby-value">:warning</span>] = <span class="ruby-string">'Some photos are not visible because you have exceed the free photos limit of '</span> <span class="ruby-operator">+</span> 
+         <span class="ruby-constant">FREE_PHOTO_LIMIT</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-string">' photos. &lt;a href=&quot;'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">persona_upgrade_acc_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>) <span class="ruby-operator">+</span> 
+         <span class="ruby-string">'&quot;&gt;Upgrade&lt;/a&gt; to see them all!'</span>
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">end</span>
+ 
+
+   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+     <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>  
+       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'Persona does not exists'</span> }
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">else</span> 
+     <span class="ruby-ivar">@last_photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">new</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">last</span>
+     <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span>{ <span class="ruby-value">:last_photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@last_photo</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:persona</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span> }
+     <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># show.html.erb</span>
+       <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span> }
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">end</span></pre>
+          </div><!-- show-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show-method -->
+
+    
+      <div id="method-i-toggle_featured" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">toggle_featured</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/toggle_featured/:photo_id</p>
+          
+
+          
+          <div class="method-source-code" id="toggle_featured-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 416</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">toggle_featured</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] })
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">toggle</span>(<span class="ruby-value">:featured</span>)
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">visible</span> = <span class="ruby-keyword">true</span>
+
+  <span class="ruby-comment">#available on #paper trail 2.7.2 (unreleased yet)</span>
+  <span class="ruby-comment">#@photo.paper_trail_event = @photo.featured? ? 'featured' : 'unfeatured' </span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:internal_server_error</span>
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- toggle_featured-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- toggle_featured-method -->
+
+    
+      <div id="method-i-toggle_visibility" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">toggle_visibility</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/toggle_visibility/:photo_id</p>
+          
+
+          
+          <div class="method-source-code" id="toggle_visibility-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 516</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">toggle_visibility</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] })  
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">toggle</span>(<span class="ruby-value">:visible</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:ok</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:internal_server_error</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- toggle_visibility-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- toggle_visibility-method -->
+
+    
+      <div id="method-i-transform" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">transform</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST
+/photos/:persona_id/transform/:photo_id/:method?arg1=val1&amp;arg2=val2.…argn=valn</p>
+          
+
+          
+          <div class="method-source-code" id="transform-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 465</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">transform</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">screen_name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:current_version</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">version</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:current_version</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">version</span> = <span class="ruby-string">'all'</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:method</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'rotate'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-comment">#rotate the picture</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'left'</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">rotate</span>(<span class="ruby-value">-90</span>, <span class="ruby-identifier">version</span>)
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:direction</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'right'</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">rotate</span>(<span class="ruby-value">90</span>, <span class="ruby-identifier">version</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>    
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- transform-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- transform-method -->
+
+    
+      <div id="method-i-unvote" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unvote</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/unvote/:photo_id/by/:persona_id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="unvote-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 453</span>
+<span class="ruby-keyword">def</span>  <span class="ruby-identifier">unvote</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]})
+
+  <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">unvote</span>(<span class="ruby-ivar">@photo</span>)
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unvote-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unvote-method -->
+
+    
+      <div id="method-i-update" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>PUT /photos/1 PUT /photos/1.json</p>
+          
+
+          
+          <div class="method-source-code" id="update-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 182</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-comment">#todo</span>
+  <span class="ruby-comment"># Ensure that updates is allowed by the owner</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo</span>])
+      <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">reset_tags</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">photo_view_path</span>(<span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">persona_id</span>).<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">id</span>), 
+        <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">'Photo was successfully updated.'</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">head</span> <span class="ruby-value">:no_content</span> }
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;edit&quot;</span> }
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">errors</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:unprocessable_entity</span> }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update-method -->
+
+    
+      <div id="method-i-update_setlist" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_setlist</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/:persona_id/update_setlist/:photo_id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="update_setlist-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 358</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update_setlist</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]}).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+
+  <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">update_setlist</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:mediaset</span>]
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> { <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-value">:notice</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'Mediaset Selection Updated'</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_setlist-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_setlist-method -->
+
+    
+      <div id="method-i-upload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">upload</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:photo_id/upload</p>
+          
+
+          
+          <div class="method-source-code" id="upload-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 216</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">upload</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- upload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- upload-method -->
+
+    
+      <div id="method-i-version" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">version</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>VERB /photos/:persona_id/versions/:photo_id</p>
+          
+
+          
+          <div class="method-source-code" id="version-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 220</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">version</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] })
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>])
+
+  <span class="ruby-ivar">@avatar</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:size</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'original'</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">versions</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>].<span class="ruby-identifier">to_sym</span>]
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">large</span>  
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:size</span>] = <span class="ruby-string">'large'</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- version-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- version-method -->
+
+    
+      <div id="method-i-view" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET    /photos/:persona_id/view/:id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="view-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 285</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view</span>
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>] }).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@related_photos</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">find_related_tags</span>.<span class="ruby-identifier">limit</span>(<span class="ruby-value">8</span>)
+
+  <span class="ruby-ivar">@total_votes</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">up_votes</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">down_votes</span>
+  <span class="ruby-ivar">@mediasets</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">mediasets</span>
+
+  <span class="ruby-comment"># setup links to prev/next photos</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:scope</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'mediaset'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@current_mediaset</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:scope_id</span>])
+    <span class="ruby-identifier">current_pos</span> = <span class="ruby-ivar">@current_mediaset</span>.<span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]).<span class="ruby-identifier">first</span>.<span class="ruby-identifier">order</span>
+    <span class="ruby-ivar">@prev_photo</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">mediaset_photos</span> }.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:scope_id</span>]).<span class="ruby-identifier">photos</span>.
+      <span class="ruby-identifier">where</span>{ <span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">order</span>.<span class="ruby-identifier">lt</span> <span class="ruby-identifier">current_pos</span> }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'&quot;order&quot;'</span>).<span class="ruby-identifier">last</span>
+    <span class="ruby-ivar">@next_photo</span> = <span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">joins</span>{ <span class="ruby-identifier">mediaset_photos</span> }.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:scope_id</span>]).<span class="ruby-identifier">photos</span>.
+      <span class="ruby-identifier">where</span>{ <span class="ruby-identifier">mediaset_photos</span>.<span class="ruby-identifier">order</span>.<span class="ruby-identifier">gt</span> <span class="ruby-identifier">current_pos</span> }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'&quot;order&quot;'</span>).<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@prev_photo_path</span> = <span class="ruby-ivar">@prev_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> 
+      <span class="ruby-identifier">photo_view_in_scope_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@prev_photo</span>, <span class="ruby-string">'mediaset'</span>, <span class="ruby-ivar">@current_mediaset</span>) <span class="ruby-operator">+</span> 
+      <span class="ruby-string">'#photo'</span>
+    <span class="ruby-ivar">@next_photo_path</span> = <span class="ruby-ivar">@next_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> 
+      <span class="ruby-identifier">photo_view_in_scope_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@next_photo</span>, <span class="ruby-string">'mediaset'</span>, <span class="ruby-ivar">@current_mediaset</span>) <span class="ruby-operator">+</span> 
+      <span class="ruby-string">'#photo'</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:scope</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'featured'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">photoID</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-ivar">@prev_photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{ (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">gt</span> <span class="ruby-identifier">photoID</span>) &amp; (<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) }.<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@next_photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{ (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">lt</span> <span class="ruby-identifier">photoID</span>) &amp; (<span class="ruby-identifier">featured</span>.<span class="ruby-identifier">eq</span> <span class="ruby-keyword">true</span>) }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'id desc'</span>).<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@prev_photo_path</span> = <span class="ruby-ivar">@prev_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> 
+      <span class="ruby-identifier">photo_view_in_scope_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@prev_photo</span>, <span class="ruby-string">'featured'</span>, <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'#photo'</span>
+    <span class="ruby-ivar">@next_photo_path</span> = <span class="ruby-ivar">@next_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> 
+      <span class="ruby-identifier">photo_view_in_scope_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@next_photo</span>, <span class="ruby-string">'featured'</span>, <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'#photo'</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment">#normal scope, view photo scope</span>
+    <span class="ruby-identifier">photoID</span> = <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-identifier">visibleScope</span> = <span class="ruby-identifier">current_persona</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@persona</span> <span class="ruby-operator">?</span> [<span class="ruby-keyword">true</span>,<span class="ruby-keyword">false</span>] <span class="ruby-operator">:</span> [<span class="ruby-keyword">true</span>]
+    <span class="ruby-ivar">@prev_photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{ 
+      (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">gt</span> <span class="ruby-identifier">photoID</span>) &amp; (<span class="ruby-identifier">visible</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">visibleScope</span>) }.<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@next_photo</span> = <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{
+      (<span class="ruby-identifier">id</span>.<span class="ruby-identifier">lt</span> <span class="ruby-identifier">photoID</span>) &amp; (<span class="ruby-identifier">visible</span>.<span class="ruby-identifier">in</span> <span class="ruby-identifier">visibleScope</span>) 
+    }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'id desc'</span>).<span class="ruby-identifier">first</span>
+    <span class="ruby-ivar">@prev_photo_path</span> = <span class="ruby-ivar">@prev_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">photo_view_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@prev_photo</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'#photo'</span>
+    <span class="ruby-ivar">@next_photo_path</span> = <span class="ruby-ivar">@next_photo</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">'#'</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">photo_view_path</span>(<span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span>, <span class="ruby-ivar">@next_photo</span>) <span class="ruby-operator">+</span> <span class="ruby-string">'#photo'</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#capture addional info</span>
+  <span class="ruby-ivar">@exif</span> = <span class="ruby-constant">EXIFR</span><span class="ruby-operator">::</span><span class="ruby-constant">JPEG</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>).<span class="ruby-identifier">exif</span>
+
+  <span class="ruby-comment">#setup javascript </span>
+  <span class="ruby-identifier">js</span> <span class="ruby-value">:params</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:mediaset_ids</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">mediasets</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">id</span> }, <span class="ruby-value">:photo_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">id</span>, 
+    <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">screen_name</span> , <span class="ruby-value">:prev_photo_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@prev_photo_path</span>, 
+    <span class="ruby-value">:next_photo_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_photo_path</span>, <span class="ruby-value">:featured_photo</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">featured?</span> ,
+    <span class="ruby-value">:persona_signed_in</span> =<span class="ruby-operator">&gt;</span>  <span class="ruby-identifier">persona_signed_in?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">current_persona</span>.<span class="ruby-identifier">id</span> 
+  }
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># view.html.erb</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">to_jq_upload</span>.<span class="ruby-identifier">to_json</span>, <span class="ruby-identifier">status</span><span class="ruby-operator">:</span> <span class="ruby-value">:created</span>, <span class="ruby-identifier">location</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- view-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- view-method -->
+
+    
+      <div id="method-i-view_exif" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view_exif</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET /photos/:persona_id/view/:id/exif(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="view_exif-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 345</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view_exif</span>
+  <span class="ruby-comment">#view exif data of this photo</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">persona_id</span>)
+  <span class="ruby-ivar">@exif</span> = <span class="ruby-constant">EXIFR</span><span class="ruby-operator">::</span><span class="ruby-constant">JPEG</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@photo</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">path</span>).<span class="ruby-identifier">exif</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> <span class="ruby-comment"># view_exif.html.erb</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> { <span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@photo</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- view_exif-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- view_exif-method -->
+
+    
+      <div id="method-i-vote" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">vote</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST   /photos/vote/:photo_id/:vote_mode/by/:persona_id(.:format)</p>
+          
+
+          
+          <div class="method-source-code" id="vote-source">
+            <pre><span class="ruby-comment"># File app/controllers/photos_controller.rb, line 437</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">vote</span>
+  <span class="ruby-ivar">@photo</span> = <span class="ruby-constant">Photo</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:photo_id</span>]) 
+  <span class="ruby-ivar">@persona</span> = <span class="ruby-constant">Persona</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:screen_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:persona_id</span>]})
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:vote_mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'up'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">up_vote</span>(<span class="ruby-ivar">@photo</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:vote_mode</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'down'</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-ivar">@persona</span>.<span class="ruby-identifier">down_vote</span>(<span class="ruby-ivar">@photo</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">js</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- vote-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- vote-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

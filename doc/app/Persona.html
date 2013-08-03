@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Persona - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/persona.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-bandwidth_usage">#bandwidth_usage</a>
+    
+    <li><a href="#method-i-crop">#crop</a>
+    
+    <li><a href="#method-i-get_activity">#get_activity</a>
+    
+    <li><a href="#method-i-tracks">#tracks</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AppMailer.html">AppMailer</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./AvatarUploader.html">AvatarUploader</a>
+  
+    <li><a href="./Cart.html">Cart</a>
+  
+    <li><a href="./Coupon.html">Coupon</a>
+  
+    <li><a href="./DeviseHelper.html">DeviseHelper</a>
+  
+    <li><a href="./Follower.html">Follower</a>
+  
+    <li><a href="./FollowersController.html">FollowersController</a>
+  
+    <li><a href="./FollowersHelper.html">FollowersHelper</a>
+  
+    <li><a href="./Mediaset.html">Mediaset</a>
+  
+    <li><a href="./MediasetPhoto.html">MediasetPhoto</a>
+  
+    <li><a href="./MediasetsController.html">MediasetsController</a>
+  
+    <li><a href="./MediasetsHelper.html">MediasetsHelper</a>
+  
+    <li><a href="./Persona.html">Persona</a>
+  
+    <li><a href="./PersonaUploader.html">PersonaUploader</a>
+  
+    <li><a href="./PersonasController.html">PersonasController</a>
+  
+    <li><a href="./PersonasHelper.html">PersonasHelper</a>
+  
+    <li><a href="./Photo.html">Photo</a>
+  
+    <li><a href="./PhotosController.html">PhotosController</a>
+  
+    <li><a href="./PhotosHelper.html">PhotosHelper</a>
+  
+    <li><a href="./Sku.html">Sku</a>
+  
+    <li><a href="./StaticPageController.html">StaticPageController</a>
+  
+    <li><a href="./StaticPageHelper.html">StaticPageHelper</a>
+  
+    <li><a href="./StoreController.html">StoreController</a>
+  
+    <li><a href="./StoreHelper.html">StoreHelper</a>
+  
+    <li><a href="./TagsController.html">TagsController</a>
+  
+    <li><a href="./TagsHelper.html">TagsHelper</a>
+  
+    <li><a href="./Tracker.html">Tracker</a>
+  
+    <li><a href="./TrackersController.html">TrackersController</a>
+  
+    <li><a href="./TrackersHelper.html">TrackersHelper</a>
+  
+    <li><a href="./WelcomeController.html">WelcomeController</a>
+  
+    <li><a href="./WelcomeHelper.html">WelcomeHelper</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Persona</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-bandwidth_usage" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bandwidth_usage</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>calculate bandwith usage for the current calender month (ie; 1st to current
+day)</p>
+          
+
+          
+          <div class="method-source-code" id="bandwidth_usage-source">
+            <pre><span class="ruby-comment"># File app/models/persona.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">bandwidth_usage</span>
+  <span class="ruby-identifier">bandwidth</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">photos</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">gt</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">at_beginning_of_month</span> }.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">size</span> }.<span class="ruby-identifier">sum</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">bandwidth</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bandwidth_usage-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bandwidth_usage-method -->
+
+    
+      <div id="method-i-crop" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">crop</span><span
+            class="method-args">( x_coor, y_coor, h_coor, w_coor )</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="crop-source">
+            <pre><span class="ruby-comment"># File app/models/persona.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">crop</span> ( <span class="ruby-identifier">x_coor</span>, <span class="ruby-identifier">y_coor</span>, <span class="ruby-identifier">h_coor</span>, <span class="ruby-identifier">w_coor</span> )
+  <span class="ruby-comment">#corp the image and recreate versions</span>
+  <span class="ruby-identifier">image</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">ImageList</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">current_path</span>)
+  <span class="ruby-identifier">cropped_image</span> = <span class="ruby-identifier">image</span>.<span class="ruby-identifier">crop</span>(<span class="ruby-identifier">x_coor</span>, <span class="ruby-identifier">y_coor</span>, <span class="ruby-identifier">h_coor</span>, <span class="ruby-identifier">w_coor</span>)
+  <span class="ruby-identifier">cropped_image</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">current_path</span>)
+
+  <span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">recreate_versions!</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- crop-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- crop-method -->
+
+    
+      <div id="method-i-get_activity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_activity</span><span
+            class="method-args">(new_options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>gather activity of this persona</p>
+          
+
+          
+          <div class="method-source-code" id="get_activity-source">
+            <pre><span class="ruby-comment"># File app/models/persona.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_activity</span> <span class="ruby-identifier">new_options</span> = {} 
+  <span class="ruby-identifier">options</span> = { <span class="ruby-value">:begin_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>, <span class="ruby-value">:date_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>.<span class="ruby-identifier">month</span>, <span class="ruby-value">:cluster_interval</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>.<span class="ruby-identifier">minutes</span> }
+  <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">new_options</span>)
+  <span class="ruby-identifier">myScreenName</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">screen_name</span>
+  <span class="ruby-identifier">options</span>[<span class="ruby-value">:begin_date</span>] = <span class="ruby-identifier">new_options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:begin_date</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">new_options</span>[<span class="ruby-value">:begin_date</span>] <span class="ruby-operator">:</span> 
+    (<span class="ruby-constant">Version</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">whodunnit</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">myScreenName</span> }.<span class="ruby-identifier">max</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> 
+      <span class="ruby-value">1</span>.<span class="ruby-identifier">month</span>.<span class="ruby-identifier">ago</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Version</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">whodunnit</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">myScreenName</span> }.<span class="ruby-identifier">max</span>.<span class="ruby-identifier">created_at</span>
+    )
+
+  <span class="ruby-identifier">cluster</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>      
+  <span class="ruby-constant">Version</span>.<span class="ruby-identifier">where</span>{ (<span class="ruby-identifier">whodunnit</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">myScreenName</span>) &amp; (<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">lt</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:begin_date</span>]) &amp; 
+    (<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">gt</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:begin_date</span>] <span class="ruby-operator">-</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:date_length</span>] ) }.<span class="ruby-identifier">order</span>(<span class="ruby-string">'created_at'</span>).
+  <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment">#this will be simplied on paper_trail 2.7.2</span>
+    <span class="ruby-comment"># ensure that the item has not already been deleted!!</span>
+    <span class="ruby-keyword">if</span> ( <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Photo'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-constant">Photo</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">id</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span> }.<span class="ruby-identifier">empty?</span> ) <span class="ruby-operator">||</span> 
+      ( <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Mediaset'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-constant">Mediaset</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">id</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span> }.<span class="ruby-identifier">empty?</span> ) <span class="ruby-operator">||</span> 
+      ( <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'MeidasetPhoto'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-constant">MediasetPhoto</span>.<span class="ruby-identifier">where</span>{ <span class="ruby-identifier">id</span>.<span class="ruby-identifier">eq</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span> }.<span class="ruby-identifier">empty?</span> ) <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">theEvent</span> = (<span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Photo'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Mediaset'</span> ) <span class="ruby-operator">&amp;&amp;</span> 
+        <span class="ruby-identifier">e</span>.<span class="ruby-identifier">event</span> <span class="ruby-operator">==</span> <span class="ruby-string">'update'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">changeset</span>[<span class="ruby-value">:featured</span>] <span class="ruby-operator">==</span> [<span class="ruby-keyword">false</span>,<span class="ruby-keyword">true</span>] <span class="ruby-operator">?</span> <span class="ruby-string">'featured'</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">event</span> 
+      <span class="ruby-identifier">theEvent</span> = (<span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Photo'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Mediaset'</span> ) <span class="ruby-operator">&amp;&amp;</span> 
+        <span class="ruby-identifier">e</span>.<span class="ruby-identifier">event</span> <span class="ruby-operator">==</span> <span class="ruby-string">'update'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">changeset</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:up_votes</span>) <span class="ruby-operator">?</span> <span class="ruby-string">'up_votes'</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">theEvent</span>
+      <span class="ruby-identifier">theEvent</span> = (<span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Photo'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">'Mediaset'</span> ) <span class="ruby-operator">&amp;&amp;</span> 
+        <span class="ruby-identifier">e</span>.<span class="ruby-identifier">event</span> <span class="ruby-operator">==</span> <span class="ruby-string">'update'</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">changeset</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:tag_list</span>) <span class="ruby-operator">?</span> <span class="ruby-string">'update_tags'</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">theEvent</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">last</span>[<span class="ruby-value">:last_activity</span>] <span class="ruby-operator">+</span> <span class="ruby-value">5</span>.<span class="ruby-identifier">minutes</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">created_at</span> <span class="ruby-keyword">then</span> 
+      <span class="ruby-identifier">cluster</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-value">:first_activity</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">created_at</span>, <span class="ruby-value">:last_activity</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">created_at</span> , 
+        <span class="ruby-value">:activity</span> =<span class="ruby-operator">&gt;</span> [{ <span class="ruby-value">:item</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span>, <span class="ruby-value">:event</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">theEvent</span>, <span class="ruby-value">:count</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> , <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span>] }] 
+      }
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment">#case where this item is created within options[:cluster_interval]     </span>
+      <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">last</span>[<span class="ruby-value">:last_activity</span>] = <span class="ruby-identifier">e</span>.<span class="ruby-identifier">created_at</span>
+      <span class="ruby-identifier">act</span> = <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">last</span>[<span class="ruby-value">:activity</span>].<span class="ruby-identifier">select</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">act</span><span class="ruby-operator">|</span> <span class="ruby-identifier">act</span>[<span class="ruby-value">:item</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">act</span>[<span class="ruby-value">:event</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">theEvent</span> }.<span class="ruby-identifier">first</span>
+      <span class="ruby-identifier">act</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> 
+        <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">last</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-value">:item</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_type</span>, <span class="ruby-value">:event</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">theEvent</span>, <span class="ruby-value">:count</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> , <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span>] } <span class="ruby-operator">:</span> 
+        <span class="ruby-keyword">begin</span> 
+          <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">act</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span> <span class="ruby-keyword">then</span>
+            <span class="ruby-identifier">act</span>[<span class="ruby-value">:count</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+            <span class="ruby-identifier">act</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">item_id</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">cluster</span>.<span class="ruby-identifier">sort_by</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-operator">-</span>(<span class="ruby-identifier">e</span>[<span class="ruby-value">:first_activity</span>].<span class="ruby-identifier">to_i</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_activity-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_activity-method -->
+
+    
+      <div id="method-i-tracks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">tracks</span><span
+            class="method-args">( object_type, object_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="tracks-source">
+            <pre><span class="ruby-comment"># File app/models/persona.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">tracks</span> ( <span class="ruby-identifier">object_type</span>, <span class="ruby-identifier">object_id</span>) 
+  <span class="ruby-keyword">return</span> <span class="ruby-operator">!</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">followers</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> 
+    { <span class="ruby-value">:tracked_object_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">object_type</span>, <span class="ruby-value">:tracked_object_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">object_id</span>}).<span class="ruby-identifier">empty?</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- tracks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- tracks-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
