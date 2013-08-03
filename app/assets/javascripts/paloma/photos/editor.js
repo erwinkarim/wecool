@@ -57,11 +57,13 @@
       img.onload = function(){
         ctx.drawImage(img, 0, 0);
         theCanvas.setInitData();
-          $('#crop-cancel').attr('x', 0);
-    $('#crop-cancel').attr('y', 0);
-    $('#crop-cancel').attr('x2', img.width);
-    $('#crop-cancel').attr('y2', img.height);
+				$('#crop-cancel').attr('x', 0);
+				$('#crop-cancel').attr('y', 0);
+				$('#crop-cancel').attr('x2', img.width);
+				$('#crop-cancel').attr('y2', img.height);
       }; 
+			$('#loading').hide();
+			$('#canvas').show();
     };
 
     //set the init data. usually called after the image has been loaded or cropped

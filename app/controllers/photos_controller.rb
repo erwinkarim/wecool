@@ -239,10 +239,8 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:photo_id])
     @persona = Persona.find(@photo.persona_id)
     
-    js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, 
-      :photo_gen_path => photo_editor_gen_path(@persona.screen_name, @photo.id), :photo_title => @photo.title ,
-      :photo_upload_new_path => photo_editor_upload_path(@persona.screen_name, @photo.id), 
-      :form_auth_token => SecureRandom.base64(32) } 
+    js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, :photo_title => @photo.title 
+      } 
   end
   
   #  POST   /photos/:persona_id/editor/:photo_id/generate
