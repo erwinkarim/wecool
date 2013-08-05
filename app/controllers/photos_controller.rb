@@ -332,12 +332,13 @@ class PhotosController < ApplicationController
     js :params => { :mediaset_ids => @photo.mediasets.map{ |x| x.id }, :photo_id => @photo.id, 
       :screen_name => @persona.screen_name , :prev_photo_path => @prev_photo_path, 
       :next_photo_path => @next_photo_path, :featured_photo => @photo.featured? ,
-      :persona_signed_in =>  persona_signed_in? && @persona.id == current_persona.id 
+      :persona_signed_in =>  persona_signed_in? && @persona.id == current_persona.id, :description => @photo.description, :title => @photo.title 
     }
 
     respond_to do |format|
       format.html # view.html.erb
       format.json { render json: @photo.to_jq_upload.to_json, status: :created, location: @photo }
+			format.xml { render xml: @photo } 
     end
   end
 

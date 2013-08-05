@@ -54,6 +54,7 @@
       });
     }
 
+		//should optimize this, load only when necessary
     //load each mediaset
     for(i = 0; i < params['mediaset_ids'].length; i++){
       //load mediaset photos
@@ -102,11 +103,16 @@
             $('.carousel-indicators').fadeOut('slow');
           }
         );
+		
+				//add title and description of the photo
 
+				//add visibility button if picture owner
         if( $('.isFeatured').hasClass('icon-star') ){
           $('#visibilityBox').find('a').popover();
         }
         
+
+				//bind the rest of the buttons that is visible
         $('#loadPrevPhotosBtn').click( function(){
           //load more
           $.ajax({
@@ -191,6 +197,7 @@
 
     }); //$(document).ready(){}
 
+		//configure keypress for the page
     $(document).keydown(function (e) {
       var keyCode = e.keyCode || e.which,
           arrow = {left: 37, up: 38, right: 39, down: 40 };
@@ -205,8 +212,8 @@
       }
     });
 
+		//for owners of the photo
     if ( params['persona_signed_in'] ){
-      //for owners of the photo
         //hide all the forms
         $("#photo-title-form").hide();
         $("#photo-desc-form").hide();
