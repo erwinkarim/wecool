@@ -155,7 +155,7 @@
         <div class="active item">
           <%= image_tag @photo.avatar.large, 
             :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
-          <div class="carousel-caption row-fluid">
+          <div class="carousel-caption row-fluid" style="display:none;" >
             <div class="span7" id="photo-title-and-desc">
               <h4 id="photo-title"><%= @photo.title %>
                 <small> by <%= link_to persona_signed_in? && 
@@ -261,8 +261,10 @@
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
-        <%= link_to '&lsaquo;'.html_safe, @prev_photo_path, :class=>'carousel-control left' %>
-        <%= link_to '&rsaquo;'.html_safe, @next_photo_path, :class=>'carousel-control right' %>
+        <%= link_to '&lsaquo;'.html_safe, @prev_photo_path, :class=>'carousel-control left', 
+          :style => 'display:none;' %>
+        <%= link_to '&rsaquo;'.html_safe, @next_photo_path, :class=>'carousel-control right', 
+          :style => 'display:none;' %>
       </div><!--carousel-->
   </div><!-- span12 -->
 </div><!-- row -->

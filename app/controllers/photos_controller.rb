@@ -332,7 +332,7 @@ class PhotosController < ApplicationController
     js :params => { :mediaset_ids => @photo.mediasets.map{ |x| x.id }, :photo_id => @photo.id, 
       :screen_name => @persona.screen_name , :prev_photo_path => @prev_photo_path, 
       :next_photo_path => @next_photo_path, :featured_photo => @photo.featured? ,
-      :persona_signed_in =>  persona_signed_in? && @persona.id == current_persona.id, :description => @photo.description, :title => @photo.title 
+      :persona_signed_in =>  persona_signed_in? && @persona.id == current_persona.id
     }
 
     respond_to do |format|

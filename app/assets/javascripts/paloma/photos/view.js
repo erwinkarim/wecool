@@ -103,7 +103,7 @@
             $('.carousel-indicators').fadeOut('slow');
           }
         );
-		
+
 				//add title and description of the photo
 
 				//add visibility button if picture owner
