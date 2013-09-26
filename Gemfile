@@ -71,6 +71,7 @@ gem 'make_voteable'
 gem 'twitter-text'
 gem 'acts-as-taggable-on'
 gem 'paper_trail', '~> 2'
+gem 'best_in_place'
 
 #background jobs
 gem 'delayed_job'

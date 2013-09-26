@@ -19,6 +19,9 @@
 
   Paloma.callbacks['mediasets']['view'] = function(params){
     // Do something here.
+    //
+    $('.best_in_place').best_in_place();
+
     var loadConditions= {limit:10, size:'small', includeFirst:'true', mediatype:'mediaset',
       mediaset_id:params['mediaset_id'] , featured:['true', 'false'] };
     $('.last-div').css('min-height', $(window).height() + 'px');

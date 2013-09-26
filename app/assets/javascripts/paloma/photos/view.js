@@ -19,6 +19,9 @@
 
   Paloma.callbacks['photos']['view'] = function(params){
     // Do something here.
+
+    $('.best_in_place').best_in_place(); 
+
     //load normal photos
     $.ajax({
       url: '/photos/get_more/' + params['photo_id'],
@@ -213,6 +216,7 @@
     });
 
 		//for owners of the photo
+		/*  
     if ( params['persona_signed_in'] ){
         //hide all the forms
         $("#photo-title-form").hide();
@@ -236,6 +240,7 @@
           $("#photo-desc-form").hide("slow"); 
         });
     };
+    */
 
   }; // Paloma.callbacks['photos']['view'] = function(params){
 

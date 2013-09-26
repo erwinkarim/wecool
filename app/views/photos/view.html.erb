@@ -157,33 +157,26 @@
             :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
           <div class="carousel-caption row-fluid" style="display:none;" >
             <div class="span7" id="photo-title-and-desc">
-              <h4 id="photo-title"><%= @photo.title %>
+              <h4 id="photo-title">
+                <%= best_in_place_if current_persona == @persona, @photo, :title, :type => :input, 
+                  :html_attrs => { :size => 80 } %>
                 <small> by <%= link_to persona_signed_in? && 
                   current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
                 </small>
               </h4>
-              <% if persona_signed_in? && current_persona == @persona then %>
-                <%= form_for @photo, :html => { :id=>'photo-title-form', :class=> 'form-horizontal' } do |f| %>
-                  <%= f.text_field :title , :class=>'span6'%>
-                  <%= button_tag 'Cancel', :type => 'button', :id=>'photo-title-cancel-btn', :class=>'btn' %> 
-                  <%= f.submit 'Update title', :class=>'btn btn-primary' %>
-                <% end %>
-              <% end %>
               <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
-                <%= simple_format(
+                <!--%= simple_format(
                   @photo.description.nil? || @photo.description.empty? ? 'No Description' : 
                     @photo.description, :style=>'padding-bottom:1em;' 
-                ) %>
+                ) %-->
+                <%= best_in_place_if current_persona == @persona, @photo, :description, :type => :textarea, 
+                  :nil => simple_format('No Description, click to add'), :inner_class=> 'row-fluid',
+                  :ok_button => 'Update', :cancel_button => 'Cancel', 
+                  :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
+                  :display_with => :simple_format, :sanitize => false, 
+                  :html_attrs => { :style => 'display:block', :cols => 80 }
+                %>
               </div>
-              <% if persona_signed_in? && current_persona.id == @persona.id then %>
-                <%= form_for @photo, :html => { :id => 'photo-desc-form' } do |f| %>
-                  <%= f.text_area :description, :size => '80x6', :class=>'span9', 
-                    :placeholder=>'Add description. You can use #hashtag to tag your photos' %> 
-                  <br />
-                  <%= button_tag 'Cancel', :type => 'button' , :id=>'photo-desc-cancel-btn', :class=>'btn' %>
-                  <%= f.submit nil, :class=>'btn btn-primary' %>
-                <% end %>
-              <% end %>
             </div><!-- photo title and description-->
             <div class="span4">
               <div class="progress">

@@ -344,4 +344,16 @@ class MediasetsController < ApplicationController
     end
   end
 
+  # PUT    /mediasets/update_attr/:id(.:format)   
+  # to update attributes only
+  def update_attr
+    #sanity checks 
+    @persona = current_persona
+    @mediaset = @persona.mediasets.find(params[:id])
+    
+    respond_to do |format|
+      @mediaset.update_attributes( params[:mediaset] )
+      format.json{ respond_with_bip(@mediaset) }
+    end
+  end
 end
