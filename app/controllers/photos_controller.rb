@@ -189,10 +189,12 @@ class PhotosController < ApplicationController
         @photo.reset_tags
         format.html { redirect_to photo_view_path(Persona.find(@photo.persona_id).screen_name, @photo.id), 
           notice: 'Photo was successfully updated.' }
-        format.json { head :no_content }
+        #format.json { head :no_content }
+        format.json { respond_with_bip(@photo) }
       else
         format.html { render action: "edit" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
+        #format.json { render json: @photo.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@photo) }
       end
     end
   end

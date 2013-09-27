@@ -159,7 +159,7 @@
             <div class="span7" id="photo-title-and-desc">
               <h4 id="photo-title">
                 <%= best_in_place_if current_persona == @persona, @photo, :title, :type => :input, 
-                  :html_attrs => { :size => 80 } %>
+                  :html_attrs => { :size => 80, :style => 'font-size:17.5px', :class => 'span10' } %>
                 <small> by <%= link_to persona_signed_in? && 
                   current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
                 </small>
@@ -174,7 +174,7 @@
                   :ok_button => 'Update', :cancel_button => 'Cancel', 
                   :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
                   :display_with => :simple_format, :sanitize => false, 
-                  :html_attrs => { :style => 'display:block', :cols => 80 }
+                  :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }
                 %>
               </div>
             </div><!-- photo title and description-->

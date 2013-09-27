@@ -1,16 +1,17 @@
 <% content_for :title, (@mediaset.title + ' by ' + @persona.screen_name).html_safe  %>
 <div class="row-fluid">
   <% @focus = best_in_place_if current_persona == @persona, @mediaset, 
-    :title, :path => mediaset_update_attr_path, :html_attr => { :size => 80,  :style => 'font-size: 24px;' } %>
+    :title, :path => mediaset_update_attr_path, 
+    :html_attrs => {:class => 'span6',  :size => 80,  :style => 'font-size:30px; height:50px;' } %>
   <%= render "common/personaHeaderBar" %>
 </div>
 <div class="row-fluid" id="mediaset_<%= @mediaset.id %>">
   <div class="span9">
     <%= best_in_place_if current_persona == @persona, @mediaset, :description, 
       :path => mediaset_update_attr_path , :classes => 'lead', :display_with => 'simple_format',
-      :type => 'textarea', :ok_button => 'Update', :ok_button_class => 'btn btn-primary', 
+      :type => 'textarea', :ok_button => 'Update', :ok_button_class => "btn btn-primary", 
       :cancel_button => 'Cancel' , :cancel_button_class => 'btn', :nil => 'No Description, click to add',
-      :html_attrs => { :style => 'display:block;' }
+      :html_attrs => { :style => 'display:block; font-size:21px;', :cols => 80, :rows => 10, :class => 'span12' }
      %>
   </div>
   <div class="span3">
