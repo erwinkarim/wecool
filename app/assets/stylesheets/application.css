@@ -22,3 +22,7 @@ transform:rotate(90deg);
 -o-transform:rotate(90deg); /* Opera */
 }
 
+.highlightPhoto{
+  border: 1px solid red;
+}
+
