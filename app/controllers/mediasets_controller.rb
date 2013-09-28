@@ -76,6 +76,8 @@ class MediasetsController < ApplicationController
     end 
     @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
 
+		js :form, :params => { :photo_last_id => Photo.last.id , :persona_screen_name => @persona.screen_name, :exclude_mediaset => @mediaset.id } 
+
     respond_to do |format|
       format.html # new.html.erb
       format.js { redirect_to :back }
@@ -101,6 +103,8 @@ class MediasetsController < ApplicationController
     #})
 
     @upload_date_list = Photo.where(:persona_id => @persona.id).pluck(:created_at).map{|s| s.to_date }.uniq.reverse
+
+		js :form, :params => { :photo_last_id => Photo.last.id , :persona_screen_name => @persona.screen_name, :exclude_mediaset => @mediaset.id } 
   end
 
   # POST /mediasets
