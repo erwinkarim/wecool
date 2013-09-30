@@ -9,8 +9,10 @@
   <div class="span9">
     <%= best_in_place_if current_persona == @persona, @mediaset, :description, 
       :path => mediaset_update_attr_path , :classes => 'lead', :display_with => 'simple_format',
-      :type => 'textarea', :ok_button => 'Update', :ok_button_class => "btn btn-primary", 
-      :cancel_button => 'Cancel' , :cancel_button_class => 'btn', :nil => 'No Description, click to add',
+      :type => 'textarea', 
+      :ok_button => 'Update', :ok_button_class => "btn btn-primary", 
+      :cancel_button => 'Cancel' , :cancel_button_class => "btn" ,
+      :nil => 'No Description, click to add',
       :html_attrs => { :style => 'display:block; font-size:21px;', :cols => 80, :rows => 10, :class => 'span12' }
      %>
   </div>

@@ -29,9 +29,22 @@
     };
 
     $(function () {
+ 
       // Initialize the jQuery File Upload widget:
       $('#fileupload').fileupload({
-        dropZone: $('#dropzone')
+        dropZone: $('#dropzone'),
+        drop: function(e, data){
+          $.each(data.files, function(index, file){
+            console.log('Dropped file: ' + file.name);
+            var reader = new FileReader();
+            reader.onload = function(){
+              //do md5 file verification here
+              var md5 = MD5(reader.result);
+              console.log('md5: ' + md5);
+            };
+            reader.readAsBinaryString(file);
+          });
+        }
       });
 
       //clear uploaded files
