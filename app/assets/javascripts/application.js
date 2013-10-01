@@ -17,4 +17,4 @@
 //= require jquery.endless-scroll
 //= require best_in_place
 //= require paloma
-//= require md5
+//= require spark-md5
