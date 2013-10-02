@@ -70,6 +70,7 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/share' => :share, :via => :post, :as => 'photo_share'
     #match '/photos/download' => :download, :via => :post, :as => 'photo_download'
     match '/photos/:persona_id/dl_test' => :dl_test, :via => :get, :as => 'photos_dl_test'
+    match '/photos/:persona_id/get_dups/:md5' => :get_dups, :via => :get, :as => 'photos_get_dups'
   end
 
   controller :followers do

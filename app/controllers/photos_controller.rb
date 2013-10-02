@@ -566,4 +566,15 @@ class PhotosController < ApplicationController
   # GET    /photos/:persona_id/dl_test
   def dl_test
   end
+
+  # get list of dups based that :persona_id has based on :md5 given
+  # GET    /photos/:persona_id/get_dups/:md5(.:format)
+  def get_dups
+    @persona = Persona.where( :screen_name => params[:persona_id] ).first
+    @dups = @persona.photos.where( :md5 => params[:md5] )
+
+    respond_to do |format|
+      format.json { render :json => @dups }
+    end 
+  end
 end
