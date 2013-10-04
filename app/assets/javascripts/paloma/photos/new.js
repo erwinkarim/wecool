@@ -38,8 +38,18 @@
             console.log('Dropped file: ' + file.name);
             var reader = new FileReader();
             reader.onload = function(){
-              hash = SparkMD5.hashBinary(reader.result);
-              console.log('md5: '+ hash);
+              var hash = SparkMD5.hashBinary(reader.result);
+              var results = $.ajax( 
+                { url:params['get_dups_path'], dataType:'json', 
+                  data:{ md5:hash } 
+                }
+                  
+              ).done( function( data, textStatus, jqXHR) {
+                if( data.length != 0){
+                  console.log('dups detected');
+                  // label it as dups or else leave it alone
+                }
+              });
             };
             reader.readAsBinaryString(file);
           });

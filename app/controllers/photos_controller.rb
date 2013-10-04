@@ -123,6 +123,8 @@ class PhotosController < ApplicationController
     end
     #@photo = Photo.new
 
+    js :params  => { :get_dups_path => photos_get_dups_path(@persona.screen_name ) }
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @photo }
@@ -162,6 +164,9 @@ class PhotosController < ApplicationController
           @photo.update_setlist params[:mediaset]
         end
 
+        #generate md5 key
+        @photo.gen_md5
+ 
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
           :content_type => 'text/html',
@@ -568,7 +573,9 @@ class PhotosController < ApplicationController
   end
 
   # get list of dups based that :persona_id has based on :md5 given
-  # GET    /photos/:persona_id/get_dups/:md5(.:format)
+  #  GET    /photos/:persona_id/get_dups(.:format)
+  #   expected options: 
+  #     :md5       md5 that we are looking for
   def get_dups
     @persona = Persona.where( :screen_name => params[:persona_id] ).first
     @dups = @persona.photos.where( :md5 => params[:md5] )
