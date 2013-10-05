@@ -48,6 +48,24 @@
                 if( data.length != 0){
                   console.log('dups detected');
                   // label it as dups or else leave it alone
+									$('[data-name="'+file.name+'"]').find('.start').after(
+										$('<td/>', { text:'Dup detected!' , class:'duplicate' })
+									);
+									$('.duplicate').append(
+										$('<button/>', { text:'Download anyway', class:'btn btn-warning', value:'download-dups-anyway', type:'button' }).click( function(){
+											$('.duplicate').hide();
+											$('.start').show();
+										})			
+									);
+									$('[data-name="'+file.name+'"]').find('.start').hide();
+									$('[data-name="'+file.name+'"]').attr('data-duplicate', true);
+									//table header notify that dups are detected
+									if( $('.dup_detected').length == 0) {
+										$('#file-listing').find('tbody').find('tr:first').before( 
+											$('<tr/>', { class:'dup_detected'} ).append( $('<td/>', { text:'Duplicated detected' }) ) 
+										);
+									}
+								
                 }
               });
             };
