@@ -47,6 +47,7 @@
               ).done( function( data, textStatus, jqXHR) {
                 if( data.length != 0){
                   console.log('dups detected');
+									console.log(data);
                   // label it as dups or else leave it alone
 									$('[data-name="'+file.name+'"]').find('.start').after(
 										$('<td/>', { text:'Dup detected!' , class:'duplicate' })
@@ -59,11 +60,17 @@
 									);
 									$('[data-name="'+file.name+'"]').find('.start').hide();
 									$('[data-name="'+file.name+'"]').attr('data-duplicate', true);
+
 									//table header notify that dups are detected
 									if( $('.dup_detected').length == 0) {
-										$('#file-listing').find('tbody').find('tr:first').before( 
-											$('<tr/>', { class:'dup_detected'} ).append( $('<td/>', { text:'Duplicated detected' }) ) 
-										);
+										$('#dupzone').css('display', 'block');
+										//copy canvas from file listing and dump it in #dupzone
+										$('[data-name="'+file.name+'"]').find('canvas').uniqueId(); 
+										srcCanvas = document.getElementById( $('[data-name="'+file.name+'"]').find('canvas').attr('id')); 
+										$('#duplisting').append( srcCanvas.cloneNode() );
+										destCanvas = document.getElementById( $('#duplisting').find('canvas:last').attr('id') );
+										destCanvas.getContext('2d').drawImage(srcCanvas, 0, 0);	
+											
 									}
 								
                 }
@@ -100,6 +107,15 @@
           dropZone.removeClass('in hover');
         }, 100);
       });
+
+			//dup zone accordion characteristics
+			$('#dupzone_collapse').on('hide', function(){
+				$('#dupzone-chevron').toggleClass('icon-chevron-down');
+				$('#dupzone-chevron').toggleClass('icon-chevron-right');
+			}).on('show', function(){
+				$('#dupzone-chevron').toggleClass('icon-chevron-down');
+				$('#dupzone-chevron').toggleClass('icon-chevron-right');
+			});
 
       $(document).bind('drop dragover', function (e) {
         e.preventDefault();
