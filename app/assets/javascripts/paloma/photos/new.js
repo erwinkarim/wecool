@@ -34,51 +34,52 @@
       $('#fileupload').fileupload({
         dropZone: $('#dropzone'),
         drop: function(e, data){
-          $.each(data.files, function(index, file){
-            console.log('Dropped file: ' + file.name);
-            var reader = new FileReader();
-            reader.onload = function(){
-              var hash = SparkMD5.hashBinary(reader.result);
-              var results = $.ajax( 
-                { url:params['get_dups_path'], dataType:'json', 
-                  data:{ md5:hash } 
-                }
-                  
-              ).done( function( data, textStatus, jqXHR) {
-                if( data.length != 0){
-                  console.log('dups detected');
-									console.log(data);
-                  // label it as dups or else leave it alone
-									$('[data-name="'+file.name+'"]').find('.start').after(
-										$('<td/>', { text:'Dup detected!' , class:'duplicate' })
-									);
-									$('.duplicate').append(
-										$('<button/>', { text:'Download anyway', class:'btn btn-warning', value:'download-dups-anyway', type:'button' }).click( function(){
-											$('.duplicate').hide();
-											$('.start').show();
-										})			
-									);
-									$('[data-name="'+file.name+'"]').find('.start').hide();
-									$('[data-name="'+file.name+'"]').attr('data-duplicate', true);
-
-									//table header notify that dups are detected
-									if( $('.dup_detected').length == 0) {
-										$('#dupzone').css('display', 'block');
-										//copy canvas from file listing and dump it in #dupzone
-										$('[data-name="'+file.name+'"]').find('canvas').uniqueId(); 
-										srcCanvas = document.getElementById( $('[data-name="'+file.name+'"]').find('canvas').attr('id')); 
-										$('#duplisting').append( srcCanvas.cloneNode() );
-										destCanvas = document.getElementById( $('#duplisting').find('canvas:last').attr('id') );
-										destCanvas.getContext('2d').drawImage(srcCanvas, 0, 0);	
-											
-									}
-								
-                }
-              });
-            };
-            reader.readAsBinaryString(file);
-          });
         }
+      }).bind( 'fileuploadadded', function (e,data) {
+        $.each(data.files, function(index, file){
+          var reader = new FileReader();
+          reader.onload = function(){
+            var hash = SparkMD5.hashBinary(reader.result);
+            var results = $.ajax( 
+              { url:params['get_dups_path'], dataType:'json', 
+                data:{ md5:hash } 
+              }
+            ).done( function( data, textStatus, jqXHR) {
+              if( data.length != 0){
+                console.log('dups detected of file ' + file.name );
+
+                // label it as dups or else leave it alone
+                $('[data-name="'+file.name+'"]').find('canvas').uniqueId(); 
+                srcCanvas = document.getElementById( $('[data-name="'+file.name+'"]').find('canvas').attr('id')); 
+                $('#duplisting').append( srcCanvas.cloneNode() );
+                destCanvas = document.getElementById( $('#duplisting').find('canvas:last').attr('id') );
+                destCanvas.getContext('2d').drawImage(srcCanvas, 0, 0);  
+
+                //add download anyway button at individual level
+                $('[data-name="' + file.name + '"]').find('.progress').after(
+                  $('<div/>', { class:'duplicate', text:'Duplicate!'  } )
+                );
+                $('[data-name="' + file.name + '"]').find('.progress').hide()
+
+                $('[data-name="' + file.name + '"]').find('.start').after(
+                  $('<td/>', { class:'duplicate-button' } ).append(
+                    $('<button/>', { type:'button', text:'Download Anyway', class:'btn btn-warning'}
+                    ).click( function(){
+                      parentHandle = $(this).parent().parent();
+                      parentHandle.find('.start').show();
+                      parentHandle.find('.progress').show();
+                      parentHandle.find('.duplicate-button').hide();
+                      parentHandle.find('.duplicate').hide();
+                    })
+                  )
+                );
+                $('[data-name="' + file.name + '"]').find('.start').hide();
+              }
+            });
+          };
+          reader.readAsBinaryString(file);
+          //reader.readAsDataURL(file);
+        });
       });
 
       //clear uploaded files
