@@ -61,20 +61,11 @@
         <%= render :template => "photos/updateMediasetModal", :locals => { :photo => @photo }  %>
       </div>
     </div>
-    <!-- The loading indicator is shown during image processing -->
-    <div class="fileupload-loading"></div>
-    <br>
-    
-    <!-- dropzone -->
-    <div id="dropzone" class="fade well">Drop files here</div>
-    <br />
-
-		<div class="accordion" id="dupzone" style="display:block;">
+		<div class="accordion" id="dupzone" style="display:none;">
 			<div class="accordion-group">
 				<div class="accordion-heading">
-					<a class="accordion-toggle" data-toggle="collapse" data-parent="#dupzone" href="#dupzone_collapse">
-						<i class="icon-chevron-right" id="dupzone-chevron"></i> Duplicate Detected!
-					</a>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#dupzone" 
+            href="#dupzone_collapse"> <i class="icon-chevron-right" id="dupzone-chevron"></i> Duplicate Detected!  </a>
 				</div>
 				<div id="dupzone_collapse" class="accordion-body collapse">
 					<div class="accordion-inner">
@@ -87,10 +78,10 @@
 								<tr>
 									<td>
 										<button id="duplicate-discard-all" type="button" class="btn btn-warning">
-                      <i class="icon-ban-circle"></i> Discard All
+                      <i class="icon-ban-circle"></i> Cancel All Duplicates
                     </button>
-										<button id="duplicate-upload-all-anyway" type="button" class="btn btn-warning">
-                      <i class="icon-cloud-upload"></i> Upload All Anyway
+										<button id="duplicate-upload-all-anyway" type="button" class="btn btn-danger">
+                      <i class="icon-cloud-upload"></i> Upload All Duplicates Anyway
                     </button>
 									</td>
 								</tr>
@@ -102,6 +93,14 @@
 			
 		</div>
     <!-- The table listing the files available for upload/download -->
+    <!-- The loading indicator is shown during image processing -->
+    <div class="fileupload-loading"></div>
+    <br>
+    
+    <!-- dropzone -->
+    <div id="dropzone" class="fade well">Drop files here</div>
+    <br />
+
     <table class="table table-striped" id="file-listing">
       <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
     </table>

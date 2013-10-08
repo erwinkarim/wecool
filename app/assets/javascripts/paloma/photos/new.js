@@ -46,11 +46,12 @@
               }
             ).done( function( data, textStatus, jqXHR) {
               if( data.length != 0){
-                console.log('dups detected of file ' + file.name );
+                //TODO: also check if the file is already in queue
 
+                $('#dupzone').fadeIn();
                 //add the duplicate photos to the #duplisting
                 $('#duplisting').append( 
-                  $('<img/>', { src:data[0].avatar.thumb100.url, 
+                  $('<img/>', { src:data[0].avatar.square100.url, 
                     class:'img-polaroid pull-left', style:'margin:2px' }) 
                 );
 
@@ -65,7 +66,7 @@
 
                 $('[data-name="' + file.name + '"]').find('.start').after(
                   $('<td/>', { class:'duplicate-button', colspan:2 } ).append(
-                    $('<button/>', { type:'button', text:'Upload Anyway', class:'btn btn-warning'}
+                    $('<button/>', { type:'button', text:'Upload Anyway', class:'btn btn-danger'}
                     ).click( function(){
                       parentHandle = $(this).parent().parent();
                       parentHandle.find('.progress').show();
@@ -103,6 +104,8 @@
       //duplicate listing buttons
       $('#duplicate-discard-all').click( function(){
         $('.duplicate').remove();
+        $('#duplisting').find('img').remove();
+        $('#dupzone').fadeOut();
       });
 
       $('#duplicate-upload-all-anyway').click( function(){
