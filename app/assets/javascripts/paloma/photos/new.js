@@ -48,32 +48,43 @@
               if( data.length != 0){
                 console.log('dups detected of file ' + file.name );
 
-                // label it as dups or else leave it alone
-                $('[data-name="'+file.name+'"]').find('canvas').uniqueId(); 
-                srcCanvas = document.getElementById( $('[data-name="'+file.name+'"]').find('canvas').attr('id')); 
-                $('#duplisting').append( srcCanvas.cloneNode() );
-                destCanvas = document.getElementById( $('#duplisting').find('canvas:last').attr('id') );
-                destCanvas.getContext('2d').drawImage(srcCanvas, 0, 0);  
+                //add the duplicate photos to the #duplisting
+                $('#duplisting').append( 
+                  $('<img/>', { src:data[0].avatar.thumb100.url, 
+                    class:'img-polaroid pull-left', style:'margin:2px' }) 
+                );
 
                 //add download anyway button at individual level
+                $('[data-name="' + file.name + '"]').toggleClass('warning');
+                $('[data-name="' + file.name + '"]').toggleClass('duplicate');
+                
                 $('[data-name="' + file.name + '"]').find('.progress').after(
-                  $('<div/>', { class:'duplicate', text:'Duplicate!'  } )
+                  $('<div/>', { class:'duplicate-text', text:'Duplicate!'  } )
                 );
                 $('[data-name="' + file.name + '"]').find('.progress').hide()
 
                 $('[data-name="' + file.name + '"]').find('.start').after(
-                  $('<td/>', { class:'duplicate-button' } ).append(
-                    $('<button/>', { type:'button', text:'Download Anyway', class:'btn btn-warning'}
+                  $('<td/>', { class:'duplicate-button', colspan:2 } ).append(
+                    $('<button/>', { type:'button', text:'Upload Anyway', class:'btn btn-warning'}
                     ).click( function(){
                       parentHandle = $(this).parent().parent();
-                      parentHandle.find('.start').show();
                       parentHandle.find('.progress').show();
+                      parentHandle.find('.start').show();
+                      //this can cause the cancel button not to work so hide it for now
+                      parentHandle.find('.cancel').show();
                       parentHandle.find('.duplicate-button').hide();
-                      parentHandle.find('.duplicate').hide();
+                      parentHandle.find('.duplicate-text').hide();
+                      parentHandle.toggleClass('warning');
+                      parentHandle.removeClass('duplicate');
+                      parentHandle.addClass('template-upload');
                     })
                   )
                 );
                 $('[data-name="' + file.name + '"]').find('.start').hide();
+                $('[data-name="' + file.name + '"]').find('.cancel').hide();
+
+                //disable uploading dups: 
+                $('[data-name="' + file.name + '"]').removeClass('template-upload');
               }
             });
           };
@@ -86,6 +97,17 @@
       $('.clear').click( function() {
         $('.files').find('input:checkbox:checked').each( function() {
           $(this).closest('tr').detach();
+        });
+      });
+
+      //duplicate listing buttons
+      $('#duplicate-discard-all').click( function(){
+        $('.duplicate').remove();
+      });
+
+      $('#duplicate-upload-all-anyway').click( function(){
+        $('.duplicate').each( function( index,value ){
+          $(value).find('.duplicate-button').find('button').click();
         });
       });
 
