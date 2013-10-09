@@ -61,7 +61,7 @@
         <%= render :template => "photos/updateMediasetModal", :locals => { :photo => @photo }  %>
       </div>
     </div>
-		<div class="accordion" id="dupzone" style="display:none;">
+		<div class="accordion" id="dupzone" style="display:block;">
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#dupzone" 
@@ -78,10 +78,10 @@
 								<tr>
 									<td>
 										<button id="duplicate-discard-all" type="button" class="btn btn-warning">
-                      <i class="icon-ban-circle"></i> Cancel All Duplicates
+                      <i class="icon-ban-circle"></i> Cancel Duplicates
                     </button>
 										<button id="duplicate-upload-all-anyway" type="button" class="btn btn-danger">
-                      <i class="icon-cloud-upload"></i> Upload All Duplicates Anyway
+                      <i class="icon-cloud-upload"></i> Upload Duplicates Anyway
                     </button>
 									</td>
 								</tr>

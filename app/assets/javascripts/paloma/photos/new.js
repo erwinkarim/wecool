@@ -46,14 +46,19 @@
               }
             ).done( function( data, textStatus, jqXHR) {
               if( data.length != 0){
-                //TODO: also check if the file is already in queue
+                //if the file is already in queue, remove the old ones
+                if ( $('[data-md5="' + hash + '"]').length != 0){
+                  $('[data-md5="' + hash + '"]').remove();
+                }
 
                 $('#dupzone').fadeIn();
                 //add the duplicate photos to the #duplisting
                 $('#duplisting').append( 
                   $('<img/>', { src:data[0].avatar.square100.url, 
-                    class:'img-polaroid pull-left', style:'margin:2px' }) 
+                    class:'img-polaroid pull-left', style:'margin:2px', 'data-md5':hash }) 
                 );
+          
+                $('[data-name="' + file.name + '"]').attr('data-md5', hash);
 
                 //add download anyway button at individual level
                 $('[data-name="' + file.name + '"]').toggleClass('warning');
