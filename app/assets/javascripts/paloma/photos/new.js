@@ -30,11 +30,22 @@
 
     $(function () {
  
+      $.widget('blueimp.fileupload', $.blueimp.fileupload, {
+        options: {
+          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+          processQueue: [ { action: 'md5_check', always:true, acceptFileTypes:'@' } ]
+        },
+        processActions:{
+          md5_check: function(data,options){
+            console.log('md5 check process');
+            return data;
+          }
+        }
+      });
+
       // Initialize the jQuery File Upload widget:
       $('#fileupload').fileupload({
-        dropZone: $('#dropzone'),
-        drop: function(e, data){
-        }
+        dropZone: $('#dropzone')
       }).bind( 'fileuploadadded', function (e,data) {
         $.each(data.files, function(index, file){
           var reader = new FileReader();
@@ -48,7 +59,8 @@
               if( data.length != 0){
                 //if the file is already in queue, remove the old ones
                 if ( $('[data-md5="' + hash + '"]').length != 0){
-                  $('[data-md5="' + hash + '"]').remove();
+                  $('[data-md5="' + hash + '"]').fadeOut(400, function(){ $(this).remove() } );
+                  //$('[data-md5="' + hash + '"]').remove();
                 }
 
                 $('#dupzone').fadeIn();
@@ -70,9 +82,9 @@
                 $('[data-name="' + file.name + '"]').find('.progress').hide()
 
                 $('[data-name="' + file.name + '"]').find('.start').after(
-                  $('<td/>', { class:'duplicate-button', colspan:2 } ).append(
-                    $('<button/>', { type:'button', text:'Upload Anyway', class:'btn btn-danger'}
-                    ).click( function(){
+                  $('<td/>', { class:'duplicate-button' } ).append(
+                    $('<button/>', { type:'button', class:'btn btn-danger'}
+                    ).html('<i class="icon-upload"></i> Upload Anyway').click( function(){
                       parentHandle = $(this).parent().parent();
                       parentHandle.find('.progress').show();
                       parentHandle.find('.start').show();
@@ -80,9 +92,34 @@
                       parentHandle.find('.cancel').show();
                       parentHandle.find('.duplicate-button').hide();
                       parentHandle.find('.duplicate-text').hide();
+                      parentHandle.find('.duplicate-cancel').hide();
                       parentHandle.toggleClass('warning');
                       parentHandle.removeClass('duplicate');
                       parentHandle.addClass('template-upload');
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').fadeOut(
+                        400, function(){
+                          $(this).remove();
+                          if( $('#duplisting').find('img').length == 0) {
+                            $('#dupzone').fadeOut();
+                          }
+                      });
+                    })
+                  )
+                );
+                $('[data-name="' + file.name + '"]').find('.cancel').after(
+                  $('<td/>', { class:'duplicate-cancel' } ).append(
+                    $('<button/>', { type:'button', class:'btn btn-warning'}
+                    ).html('<i class="icon-ban-circle"></i> Cancel').click(function(){
+                      //cancel individual uploads
+                      parentHandle = $(this).parent().parent();
+                      parentHandle.fadeOut();
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').fadeOut(
+                        400, function(){
+                          $(this).remove();
+                          if( $('#duplisting').find('img').length == 0) {
+                            $('#dupzone').fadeOut();
+                          }
+                        });
                     })
                   )
                 );
@@ -108,15 +145,20 @@
 
       //duplicate listing buttons
       $('#duplicate-discard-all').click( function(){
-        $('.duplicate').remove();
-        $('#duplisting').find('img').remove();
-        $('#dupzone').fadeOut();
+        $('#dupzone').fadeOut(400, function() {
+          $('.duplicate').remove();
+          $('#duplisting').find('img').remove();
+        });
       });
 
       $('#duplicate-upload-all-anyway').click( function(){
+        $('#dupzone').fadeOut( 400, function(){
+          $('#duplisting').find('img').remove();
+        });
         $('.duplicate').each( function( index,value ){
           $(value).find('.duplicate-button').find('button').click();
         });
+        $('.duplicate').remove();
       });
 
       //drop zone
