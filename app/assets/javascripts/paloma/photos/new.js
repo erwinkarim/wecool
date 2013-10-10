@@ -56,25 +56,29 @@
                 data:{ md5:hash } 
               }
             ).done( function( data, textStatus, jqXHR) {
+              //label file w/ md5
+              $('[data-name="' + file.name + '"]').attr('data-md5', hash);
+
               if( data.length != 0){
-                //if the file is already in queue, remove the old ones
-                if ( $('[data-md5="' + hash + '"]').length != 0){
-                  $('[data-md5="' + hash + '"]').fadeOut(400, function(){ $(this).remove() } );
+                //file is already in server
+                
+                //file is also already in queue
+                if ( $('[data-md5="' + hash + '"]').length > 1){
+                  $('[data-md5="' + hash + '"]:last').fadeOut(400, function(){ $(this).remove() } );
+                  return;
                   //$('[data-md5="' + hash + '"]').remove();
                 }
 
+                //display the dupzone and duplicate photos
                 $('#dupzone').fadeIn();
-                //add the duplicate photos to the #duplisting
                 $('#duplisting').append( 
                   $('<img/>', { src:data[0].avatar.square100.url, 
                     class:'img-polaroid pull-left', style:'margin:2px', 'data-md5':hash }) 
                 );
-          
-                $('[data-name="' + file.name + '"]').attr('data-md5', hash);
 
                 //add download anyway button at individual level
-                $('[data-name="' + file.name + '"]').toggleClass('warning');
-                $('[data-name="' + file.name + '"]').toggleClass('duplicate');
+                $('[data-name="' + file.name + '"]').addClass('warning');
+                $('[data-name="' + file.name + '"]').addClass('duplicate');
                 
                 $('[data-name="' + file.name + '"]').find('.progress').after(
                   $('<div/>', { class:'duplicate-text', text:'Duplicate!'  } )
@@ -96,11 +100,11 @@
                       parentHandle.toggleClass('warning');
                       parentHandle.removeClass('duplicate');
                       parentHandle.addClass('template-upload');
-                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').fadeOut(
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideOut(
                         400, function(){
                           $(this).remove();
                           if( $('#duplisting').find('img').length == 0) {
-                            $('#dupzone').fadeOut();
+                            $('#dupzone').slideOut();
                           }
                       });
                     })
@@ -112,12 +116,12 @@
                     ).html('<i class="icon-ban-circle"></i> Cancel').click(function(){
                       //cancel individual uploads
                       parentHandle = $(this).parent().parent();
-                      parentHandle.fadeOut();
-                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').fadeOut(
+                      parentHandle.slideUp(500);
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideUp(
                         400, function(){
                           $(this).remove();
                           if( $('#duplisting').find('img').length == 0) {
-                            $('#dupzone').fadeOut();
+                            $('#dupzone').slideUp();
                           }
                         });
                     })
@@ -128,6 +132,11 @@
 
                 //disable uploading dups: 
                 $('[data-name="' + file.name + '"]').removeClass('template-upload');
+              } else {//if(data.length != 0)
+                //check if the file is not on the server but on queue
+                if ( $('[data-md5="' + hash + '"]').length > 1){
+                  $('[data-md5="' + hash + '"]:last').fadeOut(400, function(){ $(this).remove() } );
+                }
               }
             });
           };
@@ -145,14 +154,14 @@
 
       //duplicate listing buttons
       $('#duplicate-discard-all').click( function(){
-        $('#dupzone').fadeOut(400, function() {
+        $('#dupzone').slideUp(400, function() {
           $('.duplicate').remove();
           $('#duplisting').find('img').remove();
         });
       });
 
       $('#duplicate-upload-all-anyway').click( function(){
-        $('#dupzone').fadeOut( 400, function(){
+        $('#dupzone').slideUp( 400, function(){
           $('#duplisting').find('img').remove();
         });
         $('.duplicate').each( function( index,value ){
