@@ -51,23 +51,23 @@
           var reader = new FileReader();
           reader.onload = function(){
             var hash = SparkMD5.hashBinary(reader.result);
+
+						//label file w/ md5
+						$('[data-name="' + file.name + '"]').attr('data-md5', hash);
+						//file is also already in queue
+						if ( $('[data-md5="' + hash + '"]').length > 1){
+							$('[data-md5="' + hash + '"]:last').fadeOut(400, function(){ $(this).remove() } );
+							return;
+							//$('[data-md5="' + hash + '"]').remove();
+						}
+
             var results = $.ajax( 
               { url:params['get_dups_path'], dataType:'json', 
                 data:{ md5:hash } 
               }
             ).done( function( data, textStatus, jqXHR) {
-              //label file w/ md5
-              $('[data-name="' + file.name + '"]').attr('data-md5', hash);
-
               if( data.length != 0){
                 //file is already in server
-                
-                //file is also already in queue
-                if ( $('[data-md5="' + hash + '"]').length > 1){
-                  $('[data-md5="' + hash + '"]:last').fadeOut(400, function(){ $(this).remove() } );
-                  return;
-                  //$('[data-md5="' + hash + '"]').remove();
-                }
 
                 //display the dupzone and duplicate photos
                 $('#dupzone').fadeIn();
@@ -85,6 +85,7 @@
                 );
                 $('[data-name="' + file.name + '"]').find('.progress').hide()
 
+								//add upload anyway button
                 $('[data-name="' + file.name + '"]').find('.start').after(
                   $('<td/>', { class:'duplicate-button' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-danger'}
@@ -109,7 +110,9 @@
                       });
                     })
                   )
-                );
+                ); // $('[data-name="' + file.name + '"]').find('.start').after(
+	
+								//add cancel dups button
                 $('[data-name="' + file.name + '"]').find('.cancel').after(
                   $('<td/>', { class:'duplicate-cancel' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-warning'}
@@ -130,20 +133,16 @@
                 $('[data-name="' + file.name + '"]').find('.start').hide();
                 $('[data-name="' + file.name + '"]').find('.cancel').hide();
 
-                //disable uploading dups: 
+                //disable dups from being upload
                 $('[data-name="' + file.name + '"]').removeClass('template-upload');
-              } else {//if(data.length != 0)
-                //check if the file is not on the server but on queue
-                if ( $('[data-md5="' + hash + '"]').length > 1){
-                  $('[data-md5="' + hash + '"]:last').fadeOut(400, function(){ $(this).remove() } );
-                }
-              }
-            });
-          };
+              } //if(data.length != 0)
+            }); //).done( function( data, textStatus, jqXHR) {
+          }; // reader.onload = function(){
+
           reader.readAsBinaryString(file);
           //reader.readAsDataURL(file);
-        });
-      });
+        }); // $.each(data.files, function(index, file){
+      }); // }).bind( 'fileuploadadded', function (e,data) {
 
       //clear uploaded files
       $('.clear').click( function() {
