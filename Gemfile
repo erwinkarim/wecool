@@ -80,3 +80,6 @@ gem 'daemons'
 
 #process management 
 gem 'foreman'
+
+#detech browser agent
+gem 'browser'

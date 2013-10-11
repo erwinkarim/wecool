@@ -96,6 +96,8 @@ Wecool::Application.routes.draw do
   match '/static/tour' => 'static_page#tour', :via => :get, :as => 'tour'
   match '/static/aboutUs' => 'static_page#aboutUs', :via => :get, :as => 'aboutUs'
   match '/static/termsAndConditions' => 'static_page#termsAndConditions', :via => :get, :as => 'termsAndConditions'
+  match '/static/browser_unsupported' => 'static_page#browser_unsupported', :via => :get, 
+    :as => 'browser_unsupported'
 
 
   # The priority is based upon order of creation:
