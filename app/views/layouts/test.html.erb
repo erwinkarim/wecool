@@ -3,7 +3,20 @@
     <%= stylesheet_link_tag 'application', :media => 'all' %>
   </head>
   <body>
-    <%= yield %> 
-  </body>
+		<%= nav_bar :static => :top, :brand => 'Wecool', :responsive => true %>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+      </div><!--/row-->
 
+      <footer>
+        <p>&copy; Company 2012-13 | <%= link_to 'About Us', aboutUs_path %> | <%= link_to 'Terms of Use', termsAndConditions_path %></p>
+        
+      </footer>
+
+    </div> <!-- /container -->
+  </body>
 </html>

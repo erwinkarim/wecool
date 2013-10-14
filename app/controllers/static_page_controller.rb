@@ -10,7 +10,7 @@ class StaticPageController < ApplicationController
   def termsAndConditions
   end
 
-  def browser_unsupported
+  def browser_unsupported 
     render :layout => 'test'
   end
 end
