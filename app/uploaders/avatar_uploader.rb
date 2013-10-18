@@ -38,6 +38,23 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+  #process :store_dimension
+  def store_dimension
+    #if @file
+    #  img = ::Magick::Image::read(@file.file).first
+    #  if model
+    #    model.width = img.columns
+    #    model.height = img.rows
+    #  end 
+    #end
+    manipulate! do |img|
+      put img
+      if model
+        model.width = img.columns
+        model.height = img.rows
+      end
+    end
+  end
 
   # Create different versions of your uploaded files:
   # version :thumb do
@@ -50,6 +67,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   version :large, :from_version => :xlarge do 
     process :resize_to_limit => [0,800]
+    process :store_dimension
   end
 
   version :medium, :from_version => :xlarge do 
@@ -94,7 +112,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def get_dimentions
+  def get_dimensions
     width,height = `identify -format "%wx%h" #{file.path}`.split(/x/)
   end
 
