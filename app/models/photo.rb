@@ -4,7 +4,7 @@ class Photo < ActiveRecord::Base
   make_voteable
   acts_as_taggable
   belongs_to :persona
-  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible, :taken_at, :md5
+  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible, :taken_at, :md5, :exif
   mount_uploader :avatar,AvatarUploader
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos
@@ -393,9 +393,9 @@ class Photo < ActiveRecord::Base
   end
 
   #generate md5 for the avatar.path
-  def gen_md5
+  def gen_md5 path=self.avatar.path
     if !self.avatar.nil? then
-      self.update_attribute(:md5, Digest::MD5.hexdigest( File.read(self.avatar.path) ) )
+      self.update_attribute(:md5, Digest::MD5.hexdigest( File.read(path) ) )
     end
   end
 end

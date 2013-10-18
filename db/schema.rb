@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131002151042) do
+ActiveRecord::Schema.define(:version => 20131018030937) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20131002151042) do
     t.integer  "sku_id"
   end
 
-  add_index "coupons", ["persona_id"], :name => "index_coupons_on_persona_id"
   add_index "coupons", ["sku_id"], :name => "index_coupons_on_sku_id"
 
   create_table "delayed_jobs", :force => true do |t|
@@ -134,6 +133,7 @@ ActiveRecord::Schema.define(:version => 20131002151042) do
     t.boolean  "system_visible", :default => false
     t.datetime "taken_at"
     t.string   "md5"
+    t.text     "exif"
   end
 
   add_index "photos", ["persona_id"], :name => "index_photos_on_persona_id"

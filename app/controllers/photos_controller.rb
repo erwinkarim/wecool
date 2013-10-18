@@ -139,9 +139,15 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
+    #logger.debug 'Avatar dump:' + params[:photo][:avatar].tempfile.path
     @photo = current_persona.photos.new(params[:photo])
     @photo.system_visible = true
     @photo.title = @photo.avatar.to_s.split('/').last
+    exif_data = EXIFR::JPEG.new( params[:photo][:avatar].tempfile.path ).exif
+    if !exif_data.nil? then
+      @photo.taken_at = exif_data[:date_time_original]
+    end
+    @photo.exif = exif_data
 
     respond_to do |format|
       if @photo.save
@@ -154,10 +160,6 @@ class PhotosController < ApplicationController
         end
 
         @photo.reset_tags
-        exif_data = EXIFR::JPEG.new(@photo.avatar.path).exif
-        if !exif_data.nil? then
-          @photo.update_attribute(:taken_at, exif_data[:date_time_original])
-        end
 
         #add the mediasets
         if params.has_key? :mediaset then 
@@ -165,7 +167,7 @@ class PhotosController < ApplicationController
         end
 
         #generate md5 key
-        @photo.gen_md5
+        @photo.gen_md5 params[:photo][:avatar].tempfile.path
  
         format.html {
           render :json => [@photo.to_jq_upload].to_json,
@@ -333,7 +335,8 @@ class PhotosController < ApplicationController
     end
 
     #capture addional info
-    @exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+    #@exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+    @exif = YAML.load @photo.exif
 
     #setup javascript 
     js :params => { :mediaset_ids => @photo.mediasets.map{ |x| x.id }, :photo_id => @photo.id, 
@@ -354,7 +357,8 @@ class PhotosController < ApplicationController
     #view exif data of this photo
     @photo = Photo.find(params[:id])
     @persona = Persona.find(@photo.persona_id)
-    @exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+    #@exif = EXIFR::JPEG.new(@photo.avatar.path).exif
+    @exif = YAML.load @photo.exif
 
     respond_to do |format|
       format.html # view_exif.html.erb
