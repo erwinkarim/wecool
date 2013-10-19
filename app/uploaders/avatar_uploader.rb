@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class AvatarUploader < CarrierWave::Uploader::Base
-
+	attr_accessor :height, :width
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -38,22 +38,9 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
-  #process :store_dimension
+  process :store_dimension
   def store_dimension
-    #if @file
-    #  img = ::Magick::Image::read(@file.file).first
-    #  if model
-    #    model.width = img.columns
-    #    model.height = img.rows
-    #  end 
-    #end
-    manipulate! do |img|
-      put img
-      if model
-        model.width = img.columns
-        model.height = img.rows
-      end
-    end
+    @width, @height = `identify -format "%wx%h" #{file.path}`.split(/x/) 
   end
 
   # Create different versions of your uploaded files:
@@ -63,6 +50,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   version :xlarge do 
     process :resize_to_limit => [0, 1000]
+    process :store_dimension
   end
 
   version :large, :from_version => :xlarge do 
