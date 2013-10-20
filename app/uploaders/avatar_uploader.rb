@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class AvatarUploader < CarrierWave::Uploader::Base
-	attr_accessor :height, :width
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -18,6 +17,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     storage :fog
   end
 
+	#cache dir
+	#def cache_dir
+	#	'/tmp/wecool-cache'
+	#end
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -40,8 +43,12 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # end
   process :store_dimension
   def store_dimension
-    @width, @height = `identify -format "%wx%h" #{file.path}`.split(/x/) 
+    model.width, model.height = `identify -format "%wx%h" #{file.path}`.split(/x/) 
   end
+
+	def height
+    `identify -format "%h" #{file.path}`.split(/x/).first.to_i
+	end
 
   # Create different versions of your uploaded files:
   # version :thumb do
