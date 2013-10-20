@@ -247,6 +247,13 @@ class PhotosController < ApplicationController
   def editor
     @photo = Photo.find(params[:photo_id])
     @persona = Persona.find(@photo.persona_id)
+
+    #store in cache so can get height/width
+    if !@photo.avatar.cache_name then
+      @photo.avatar.cache_stored_file!
+      puts '@photo.cache_name='  + @photo.avatar.cache_name
+      @photo.avatar.retrieve_from_cache! @photo.avatar.cache_name
+    end
     
     js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, :photo_title => @photo.title 
       } 
@@ -336,7 +343,11 @@ class PhotosController < ApplicationController
 
     #capture addional info
     #@exif = EXIFR::JPEG.new(@photo.avatar.path).exif
-    @exif = YAML.load @photo.exif
+    if @photo.exif
+      @exif = YAML.load @photo.exif
+    else
+      @exif = nil
+    end
 
     #setup javascript 
     js :params => { :mediaset_ids => @photo.mediasets.map{ |x| x.id }, :photo_id => @photo.id, 

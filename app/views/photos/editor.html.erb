@@ -64,9 +64,9 @@
 	<i class="icon-spinner icon-4x icon-spin"></i>
 </div>
 <div class="row-fluid" id="canvas-area">
-  <% img = ::Magick::Image::read(@photo.avatar.large.url).first %>
-  <canvas id="canvas" class="span12 img-polaroid" height="<%= img.rows %>" width="<%= img.columns %>" 
-		style="max-width:none; width:<%= img.columns %>px; display:none" rotation=0 >
+  <!--% img = ::Magick::Image::read(@photo.avatar.large.url).first %-->
+  <canvas id="canvas" class="span12 img-polaroid" height="<%= @photo.avatar.large.height %>" width="<%= @photo.avatar.large.width %>" 
+		style="max-width:none; width:<%= @photo.avatar.large.width %>px; display:none" rotation=0 >
   </canvas>
 </div>
 <%= form_tag photo_editor_gen_path(@persona.screen_name, @photo.id), :id => 'dl_file' do %>

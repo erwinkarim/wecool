@@ -16,3 +16,6 @@
 
 #ignore uploads
 /public/uploads/*
+
+#ignore cache
+/public/carrierwave_cache/*

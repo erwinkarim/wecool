@@ -46,8 +46,13 @@ class AvatarUploader < CarrierWave::Uploader::Base
     model.width, model.height = `identify -format "%wx%h" #{file.path}`.split(/x/) 
   end
 
+  #for height/width better to cache the file first from fog
 	def height
     `identify -format "%h" #{file.path}`.split(/x/).first.to_i
+	end
+
+	def width
+    `identify -format "%w" #{file.path}`.split(/x/).first.to_i
 	end
 
   # Create different versions of your uploaded files:
