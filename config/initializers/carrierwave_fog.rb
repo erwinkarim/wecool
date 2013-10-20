@@ -1,7 +1,7 @@
 CarrierWave.configure do |config|
 	#for caching
   config.root = Rails.root.join('tmp') 
-  config.cache_dir = 'carrierwave' 
+  config.cache_dir = 'carrierwave_cache' 
 	
   config.fog_credentials = {
     :provider               => 'AWS',                        # required
