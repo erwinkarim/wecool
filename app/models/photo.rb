@@ -66,6 +66,12 @@ class Photo < ActiveRecord::Base
   end
   
   def rebuild_original_after_transform( command, options={})
+    #cache the photo first
+    if !self.avatar.cached? then
+      self.avatar.cache_stored_file!
+      self.avatar.retrieve_from_cache! self.avatar.cache_name
+    end
+    
     @path = self.avatar.path
     @original_photo = Magick::Image.read(self.avatar.path).first
     if command == 'rotate' then
@@ -73,6 +79,7 @@ class Photo < ActiveRecord::Base
     end
     @original_photo.write(self.avatar.path)
     self.avatar.recreate_versions! 
+    self.save!
   end
 
   #rebuilt the tag list. useful when you update the title/description 
