@@ -251,12 +251,15 @@ class PhotosController < ApplicationController
     #store in cache so can get height/width
     if !@photo.avatar.cache_name then
       @photo.avatar.cache_stored_file!
-      puts '@photo.cache_name='  + @photo.avatar.cache_name
       @photo.avatar.retrieve_from_cache! @photo.avatar.cache_name
     end
     
-    js :params => { :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, :photo_title => @photo.title 
-      } 
+    puts @photo.avatar.large.url
+ 
+    js :params => { 
+      :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, 
+      :photo_title => @photo.title 
+    } 
   end
   
   #  POST   /photos/:persona_id/editor/:photo_id/generate
@@ -275,11 +278,11 @@ class PhotosController < ApplicationController
   # parameters:-
   #   imagedata canvas.toDataURL()
   def editor_upload_to_sys
-      @old_photo = Photo.find(params[:photo_id])
-     thisFile = File.new('/tmp/' + SecureRandom.urlsafe_base64 + '.jpg' , 'w+')
-     if thisFile
+    @old_photo = Photo.find(params[:photo_id])
+    thisFile = File.new('/tmp/' + SecureRandom.urlsafe_base64 + '.jpg' , 'w+')
+    if thisFile
       thisFile.syswrite( Base64.decode64(params[:imagedata]) )
-     end
+    end
 
     @photo = Persona.where(:screen_name => params[:persona_id]).first.photos.new
     @photo.avatar = thisFile
@@ -295,7 +298,6 @@ class PhotosController < ApplicationController
       render :status => :internal_server_error
     end
   end
-  
 
   #  GET    /photos/:persona_id/view/:id(.:format)
   def view

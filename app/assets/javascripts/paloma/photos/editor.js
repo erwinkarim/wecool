@@ -37,6 +37,7 @@
       ctx = canvas.getContext('2d');
       ctx.clearRect(0,0, canvas.width, canvas.height);
       img = new Image();
+      console.log(params['img_src']);
       img.src = params['img_src']; 
         $('#canvas').css('width', img.width);
         $('#canvas').css('height', img.height);

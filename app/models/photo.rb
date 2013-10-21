@@ -36,6 +36,12 @@ class Photo < ActiveRecord::Base
   end
   
   def rotate (degree, version = 'all')
+    #cache the photo first
+    if !self.avatar.cached? then
+      self.avatar.cache_stored_file!
+      self.avatar.retrieve_from_cache! self.avatar.cache_name
+    end
+
     if version == 'all' then
       @path = self.avatar.path 
     else
