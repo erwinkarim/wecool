@@ -60,6 +60,9 @@ class Photo < ActiveRecord::Base
       #don't forget to run /script/delayed_job start or else this won't work
       self.delay.rebuild_original_after_transform('rotate', { :degree => degree })
     end
+
+    #don't forget to save
+    self.save!
   end
   
   def rebuild_original_after_transform( command, options={})
