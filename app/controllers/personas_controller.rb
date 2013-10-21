@@ -123,10 +123,12 @@ class PersonasController < ApplicationController
   # supplies varabiles:--
   #   x_coor, y_coor, h_coor, w_coor : dimensions 
   #   selected_photo_path : where to load the photo
+  #   selected_photo_id : the id of the photo that were selected
   def set_picture
     #load new picture
     @persona = Persona.find(:first, :conditions => { :screen_name => params[:persona_id] } )
-    @persona.avatar = File.open(Rails.root.to_s + '/public' + params[:selected_photo_path])
+    #@persona.avatar = File.open(Rails.root.to_s + '/public' + params[:selected_photo_path])
+    @persona.avatar = Photo.find( params[:selected_photo_id]).avatar.medium
     @persona.save!
 
     #crop picture

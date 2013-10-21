@@ -31,12 +31,19 @@ class Persona < ActiveRecord::Base
   end
 
   def crop ( x_coor, y_coor, h_coor, w_coor )
+    #cache the avatar because of fog
+    if !avatar.cached? then
+      avatar.cache_stored_file!
+      avatar.retrieve_from_cache! avatar.cache_name
+    end
+    
     #corp the image and recreate versions
     image = Magick::ImageList.new(avatar.current_path)
     cropped_image = image.crop(x_coor, y_coor, h_coor, w_coor)
     cropped_image.write(avatar.current_path)
   
     avatar.recreate_versions!
+    save!
   end
   
   #calculate bandwith usage for the current calender month (ie; 1st to current day)

@@ -17,6 +17,7 @@
 
 </div>
 
+<%= content_for :other_javascript do %>
 <script type="text/javascript">
   var getConditions = {};
   getConditions = {limit:20, includeFirst:'true', size:'square100', 
@@ -73,3 +74,4 @@
     });
   });
 </script>
+<% end %>

@@ -39,6 +39,7 @@
         }).always( function (data){
           $('#drop-target').append(data.responseText);
           $('#selected_photo_path').val( $('#drop-target img').attr('src') );
+          $('#selected_photo_id').val( $item.attr('id').split('_')[1] );
           //add corp function to picture
           $( function(){
             $('.get_single_photo').Jcrop({

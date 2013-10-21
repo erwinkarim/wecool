@@ -18,6 +18,7 @@
   <%= form_tag persona_update_profile_pic_path(@persona.screen_name), :method => :post do %>
     <div>
       <%= hidden_field_tag 'selected_photo_path', '/' %>
+      <%= hidden_field_tag 'selected_photo_id', '0' %>
       <%= hidden_field_tag 'x_coor' %>
       <%= hidden_field_tag 'y_coor' %>
       <%= hidden_field_tag 'h_coor' %>
@@ -25,9 +26,7 @@
     </div>
     <div class="form-actions">
       <button role="button" class="btn btn-primary">Update your persona picture</button>
-      <%= link_to 'Cancel', '#', :class=>'btn' %>
+      <%= link_to 'Cancel', root_path, :class=>'btn' %>
     </div>
   <% end %>
 </div>
-<script type="text/javascript">
-</script>
