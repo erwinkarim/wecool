@@ -254,10 +254,9 @@ class PhotosController < ApplicationController
       @photo.avatar.retrieve_from_cache! @photo.avatar.cache_name
     end
     
-    puts @photo.avatar.large.url
- 
     js :params => { 
-      :img_src => @photo.avatar.large.url, :persona => @persona.screen_name, :photo_id =>@photo.id, 
+      :img_src => @photo.avatar.large.url, :img_height => @photo.avatar.large.height, 
+      :img_width => @photo.avatar.large.width, :persona => @persona.screen_name, :photo_id =>@photo.id, 
       :photo_title => @photo.title 
     } 
   end

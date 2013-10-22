@@ -32,20 +32,25 @@
     //reset the canvas
     theCanvas.reset = function(){
       //redraw the original image and crop if required	
+      var loaded = false;
       canvas = document.getElementById('canvas');
-
       ctx = canvas.getContext('2d');
       ctx.clearRect(0,0, canvas.width, canvas.height);
+
       img = new Image();
-      console.log(params['img_src']);
       img.src = params['img_src']; 
-        $('#canvas').css('width', img.width);
-        $('#canvas').css('height', img.height);
-        canvas.width = img.width;
-        canvas.height = img.height;
-      img.onload = function(){
+      img.onload = loadHandler;
+        $('#canvas').css('width', params['img_width']);
+        $('#canvas').css('height', params['img_height']);
+        canvas.width = params['img_width'];
+        canvas.height = params['img_height'];
+      
+      //load function
+      function loadHandler(){
         ctx.drawImage(img, 0,0);
-      };
+        
+      }
+
       canvas_obj = $('#canvas').first();
     };
     
@@ -180,7 +185,7 @@
         theCanvas.reset();
 
         //TODO: show img based on proper orientation and show the crop by orientation too.
-        theCanvas.displayRotatedImage();
+        //theCanvas.displayRotatedImage();
 
         //properly set the brightness and contrast
         theCanvas.setInitData();
@@ -192,12 +197,18 @@
 
         //display the submenu and the crop square
         $('#crop-submenu').css('display', 'block');  
-        jcrop_api = $.Jcrop('#canvas', { minSize:[150,150], allowSelect:false, 
-          setSelect:[
-            $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
-            $('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
-          ],
-          onChange: updateCoor }
+        $('#canvas:first').Jcrop( {
+            minSize:[150,150], 
+            allowSelect:false, 
+            setSelect:[
+              $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
+              $('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
+            ],
+            onChange: updateCoor 
+          }, 
+          function(){
+            jcrop_api = this; 
+          }
         );
 
         theCanvas.toggleMainMenu();
