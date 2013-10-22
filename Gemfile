@@ -83,3 +83,6 @@ gem 'foreman'
 
 #detech browser agent
 gem 'browser'
+
+#payment mechanism
+gem 'spreedly-core-ruby'
