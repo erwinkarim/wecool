@@ -14,6 +14,11 @@ class StoreController < ApplicationController
   def add_to_cart
     
   end
+  
+  #remove items from cart
+  #POST   /store/:persona_id/remove_from_cart(.:format)                    
+  def remove_from_cart
+  end
 
   # redeem coupons that is purchased else where
   #  POST   /store/:persona_id/redeem_coupon(.:format)
@@ -74,5 +79,24 @@ class StoreController < ApplicationController
       end
     end
 
+  end
+
+  #store checkout confirming your order before generating new order
+  def checkout
+  end
+
+  #generate order before asking for payment
+  #POST   /store/:persona_id/generate_order(.:format)                      
+  def generate_order
+  end
+
+  #asking for payment
+  #GET    /store/:persona_id/confirming_payment(.:format)                  
+  def confirm_pay
+  end
+
+  #GET    /store/:persona_id/orders(.:format)                              
+  # get current orders
+  def orders
   end
 end

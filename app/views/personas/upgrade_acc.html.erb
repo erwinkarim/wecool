@@ -94,15 +94,3 @@
     <% end -%>
   </div>
 </div>
-
-<script type="text/javascript">
-  $(document).ready( function() {
-
-    //add subscription package to cart, and then ask for CC info
-    $('#buy_premium_form').on( 'ajax:beforeSend', function(){
-      $('#purchase_premium_btn').button('loading');
-    }).on( 'ajax:complete', function(){
-      $('#purchase_premium_btn').button('reset');
-    });
-  });
-</script>
