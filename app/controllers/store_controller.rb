@@ -82,12 +82,15 @@ class StoreController < ApplicationController
   end
 
   #store checkout confirming your order before generating new order
+  #GET    /store/:persona_id/checkout(.:format) 
   def checkout
+    @persona = Persona.where( :screen_name => params[:persona_id]).first
   end
 
   #generate order before asking for payment
   #POST   /store/:persona_id/generate_order(.:format)                      
   def generate_order
+    @persona = Persona.where( :screen_name => params[:persona_id]).first
   end
 
   #asking for payment
