@@ -14,8 +14,19 @@ class StoreController < ApplicationController
 
   #add items to cart
   # POST   /store/:persona_id/add_to_cart(.:format)
+	# mandatory arguemnts:-
+	#		sku_code: Sku.code item to be added
+	# optional arguments:-
+	#		cart_quantity: number of items of the sku will be bought	
   def add_to_cart
-    
+		sku = Sku.where(:code => params[:sku_code] ).first	
+		respond_to do |format|
+			if sku.nil? then
+				format.js { flash[:warning] = 'Item not found' }
+			else
+				format.js
+			end
+		end 
   end
   
   #remove items from cart
@@ -96,7 +107,7 @@ class StoreController < ApplicationController
     @persona = Persona.where( :screen_name => params[:persona_id]).first
   end
 
-  #asking for payment
+  #asking for payment, mostly form to fill up CC info
   #GET    /store/:persona_id/confirming_payment(.:format)                  
   def confirm_pay
     @persona = Persona.where( :screen_name => params[:persona_id]).first
@@ -105,12 +116,29 @@ class StoreController < ApplicationController
 
   #the payment is confirmed or rejected. display the result
   #GET    /store/:persona_id/confrimed_payment(.:format)
+	#expected options
+	#		:error => error message
+	#		:token => payment token if the payment is successful
   def confirmed_pay
     if params[:error] then
       flash[:error] = params[:error]
     else
       @persona = Persona.where( :screen_name => params[:persona_id]).first
       #check if the payment goes through or not...
+			
+			token=params[:token]
+
+			#valid the payment here, if ok, go next step where the order has been done
+			#otherwise, if got some other error, check and go back to cofirm_pay action
+	
+			payment_method = SpreedlyCore::PaymentMethod.find(token)
+			if payment_method.valid? then
+				flash[:info] = 'Valid Card, start charging'	
+			else
+				#redirect to confirm_pay with errors
+				redirect_to confrim_pay_path(@persona.screen_name), :error => payment_method.errors.join('\n')
+			end
+			
     end
   end
 

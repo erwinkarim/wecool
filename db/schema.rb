@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131023043635) do
+ActiveRecord::Schema.define(:version => 20131024124045) do
 
   create_table "carts", :force => true do |t|
     t.string   "item_type"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(:version => 20131023043635) do
     t.integer  "persona_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "order_id"
   end
 
+  add_index "carts", ["order_id"], :name => "index_carts_on_order_id"
   add_index "carts", ["persona_id"], :name => "index_carts_on_persona_id"
 
   create_table "coupons", :force => true do |t|
@@ -88,6 +90,16 @@ ActiveRecord::Schema.define(:version => 20131023043635) do
   end
 
   add_index "mediasets", ["persona_id"], :name => "index_mediasets_on_persona_id"
+
+  create_table "orders", :force => true do |t|
+    t.integer  "persona_id"
+    t.string   "spreedly_token_id"
+    t.integer  "status"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "orders", ["persona_id"], :name => "index_orders_on_persona_id"
 
   create_table "personas", :force => true do |t|
     t.string   "realname"

@@ -23,6 +23,9 @@ class Persona < ActiveRecord::Base
   has_many :followers, :dependent => :destroy
   has_many :coupons, :dependent => :destroy
   has_many :carts, :dependent => :destroy
+  has_many :orders, :dependent => :destroy
+
+	#allow for voting
   make_voter
 
   def tracks ( object_type, object_id) 

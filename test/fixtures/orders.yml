@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  persona: 
+  spreedly_token_id: MyString
+  status: 1
+
+two:
+  persona: 
+  spreedly_token_id: MyString
+  status: 1
