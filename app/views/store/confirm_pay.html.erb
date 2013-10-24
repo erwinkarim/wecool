@@ -1,10 +1,24 @@
+
+<div class="row">
+  <div class="span8 offset4"><%= render "workflow" %></div>
+</div>
+
 <h1>Payment details</h1>
 
 <div class="row">
   <div class="span10 offset1">
+    <p class="lead">You will be charged $0.00. You can refer to your 
+      <%= link_to 'cart', store_checkout_path(@persona.screen_name) %> to see what you have ordered
+    </p>
+
+    <p>Please enter your payment information</p>
+  </div>
+</div>
+<div class="row">
+  <div class="span10 offset1">
     <form action="https://spreedlycore.com/v1/payment_methods" method="POST" class="form-horizontal">
     <fieldset>
-        <input name="redirect_url" type="hidden" value="http://example.com/transparent_redirect_complete" />
+        <input name="redirect_url" type="hidden" value="<%= store_confirmed_pay_url(@persona.screen_name) %>" />
         <input name="api_login" type="hidden" value="<%= ENV['SPREEDLYCORE_API_LOGIN'] %>" />
 
           <label for="credit_card_first_name">First name</label>
@@ -17,11 +31,11 @@
           <input id="credit_card_number" name="credit_card[number]" type="text" />
 
           <label for="credit_card_verification_value">Security Code</label>
-          <input placeholder="CCV" id="credit_card_verification_value" name="credit_card[verification_value]" type="text" />
+          <input class="input-mini" placeholder="CCV" id="credit_card_verification_value" name="credit_card[verification_value]" type="text" />
 
           <label for="credit_card_month">Expires on</label>
-          <input placeholder="month" id="credit_card_month" name="credit_card[month]" type="text" />
-          <input placeholder="year" id="credit_card_year" name="credit_card[year]" type="text" />
+          <input class="input-mini" placeholder="month" id="credit_card_month" name="credit_card[month]" type="text" /> /
+          <input class="input-mini" placeholder="year" id="credit_card_year" name="credit_card[year]" type="text" />
 
         <div class="form-actions">
           <button class="btn btn-primary" type='submit'>Submit Payment</button>

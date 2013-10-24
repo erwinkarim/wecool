@@ -93,6 +93,7 @@ Wecool::Application.routes.draw do
     match '/store/:persona_id/redeem_coupon' => :redeem_coupon, :via => :post, :as => 'store_redeem_coupon'
     match '/store/:persona_id/checkout' => :checkout,:via => :get, :as => 'store_checkout'
     match '/store/:persona_id/confirming_payment' => :confirm_pay, :via => :get, :as => 'store_confirm_pay'
+    match '/store/:persona_id/confrimed_payment' => :confirmed_pay, :via => :get, :as => 'store_confirmed_pay'
     match '/store/:persona_id/generate_order' => :generate_order, :via => :post, :as => 'store_generate_order'
     match '/store/:persona_id/orders' => :orders, :via => :get, :as => 'store_orders'
   end

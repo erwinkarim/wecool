@@ -9,6 +9,9 @@ class StoreController < ApplicationController
     end 
   end
 
+  #explain about the the store workflow
+  #
+
   #add items to cart
   # POST   /store/:persona_id/add_to_cart(.:format)
   def add_to_cart
@@ -96,6 +99,19 @@ class StoreController < ApplicationController
   #asking for payment
   #GET    /store/:persona_id/confirming_payment(.:format)                  
   def confirm_pay
+    @persona = Persona.where( :screen_name => params[:persona_id]).first
+  end
+
+
+  #the payment is confirmed or rejected. display the result
+  #GET    /store/:persona_id/confrimed_payment(.:format)
+  def confirmed_pay
+    if params[:error] then
+      flash[:error] = params[:error]
+    else
+      @persona = Persona.where( :screen_name => params[:persona_id]).first
+      #check if the payment goes through or not...
+    end
   end
 
   #GET    /store/:persona_id/orders(.:format)                              

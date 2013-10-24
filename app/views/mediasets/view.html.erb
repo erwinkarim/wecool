@@ -63,11 +63,11 @@
   <div class="navbar-inner">
     <ul class="nav" id="mediaset-menu">
       <li class="active view-mode" id="mediaset-show-all-photos" ><a href="#" 
-        data-role="button"><i class="icon-th-list"></i> All Photos</a></li>
+        data-role="button"><i class="icon-book"></i> All Photos</a></li>
       <li class="view-mode" id="mediaset-show-featured-photos"><a href="#" ><i class="icon-star"></i> Featured Only</a></li>
       <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
         <li class="dropdown divider-vertical">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th-list"></i><b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book"></i><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to '<i class="icon-edit"></i> Edit'.html_safe, edit_mediaset_path(params[:persona_id], params[:id]) %></li>
               <li class="divider"></li>
