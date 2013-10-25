@@ -20,12 +20,17 @@ class StoreController < ApplicationController
 	#		cart_quantity: number of items of the sku will be bought	
   def add_to_cart
 		@sku = Sku.where(:code => params[:sku_code] ).first	
-
 		respond_to do |format|
 			if @sku.nil? then
 				format.js { redirect_to :status => 404 } 
 			else
-				format.js
+				@persona = Persona.where( :screen_name => params[:persona_id]).first
+				@cart = @persona.carts.new( :item_type => @persona.class.name, :item_sku => @sku.code, :item_id => @sku.id)
+				if @cart.save! then
+					format.js
+				else
+					format.js { redirect_to :status => 500 }
+				end
 			end
 		end 
   end
@@ -100,6 +105,7 @@ class StoreController < ApplicationController
   #GET    /store/:persona_id/checkout(.:format) 
   def checkout
     @persona = Persona.where( :screen_name => params[:persona_id]).first
+		@carts = @persona.carts
   end
 
   #generate order before asking for payment
@@ -146,5 +152,18 @@ class StoreController < ApplicationController
   #GET    /store/:persona_id/orders(.:format)                              
   # get current orders
   def orders
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+		@orders = @persona.orders
+
+		respond_to do |format|
+			format.html
+		end
   end
+
+	#GET    /store/:persona_id/past_orders(.:format
+	#get past orders
+	def past_orders
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+		@orders = @persona.orders
+	end
 end

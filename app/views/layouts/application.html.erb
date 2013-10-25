@@ -73,7 +73,8 @@
               <ul class="nav pull-right">
               <li class="dropdown">
                 <!-- for the store-->
-                <%= link_to ('<i class="icon-shopping-cart"></i> (0) '+ 
+                <%= link_to ('<i class="icon-shopping-cart"></i> ('+ 
+									content_tag(:span, current_persona.carts.where(:order_id => nil).count, :class=> 'cart_count')+ ')' + 
                   '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">

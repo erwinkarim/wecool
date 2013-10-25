@@ -1,1 +1,21 @@
-<h1>List recent orders here</h1>
+<h1>Orders</h1>
+
+<div class="row">
+	<div class="span10 offset1">
+		<h2>Current Orders</h2>
+		<% if @orders.empty? then %>
+			<p>You don't have unfinished orders yet</p>
+		<% else %>
+			<!-- list current orders that have not be completed yet -->
+		<% end %>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span10 offset1">
+		<h2>Past Orders</h2>
+		<p><%= link_to 'View Past Orders', store_past_orders_path(@persona.screen_name), :class => 'btn' %></p>
+	</div>
+</div>
+
+

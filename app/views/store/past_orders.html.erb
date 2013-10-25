@@ -1,0 +1,10 @@
+<h1>Past Orders</h1>
+<div class="row">
+	<div class="span10 offset1">
+		<% if @orders.empty? then %>
+			<p>You have not order anything yet from us</p>
+		<% else %>
+			<p>These are what you have ordered from us:-</p>
+		<% end %>
+	</div>
+</div>

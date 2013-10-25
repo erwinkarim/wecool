@@ -1,2 +1,3 @@
 
 console.log('<%= @sku.code %> added to cart');
+$('.cart_count').text(<%= @persona.carts.where(:order_id => nil).count %>);
