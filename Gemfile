@@ -45,6 +45,9 @@ gem 'unicorn-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+# seeding data
+gem 'seed-fu'
+
 # To use debugger
 # gem 'debugger'
 #

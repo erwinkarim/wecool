@@ -62,11 +62,11 @@
       <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
-          radio_button_tag( 'sku', 'pm1y') + '1 year ($xx.xx)', 
+          radio_button_tag( 'sku_code', 'member1y') + '1 year ($xx.xx)', 
           :class=> 'radio controls' 
         %>
         <%= label_tag 'duration', 
-          radio_button_tag( 'sku', 'pm2y', true) + '2 years ($xx.xx)', 
+          radio_button_tag( 'sku_code', 'member2y', true) + '2 years ($xx.xx)', 
           :class=> 'radio controls' 
         %>
       </div> 

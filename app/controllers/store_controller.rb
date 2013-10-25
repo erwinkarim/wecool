@@ -19,10 +19,11 @@ class StoreController < ApplicationController
 	# optional arguments:-
 	#		cart_quantity: number of items of the sku will be bought	
   def add_to_cart
-		sku = Sku.where(:code => params[:sku_code] ).first	
+		@sku = Sku.where(:code => params[:sku_code] ).first	
+
 		respond_to do |format|
-			if sku.nil? then
-				format.js { flash[:warning] = 'Item not found' }
+			if @sku.nil? then
+				format.js { redirect_to :status => 404 } 
 			else
 				format.js
 			end
