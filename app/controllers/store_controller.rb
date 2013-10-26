@@ -37,8 +37,42 @@ class StoreController < ApplicationController
   
   #remove items from cart
   #POST   /store/:persona_id/remove_from_cart(.:format)                    
+	# expected arguments
+	# :cart_id		=> the cart record that we want to delete
   def remove_from_cart
+		@persona = Persona.where(:screen_name => params[:persona_id]).first
+		@cart = @persona.carts.find(params[:cart_id])
+		
+		respond_to do |format|
+			if @cart.nil? then
+				flash[:error] = 'Unable to find cart item'
+			else
+				if @cart.destroy then
+					@new_total_amount = @persona.carts.map{ |x| Sku.find(x.item_id).base_price * x.quantity }.sum 
+				else
+					flash[:error] = 'Unable to delete cart item'
+				end
+			end
+			format.js	
+		end
+				
   end
+
+	#PUT    /store/:persona_id/update_cart_item(.:format)
+	# update cart item
+	# expected arguments:-
+	#		:cart_id, the cart record for we wish to update
+	def update_cart_item
+		@persona = Persona.where(:screen_name => params[:persona_id]).first
+		@cart = @persona.carts.find(params[:cart_id])
+		respond_to do |format|
+			if @cart.update_attributes(params[:cart]) then
+				format.json { respond_with_bip @cart }
+			else
+				format.json { respond_with_bip @cart }
+			end
+		end
+	end
 
   # redeem coupons that is purchased else where
   #  POST   /store/:persona_id/redeem_coupon(.:format)

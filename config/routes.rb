@@ -90,6 +90,7 @@ Wecool::Application.routes.draw do
   controller :store do
     match '/store/:persona_id/add_to_cart' => :add_to_cart, :via => :post, :as => 'store_add_to_cart'
     match '/store/:persona_id/remove_from_cart' => :remove_from_cart, :via => :post, :as => 'store_remove_from_cart'
+    match '/store/:persona_id/update_cart_item/:cart_id' => :update_cart_item, :via => :put, :as => 'store_update_cart_item'
     match '/store/:persona_id/redeem_coupon' => :redeem_coupon, :via => :post, :as => 'store_redeem_coupon'
     match '/store/:persona_id/checkout' => :checkout,:via => :get, :as => 'store_checkout'
     match '/store/:persona_id/confirming_payment' => :confirm_pay, :via => :get, :as => 'store_confirm_pay'

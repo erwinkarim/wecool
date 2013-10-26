@@ -1,0 +1,14 @@
+console.log('remove cart <%= params[:cart_id] %>');
+<% if flash[:error].nil? then %>
+	//remove item from line
+	// handle case when the number of cart items is 0
+	$('#cart-<%= params[:cart_id] %>').fadeOut();
+
+	//update total mount	
+	$('.checkout-amount').text('<%= @new_total_amount %>');
+
+	//update amount of items in the cart
+	$('.cart_count').text('<%= @persona.carts.where( :order_id => nil).count %>');
+<% else %>
+	console.log('error msg: <%= flash[:error] %>');
+<% end %>
