@@ -10,23 +10,23 @@
         <th>No</th>
         <th>Description</th>
         <th>Unit Price</th>
-        <th>Quantity</th>
+        <th>Quantity (Click to Edit)</th>
         <th>Total Price</th>
         <th></th>
       </thead>
       <tbody>
+				<% running_number = 0 %>
 				<% @carts.each do |cart_item| %>
 					<% sku = Sku.find(cart_item.item_id) %>
-					<tr id="cart-<%= cart_item.id %>" >
-						<td>1</td>
+					<tr class="cart-item" id="cart-<%= cart_item.id %>" >
+						<td><%= running_number = running_number.next %></td>
 						<td><%= sku.description %></td>
 						<td class="unit_price"><%= sku.base_price %></td>
 						<td class="quantity"><%= best_in_place cart_item,:quantity, :path => store_update_cart_item_path(@persona.screen_name, cart_item.id) %></td>
 						<td class="total_price"><%= sku.base_price * cart_item.quantity %></td>
 						<td>
-							<%= link_to 'Cancel', store_remove_from_cart_path(@persona.screen_name, cart_item.id ), :remote=> true, 
+							<%= link_to '<i class="icon-ban-circle"></i> Cancel'.html_safe, store_remove_from_cart_path(@persona.screen_name, cart_item.id ), :remote=> true, 
 								:class => 'btn btn-danger', :method => :post %>
-							<%= button_tag 'Edit', :type => 'button', :class => 'btn btn-warning', :'remote_cart-id'=>cart_item.id %>
 						</td>
 					</tr>
 				<% end %>

@@ -22,6 +22,8 @@
 		$(document).ready( function(){
 			$('.best_in_place').best_in_place();
 			$('.best_in_place').bind('ajax:success', function(){
+				console.log('updating total amount');
+
 				//update total amount etc. 
 				var handle = $(this).closest('tr');
 				handle.find('.total_price').text(
@@ -29,6 +31,11 @@
 				);
 
 				//update grand total amount
+				var total_sum = 0;
+				$('.cart-item').each( function(){
+					total_sum += $(this).find('.unit_price').text() * $(this).find('.quantity').text();
+				});
+				$('.checkout-amount').text(total_sum);
 			});
 		}); // $(document).ready( function(){
   }; // Paloma.callbacks['store']['checkout'] = function(params){
