@@ -7,6 +7,26 @@
 			<p>You don't have unfinished orders yet</p>
 		<% else %>
 			<!-- list current orders that have not be completed yet -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Order ID</th>
+						<th>Date Created</th>
+						<th>Last Status Update Date</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @orders.each do |this_order| %>
+						<tr>
+							<td><%= link_to this_order.id, store_order_detail_path(@persona.screen_name,this_order.id) %></td>
+							<td><%= this_order.created_at.localtime %></td>
+							<td><%= this_order.updated_at.localtime %></td>
+							<td><%= link_to this_order.status, store_order_detail_path(@persona.screen_name,this_order.id) %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
 		<% end %>
 	</div>
 </div>

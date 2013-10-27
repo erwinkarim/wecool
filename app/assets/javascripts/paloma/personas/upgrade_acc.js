@@ -20,12 +20,14 @@
   Paloma.callbacks['personas']['upgrade_acc'] = function(params){
     // Do something here.
     $(document).ready( function() {
-
       //add subscription package to cart, and then ask for CC info
       $('#buy_premium_form').on( 'ajax:beforeSend', function(){
         $('#purchase_premium_btn').button('loading');
       }).on( 'ajax:complete', function(){
         $('#purchase_premium_btn').button('reset');
+				$('#suggest-purchase').fadeOut();
+				$('#purchased-thanks').fadeIn();
+
       });
     });
   }; // Paloma.callbacks['personas']['upgrade_acc'] = function(params){

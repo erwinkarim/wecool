@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(:version => 20131025082308) do
   create_table "orders", :force => true do |t|
     t.integer  "persona_id"
     t.string   "spreedly_token_id"
-    t.integer  "status"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.integer  "status",            :default => 1, :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "orders", ["persona_id"], :name => "index_orders_on_persona_id"

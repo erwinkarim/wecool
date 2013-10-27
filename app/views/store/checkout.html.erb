@@ -1,8 +1,20 @@
-<div class="row">
-  <div class="span8 offset4"><%= render "workflow" %></div>
-</div>
+<% if !@carts.empty? then %>
+	<div class="row">
+		<div class="span8 offset4"><%= render "workflow" %></div>
+	</div>
+<% end %>
 
 <h1>Store Checkout</h1>
+<% if @carts.empty? then %>
+	<div class="row">
+		<div class="span10 offset1">
+			<div class="hero-unit">
+				<h2>Empty Cart</h2>
+				<p>You don't have anything in your cart....yet</p>
+			</div>
+		</div>
+	</div>
+<% else %>
 <div class="row">
   <div class="span10 offset1">
     <table class="table table-striped" >
@@ -41,10 +53,13 @@
 </div>
 <div class="row">
   <div class="span6 offset1"></div>
-  <div class="span2">
-    <%= link_to 'Place Your Order', store_generate_order_path(@persona.screen_name) , :class=>'btn btn-primary pull-right', :remote => true, :method => :post %>
+  <div class="span2" id="place-order">
+    <%= link_to '<i class="icon-signin"></i> Place Your Order'.html_safe, store_generate_order_path(@persona.screen_name) , 
+			:class=>'btn btn-primary pull-right', :remote => true, :method => :post %>
   </div>
-   <div class="span2">
-    <%= link_to 'Proceed to Payment', store_confirm_pay_path(@persona.screen_name), :class=>'btn btn-primary pull-right' %>
+	<div class="span6 pull-right" style="display:none" id="goto-payment">
+		Thank you, you order has been generated. <%= link_to '<i class="icon-credit-card"></i> Proceed to Payment'.html_safe, store_confirm_pay_path(@persona.screen_name), 
+			:class=>'btn btn-primary' %> to complete the order
   </div>
 </div>
+<% end %>

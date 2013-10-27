@@ -71,10 +71,17 @@
         %>
       </div> 
       <div class="form-actions">
-        <%= link_to 'No Thanks', root_path , :class=> 'btn' %>
-        <%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'submit', 
-          :id => 'purchase_premium_btn', :'data-loading-text' => 'Adding to cart...' %>
+				<div id="suggest-purchase">
+					<%= link_to 'No Thanks', root_path , :class=> 'btn' %>
+					<%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'submit', 
+						:id => 'purchase_premium_btn', :'data-loading-text' => 'Adding to cart...' %>
+				</div>
+				<div id="purchased-thanks" style="display:none">
+					<span>Thanks!, you can 
+						<%= link_to 'checkout', store_checkout_path(@persona.screen_name), :class => 'btn btn primary' %> to activate your premium account </span>
+				</div>
       </div>
+			
     <% end -%>
   </div>
 </div>

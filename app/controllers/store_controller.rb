@@ -139,13 +139,29 @@ class StoreController < ApplicationController
   #GET    /store/:persona_id/checkout(.:format) 
   def checkout
     @persona = Persona.where( :screen_name => params[:persona_id]).first
-		@carts = @persona.carts
+		@carts = @persona.carts.where :order_id => nil
   end
 
   #generate order before asking for payment
   #POST   /store/:persona_id/generate_order(.:format)                      
   def generate_order
     @persona = Persona.where( :screen_name => params[:persona_id]).first
+
+		@carts = @persona.carts.where(:order_id => nil)
+
+		@order = @persona.orders.new
+
+		respond_to do |format|
+			if @order.save! then
+				@carts.each do |cart_item|
+					cart_item.update_attribute(:order_id, @order.id)
+				end
+				format.js
+			else
+				flash[:error] = 'Unable to place order'
+				format.js :status => 500
+			end 
+		end
   end
 
   #asking for payment, mostly form to fill up CC info
@@ -199,5 +215,20 @@ class StoreController < ApplicationController
 	def past_orders
 		@persona = Persona.where( :screen_name => params[:persona_id]).first
 		@orders = @persona.orders
+	end
+
+	# GET    /store/:persona_id/order_detail/:order_id
+	#get order detail
+	def order_detail
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+		@order = @persona.orders.find( params[:order_id] )
+	
+		respond_to do |format|
+			if @order.empty? || @order.nil? then
+				format.html :status => 404
+			else
+				format.html
+			end
+		end
 	end
 end
