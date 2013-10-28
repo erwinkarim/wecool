@@ -178,6 +178,7 @@ class StoreController < ApplicationController
     else
       @current_order = @persona.orders.last
     end
+    @carts = @persona.carts.where( :order_id => @current_order.id)
   end
 
 
