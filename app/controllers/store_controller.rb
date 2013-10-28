@@ -166,8 +166,18 @@ class StoreController < ApplicationController
 
   #asking for payment, mostly form to fill up CC info
   #GET    /store/:persona_id/confirming_payment(.:format)                  
+  # optional arguements :-
+  #   show_last_order   true or fasle. if you  multiple orders that are awaiting payment , 
+  #                     show the last order you made. defaults to true
+  #   order_id          show a 
   def confirm_pay
     @persona = Persona.where( :screen_name => params[:persona_id]).first
+    @orders = @persona.orders
+    if params.has_key? :order_id then
+      @current_order = @persona.orders.find(params[:order_id])
+    else
+      @current_order = @persona.orders.last
+    end
   end
 
 
@@ -224,7 +234,7 @@ class StoreController < ApplicationController
 		@order = @persona.orders.find( params[:order_id] )
 	
 		respond_to do |format|
-			if @order.empty? || @order.nil? then
+			if @order.nil? then
 				format.html :status => 404
 			else
 				format.html

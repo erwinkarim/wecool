@@ -4,7 +4,14 @@
 	<div class="span10 offset1">
 		<h2>Current Orders</h2>
 		<% if @orders.empty? then %>
-			<p>You don't have unfinished orders yet</p>
+      <div class="hero-unit">
+        <h2>No Orders yet....</h2>
+        <% if !@persona.carts.where(:order_id => nil).empty? then %>
+          <p>You may need to go to 
+            <%= link_to 'checkout', store_checkout_path(@persona.screen_name), :class => 'btn' %> 
+            to place your order first</p>
+        <% end %>
+      </div>
 		<% else %>
 			<!-- list current orders that have not be completed yet -->
 			<table class="table table-striped">
@@ -22,7 +29,7 @@
 							<td><%= link_to this_order.id, store_order_detail_path(@persona.screen_name,this_order.id) %></td>
 							<td><%= this_order.created_at.localtime %></td>
 							<td><%= this_order.updated_at.localtime %></td>
-							<td><%= link_to this_order.status, store_order_detail_path(@persona.screen_name,this_order.id) %></td>
+							<td><%= link_to Order::ORDER_STATUS_TEXT[this_order.status], store_order_detail_path(@persona.screen_name,this_order.id) %></td>
 						</tr>
 					<% end %>
 				</tbody>

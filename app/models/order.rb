@@ -7,4 +7,10 @@ class Order < ActiveRecord::Base
   belongs_to :persona
 	validates :persona_id, :presence => true
   attr_accessible :spreedly_token_id, :status
+
+  ORDER_STATUS_TEXT = [ 'Order Created',
+    'Waiting Payment',
+    'Waiting to be shipped',
+    'Order Complete'
+  ]
 end
