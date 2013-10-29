@@ -210,9 +210,10 @@ class StoreController < ApplicationController
           |x| Cart.where(:code => x.item_code).base_price * x.quantity 
         }.sum
 				flash[:info] = 'Valid Card, start charging'	
+				format.html
 			else
 				#redirect to confirm_pay with errors
-				redirect_to confrim_pay_path(@persona.screen_name), :error => payment_method.errors.join('\n')
+				redirect_to store_confirm_pay_path(@persona.screen_name, :order_id => params[:order_id]), :error => payment_method.errors.join('\n')
 			end
 			
     end

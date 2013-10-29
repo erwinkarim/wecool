@@ -15,33 +15,34 @@
     <div class="row">
       <div class="span10 offset1">
         <form action="https://spreedlycore.com/v1/payment_methods" method="POST" class="form-horizontal">
-        <fieldset>
-            <input name="redirect_url" type="hidden" value="<%= store_confirmed_pay_url(@persona.screen_name, @current_order.id) %>" />
-            <input name="api_login" type="hidden" value="<%= ENV['SPREEDLYCORE_API_LOGIN'] %>" />
+					<fieldset>
+						<input name="redirect_url" type="hidden" value="<%= store_confirmed_pay_url(@persona.screen_name, @current_order.id) %>" />
+						<input name="environment_key" type="hidden" value="<%= ENV['SPREEDLYCORE_ENVIRONMENT_KEY'] %>" />
+						<input name="api_login" type="hidden" value="<%= ENV['SPREEDLYCORE_API_LOGIN'] %>" />
 
-              <label for="credit_card_first_name">First name</label>
-              <input id="credit_card_first_name" name="credit_card[first_name]" type="text" />
+						<label for="credit_card_first_name">First name</label>
+						<input id="credit_card_first_name" name="credit_card[first_name]" type="text" />
 
-              <label for="credit_card_last_name">Last name</label>
-              <input id="credit_card_last_name" name="credit_card[last_name]" type="text" />
+						<label for="credit_card_last_name">Last name</label>
+						<input id="credit_card_last_name" name="credit_card[last_name]" type="text" />
 
-              <label for="credit_card_number">Card Number</label>
-              <input id="credit_card_number" name="credit_card[number]" type="text" />
+						<label for="credit_card_number">Card Number</label>
+						<input id="credit_card_number" name="credit_card[number]" type="text" />
 
-              <label for="credit_card_verification_value">Security Code</label>
-              <input class="input-mini" placeholder="CCV" id="credit_card_verification_value" 
-                name="credit_card[verification_value]" type="text" />
+						<label for="credit_card_verification_value">Security Code</label>
+						<input class="input-mini" placeholder="CCV" id="credit_card_verification_value" 
+							name="credit_card[verification_value]" type="text" />
 
-              <label for="credit_card_month">Expires on</label>
-              <input class="input-mini" placeholder="month" id="credit_card_month" 
-                name="credit_card[month]" type="text" /> /
-              <input class="input-mini" placeholder="year" id="credit_card_year" 
-                name="credit_card[year]" type="text" />
+						<label for="credit_card_month">Expires on</label>
+						<input class="input-mini" placeholder="month" id="credit_card_month" 
+							name="credit_card[month]" type="text" /> /
+						<input class="input-mini" placeholder="year" id="credit_card_year" 
+							name="credit_card[year]" type="text" />
 
             <div class="form-actions">
               <button class="btn btn-primary" type='submit'>Submit Payment</button>
             </div>
-        </fieldset>
+					</fieldset>
         </form>
       </div>
     </div>
