@@ -167,9 +167,7 @@ class StoreController < ApplicationController
   #asking for payment, mostly form to fill up CC info
   #GET    /store/:persona_id/confirming_payment(.:format)                  
   # optional arguements :-
-  #   show_last_order   true or fasle. if you  multiple orders that are awaiting payment , 
-  #                     show the last order you made. defaults to true
-  #   order_id          show a 
+  #   order_id          this if for a specific order, otherwise it will show for the last order
   def confirm_pay
     @persona = Persona.where( :screen_name => params[:persona_id]).first
     @orders = @persona.orders
@@ -183,24 +181,34 @@ class StoreController < ApplicationController
 
 
   #the payment is confirmed or rejected. display the result
-  #GET    /store/:persona_id/confrimed_payment(.:format)
+  # GET    /store/:persona_id/confrimed_payment/:order_id(.:format)
 	#expected options
 	#		:error => error message
 	#		:token => payment token if the payment is successful
   def confirmed_pay
+    @persona = Persona.where( :screen_name => params[:persona_id]).first
+
     if params[:error] then
       flash[:error] = params[:error]
     else
-      @persona = Persona.where( :screen_name => params[:persona_id]).first
+      @order = @persona.orders.find(params[:order_id])
+    
+      @payment_ok = false
+
       #check if the payment goes through or not...
-			
 			token=params[:token]
 
 			#valid the payment here, if ok, go next step where the order has been done
 			#otherwise, if got some other error, check and go back to cofirm_pay action
 	
 			payment_method = SpreedlyCore::PaymentMethod.find(token)
-			if payment_method.valid? then
+			if !payment_method.valid? then
+        @payment_ok = true
+        @amount_charge = Cart.where( 
+          :order_id => params[:order_id] 
+        ).map{ 
+          |x| Cart.where(:code => x.item_code).base_price * x.quantity 
+        }.sum
 				flash[:info] = 'Valid Card, start charging'	
 			else
 				#redirect to confirm_pay with errors
@@ -226,6 +234,12 @@ class StoreController < ApplicationController
 	def past_orders
 		@persona = Persona.where( :screen_name => params[:persona_id]).first
 		@orders = @persona.orders
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @orders }
+      format.xml { render xml: @orders }
+    end
 	end
 
 	# GET    /store/:persona_id/order_detail/:order_id
@@ -238,7 +252,14 @@ class StoreController < ApplicationController
 			if @order.nil? then
 				format.html :status => 404
 			else
+        screen_name = @persona.screen_name
+        order_id = @order.id
+        @carts = Cart.where(:order_id => @order.id )
+        @order_activity = Version.where{ 
+          (whodunnit.eq screen_name) & (item_type.eq 'Order') & (item_id.eq order_id)
+        }
 				format.html
+        format.json{ render json: @order }
 			end
 		end
 	end

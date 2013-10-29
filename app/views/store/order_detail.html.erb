@@ -1,3 +1,62 @@
 
-<h1>Order <%= params[:order_id] %> Detail </h1>
+<h1>Order <%= params[:order_id] %></h1>
 <!-- show each of the cart items that includes with this order and their status -->
+
+<div class="row">
+  <div class="span10 offset1">
+    <div class="page-header">
+      <h2>General Detail</h2>
+    </div>
+    <div class="row">
+      <div class="span10 offset1">
+        <dl class="dl-horizontal">
+          <dt>Order ID </dt><dd><%= @order.id %></dd>
+          <dt>Status </dt><dd><%= Order::ORDER_STATUS_TEXT[@order.status] %></dd>
+          <dt>Order Created</dt><dd><%= @order.created_at %></dd>
+          <dt>Last Update</dt><dd><%= @order.updated_at %><dd>
+        </dl>
+      </div>
+    </div>
+    <% if @order.status == 1 then %>
+      <div class="row">
+        <div class="span10 offset1">
+          <p class="lead">Please proceed to 
+            <%= link_to 'Payment Page', store_confirm_pay_path(@persona.screen_name, :order_id => @order.id) , 
+              :class=>'btn' %> to complete this order
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+    
+<!-- show the carts -->
+<%= render "cart_listing" %>
+
+<div class="row">
+  <div class="span10 offset1">
+    <div class="page-header">
+      <h2>Activity</h2>
+    </div>
+    <div class="row">
+      <div class="span10 offset1">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Activity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @order_activity.each do |activity| %>
+              <tr>
+                <td><%= activity.created_at.localtime %></td>
+                <td><%= activity.event %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

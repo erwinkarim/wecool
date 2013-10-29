@@ -1,0 +1,39 @@
+<!-- require 
+  @carts  : a list of cart objects
+-->
+<div class="row">
+  <div class="span10 offset1">
+    <div class="page-header">
+      <h2>Cart Detail</h2>
+    </div>
+    <div class="row">
+      <div class="span10 offset1">
+        <table class="table table-striped">
+          <thead>
+             <tr>
+              <th>Description</th>
+              <th>Base Price</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+             </tr>  
+          </thead>
+          <tbody>
+            <% @carts.each do |cart_item| %>
+              <% cart_item_sku = Sku.where(:code => cart_item.item_sku).first %>
+              <tr>
+                <td><%= cart_item_sku.description %></td>
+                <td><%= number_to_currency cart_item_sku.base_price %></td>
+                <td><%= cart_item.quantity %></td>
+                <td><%= number_to_currency cart_item_sku.base_price * cart_item.quantity %></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td colspan="3"><div class="lead">Grand Total: </div></td>
+              <td><div class="lead"><%= number_to_currency @carts.map{ |x| x.quantity * (Sku.where(:code => x.item_sku).first.base_price) }.sum %></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- span10 offset1 -->
+    </div>
+  </div>
+</div>

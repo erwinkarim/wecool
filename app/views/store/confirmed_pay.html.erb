@@ -1,2 +1,14 @@
-<h1>Payment is confirmed or rejected here</h1>
-
+<div class="row">
+  <div class="span10 offset1">
+    <div class="hero-unit">
+      <% if @payment_ok then %>
+        <h1>Sucess!!</h1>
+        <p>You have been charge $0.00 for your order.</p> 
+      <% else %>
+        <h1>Error</h1>
+        <p>There was an error in processing your payment</p>
+        <p>Review your <%= link_to 'Orders', store_orders_path(@persona.screen_name), :class => 'btn' %> to retry you payment</p> 
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -27,15 +27,15 @@
 				//update total amount etc. 
 				var handle = $(this).closest('tr');
 				handle.find('.total_price').text(
-					handle.find('.unit_price').text() * handle.find('.quantity').text()
+					'$' + (handle.find('.unit_price').text().replace('$', '') * handle.find('.quantity').text()).toFixed(2)
 				);
 
 				//update grand total amount
 				var total_sum = 0;
 				$('.cart-item').each( function(){
-					total_sum += $(this).find('.unit_price').text() * $(this).find('.quantity').text();
+					total_sum += $(this).find('.unit_price').text().replace('$', '') * $(this).find('.quantity').text();
 				});
-				$('.checkout-amount').text(total_sum);
+				$('.checkout-amount').text('$' + total_sum.toFixed(2));
 			});
 		}); // $(document).ready( function(){
   }; // Paloma.callbacks['store']['checkout'] = function(params){
