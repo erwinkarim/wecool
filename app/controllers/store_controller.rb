@@ -25,7 +25,7 @@ class StoreController < ApplicationController
 				format.js { redirect_to :status => 404 } 
 			else
 				@persona = Persona.where( :screen_name => params[:persona_id]).first
-				@cart = @persona.carts.new( :item_type => @persona.class.name, :item_sku => @sku.code, :item_id => @sku.id)
+				@cart = @persona.carts.new( :item_type => @sku.model, :item_sku => @sku.code)
 				if @cart.save! then
 					format.js
 				else
@@ -100,9 +100,9 @@ class StoreController < ApplicationController
       #update coupon
       @persona = Persona.where(:screen_name => params[:persona_id]).first
       @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
-      if @coupon.sku.code = '1ypm' then 
+      if @coupon.sku.code = 'member1y' then 
         duration = 1.year
-      elsif @coupon.sku.code = '2ypm' then
+      elsif @coupon.sku.code = 'member2y' then
         duration = 2.year
       end
 
@@ -179,6 +179,10 @@ class StoreController < ApplicationController
       @current_order = @persona.orders.last
     end
     @carts = @persona.carts.where( :order_id => @current_order.id)
+
+		respond_to do |format|
+			format.html
+		end
   end
 
 
@@ -202,22 +206,28 @@ class StoreController < ApplicationController
 
 			#valid the payment here, if ok, go next step where the order has been done
 			#otherwise, if got some other error, check and go back to cofirm_pay action
-	
 			payment_method = SpreedlyCore::PaymentMethod.find(token)
-			if !payment_method.valid? then
+			if payment_method.valid? then
         @amount_charge = Cart.where( 
           :order_id => params[:order_id] 
         ).map{ 
-          |x| Cart.where(:code => x.item_code).base_price * x.quantity 
+          |x| Sku.where(:code => x.item_sku).first.base_price * x.quantity 
         }.sum
         purchase_transaction = payment_method.purchase( @amount_charge ) 
         respond_to do |format|
           if purchase_transaction.succeeded? then 
             @payment_ok = true
-            flash[:notice] = 'Transaction Successful'
-
+	
+						#process the order
             #if sku is membership or online stuff, create the broucher and ask if wants to active it
-            
+						Cart.where(:order_id => params[:order_id]).each do |cart_item|
+							#so far this store only do online stuff for now
+							sku = Sku.where(:code => cart_item.item_sku).first
+							coupon = Coupon.generate_coupon( @persona.id, sku.id)
+							#need to account for multiple items
+							cart_item.update_attribute( :item_id, coupon.id)
+						end 
+						@order.update_attributes({ :status =>  2, :spreedly_token_id => params[:token] })
             format.html 
           else
             redirect_to store_confirm_pay_path(@persona.screen_name, 

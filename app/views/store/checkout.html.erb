@@ -27,7 +27,7 @@
       </thead>
       <tbody>
 				<% @carts.each do |cart_item| %>
-					<% sku = Sku.find(cart_item.item_id) %>
+					<% sku = Sku.where(:code => cart_item.item_sku).first %>
 					<tr class="cart-item" id="cart-<%= cart_item.id %>" >
 						<td><%= sku.description %></td>
 						<td class="unit_price"><%= number_to_currency sku.base_price %></td>
@@ -42,7 +42,7 @@
         <tr class="info lead">
           <td colspan="3">Grand Total</td>
           <td><span class="checkout-amount">
-            <%= number_to_currency  @carts.map{ |x| Sku.find(x.item_id).base_price * x.quantity }.sum %>
+            <%= number_to_currency  @carts.map{ |x| Sku.where(:code => x.item_sku).first.base_price * x.quantity }.sum %>
           </span></td>
           <td></td>
         </tr>

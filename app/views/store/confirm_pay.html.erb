@@ -12,6 +12,7 @@
     <div class="page-header">
       <h3>Payment Details</h3>
     </div>
+<% if @current_order.status == 1 then %>
     <div class="row">
       <div class="span10 offset1">
         <form action="https://spreedlycore.com/v1/payment_methods" method="POST" class="form-horizontal">
@@ -39,6 +40,9 @@
 						<input class="input-mini" placeholder="year" id="credit_card_year" 
 							name="credit_card[year]" type="text" />
 
+						<div 
+							<p><strong>Note:</strong> Kindly press the 'Submit Payment' button <strong>once</strong>. You Credit Cart may be charged multiple times if you clicked more than once</p>
+						</div>
             <div class="form-actions">
               <button class="btn btn-primary" type='submit'>Submit Payment</button>
             </div>
@@ -46,5 +50,12 @@
         </form>
       </div>
     </div>
-  </div>
+<% else %>
+	<div class="hero-unit">
+		<h3>This order is not due for payment</h3>
+		<p class="lead">You may review your <%= link_to 'Order Detail', store_order_detail_path(@persona.screen_name,@current_order.id ), :class=>'btn' %> page for a full picture</p>
+	</div>
+<% end %>
+  </div><!-- div class span10 offset1-->
 </div>
+	
