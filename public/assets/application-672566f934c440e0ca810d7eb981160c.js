@@ -13887,6 +13887,7 @@ var performFilters = function(filters, params){
         }).always( function (data){
           $('#drop-target').append(data.responseText);
           $('#selected_photo_path').val( $('#drop-target img').attr('src') );
+          $('#selected_photo_id').val( $item.attr('id').split('_')[1] );
           //add corp function to picture
           $( function(){
             $('.get_single_photo').Jcrop({
@@ -14021,6 +14022,40 @@ var performFilters = function(filters, params){
     // Do something here.
     //Paloma.callbacks['tags']['index'](params);
   };
+})();
+(function(){
+  // You access variables from before/around filters from _x object.
+  // You can also share variables to after/around filters through _x object.
+  var _x = Paloma.variableContainer;
+
+  // We are using _L as an alias for the locals container.
+  // Use either of the two to access locals from other scopes.
+  //
+  // Example:
+  // _L.otherController.localVariable = 100;
+  var _L = Paloma.locals;
+
+  // Access locals for the current scope through the _l object.
+  //
+  // Example:
+  // _l.localMethod(); 
+  var _l = _L['personas'];
+
+
+  Paloma.callbacks['personas']['upgrade_acc'] = function(params){
+    // Do something here.
+    $(document).ready( function() {
+      //add subscription package to cart, and then ask for CC info
+      $('#buy_premium_form').on( 'ajax:beforeSend', function(){
+        $('#purchase_premium_btn').button('loading');
+      }).on( 'ajax:complete', function(){
+        $('#purchase_premium_btn').button('reset');
+				$('#suggest-purchase').fadeOut();
+				$('#purchased-thanks').fadeIn();
+
+      });
+    });
+  }; // Paloma.callbacks['personas']['upgrade_acc'] = function(params){
 })();
 
 
@@ -14665,19 +14700,25 @@ var performFilters = function(filters, params){
     //reset the canvas
     theCanvas.reset = function(){
       //redraw the original image and crop if required	
+      var loaded = false;
       canvas = document.getElementById('canvas');
-
       ctx = canvas.getContext('2d');
       ctx.clearRect(0,0, canvas.width, canvas.height);
+
       img = new Image();
       img.src = params['img_src']; 
-        $('#canvas').css('width', img.width);
-        $('#canvas').css('height', img.height);
-        canvas.width = img.width;
-        canvas.height = img.height;
-      img.onload = function(){
+      img.onload = loadHandler;
+        $('#canvas').css('width', params['img_width']);
+        $('#canvas').css('height', params['img_height']);
+        canvas.width = params['img_width'];
+        canvas.height = params['img_height'];
+      
+      //load function
+      function loadHandler(){
         ctx.drawImage(img, 0,0);
-      };
+        
+      }
+
       canvas_obj = $('#canvas').first();
     };
     
@@ -14812,7 +14853,7 @@ var performFilters = function(filters, params){
         theCanvas.reset();
 
         //TODO: show img based on proper orientation and show the crop by orientation too.
-        theCanvas.displayRotatedImage();
+        //theCanvas.displayRotatedImage();
 
         //properly set the brightness and contrast
         theCanvas.setInitData();
@@ -14824,12 +14865,18 @@ var performFilters = function(filters, params){
 
         //display the submenu and the crop square
         $('#crop-submenu').css('display', 'block');  
-        jcrop_api = $.Jcrop('#canvas', { minSize:[150,150], allowSelect:false, 
-          setSelect:[
-            $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
-            $('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
-          ],
-          onChange: updateCoor }
+        $('#canvas:first').Jcrop( {
+            minSize:[150,150], 
+            allowSelect:false, 
+            setSelect:[
+              $('#crop-submenu').attr('x'), $('#crop-submenu').attr('y'), 
+              $('#crop-submenu').attr('x2'), $('#crop-submenu').attr('y2')
+            ],
+            onChange: updateCoor 
+          }, 
+          function(){
+            jcrop_api = this; 
+          }
         );
 
         theCanvas.toggleMainMenu();
@@ -15905,6 +15952,85 @@ var performFilters = function(filters, params){
 		});
   }; // Paloma.callbacks['tags']['show'] = function(params){
 })();
+
+
+
+(function(){
+  // Initializes callbacks container for the this specific scope.
+  Paloma.callbacks['store'] = {};
+
+  // Initializes locals container for this specific scope.
+  // Define a local by adding property to 'locals'.
+  //
+  // Example:
+  // locals.localMethod = function(){};
+  var locals = Paloma.locals['store'] = {};
+
+  
+  // ~> Start local definitions here and remove this line.
+
+
+  // Remove this line if you don't want to inherit locals defined
+  // on parent's _locals.js
+  Paloma.inheritLocals({from : '/', to : 'store'});
+})();
+(function(){ 
+  // Initializes the main container for all filters and skippers for this
+  // specific scope.
+  var filter = new Paloma.FilterScope('store');
+  
+  // The _x object is also available on callbacks.
+  // You can make a variable visible on callbacks by using _x here.
+  //
+  // Example:
+  // _x.visibleOnCallback = "I'm a shared variable"
+  var _x = Paloma.variableContainer;
+
+  // ~> Start definitions here and remove this line.
+})();
+(function(){
+  // You access variables from before/around filters from _x object.
+  // You can also share variables to after/around filters through _x object.
+  var _x = Paloma.variableContainer;
+
+  // We are using _L as an alias for the locals container.
+  // Use either of the two to access locals from other scopes.
+  //
+  // Example:
+  // _L.otherController.localVariable = 100;
+  var _L = Paloma.locals;
+
+  // Access locals for the current scope through the _l object.
+  //
+  // Example:
+  // _l.localMethod(); 
+  var _l = _L['store'];
+
+
+  Paloma.callbacks['store']['checkout'] = function(params){
+    // Do something here.
+		$(document).ready( function(){
+			$('.best_in_place').best_in_place();
+			$('.best_in_place').bind('ajax:success', function(){
+				console.log('updating total amount');
+
+				//update total amount etc. 
+				var handle = $(this).closest('tr');
+				handle.find('.total_price').text(
+					'$' + (handle.find('.unit_price').text().replace('$', '') * handle.find('.quantity').text()).toFixed(2)
+				);
+
+				//update grand total amount
+				var total_sum = 0;
+				$('.cart-item').each( function(){
+					total_sum += $(this).find('.unit_price').text().replace('$', '') * $(this).find('.quantity').text();
+				});
+				$('.checkout-amount').text('$' + total_sum.toFixed(2));
+			});
+		}); // $(document).ready( function(){
+  }; // Paloma.callbacks['store']['checkout'] = function(params){
+})();
+
 
 
 
