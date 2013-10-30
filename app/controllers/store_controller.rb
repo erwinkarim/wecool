@@ -149,7 +149,7 @@ class StoreController < ApplicationController
 
 		@carts = @persona.carts.where(:order_id => nil)
 
-		@order = @persona.orders.new
+		@order = @persona.orders.new(:status  => 0)
 
 		respond_to do |format|
 			if @order.save! then
@@ -213,7 +213,8 @@ class StoreController < ApplicationController
 				format.html
 			else
 				#redirect to confirm_pay with errors
-				redirect_to store_confirm_pay_path(@persona.screen_name, :order_id => params[:order_id]), :error => payment_method.errors.join('\n')
+				redirect_to store_confirm_pay_path(@persona.screen_name, 
+          :order_id => params[:order_id]), :error => payment_method.errors.join('\n')
 			end
 			
     end
