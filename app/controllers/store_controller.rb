@@ -156,6 +156,8 @@ class StoreController < ApplicationController
 				@carts.each do |cart_item|
 					cart_item.update_attribute(:order_id, @order.id)
 				end
+        #after the order is created, await for payment
+        @order.update_attribute(:status, 1)
 				format.js
 			else
 				flash[:error] = 'Unable to place order'
@@ -203,14 +205,25 @@ class StoreController < ApplicationController
 	
 			payment_method = SpreedlyCore::PaymentMethod.find(token)
 			if !payment_method.valid? then
-        @payment_ok = true
         @amount_charge = Cart.where( 
           :order_id => params[:order_id] 
         ).map{ 
           |x| Cart.where(:code => x.item_code).base_price * x.quantity 
         }.sum
-				flash[:info] = 'Valid Card, start charging'	
-				format.html
+        purchase_transaction = payment_method.purchase( @amount_charge ) 
+        respond_to do |format|
+          if purchase_transaction.succeeded? then 
+            @payment_ok = true
+            flash[:notice] = 'Transaction Successful'
+
+            #if sku is membership or online stuff, create the broucher and ask if wants to active it
+            
+            format.html 
+          else
+            redirect_to store_confirm_pay_path(@persona.screen_name, 
+              :order_id => params[:order_id]), :error => 'Unable to charge you CC' 
+          end
+        end #respond_to ...
 			else
 				#redirect to confirm_pay with errors
 				redirect_to store_confirm_pay_path(@persona.screen_name, 
