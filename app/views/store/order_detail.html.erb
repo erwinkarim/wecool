@@ -90,7 +90,8 @@
             <% @order_activity.each do |activity| %>
               <tr>
                 <td><%= activity.created_at.localtime %></td>
-                <td><%= activity.event %></td>
+                <td><%= activity.event == 'create' ? 'Order Created' : 
+                  activity.event + ' ' + YAML.load(activity.object_changes).keys.join(',') %></td>
               </tr>
             <% end %>
           </tbody>

@@ -124,8 +124,15 @@ class StoreController < ApplicationController
       @persona.photos.update_all(:system_visible => true)
 
 
-      #if there orders associated with this coupon, update order status to complete if every coupon
+      #if there orders/carts associated with this coupon, update order/cart status to complete if every coupon
       # in the order has been activited
+      cart = Cart.where( :item_type => 'Coupon', :item_id => @coupon.id).first
+      if !cart.nil? then
+        cart.update_attribute(:status, 2 )
+        cart.update_attribute(:status, 5 )
+        Order.find(cart.order_id).update_order_status
+      end
+
     end
 
     if coupon_failure then 
@@ -287,7 +294,7 @@ class StoreController < ApplicationController
         @carts = Cart.where(:order_id => @order.id )
         @order_activity = Version.where{ 
           (item_type.eq 'Order') & (item_id.eq order_id)
-        }
+        }.reverse
 
         #get the coupons associated with this order
         @coupons = Coupon.where(:id => @carts.where( :item_type => 'Coupon').pluck(:item_id) ) 

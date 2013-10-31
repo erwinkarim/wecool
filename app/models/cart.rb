@@ -9,10 +9,11 @@ class Cart < ActiveRecord::Base
   after_initialize :init
  
   CART_STATUS_TEXT = [ 'Cart Created',
-    'Coupon Generated',
-    'Coupon Redeem',
-    'Waiting to be Shipped',
-    'Shipping'
+    'Coupon Generated',           #1
+    'Coupon Redeemed',            #2
+    'Waiting to be Shipped',      #3
+    'Shipped',                    #4
+    'Complete'                    #5
   ] 
   def init
     self.status ||= 0
