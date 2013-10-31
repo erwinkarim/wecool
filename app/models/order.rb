@@ -13,10 +13,14 @@ class Order < ActiveRecord::Base
 	# 1 - waiting payment
 	# 2 - items waiting to be shipped/activated
 	# 3 - order complete, everything shipped and activated 
+	# 4 - order canceled by system
+	# 5 - order canceled by persona
   ORDER_STATUS_TEXT = [ 'Order Created',
     'Waiting Payment',
     'Waiting to be shipped',
-    'Order Complete'
+    'Order Complete',
+    'Canceled by WeCool',
+    'Canceled by Persona'
   ]
 
   def init

@@ -259,7 +259,8 @@ class StoreController < ApplicationController
   # get current orders
   def orders
 		@persona = Persona.where( :screen_name => params[:persona_id]).first
-		@orders = @persona.orders
+    #only show incomplete orders
+		@orders = @persona.orders.where{ (status != 3) }
 
 		respond_to do |format|
 			format.html
