@@ -76,6 +76,8 @@ class StoreController < ApplicationController
 
   # redeem coupons that is purchased else where
   #  POST   /store/:persona_id/redeem_coupon(.:format)
+  #  expected arguements
+  #   :redeemCodes    the coupon code
   def redeem_coupon
     @coupon_code = params[:redeemCodes]
 
@@ -121,6 +123,9 @@ class StoreController < ApplicationController
       #update persona
       @persona.photos.update_all(:system_visible => true)
 
+
+      #if there orders associated with this coupon, update order status to complete if every coupon
+      # in the order has been activited
     end
 
     if coupon_failure then 
@@ -281,8 +286,12 @@ class StoreController < ApplicationController
         order_id = @order.id
         @carts = Cart.where(:order_id => @order.id )
         @order_activity = Version.where{ 
-          (whodunnit.eq screen_name) & (item_type.eq 'Order') & (item_id.eq order_id)
+          (item_type.eq 'Order') & (item_id.eq order_id)
         }
+
+        #get the coupons associated with this order
+        @coupons = Coupon.where(:id => @carts.where( :item_type => 'Coupon').pluck(:item_id) ) 
+
 				format.html
         format.json{ render json: @order }
 			end

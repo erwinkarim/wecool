@@ -26,6 +26,7 @@
                 <td><%= cart_item.quantity %></td>
                 <td><%= number_to_currency cart_item_sku.base_price * cart_item.quantity %></td>
               </tr>
+              <!-- display the coupon if the cart type is coupon -->
             <% end %>
             <tr>
               <td colspan="3"><div class="lead">Grand Total: </div></td>

@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
   belongs_to :persona
 	validates :persona_id, :presence => true
   attr_accessible :spreedly_token_id, :status
+  after_initialize :init
 
   #ensure paper trail
   has_paper_trail 
@@ -17,4 +18,8 @@ class Order < ActiveRecord::Base
     'Waiting to be shipped',
     'Order Complete'
   ]
+
+  def init
+    self.status ||= 0
+  end
 end

@@ -33,6 +33,45 @@
 <!-- show the carts -->
 <%= render "cart_listing" %>
 
+<!-- show associated coupons -->
+<% if !@coupons.empty? then %>
+  <div class="row">
+    <div class="span10 offset1">
+      <div class="page-header">
+        <h2>Associated Coupons</h2>
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Expiration Date</th>
+                <th>Action<th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @coupons.each do |coupon| %> 
+              <tr>
+                <td><%= Sku.find(coupon.sku_id).description %></td>
+                <td><%= coupon.code %></td>
+                <td><%= coupon.expire_date.nil? ? 'Nil' : coupon.expire_date.localtime %></td>
+                <td><%= coupon.redeem_date.nil? ? 
+                  link_to('Redeem Now', store_redeem_coupon_path(@persona.screen_name, :redeemCodes => coupon.code), 
+                    :class => 'btn btn-primary', :method => :post) : 
+                  'Redeemed on '+ coupon.redeem_date.to_s %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- show the activity -->
 <div class="row">
   <div class="span10 offset1">
     <div class="page-header">
