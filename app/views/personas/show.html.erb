@@ -120,57 +120,27 @@
             <div class="row-fluid">
               <ul>
               <% item[:activity].each do |act| %>
-                <% activity = String.new %>
-                <% if act[:event] == 'create' then %>
-                  <% if act[:item] == 'Photo' then %>
-                    <% activity = 'Uploaded ' + (pluralize act[:count], 'photo') %>
-                  <% elsif act[:item] == 'Mediaset' then 
-                      activity = 'Created ' + Mediaset.find( act[:id]).map{ 
-                        |x| link_to x.title, view_sets_path(@persona.screen_name, x.id) 
-                      }.to_sentence 
-                  %>
-                  <% elsif act[:item] == 'MediasetPhoto' then %>
-                    <% 
-                      activity = 'Added ' + (pluralize act[:count], 'photo') + ' to ' +
-                        Mediaset.find( MediasetPhoto.find(act[:id]).map{ |x| x.mediaset_id } ).
-                          map{ |x| link_to x.title, view_sets_path(@persona.screen_name, x.id) }.to_sentence
-                    %>
-                  <% end %> 
-                <% elsif act[:event] == 'featured' then %>
-                  <% if act[:item] == 'Photo' then %> 
-                    <% activity = 'Featured ' + pluralize(act[:count], 'photo') %>
-                  <% elsif act[:item] == 'Mediaset' then %>
-                    <% 
-                      activity = 'Featured ' + Mediaset.find(act[:id]).map{ 
-                        |x| link_to x.title, view_sets_path(@persona.screen_name, x.id) }.to_sentence 
-                    %>
-                  <% end %>
-                <% elsif act[:event] == 'update' then %>
-                  <% if act[:item] == 'MediasetPhoto' then %>
-                    <% 
-                      activity = 'Updated ' + Mediaset.find( 
-                        MediasetPhoto.find(act[:id]).map{ |x| x.mediaset_id}.uniq 
-                      ).map{ |x| link_to x.title, view_sets_path(@persona.screen_name, x.id) }.to_sentence 
-                    %>
-                  <% end %>
-                <% elsif act[:event] == 'up_votes' then %>
-                  <% 
-                    activity = 'Voted on '+ (act[:item] == 'Photo' ? 'photos' : 'sets') + ' from ' + act[:id].map{ 
-                      |x| Photo.find(x).persona_id 
-                    }.uniq.map{ |x| Persona.find(x) }.map { 
-                      |x| link_to x.screen_name, persona_path(x.screen_name) 
-                    }.to_sentence.html_safe 
-                  %> 
-                <% elsif act[:event] == 'update_tags' then %>
-                  <% if act[:item] == 'Photo' then %>
-                    <% activity = 'Update tags on ' + pluralize(act[:count], 'photo') %>
-                  <% end %>
-                <% end %>
-                <% if activity.empty? then %>
-                  <li>Some things got deleted</li>
-                <% else %>
-                  <li><%= activity.html_safe %></li>
-                <% end %>
+								<%
+									#find the stuff and display if it's there
+									object = eval( act[:item].titlecase ).where( :id => act[:id]).first
+									if !object.nil? then 
+										#get the title and link to show
+										if object.is_a? Photo then
+											link_text = link_to( object.title, photo_view_path(@persona.screen_name, object.id))
+										elsif object.is_a? Mediaset then
+											link_text = link_to( object.title, view_sets_path(@persona.screen_name, object.id))
+										elsif object.is_a? Order then
+											link_text = object.id.to_s
+										else
+											link_text = 'Something'
+										end
+								%>
+								<li>
+										<%= [ act[:event]	, link_text].join(' ').html_safe %>
+								</li>
+								<%
+									end
+								%>
               <% end %>
               </ul>
             </div>

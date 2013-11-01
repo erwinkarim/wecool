@@ -56,6 +56,18 @@ class Persona < ActiveRecord::Base
   end
 
   # gather activity of this persona
+	# returns an array of activities. each element is a cluster of activities within the :cluster_interval
+	#	each element should look like this:-
+	#		{ 
+	#			:first_activity									when the first activity took place
+	#			:last_activity									when the last activity took place
+	#			:activity => [									an array of activities that took place between :first_activity and :last_activity
+	#				:item, :event, :count, :id		each element shows what activities took place to an :item (class name) and how many times 
+	#				...
+	#				:item, :event, :count, :id
+	#			]
+
+
   def get_activity new_options = {} 
     options = { :begin_date => nil, :date_length => 1.month, :cluster_interval => 5.minutes }
     options.merge(new_options)
@@ -66,21 +78,23 @@ class Persona < ActiveRecord::Base
       )
   
     cluster = Array.new      
+		# need to return cluster as events done on a particular object instead of lumping one by one
     Version.where{ (whodunnit.eq myScreenName) & (created_at.lt options[:begin_date]) & 
       (created_at.gt options[:begin_date] - options[:date_length] ) }.order('created_at').
     each do |e|
       #this will be simplied on paper_trail 2.7.2
       # ensure that the item has not already been deleted!!
-      if ( e.item_type == 'Photo' && !Photo.where{ id.eq e.item_id }.empty? ) || 
-        ( e.item_type == 'Mediaset' && !Mediaset.where{ id.eq e.item_id }.empty? ) || 
-        ( e.item_type == 'MeidasetPhoto' && !MediasetPhoto.where{ id.eq e.item_id }.empty? ) then
-        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-          e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
-        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-          e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
-        theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-          e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
-      end
+      #if ( e.item_type == 'Photo' && !Photo.where{ id.eq e.item_id }.empty? ) || 
+      #  ( e.item_type == 'Mediaset' && !Mediaset.where{ id.eq e.item_id }.empty? ) || 
+      #  ( e.item_type == 'MeidasetPhoto' && !MediasetPhoto.where{ id.eq e.item_id }.empty? ) then
+      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+      #    e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
+      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+      #    e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
+      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
+      #    e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
+      #end
+			theEvent = e.event
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 
