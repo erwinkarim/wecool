@@ -119,85 +119,37 @@
           <tr><td>
             <div class="row-fluid">
               <ul>
-              <% item[:activity].each do |act| %>
 								<%
-									#find the stuff and display if it's there
-									object = eval( act[:item].titlecase ).where( :id => act[:id]).first
-									if !object.nil? then 
-										#get the title and link to show
-										if object.is_a? Photo then
-											link_text = link_to( object.title, photo_view_path(@persona.screen_name, object.id))
-										elsif object.is_a? Mediaset then
-											link_text = link_to( object.title, view_sets_path(@persona.screen_name, object.id))
-										elsif object.is_a? Order then
-											link_text = object.id.to_s
+									item[:activities].each do |act|
+										object = eval(act[:item_type].titlecase).where(:id => act[:item_id]).first
+										if object.instance_of? Photo then
+											object_text = link_to( object.title, photo_view_path(@persona.screen_name, object.id))
+										elsif object.instance_of? Mediaset then	
+											object_text = link_to( object.title, view_sets_path(@persona.screen_name, object.id))
+										elsif object.instance_of? Order then	
+											object_text = link_to( 'Order ' + object.id.to_s, store_order_detail_path(@persona.screen_name, object.id))
 										else
-											link_text = 'Something'
+											object_text = ' unidentified object'
 										end
+										object_text =  [act[:events].map{ |x| x[:event] }.join(' ') , object_text].join(' ')
 								%>
 								<li>
-										<%= [ act[:event]	, link_text].join(' ').html_safe %>
+									<%= object_text.html_safe %>
 								</li>
 								<%
 									end
 								%>
-              <% end %>
               </ul>
             </div>
             <div class="row-fluid">
-              <% 
-                photoset = Photo.where( :id => 
-                  item[:activity].select{ |x|
-                    (x[:item] == 'Photo' && ['featured', 'update', 'create', 'up_votes'].include?(x[:event]) )
-                  }.map{ |x| x[:id] } +
-                  MediasetPhoto.find(
-                    item[:activity].select{ |x|
-                      x[:item] == 'MediasetPhoto' && x[:event] == 'create'
-                    }.map{ |x| x[:id]}
-                  ).map{ |x| x[:photo_id] } +
-                  Mediaset.find(
-                    item[:activity].select{ |x|
-                      x[:item] == 'Mediaset' && (['featured', 'up_votes'].include?(x[:event]) )
-                    }.map{ |x| x[:id]}
-                  ).map{ |set| set.photos.map{ |x| x[:id] } }.map{ |x| x[0..2] }, 
-                  :system_visible => true, :visible => true
-                )
-              %>
-              <% photoset.limit(8).each do |photo| %> 
-                <%= link_to image_tag(photo.avatar.square200, :class=>'img-polaroid', :style=>'margin:2px 0px;' ), 
-                  photo_view_path(Persona.find(photo.persona_id).screen_name, photo) + '#photo'
-                %>
-              <% end %>
+							<!-- display the first 8 photos here -->
             </div>
-            <% if photoset.count > 8 then %>
-              <div class="row-fluid text-center">
-                <%= link_to 'See More Photos...', 
-                  photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto' + item[:first_activity].to_i.to_s, 
-                  :size => 'square200', :showCaption => 'false', :showIndicators=>'false', :mediatype=>'fromList', 
-                  :theList => photoset.map{|x| x.id }[7..-1].to_s ), 
-                  :role => 'button', :class => 'btn btn-info', :'data-toggle' => 'modal', 
-                  :'data-target' => '#test' + item[:first_activity].to_i.to_s, :remote => true 
-                %>
-                <div id="test<%= item[:first_activity].to_i %>" class="modal hide fade" tabindex="-1" role="dialog" 
-                  style="width:80%; left:10%; margin-left:0px;">
-                  <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                    <h3>More Photos</h3>
-                  </div>
-                  <div class="modal-body">
-                    <div id="morePhoto<%= item[:first_activity].to_i %>">
-                    </div>  
-                  </div>
-                  <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
-                  </div>
-                </div> 
-
-              </div>
-            <% end %>
+						<div class="row-fluid text-center">
+						<!-- if photos > 8, display load page here -->
+						</div>
             <div class="row-fluid">
               <i class="icon-tags"></i> Tags:
-              <%= photoset.map{|x| x.tags}.flatten.uniq.map{|x| link_to('#' + x.name, tag_path(x.name)) }.to_sentence.html_safe %>
+							<!-- display tags here -->
             </div>
             <div class="row-fluid">
               <%= distance_of_time_in_words item[:first_activity].to_i, DateTime.now.to_i %> ago

@@ -67,6 +67,16 @@ class Persona < ActiveRecord::Base
 	#				:item, :event, :count, :id
 	#			]
 
+	# planned returned hash should look like this:-
+	#	{
+	#		:first_activity									when the first activity took place
+	#		:last_activity									when the last activity took place
+	#		:activities => [	
+	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }	,
+	#			...	
+	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }
+	#		]
+	#	}
 
   def get_activity new_options = {} 
     options = { :begin_date => nil, :date_length => 1.month, :cluster_interval => 5.minutes }
@@ -97,20 +107,47 @@ class Persona < ActiveRecord::Base
 			theEvent = e.event
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
-          :activity => [{ :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] }] 
+          :activities => [
+						{ :item_type => e.item_type, :item_id => e.item_id,  :events => [{ :event => theEvent, :count => 1 }] }
+					] 
         }
       else
         #case where this item is created within options[:cluster_interval]     
         cluster.last[:last_activity] = e.created_at
-        act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == theEvent }.first
-        act.nil? ? 
-          cluster.last[:activity] << { :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] } : 
-          begin 
-            if !act[:id].include? e.item_id then
-              act[:count] += 1
-              act[:id] << e.item_id
-            end
-          end
+        #act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == theEvent }.first
+        #act.nil? ? 
+        #  cluster.last[:activity] << { :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] } : 
+        #  begin 
+        #    if !act[:id].include? e.item_id then
+        #      act[:count] += 1
+        #      act[:id] << e.item_id
+        #    end
+        #  end
+
+				#go through the cluster, find the item id and update the events
+				handle = cluster.last
+				if handle[:activities].map{ |x| x[:item_type] == e.item_type && x[:item_id] == e.item_id }.inject{ |x,y| x||y } then
+					#the item is in the handle, look if the event is new or old
+					handle[:activities].map{ |x| 
+						if x[:item_type] == e.item_type && x[:item_id] == e.item_id then
+							if x[:events].map{ |x| x[:event] == theEvent }.inject{ |x,y| x||y } then
+								#event is old, find it and add count to +1
+								x[:events].map{ |x|
+									if x[:event] == theEvent then
+										x[:count] = x[:count] + 1
+									end
+								}
+							else
+								x[:events] << { :event => theEvent, :count => 1 }
+							end
+						end
+					}
+				else
+					#the item is not in the handle, add new activities
+					handle[:activities] <<  { 
+						:item_type => e.item_type, :item_id => e.item_id,  :events => [{ :event => theEvent, :count => 1 }] 
+					}
+				end
       end
     end
 
