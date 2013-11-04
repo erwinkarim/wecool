@@ -37,6 +37,40 @@ class PersonasController < ApplicationController
     # gather 1 month activity by cluster of 15 minutes
     @activity = @persona.get_activity
 
+		# from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
+		#		this will make the view pages less cluttered
+		@activity_summary = Array.new
+
+		@activity.each do |item|
+			summary = Hash.new
+			summary[:activity_text] = Array.new
+			summary[:first_activity] = item[:first_activity]
+			summary[:photos] = Array.new
+			summary[:tags] = Array.new
+
+			# get the activities/photos that is done
+			item[:activities].each do |act|
+				object = eval(act[:item_type].titlecase).where(:id => act[:item_id]).first
+				if object.instance_of? Photo then
+					object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
+					(summary[:photos] << Photo.find(object.id)).flatten
+					(summary[:tags] << Photo.find(object.id).tags).flatten
+				elsif object.instance_of? Mediaset then	
+					object_text = view_context.link_to( object.title, view_sets_path(@persona.screen_name, object.id))
+					if !object.photos.empty? then
+						(summary[:photos] << object.photos).flatten
+					end
+				elsif object.instance_of? Order then	
+					object_text = view_context.link_to( 'Order ' + object.id.to_s, store_order_detail_path(@persona.screen_name, object.id))
+				else
+					object_text = object.class
+				end
+				object_text =  [act[:events].map{ |x| x[:event] }.join(' ') , object_text].join(' ')
+				summary[:activity_text] << object_text
+			end
+			@activity_summary << summary
+		end 
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @persona }
