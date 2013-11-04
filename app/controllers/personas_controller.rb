@@ -54,7 +54,8 @@ class PersonasController < ApplicationController
 				if object.instance_of? Photo then
 					object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
 					(summary[:photos] << Photo.find(object.id)).flatten
-					(summary[:tags] << Photo.find(object.id).tags).flatten
+					summary[:tags] << Photo.find(object.id).tags
+					summary[:tags].flatten
 				elsif object.instance_of? Mediaset then	
 					object_text = view_context.link_to( object.title, view_sets_path(@persona.screen_name, object.id))
 					if !object.photos.empty? then

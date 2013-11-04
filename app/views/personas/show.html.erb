@@ -129,6 +129,7 @@
 							<% end %>
             </div>
             <div class="row-fluid">
+							<div class="span12">
 							<!-- display the first 8 photos here -->
 							<% 
 								if !activity[:photos].empty? then
@@ -139,13 +140,32 @@
 									end
 								end
 							%>
+							</div>
             </div>
 						<div class="row-fluid text-center">
-						<!-- if photos > 8, display load page here -->
+							<div class="span12">
+								<!-- if photos > 8, display load page here -->
+								<% if activity[:photos].count > 7 then %>
+									<%= content_tag :a, 'More Photos' , 
+												:href=> photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto-' + activity[:first_activity].to_i.to_s,
+													:size => 'square200', :showCaption => 'false', :showIndicators=>'false', :mediatype=>'fromList', 
+													:theList => activity[:photos].map{|x| x.id}[7..-1].to_s ), 
+												:class => 'btn btn-info', :role => 'button', 
+												:data => {:toggle => 'modal', :target => '#modal-' + activity[:first_activity].to_i.to_s, :remote => true } 
+									%>
+									<%=
+										modal_dialog :id => 'modal-'+activity[:first_activity].to_i.to_s, 
+											:header =>  { :show_close => true, :dismiss => 'modal' , :title => 'Other Photos' }, 
+											:body => content_tag(:div, '', :id => 'morePhoto-' + activity[:first_activity].to_i.to_s).html_safe, 
+											:footer => content_tag(:button, 'Close', :class => 'btn btn-primary', :data => { :dismiss=> 'modal' } )
+									%>
+								<% end %>
+							</div>
 						</div>
             <div class="row-fluid">
               <i class="icon-tags"></i> Tags:
 							<!-- display tags here -->
+							<%= activity[:tags].flatten.empty? ? 'No Tags' : activity[:tags].flatten %>
             </div>
             <div class="row-fluid">
               <%= distance_of_time_in_words activity[:first_activity].to_i, DateTime.now.to_i %> ago
