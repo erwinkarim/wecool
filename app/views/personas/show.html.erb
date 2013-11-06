@@ -150,7 +150,7 @@
 												:href=> photo_get_more_path(Photo.last.id, :targetDiv => '#morePhoto-' + activity[:first_activity].to_i.to_s,
 													:size => 'square200', :showCaption => 'false', :showIndicators=>'false', :mediatype=>'fromList', 
 													:theList => activity[:photos].map{|x| x.id}[7..-1].to_s ), 
-												:class => 'btn btn-info', :role => 'button', 
+												:class => 'btn btn-info call-modal', :role => 'button', 
 												:data => {:toggle => 'modal', :target => '#modal-' + activity[:first_activity].to_i.to_s, :remote => true } 
 									%>
 									<%=
@@ -166,7 +166,7 @@
             <% if !activity[:tags].flatten.empty? then %>
               <div class="row-fluid">
                 <i class="icon-tags"></i> Tags:
-                <%=  activity[:tags].flatten.map{ |x| link_to(link_to x.name, tags_path(x.name))} %>
+                <%=  (activity[:tags].flatten.map{ |x| link_to(link_to x.name, tag_path(x.name))}).join(',').html_safe %>
               </div>
             <% end %>
             <div class="row-fluid">
