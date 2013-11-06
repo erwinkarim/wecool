@@ -50,7 +50,7 @@ class PersonasController < ApplicationController
 
 			# get the activities/photos that is done
 			item[:activities].each do |act|
-				object = eval(act[:item_type].titlecase).where(:id => act[:item_id]).first
+				object = eval(act[:item_type]).where(:id => act[:item_id]).first
 				if object.instance_of? Photo then
 					object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
 					(summary[:photos] << Photo.find(object.id)).flatten
@@ -62,7 +62,15 @@ class PersonasController < ApplicationController
 						(summary[:photos] << object.photos).flatten
 					end
 				elsif object.instance_of? Order then	
-					object_text = view_context.link_to( 'Order ' + object.id.to_s, store_order_detail_path(@persona.screen_name, object.id))
+					object_text = view_context.link_to( 'Order ' + 
+            object.id.to_s, store_order_detail_path(@persona.screen_name, object.id)
+          )
+        elsif object.instance_of? Persona then
+          object_text = view_context.link_to(object.screen_name, persona_path(object.screen_name))
+        elsif object.instance_of? MediasetPhoto then
+          object_text = view_context.link_to( Mediaset.find(object.mediaset_id).title ,
+            view_sets_path(@persona.screen_name, object.mediaset_id)
+          )
 				else
 					object_text = object.class
 				end

@@ -162,11 +162,13 @@
 								<% end %>
 							</div>
 						</div>
-            <div class="row-fluid">
-              <i class="icon-tags"></i> Tags:
-							<!-- display tags here -->
-							<%= activity[:tags].flatten.empty? ? 'No Tags' : activity[:tags].flatten %>
-            </div>
+            <!-- display tags here -->
+            <% if !activity[:tags].flatten.empty? then %>
+              <div class="row-fluid">
+                <i class="icon-tags"></i> Tags:
+                <%=  activity[:tags].flatten.map{ |x| link_to(link_to x.name, tags_path(x.name))} %>
+              </div>
+            <% end %>
             <div class="row-fluid">
               <%= distance_of_time_in_words activity[:first_activity].to_i, DateTime.now.to_i %> ago
             </div>
