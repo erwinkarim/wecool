@@ -273,7 +273,7 @@ class PersonasController < ApplicationController
   # get recent activities
   def activities
     @persona = Persona.where(:screen_name => params[:persona_id]).first
-    @activity = @persona.get_activity
+    @activity = @persona.get_activity( params ) 
 
     # from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
     #		this will make the view pages less cluttered

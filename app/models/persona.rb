@@ -62,7 +62,7 @@ class Persona < ActiveRecord::Base
 	#		:first_activity									when the first activity took place
 	#		:last_activity									when the last activity took place
 	#		:activities => [	
-	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }	,
+	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] },
 	#			...	
 	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }
 	#		]
@@ -76,18 +76,24 @@ class Persona < ActiveRecord::Base
     options = { :begin_date => nil, :date_length => 1.month, :cluster_interval => 5.minutes }
     options = options.merge(new_options)
     myScreenName = self.screen_name
-    #if begin_date is not set, limit to 1 month or earlier
-    begin_date = new_options.has_key?(:begin_date) ? new_options[:begin_date] : 
-      (
-        Version.where{ whodunnit.eq myScreenName }.max.nil? ? 
-        1.month.ago : Version.where{ whodunnit.eq myScreenName }.max.created_at
-      )
     date_length = options[:date_length]
+
+    #check if there's any activity at begin_date - date_length, if no activity, get the most recent date before begin_date
+    if new_options.has_key? :begin_date then
+      begin_date = new_options[:begin_date].to_time
+      recent_date = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) }.max.created_at
+      begin_date = recent_date < begin_date - date_length ? recent_date  : begin_date
+    else
+        begin_date = Version.where{ whodunnit.eq myScreenName }.max.created_at
+    end
   
     cluster = Array.new      
-    Version.where{ (whodunnit.eq myScreenName) & (created_at.lt begin_date) & 
+    Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) & 
       (created_at.gt begin_date - date_length ) }.order('created_at').
     each do |e|
+      #skip it if the object no longer exists
+      next if eval(e.item_type).where(:id => e.item_id).empty? 
+
 			theEvent = e.event
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
@@ -127,4 +133,5 @@ class Persona < ActiveRecord::Base
 
     return cluster.sort_by{ |e| -(e[:first_activity].to_i) }
   end
+    
 end
