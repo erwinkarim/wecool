@@ -18,6 +18,7 @@ Wecool::Application.routes.draw do
     match '/personas/:persona_id/upgrade_to_premium' => :upgrade_acc, :via => :get, :as => 'persona_upgrade_acc'
     match '/personas/:persona_id/payment_details' => :payment_details, :via => :post, 
       :as => 'persona_payment_details'
+    match '/personas/:persona_id/activities' => :activities, :via => :get, :as => 'persona_activities'
   end
 
   resources :mediasets, :except => [ :edit ] do

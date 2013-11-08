@@ -268,4 +268,54 @@ class PersonasController < ApplicationController
       format.html
     end
   end
+
+  # GET    /personas/:persona_id/activities(.:format)
+  # get recent activities
+  def activities
+    @persona = Persona.where(:screen_name => params[:persona_id]).first
+    @activity = @persona.get_activity
+
+    # from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
+    #		this will make the view pages less cluttered
+    @activity_summary = Array.new
+
+    @activity.each do |item|
+      summary = Hash.new
+      summary[:activity_text] = Array.new
+      summary[:first_activity] = item[:first_activity]
+      summary[:photos] = Array.new
+      summary[:tags] = Array.new
+
+      # get the activities/photos that is done
+      item[:activities].each do |act|
+        object = eval(act[:item_type]).where(:id => act[:item_id]).first
+        if object.instance_of? Photo then
+          object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
+          (summary[:photos] << Photo.find(object.id)).flatten
+          summary[:tags] << Photo.find(object.id).tags
+          summary[:tags].flatten
+        elsif object.instance_of? Mediaset then	
+          object_text = view_context.link_to( object.title, view_sets_path(@persona.screen_name, object.id))
+          if !object.photos.empty? then
+            (summary[:photos] << object.photos).flatten
+          end
+        elsif object.instance_of? Order then	
+          object_text = view_context.link_to( 'Order ' + 
+            object.id.to_s, store_order_detail_path(@persona.screen_name, object.id)
+          )
+        elsif object.instance_of? Persona then
+          object_text = view_context.link_to(object.screen_name, persona_path(object.screen_name))
+        elsif object.instance_of? MediasetPhoto then
+          object_text = view_context.link_to( Mediaset.find(object.mediaset_id).title ,
+            view_sets_path(@persona.screen_name, object.mediaset_id)
+          )
+        else
+          object_text = object.class
+        end
+        object_text =  [act[:events].map{ |x| x[:event] }.join(' ') , object_text].join(' ')
+        summary[:activity_text] << object_text
+      end
+      @activity_summary << summary
+    end
+  end
 end

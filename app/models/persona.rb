@@ -58,16 +58,6 @@ class Persona < ActiveRecord::Base
   # gather activity of this persona
 	# returns an array of activities. each element is a cluster of activities within the :cluster_interval
 	#	each element should look like this:-
-	#		{ 
-	#			:first_activity									when the first activity took place
-	#			:last_activity									when the last activity took place
-	#			:activity => [									an array of activities that took place between :first_activity and :last_activity
-	#				:item, :event, :count, :id		each element shows what activities took place to an :item (class name) and how many times 
-	#				...
-	#				:item, :event, :count, :id
-	#			]
-
-	# planned returned hash should look like this:-
 	#	{
 	#		:first_activity									when the first activity took place
 	#		:last_activity									when the last activity took place
@@ -77,33 +67,27 @@ class Persona < ActiveRecord::Base
 	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }
 	#		]
 	#	}
-
+	#	 default options are:-
+	#	 :begin_date        the start of the date
+	#	 :date_length       how long the activity
+	#	 :cluster_interval  spacing of time between clusters of activity. default is 5 minutes which means
+	#	                    that distance between each cluster will be at least 5 minutes.
   def get_activity new_options = {} 
     options = { :begin_date => nil, :date_length => 1.month, :cluster_interval => 5.minutes }
-    options.merge(new_options)
+    options = options.merge(new_options)
     myScreenName = self.screen_name
-    options[:begin_date] = new_options.has_key?(:begin_date) ? new_options[:begin_date] : 
-      (Version.where{ whodunnit.eq myScreenName }.max.nil? ? 
+    #if begin_date is not set, limit to 1 month or earlier
+    begin_date = new_options.has_key?(:begin_date) ? new_options[:begin_date] : 
+      (
+        Version.where{ whodunnit.eq myScreenName }.max.nil? ? 
         1.month.ago : Version.where{ whodunnit.eq myScreenName }.max.created_at
       )
+    date_length = options[:date_length]
   
     cluster = Array.new      
-		# need to return cluster as events done on a particular object instead of lumping one by one
-    Version.where{ (whodunnit.eq myScreenName) & (created_at.lt options[:begin_date]) & 
-      (created_at.gt options[:begin_date] - options[:date_length] ) }.order('created_at').
+    Version.where{ (whodunnit.eq myScreenName) & (created_at.lt begin_date) & 
+      (created_at.gt begin_date - date_length ) }.order('created_at').
     each do |e|
-      #this will be simplied on paper_trail 2.7.2
-      # ensure that the item has not already been deleted!!
-      #if ( e.item_type == 'Photo' && !Photo.where{ id.eq e.item_id }.empty? ) || 
-      #  ( e.item_type == 'Mediaset' && !Mediaset.where{ id.eq e.item_id }.empty? ) || 
-      #  ( e.item_type == 'MeidasetPhoto' && !MediasetPhoto.where{ id.eq e.item_id }.empty? ) then
-      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-      #    e.event == 'update' && e.changeset[:featured] == [false,true] ? 'featured' : e.event 
-      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-      #    e.event == 'update' && e.changeset.has_key?(:up_votes) ? 'up_votes' : theEvent
-      #  theEvent = (e.item_type == 'Photo' || e.item_type == 'Mediaset' ) && 
-      #    e.event == 'update' && e.changeset.has_key?(:tag_list) ? 'update_tags' : theEvent
-      #end
 			theEvent = e.event
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
@@ -112,21 +96,11 @@ class Persona < ActiveRecord::Base
 					] 
         }
       else
-        #case where this item is created within options[:cluster_interval]     
-        cluster.last[:last_activity] = e.created_at
-        #act = cluster.last[:activity].select{ |act| act[:item] == e.item_type && act[:event] == theEvent }.first
-        #act.nil? ? 
-        #  cluster.last[:activity] << { :item => e.item_type, :event => theEvent, :count => 1 , :id => [e.item_id] } : 
-        #  begin 
-        #    if !act[:id].include? e.item_id then
-        #      act[:count] += 1
-        #      act[:id] << e.item_id
-        #    end
-        #  end
-
 				#go through the cluster, find the item id and update the events
 				handle = cluster.last
-				if handle[:activities].map{ |x| x[:item_type] == e.item_type && x[:item_id] == e.item_id }.inject{ |x,y| x||y } then
+				if handle[:activities].map{ 
+          |x| x[:item_type] == e.item_type && x[:item_id] == e.item_id 
+        }.inject{ |x,y| x||y } then
 					#the item is in the handle, look if the event is new or old
 					handle[:activities].map{ |x| 
 						if x[:item_type] == e.item_type && x[:item_id] == e.item_id then
