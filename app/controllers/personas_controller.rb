@@ -271,9 +271,17 @@ class PersonasController < ApplicationController
 
   # GET    /personas/:persona_id/activities(.:format)
   # get recent activities
+	# optional parameters:-
+	#		:targetDiv			The div container which recent activities will be appended.
   def activities
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @activity = @persona.get_activity( params ) 
+
+		#setup default parameters
+		#params[:targetDiv] = params.has_key? :targetDiv ? params[:targetDiv] : '#recent-activity-body'
+		if !params.has_key? :targetDiv then
+			params[:targetDiv] = '#recent-activity-body'
+		end
 
     # from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
     #		this will make the view pages less cluttered
@@ -317,5 +325,11 @@ class PersonasController < ApplicationController
       end
       @activity_summary << summary
     end
+
+		js :params => { :screen_name => @persona.screen_name }
+		respond_to do |format| 
+			format.html
+			format.js
+		end
   end
 end

@@ -1,0 +1,43 @@
+console.log('loaded activities.js.erb');
+
+//find the table
+var handle = $('<%= params[:targetDiv] %>');
+
+$('#loading-activities').detach();
+
+<% @activity_summary.each do |activity| %>
+	var first_activity = <%= escape_javascript activity[:first_activity].to_i.to_s  %>;
+	handle.append( 
+		$('<tr/>').append( 
+			$('<td/>', { class:first_activity } )
+		)
+	);
+	var activity_handle = $('.' + first_activity);
+
+	//append the changes
+	var act_list = "act_list_<%= activity[:first_activity].to_i.to_s %>"
+	var object_text = $('<p/>').append( $('<ul/>', { id:act_list } ) );
+	<% activity[:activity_text].each do |act_text| %>
+		var act_text = $.parseHTML("<%= escape_javascript(act_text).html_safe %>");
+		object_text.find('#' + act_list).append( $('<li/>').append(act_text) );
+	<% end %>
+	activity_handle.append(object_text);
+
+	//append the pictures
+	<% if !activity[:photos].empty? then %>
+		var photo_id = "photos_<%= activity[:first_activity].to_i.to_s %>";
+		var photo_handle = $('<p/>', { id:photo_id });
+		<% activity[:photos][0..7].each do |photo| %>
+			photo = $.parseHTML( "<%= escape_javascript( link_to(image_tag(photo.avatar.square200, :class => 'img-polaroid'), photo_view_path(@persona.screen_name, photo.id) ) ) %>" );
+			photo_handle.append(photo);
+		<% end %>
+		activity_handle.append(photo_handle);
+	<% end %>
+
+	//append tags
+
+	//append when it was created
+	activity_handle.append( 
+		$('<p/>', { text:"<%= escape_javascript( distance_of_time_in_words(activity[:first_activity].to_i, DateTime.now.to_i ))  %> ago" } ) 
+	);	
+<% end %>
