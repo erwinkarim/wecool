@@ -8,10 +8,18 @@
   <div class="span10 offset1">
 		<h2>Recently...</h2>
 		<table class="table table-bordered table-striped table-hover">
-			<tbody id="recent-activity-body">
+			<tbody id="recent-activity-body" last="<%= DateTime.now.to_i %>" >
 				<tr id="loading-activities"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>
 			</tbody>
 		</table>
   </div>
+</div>
+
+<div class="row">
+	<div class="span10 offset1">
+		<p class="text-center">
+			<%= link_to 'Get more activities', '#', :class => 'btn btn-primary', :id => 'get-more-activities' %>
+		</p>
+	</div>
 </div>
 

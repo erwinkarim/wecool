@@ -68,7 +68,7 @@ class Persona < ActiveRecord::Base
 	#		]
 	#	}
 	#	 default options are:-
-	#	 :begin_date        the start of the date
+	#	 :begin_date        the start of the date, must be integer of seconds since epoch
 	#	 :date_length       how long the activity
 	#	 :cluster_interval  spacing of time between clusters of activity. default is 5 minutes which means
 	#	                    that distance between each cluster will be at least 5 minutes.
@@ -79,9 +79,16 @@ class Persona < ActiveRecord::Base
     date_length = options[:date_length]
 
     #check if there's any activity at begin_date - date_length, if no activity, get the most recent date before begin_date
+		# also if there's no activity before the begin date, then just return nil
     if new_options.has_key? :begin_date then
-      begin_date = new_options[:begin_date].to_time
-      recent_date = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) }.max.created_at
+      #begin_date = (new_options[:begin_date].is_a? Fixnum) ? Time.at(new_options[:begin_date]) : new_options[:begin_date].to_time
+			begin_date = Time.at( new_options[:begin_date].to_i )
+			recent_act = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) }.max
+			if recent_act.nil? then
+				return nil
+			else
+				recent_date = recent_act.created_at
+			end
       begin_date = recent_date < begin_date - date_length ? recent_date  : begin_date
     else
         begin_date = Version.where{ whodunnit.eq myScreenName }.max.created_at

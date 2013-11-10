@@ -20,16 +20,29 @@
   Paloma.callbacks['personas']['activities'] = function(params){
     // Do something here.
 		
-		$(document).ready( function(){
+		var get_activity = function() { 
 			$.ajax(
 				'/personas/' + params['screen_name'] + '/activities',
 				{
+					data: { begin_date:$('#recent-activity-body').attr('last') },
 					dataType:'script',
 					error: function(xhr, status, error) {
 						console.log(status + ":" + error );
 					}
 				}
 			);
+		};
+
+		$(document).ready( function(){
+		
+			get_activity();
+
+			//when click get more activities
+			$('#get-more-activities').click(function(e){
+				e.preventDefault();
+				get_activity();
+			});
+
 		});
   };
   //Paloma.callbacks['personas']['activities'] = function(params){

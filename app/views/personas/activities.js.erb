@@ -34,10 +34,23 @@ $('#loading-activities').detach();
 		activity_handle.append(photo_handle);
 	<% end %>
 
+	//append the modal if the post have > 8 pictures
+	<% if activity[:photos].count > 7 then %>
+		activity_handle.append( $('<p/>', { text:'more photo buttons here' } ) );
+	<% end %>	
 	//append tags
+	<% if !activity[:tags].flatten.empty? then %>
+		var tags_text = $.parseHTML("<i class=\"icon-tags\"></i> <%= escape_javascript( activity[:tags].flatten.join(',') )  %>");
+		activity_handle.append(
+			$('<p/>').append(tags_text)
+		);
+	<% end %>
 
 	//append when it was created
 	activity_handle.append( 
 		$('<p/>', { text:"<%= escape_javascript( distance_of_time_in_words(activity[:first_activity].to_i, DateTime.now.to_i ))  %> ago" } ) 
 	);	
 <% end %>
+
+//update the last attribute in #recent-activity-body to the last first activity timestamp
+handle.attr('last', '<%= @activity_summary.last[:first_activity].to_i  %>');
