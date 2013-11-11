@@ -26,59 +26,20 @@ class PersonasController < ApplicationController
     if @photos.empty? then 
       @photos = @persona.photos.find(:all, :order => 'id desc', :limit => 5)
     end
-    @following = Persona.find(:all, :conditions => { :id => @persona.followers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)}, :limit => 30)
-    @followers = Persona.find(Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').pluck(:persona_id))
+    @following = Persona.find(:all, :conditions => { 
+      :id => @persona.followers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)
+    }, :limit => 30)
+    @followers = Persona.find(Follower.where(:tracked_object_id => @persona.id, 
+      :tracked_object_type => 'persona').pluck(:persona_id))
 
     if persona_signed_in? && @persona == current_persona && !@persona.premium? then
-      @bandwidth = current_persona.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum 
+      @bandwidth = current_persona.photos.where{ 
+        created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size 
+      }.sum 
       @exceed_bandwidth = @bandwidth > 300*1024*1024 
     end
 
-    # gather 1 month activity by cluster of 15 minutes
-    @activity = @persona.get_activity
-
-		# from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
-		#		this will make the view pages less cluttered
-		@activity_summary = Array.new
-
-		@activity.each do |item|
-			summary = Hash.new
-			summary[:activity_text] = Array.new
-			summary[:first_activity] = item[:first_activity]
-			summary[:photos] = Array.new
-			summary[:tags] = Array.new
-
-			# get the activities/photos that is done
-			item[:activities].each do |act|
-				object = eval(act[:item_type]).where(:id => act[:item_id]).first
-				if object.instance_of? Photo then
-					object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
-					(summary[:photos] << Photo.find(object.id)).flatten
-					summary[:tags] << Photo.find(object.id).tags
-					summary[:tags].flatten
-				elsif object.instance_of? Mediaset then	
-					object_text = view_context.link_to( object.title, view_sets_path(@persona.screen_name, object.id))
-					if !object.photos.empty? then
-						(summary[:photos] << object.photos).flatten
-					end
-				elsif object.instance_of? Order then	
-					object_text = view_context.link_to( 'Order ' + 
-            object.id.to_s, store_order_detail_path(@persona.screen_name, object.id)
-          )
-        elsif object.instance_of? Persona then
-          object_text = view_context.link_to(object.screen_name, persona_path(object.screen_name))
-        elsif object.instance_of? MediasetPhoto then
-          object_text = view_context.link_to( Mediaset.find(object.mediaset_id).title ,
-            view_sets_path(@persona.screen_name, object.mediaset_id)
-          )
-				else
-					object_text = object.class
-				end
-				object_text =  [act[:events].map{ |x| x[:event] }.join(' ') , object_text].join(' ')
-				summary[:activity_text] << object_text
-			end
-			@activity_summary << summary
-		end 
+		js :params => { :screen_name => @persona.screen_name }
 
     respond_to do |format|
       format.html # show.html.erb
@@ -281,52 +242,6 @@ class PersonasController < ApplicationController
 		#params[:targetDiv] = params.has_key? :targetDiv ? params[:targetDiv] : '#recent-activity-body'
 		if !params.has_key? :targetDiv then
 			params[:targetDiv] = '#recent-activity-body'
-		end
-
-    # from the activity, generate a activity summury (at 4 hours ago, persona did X things to Y objects and i got Z pictures to show for it)
-    #		this will make the view pages less cluttered
-		@activity_summary = Array.new
-		if !@activity.nil? then 
-			@activity.each do |item|
-				summary = Hash.new
-				summary[:activity_text] = Array.new
-				summary[:first_activity] = item[:first_activity]
-				summary[:photos] = Array.new
-				summary[:tags] = Array.new
-
-				# get the activities/photos that is done
-				item[:activities].each do |act|
-					object = eval(act[:item_type]).where(:id => act[:item_id]).first
-					if object.instance_of? Photo then
-						object_text = view_context.link_to( object.title, photo_view_path(@persona.screen_name, object.id))
-						summary[:photos] << Photo.find(object.id)
-						summary[:photos].flatten
-						summary[:tags] << Photo.find(object.id).tags
-						summary[:tags].flatten
-					elsif object.instance_of? Mediaset then	
-						object_text = view_context.link_to( object.title, view_sets_path(@persona.screen_name, object.id))
-						if !object.photos.empty? then
-							summary[:photos] << object.photos
-							summary[:photos].flatten
-						end
-					elsif object.instance_of? Order then	
-						object_text = view_context.link_to( 'Order ' + 
-							object.id.to_s, store_order_detail_path(@persona.screen_name, object.id)
-						)
-					elsif object.instance_of? Persona then
-						object_text = view_context.link_to(object.screen_name, persona_path(object.screen_name))
-					elsif object.instance_of? MediasetPhoto then
-						object_text = view_context.link_to( Mediaset.find(object.mediaset_id).title ,
-							view_sets_path(@persona.screen_name, object.mediaset_id)
-						)
-					else
-						object_text = object.class
-					end
-					object_text =  [act[:events].map{ |x| x[:event] }.join(' ') , object_text].join(' ')
-					summary[:activity_text] << object_text
-				end
-				@activity_summary << summary
-			end
 		end
 
 		js :params => { :screen_name => @persona.screen_name }

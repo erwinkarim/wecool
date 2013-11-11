@@ -61,11 +61,12 @@ class Persona < ActiveRecord::Base
 	#	{
 	#		:first_activity									when the first activity took place
 	#		:last_activity									when the last activity took place
-	#		:activities => [	
-	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] },
-	#			...	
-	#			{ :item_id, :item_type, :events => [  { :event, :count}, .., { :event, :count}  ] }
-	#		]
+	#		:activities => {
+	#		  :<item_type1> => { 
+	#		    :id => [id1, .. , idn], 
+	#		    :events => { :<event_type1> => event_count1, .. , :<event_typeN> => event_countN  }  
+	#		  }
+	#		}
 	#	}
 	#	 default options are:-
 	#	 :begin_date        the start of the date, must be integer of seconds since epoch
@@ -83,7 +84,8 @@ class Persona < ActiveRecord::Base
     if new_options.has_key? :begin_date then
       #begin_date = (new_options[:begin_date].is_a? Fixnum) ? Time.at(new_options[:begin_date]) : new_options[:begin_date].to_time
 			begin_date = Time.at( new_options[:begin_date].to_i )
-			recent_act = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) }.max
+			recent_act = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) & 
+        (item_type.eq 'Photo') }.max
 			if recent_act.nil? then
 				return nil
 			else
@@ -96,7 +98,7 @@ class Persona < ActiveRecord::Base
   
     cluster = Array.new      
     Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) & 
-      (created_at.gt begin_date - date_length ) }.order('created_at').
+      (created_at.gt begin_date - date_length ) & (item_type.eq 'Photo') }.order('created_at').
     each do |e|
       #skip it if the object no longer exists
       next if eval(e.item_type).where(:id => e.item_id).empty? 
@@ -104,39 +106,45 @@ class Persona < ActiveRecord::Base
 			theEvent = e.event
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
-          :activities => [
-						{ :item_type => e.item_type, :item_id => e.item_id,  :events => [{ :event => theEvent, :count => 1 }] }
-					] 
+          :activities => { 
+              #:item_type => e.item_type, :item_id => [e.item_id],  
+              #:events => [{ :event => theEvent, :count => 1 }] 
+              e.item_type.to_sym => { 
+                :id => [e.item_id], :events => { theEvent.to_sym => 1 }, 
+                :handle => [ eval(e.item_type).find(e.item_id) ],   
+              }
+          } 
         }
+
       else
-				#go through the cluster, find the item id and update the events
+				#go through the cluster, see if the object class existed before, then add to the id and event log
+				# otherwise, just create a new object
 				handle = cluster.last
-				if handle[:activities].map{ 
-          |x| x[:item_type] == e.item_type && x[:item_id] == e.item_id 
-        }.inject{ |x,y| x||y } then
-					#the item is in the handle, look if the event is new or old
-					handle[:activities].map{ |x| 
-						if x[:item_type] == e.item_type && x[:item_id] == e.item_id then
-							if x[:events].map{ |x| x[:event] == theEvent }.inject{ |x,y| x||y } then
-								#event is old, find it and add count to +1
-								x[:events].map{ |x|
-									if x[:event] == theEvent then
-										x[:count] = x[:count] + 1
-									end
-								}
-							else
-								x[:events] << { :event => theEvent, :count => 1 }
-							end
-						end
-					}
-				else
-					#the item is not in the handle, add new activities
-					handle[:activities] <<  { 
-						:item_type => e.item_type, :item_id => e.item_id,  :events => [{ :event => theEvent, :count => 1 }] 
-					}
-				end
+        if handle[:activities].has_key? e.item_type.to_sym then
+          #item is here, get for id and proper activities
+          if !handle[:activities][e.item_type.to_sym][:id].include? e.item_id then
+            handle[:activities][e.item_type.to_sym][:id] << e.item_id 
+            handle[:activities][e.item_type.to_sym][:handle] << eval(e.item_type).find(e.item_id)
+          end
+
+          #add if the event is already here, otherwise new event  
+          if handle[:activities][e.item_type.to_sym][:events].has_key? theEvent.to_sym then
+            handle[:activities][e.item_type.to_sym][:events][theEvent.to_sym] += 1 
+          else
+            handle[:activities][e.item_type.to_sym][:events] = 
+              handle[:activities][e.item_type.to_sym][:events].merge( { theEvent.to_sym => 1 })
+          end
+        else
+          #item is not here, new item and activities
+          handle[:activities] =  handle[:activities].merge({ 
+              e.item_type.to_sym => { 
+                :id => [e.item_id], :events => { theEvent.to_sym => 1 }, 
+                :handle => [ eval(e.item_type).find(e.item_id)]
+              }
+          })
+        end
       end
-    end
+    end #each
 
     return cluster.sort_by{ |e| -(e[:first_activity].to_i) }
   end

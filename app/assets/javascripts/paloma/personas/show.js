@@ -17,9 +17,8 @@
   var _l = _L['personas'];
 
 
-  Paloma.callbacks['personas']['activities'] = function(params){
+  Paloma.callbacks['personas']['show'] = function(params){
     // Do something here.
-		
 		var get_activity = function() { 
 			$.ajax(
 				'/personas/' + params['screen_name'] + '/activities',
@@ -47,8 +46,6 @@
         );
 				get_activity();
 			});
-
-		});
-  };
-  //Paloma.callbacks['personas']['activities'] = function(params){
+    });
+  }; // Paloma.callbacks['personas']['show'] = function(params){
 })();

@@ -5,52 +5,106 @@ var handle = $('<%= params[:targetDiv] %>');
 
 $('#loading-activities').detach();
 
-<% @activity_summary.each do |activity| %>
-	var first_activity = <%= escape_javascript activity[:first_activity].to_i.to_s  %>;
-	handle.append( 
-		$('<tr/>').append( 
-			$('<td/>', { class:first_activity } )
-		)
-	);
-	var activity_handle = $('.' + first_activity);
+<% unless @activity.nil? || @activity.empty? %>
+  <% @activity.each do |activity| %>
+    var first_activity = <%= escape_javascript activity[:first_activity].to_i.to_s  %>;
+    handle.append( 
+      $('<tr/>').append( 
+        $('<td/>', { class:first_activity } )
+      )
+    );
+    var activity_handle = $('.' + first_activity);
 
-	//append the changes
-	var act_list = "act_list_<%= activity[:first_activity].to_i.to_s %>"
-	var object_text = $('<p/>').append( $('<ul/>', { id:act_list } ) );
-	<% activity[:activity_text].each do |act_text| %>
-		var act_text = $.parseHTML("<%= escape_javascript(act_text).html_safe %>");
-		object_text.find('#' + act_list).append( $('<li/>').append(act_text) );
-	<% end %>
-	activity_handle.append(object_text);
+    //append when it was created
+    activity_handle.append( 
+      $('<div/>', { class:'text-center page-header' } ).append (
+        $.parseHTML("<h3><%= escape_javascript( 
+          distance_of_time_in_words(activity[:first_activity].to_i, DateTime.now.to_i ))  %> ago</h3>" 
+        )
+      ) 
+    );	
 
-	//append the pictures
-	<% if !activity[:photos].empty? then %>
-		var photo_id = "photos_<%= activity[:first_activity].to_i.to_s %>";
-		var photo_handle = $('<p/>', { id:photo_id });
-		<% activity[:photos][0..7].each do |photo| %>
-			photo = $.parseHTML( "<%= escape_javascript( link_to(image_tag(photo.avatar.square200, :class => 'img-polaroid'), photo_view_path(@persona.screen_name, photo.id) ) ) %>" );
-			photo_handle.append(photo);
-		<% end %>
-		activity_handle.append(photo_handle);
-	<% end %>
+    //append the changes
+    /*
+    var act_list = "act_list_<%= activity[:first_activity].to_i.to_s %>"
+    var object_text = $('<p/>').append( $('<ul/>', { id:act_list } ) );
+    <% activity[:activities].each do |element| %>
+      var act_text = $.parseHTML("<%= 
+        escape_javascript([ element[1][:events].keys.join(',') , element[0].to_s].join(' ')).html_safe 
+      %>");
+      object_text.find('#' + act_list).append( $('<li/>').append(act_text) );
+    <% end %>
+    activity_handle.append(object_text);
+    */
 
-	//append the modal if the post have > 8 pictures
-	<% if activity[:photos].count > 7 then %>
-		activity_handle.append( $('<p/>', { text:'more photo buttons here' } ) );
-	<% end %>	
-	//append tags
-	<% if !activity[:tags].flatten.empty? then %>
-		var tags_text = $.parseHTML("<i class=\"icon-tags\"></i> <%= escape_javascript( activity[:tags].flatten.join(',') )  %>");
-		activity_handle.append(
-			$('<p/>').append(tags_text)
-		);
-	<% end %>
+    //append the pictures
+    <% if activity[:activities].has_key? :Photo then %>
+      var photo_id = "photos_<%= activity[:first_activity].to_i.to_s %>";
+      var photo_handle = $('<p/>', { id:photo_id });
+      <% activity[:activities][:Photo][:handle][0..7].each do |photo| %>
+        photo = $.parseHTML( "<%= escape_javascript( 
+          link_to(image_tag(photo.avatar.square200, :class => 'img-polaroid'), 
+            photo_view_path(@persona.screen_name, photo.id), :style => "padding:2px;" 
+          ) 
+        ) %>" );
+        photo_handle.append(photo);
+      <% end %>
+      activity_handle.append(photo_handle);
 
-	//append when it was created
-	activity_handle.append( 
-		$('<p/>', { text:"<%= escape_javascript( distance_of_time_in_words(activity[:first_activity].to_i, DateTime.now.to_i ))  %> ago" } ) 
-	);	
+      //append the modal if the post have > 8 pictures
+      <% if activity[:activities][:Photo][:handle].count > 7 then %>
+        more_photos_handle = $('<p/>');
+        more_photos_handle.append( $.parseHTML("<%= 
+          escape_javascript(
+            content_tag(:a, 'More Photos' ,
+              :href=> photo_get_more_path(Photo.last.id,
+                :targetDiv => '#morePhoto-' + activity[:first_activity].to_i.to_s,
+                :size => 'square200', :showCaption => 'false', :showIndicators=>'false',
+                :mediatype=>'fromList', :theList => activity[:activities][:Photo][:id][7..-1].to_s ),
+              :href => '#',
+              :class => 'btn btn-info call-modal', :role => 'button',
+              :data => {:toggle => 'modal',
+                :target => '#modal-' + activity[:first_activity].to_i.to_s, :remote => true }
+            )
+          )
+        %>"));
+        more_photos_handle.append( $.parseHTML("<%=
+          escape_javascript(
+            modal_dialog :id => 'modal-'+activity[:first_activity].to_i.to_s,
+              :header =>  { :show_close => true, :dismiss => 'modal' , :title => 'Other Photos' },
+              :body => content_tag(:div, '',
+                :id => 'morePhoto-' + activity[:first_activity].to_i.to_s).html_safe,
+              :footer => content_tag(:button, 'Close', :class => 'btn btn-primary',
+                :data => { :dismiss=> 'modal' } )
+          )
+        %>"));
+        activity_handle.append( more_photos_handle);
+      <% end %>	
+    <% end %>
+
+
+    //append tags
+    <% if activity[:activities].has_key? :Photo then %>
+      var tag_text = "<%= escape_javascript(
+        Photo.joins{tags}.where(
+          :id => activity[:activities][:Photo][:id]
+        ).map{ |x| x.tags }.flatten.uniq.map{ 
+          |x| link_to(x.name, tag_path(x.name) )
+        }.join(',').html_safe
+      ) %>";
+      if (tag_text != "") {
+        activity_handle.append( $('<p/>').append( $.parseHTML('<i class="icon-tags"></i> ' + tag_text)  ));
+      }
+    <% end %>
+
+  <% end %>
+
+  //update the last attribute in #recent-activity-body to the last first activity timestamp
+  handle.attr('last', '<%= @activity.last[:first_activity].to_i  %>');
+
+<% end # for unless %>
+
+<% if @activity.nil? || @activity.empty? then %>
+  $('.more-activities').fadeOut();
 <% end %>
 
-//update the last attribute in #recent-activity-body to the last first activity timestamp
-handle.attr('last', '<%= @activity_summary.last[:first_activity].to_i  %>');
