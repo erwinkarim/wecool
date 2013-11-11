@@ -1,5 +1,3 @@
-console.log('loaded activities.js.erb');
-
 //find the table
 var handle = $('<%= params[:targetDiv] %>');
 
@@ -53,7 +51,7 @@ $('#loading-activities').detach();
 
       //append the modal if the post have > 8 pictures
       <% if activity[:activities][:Photo][:handle].count > 7 then %>
-        more_photos_handle = $('<p/>');
+        more_photos_handle = $('<p/>', { class:'text-center' } );
         more_photos_handle.append( $.parseHTML("<%= 
           escape_javascript(
             content_tag(:a, 'More Photos' ,
@@ -61,8 +59,7 @@ $('#loading-activities').detach();
                 :targetDiv => '#morePhoto-' + activity[:first_activity].to_i.to_s,
                 :size => 'square200', :showCaption => 'false', :showIndicators=>'false',
                 :mediatype=>'fromList', :theList => activity[:activities][:Photo][:id][7..-1].to_s ),
-              :href => '#',
-              :class => 'btn btn-info call-modal', :role => 'button',
+              :class => 'btn btn-info call-modal', :role => 'button', :id => 'more-photo-link-' + activity[:first_activity].to_i.to_s,
               :data => {:toggle => 'modal',
                 :target => '#modal-' + activity[:first_activity].to_i.to_s, :remote => true }
             )
@@ -70,15 +67,22 @@ $('#loading-activities').detach();
         %>"));
         more_photos_handle.append( $.parseHTML("<%=
           escape_javascript(
-            modal_dialog :id => 'modal-'+activity[:first_activity].to_i.to_s,
-              :header =>  { :show_close => true, :dismiss => 'modal' , :title => 'Other Photos' },
+            modal_dialog :id => 'modal-'+activity[:first_activity].to_i.to_s, 
+              :header =>  { :show_close => true, :dismiss => 'modal' , :title => 'More Photos' },
               :body => content_tag(:div, '',
                 :id => 'morePhoto-' + activity[:first_activity].to_i.to_s).html_safe,
               :footer => content_tag(:button, 'Close', :class => 'btn btn-primary',
                 :data => { :dismiss=> 'modal' } )
           )
         %>"));
+
         activity_handle.append( more_photos_handle);
+
+				//if modal gets called, prevent the orignal link from calling more pictures in
+				$('#modal-<%= activity[:first_activity].to_i.to_s %>').on('show', function(){
+					$('#more-photo-link-<%= activity[:first_activity].to_i.to_s %>').attr('href', '#');
+				});
+
       <% end %>	
     <% end %>
 

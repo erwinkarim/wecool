@@ -48,6 +48,7 @@
 				get_activity();
 			});
 
+
 		});
   };
   //Paloma.callbacks['personas']['activities'] = function(params){
