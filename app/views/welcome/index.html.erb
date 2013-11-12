@@ -1,3 +1,5 @@
+<div class="row-fluid">
+  <div class="span12">
 <% if persona_signed_in? then %>
   <div class="row-fluid header">  
     <% @focus = 'welcome' %>
@@ -10,9 +12,11 @@
   <% else %>
     <div class="row-fluid">
       <div class="span12">
-        <h2>Your recent photos 
-          <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
-        </h2>
+        <div class="page-header">
+          <h2>Your recent photos 
+            <small><%= link_to 'see more...', photo_path(current_persona.screen_name, :view => 'raw') %></small>
+          </h2>
+        </div>
         <div style="overflow-x:scroll; white-space:nowrap;">
           <% @myPhotos.each do |thisphoto| %>
             <%= link_to image_tag(thisphoto.avatar.square200, :class => 'img-polaroid'), 
@@ -58,10 +62,14 @@
       </div>
     </div>
   <% end %>
-<% end %>
-<h2>Recently on ...</h2>
-<% if @photos.empty? then %>
-  <h2>No photos yet...</h2>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="page-header"><h2>Recently..</h2></div>
+      <%= render "photos/recent" %>
+    </div>
+  </div>
 <% else %>
-  <%= render "photos/recent" %>
+  <%= render "static_page/front" %>
 <% end %>
+  </div>
+</div><!-- div class="row"-->
