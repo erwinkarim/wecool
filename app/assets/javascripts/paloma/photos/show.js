@@ -24,7 +24,7 @@
     //get the first few
     $.ajax({
       url: '/photos/get_more/' + params['last_photo_id'], 
-      data: {limit:10, includeFirst:'true', size:'small', author:params['pesona'], 
+      data: {limit:10, includeFirst:'true', size:'small', author:params['persona'], 
         featured:isFeatured }, 
       beforeSend: indicator.load('.last-div', 'after'),
       dataType: 'script'
