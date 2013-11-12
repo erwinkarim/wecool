@@ -42,7 +42,7 @@ $('#loading-activities').detach();
       <% activity[:activities][:Photo][:handle][0..7].each do |photo| %>
         photo = $.parseHTML( "<%= escape_javascript( 
           link_to(image_tag(photo.avatar.square200, :class => 'img-polaroid'), 
-            photo_view_path(@persona.screen_name, photo.id), :style => "padding:2px;" 
+            photo_view_path(Persona.find(photo.persona_id).screen_name , photo.id), :style => "padding:2px;" 
           ) 
         ) %>" );
         photo_handle.append(photo);
@@ -59,7 +59,8 @@ $('#loading-activities').detach();
                 :targetDiv => '#morePhoto-' + activity[:first_activity].to_i.to_s,
                 :size => 'square200', :showCaption => 'false', :showIndicators=>'false',
                 :mediatype=>'fromList', :theList => activity[:activities][:Photo][:id][7..-1].to_s ),
-              :class => 'btn btn-info call-modal', :role => 'button', :id => 'more-photo-link-' + activity[:first_activity].to_i.to_s,
+              :class => 'btn btn-info call-modal', :role => 'button', 
+              :id => 'more-photo-link-' + activity[:first_activity].to_i.to_s,
               :data => {:toggle => 'modal',
                 :target => '#modal-' + activity[:first_activity].to_i.to_s, :remote => true }
             )
