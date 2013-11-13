@@ -105,11 +105,16 @@ Wecool::Application.routes.draw do
     match '/store/:persona_id/order_detail/:order_id' => :order_detail, :via => :get, :as => 'store_order_detail'
   end
 
-  match '/static/tour' => 'static_page#tour', :via => :get, :as => 'tour'
-  match '/static/aboutUs' => 'static_page#aboutUs', :via => :get, :as => 'aboutUs'
-  match '/static/termsAndConditions' => 'static_page#termsAndConditions', :via => :get, :as => 'termsAndConditions'
-  match '/static/browser_unsupported' => 'static_page#browser_unsupported', :via => :get, 
-    :as => 'browser_unsupported'
+	
+	controller :static_page do 
+		match '/static/tour' => :tour, :via => :get, :as => 'tour'
+		match '/static/tour/about_wecool' => :'tour/about_wecool', :via => :get, :as =>'about_wecool' 
+		match '/static/tour/online_editing' => :'tour/online_editing', :via => :get, :as =>'online_editing' 
+		match '/static/tour/organize_photo' => :'tour/organize_photo', :via => :get, :as =>'organize_photo' 
+		match '/static/aboutUs' => :aboutUs, :via => :get, :as => 'aboutUs'
+		match '/static/termsAndConditions' => :termsAndConditions, :via => :get, :as => 'termsAndConditions'
+		match '/static/browser_unsupported' => :browser_unsupported, :via => :get, :as => 'browser_unsupported'
+	end
 
 
   # The priority is based upon order of creation:
