@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="pull-right">
 		<ul class="nav nav-pills">
-			<li><%= link_to 'About Wecool', about_wecool_path %></li>
-			<li><%= link_to 'Online Editing', online_editing_path %></li>
-			<li><%= link_to 'Organize Photo', organize_photo_path %></li>
+			<li class="<%= controller.action_name == 'tour/about_wecool' ? 'active' : '' %>"><%= link_to 'About Wecool', about_wecool_path %></li>
+			<li class="<%= controller.action_name == 'tour/online_editing' ? 'active' : '' %>"><%= link_to 'Online Editing', online_editing_path %></li>
+			<li class="<%= controller.action_name == 'tour/organize_photo' ? 'active' : '' %>"><%= link_to 'Organize Photo', organize_photo_path %></li>
 		</ul>
 	</div>
 </div>
