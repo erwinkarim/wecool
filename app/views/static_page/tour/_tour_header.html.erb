@@ -7,3 +7,11 @@
 		</ul>
 	</div>
 </div>
+<%= content_for :other_javascript do %>
+<script type="text/javascript">
+	//for unknown reason now, the menu doesn't work unless you call dropdown
+	$('.dropdown:first').find('a:first').dropdown()
+	
+</script>
+
+<% end %>
