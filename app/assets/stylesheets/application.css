@@ -26,3 +26,8 @@ transform:rotate(90deg);
   border: 1px solid red;
 }
 
+.hero-unit-front {
+  height:400px;
+  background-position: center;
+  background-repeat: no-repat;
+}
