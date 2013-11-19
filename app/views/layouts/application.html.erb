@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? 'Wecool - ' + yield(:title) : "Wecool" %></title>
+    <title><%= content_for?(:title) ? 'Sirap - ' + yield(:title) : "Sirap - Where your photos call home" %></title>
     <!--%= javascript_include_tag "application", controller_name %-->
     <!--%= yield :other_javascript %-->
 
@@ -17,6 +17,7 @@
 
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= stylesheet_link_tag controller_name, :media => "all" %>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
 
     <!-- For third-generation iPad with high-resolution Retina display: -->
     <!-- Size should be 144 x 144 pixels -->
@@ -40,7 +41,7 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fluid-top">
+    <div class="navbar navbar-fluid-top thin-font">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -49,7 +50,7 @@
             <span class="icon-bar"></span>
           </a>
           <!--a class="brand" href="#">Wecool</a-->
-          <%= link_to 'Wecool', root_path, :class=>'brand' %>
+          <%= link_to 'Sirap', root_path, :class=>'brand' %>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="dropdown">
