@@ -1,6 +1,10 @@
 ---
 ZeroClipboard.swf: ZeroClipboard-a41d900e17827b58395e140e739b0bfb.swf
 Jcrop.gif: Jcrop-439599ec2f8447453c1a0ba7c9f1b229.gif
+front/kecak.jpg: front/kecak-d604fe19a03d7fb52fc9a91bd159de64.jpg
+front/sand.jpg: front/sand-9a5f80400fb2eedefaae5d06ce0478ba.jpg
+front/starhill.jpg: front/starhill-8ac750e9c3fce646b4f471a31355c1ac.jpg
+front/stone.jpg: front/stone-4d8c9543fac4e026aff70eb22d0d2c7e.jpg
 icon/first-photo/large.jpg: icon/first-photo/large-bbed216a2aede27f9304d688a93fff20.jpg
 icon/first-photo/medium.jpg: icon/first-photo/medium-b3bd0d2eff443ae8330b74467d21737d.jpg
 icon/first-photo/original.jpg: icon/first-photo/original-fe5a7084e0437f309bdc1195bc5a6c59.jpg
@@ -36,7 +40,7 @@ icon/zero-photo/tiny.jpg: icon/zero-photo/tiny-612018935ce13c13d1bd04c0cb8981a8.
 icon/zero-photo/xlarge.jpg: icon/zero-photo/xlarge-58c86ddbbb33aa71ec6f1a9bbf48c25a.jpg
 rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
 application.js: application-0758b5d359a3a26758d84038587e2414.js
-application.css: application-dbf3fc1dd40399264ea56533544a92a6.css
+application.css: application-5530ad63ef0b2050830021993f4b86e9.css
 loading.gif: loading-c811d47aa4e029305c67d71fe56dff4e.gif
 progressbar.gif: progressbar-cb373a116c7c7be63909c566c169cec1.gif
 FontAwesome.otf: FontAwesome-bbdb41bed0b05c51639b3a9ea74cb741.otf

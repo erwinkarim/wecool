@@ -44,7 +44,7 @@
 
 /* line 39, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .progress-animated .bar {
-  background: url(/assets/progressbar.gif) !important;
+  background: url(/assets/progressbar-cb373a116c7c7be63909c566c169cec1.gif) !important;
   filter: none;
 }
 
@@ -54,7 +54,7 @@
   left: 50%;
   width: 128px;
   height: 128px;
-  background: url(/assets/loading.gif) center no-repeat;
+  background: url(/assets/loading-c811d47aa4e029305c67d71fe56dff4e.gif) center no-repeat;
   display: none;
 }
 
@@ -7431,8 +7431,8 @@ a.badge:focus {
 
 @font-face {
   font-family: 'FontAwesome';
-  src: url('/assets/fontawesome-webfont.eot');
-  src: url('/assets/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('/assets/fontawesome-webfont.woff') format('woff'), url('/assets/fontawesome-webfont.ttf') format('truetype'), url('/assets/fontawesome-webfont.svg#fontawesomeregular') format('svg');
+  src: url('/assets/fontawesome-webfont-f67888d5955644864d05427053b88918.eot');
+  src: url('/assets/fontawesome-webfont-f67888d5955644864d05427053b88918.eot?#iefix') format('embedded-opentype'), url('/assets/fontawesome-webfont-c3539c6f9334bf6e70944599794b1976.woff') format('woff'), url('/assets/fontawesome-webfont-2a4fc310ee5f425d5b6b07d5d7106940.ttf') format('truetype'), url('/assets/fontawesome-webfont-12f7125cf5e74cba26c95696badeb410.svg#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -9102,18 +9102,18 @@ transform:rotate(90deg);
 }
 
 #front-panel-1{
-  background-image: url(/assets/front/kecak.jpg);
+  background-image: url(/assets/front/kecak-d604fe19a03d7fb52fc9a91bd159de64.jpg);
   background-repeat: no-repeat;
 }
 
 #front-panel-2{
-  background-image: url(/assets/front/stone.jpg) 
+  background-image: url(/assets/front/stone-4d8c9543fac4e026aff70eb22d0d2c7e.jpg) 
 }
 
 #front-panel-3{
-  background-image: url(/assets/front/sand.jpg) 
+  background-image: url(/assets/front/sand-9a5f80400fb2eedefaae5d06ce0478ba.jpg) 
 }
 
 #front-panel-4{
-  background-image: url(/assets/front/starhill.jpg) 
+  background-image: url(/assets/front/starhill-8ac750e9c3fce646b4f471a31355c1ac.jpg) 
 }
