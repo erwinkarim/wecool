@@ -51,22 +51,20 @@
               if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
                 # executed when viewing photostream or mediasets
                 @photoList = photo.map{ |x| x.nil? ? '' : link_to( 
-                  image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
-                  :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+                  image_tag(x.avatar.square200, :alt => x.title), photo_view_url(persona.screen_name, x.id) 
                 ).html_safe }.join 
                 photoAvatar = photo.first.avatar
               elsif default_options[:mode] == 'mediaset_photos' then 
                 # executed when viewing mediaset photos
                 @photoList = photo.photos.limit(4).map{ |x| x.nil? ? '' : link_to( 
-                  image_tag("#{request.protocol}#{request.host_with_port}" + x.avatar.square200.url, 
-                  :alt => x.title), photo_view_url(persona.screen_name, x.id) 
+                  image_tag(x.avatar.square200.url, :alt => x.title), photo_view_url(persona.screen_name, x.id) 
                 ).html_safe }.join 
                 photoAvatar = photo.photos.empty? ? nil : photo.photos.first.avatar
               else 
                 #usually executed when viewing single photos
                 @photoList = link_to( 
-                  image_tag("#{request.protocol}#{request.host_with_port}" + photo.avatar.square200.url, 
-                  :alt => photo.title), photo_view_url(persona.screen_name, photo) 
+                  image_tag(photo.avatar.square200.url, :alt => photo.title), 
+                  photo_view_url(persona.screen_name, photo) 
                 ) 
                 photoAvatar = photo.avatar
               end 
