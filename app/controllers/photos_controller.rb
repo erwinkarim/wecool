@@ -575,7 +575,6 @@ class PhotosController < ApplicationController
 
       #format email and the send it out
       AppMailer.share( options ).deliver
-      
 
     end
 

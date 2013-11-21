@@ -4,7 +4,7 @@ Jcrop.gif: Jcrop-439599ec2f8447453c1a0ba7c9f1b229.gif
 front/kecak.jpg: front/kecak-d604fe19a03d7fb52fc9a91bd159de64.jpg
 front/sand.jpg: front/sand-9a5f80400fb2eedefaae5d06ce0478ba.jpg
 front/starhill.jpg: front/starhill-8ac750e9c3fce646b4f471a31355c1ac.jpg
-front/stone.jpg: front/stone-4d8c9543fac4e026aff70eb22d0d2c7e.jpg
+front/stone.jpg: front/stone-41832bad110c89eb32260c214f1a3d05.jpg
 icon/first-photo/large.jpg: icon/first-photo/large-bbed216a2aede27f9304d688a93fff20.jpg
 icon/first-photo/medium.jpg: icon/first-photo/medium-b3bd0d2eff443ae8330b74467d21737d.jpg
 icon/first-photo/original.jpg: icon/first-photo/original-fe5a7084e0437f309bdc1195bc5a6c59.jpg
@@ -27,6 +27,8 @@ icon/last-photo/thumb100.jpg: icon/last-photo/thumb100-083190467d1c1fab9dfde5fb2
 icon/last-photo/thumb50.jpg: icon/last-photo/thumb50-1c423125abea0a5a84e5ffc9787d8690.jpg
 icon/last-photo/tiny.jpg: icon/last-photo/tiny-f8d6633153d40bf60dc96084a9583911.jpg
 icon/last-photo/xlarge.jpg: icon/last-photo/xlarge-860c20862f5ee96c281d416d00240035.jpg
+icon/persona-avatar/persona-normal.jpg: icon/persona-avatar/persona-normal-217fb2bb47e50f025861da26330ab14a.jpg
+icon/persona-avatar/persona-small.jpg: icon/persona-avatar/persona-small-e7f8151fe32347c6da9177ed05e1b4c8.jpg
 icon/zero-photo/large_zerophoto.jpg: icon/zero-photo/large_zerophoto-ed8abbf03f4451e786befddf83cfba62.jpg
 icon/zero-photo/medium.jpg: icon/zero-photo/medium-d3497348d453a4594afed7f9fa93055d.jpg
 icon/zero-photo/original.jpg: icon/zero-photo/original-151ce86723e32a567539b523212fbf4a.jpg
@@ -40,7 +42,7 @@ icon/zero-photo/tiny.jpg: icon/zero-photo/tiny-612018935ce13c13d1bd04c0cb8981a8.
 icon/zero-photo/xlarge.jpg: icon/zero-photo/xlarge-58c86ddbbb33aa71ec6f1a9bbf48c25a.jpg
 rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
 application.js: application-0758b5d359a3a26758d84038587e2414.js
-application.css: application-cf39eef252079efa177b4e58e0a04152.css
+application.css: application-415b033a9b010b8e01930ea42c6d7bc6.css
 loading.gif: loading-c811d47aa4e029305c67d71fe56dff4e.gif
 progressbar.gif: progressbar-cb373a116c7c7be63909c566c169cec1.gif
 FontAwesome.otf: FontAwesome-bbdb41bed0b05c51639b3a9ea74cb741.otf

@@ -1,5 +1,6 @@
 #class AppMailer < ActionMailer::Base
 class AppMailer < Devise::Mailer
+  layout 'mail'
   helper :application
   default from: "no-reply@sirap.co"
 
@@ -10,6 +11,7 @@ class AppMailer < Devise::Mailer
     mail(:to => @persona.email, :subject => "Test")
   end 
 
+  #to share photos/sets to other people using email
   def share options={}
     @default_options = { :from => 'Sirap <no-reply@sirap.co>', :to => 'devnull@sirap.co',  :subject => 'the subject', 
       :url => 'http://sirap.co/', :persona_sender => nil, :message => nil }

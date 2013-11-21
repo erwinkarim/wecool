@@ -2,12 +2,14 @@
 <html>
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <%= javascript_include_tag "application" %>
+    <title><%= content_for?(:title) ? 'Sirap - ' + yield(:title) : "Sirap - Where your photos call home" %></title>
     <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row-fluid">
+    <div class="container">
+      <div class="row">
         <div class="span12">
           <%= yield %>
         </div>
