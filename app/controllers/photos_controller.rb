@@ -572,9 +572,10 @@ class PhotosController < ApplicationController
       #send email about sharing this photo :url from :persona_id
       options = { :to => params[:email], :url => params[:url], :message => params[:description], 
         :photoList => params[:photoList] }
+
       #format email and the send it out
-      test = AppMailer.share( options )
-      puts test
+      AppMailer.share( options ).deliver
+      
 
     end
 
