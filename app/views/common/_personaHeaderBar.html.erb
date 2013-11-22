@@ -1,7 +1,7 @@
 <div class="page-header row-fluid">
   <div class="span3">
     <div class="dropdown pull-right" id="persona-button-group">
-      <% avatar_pic = @persona.avatar.path.nil? ? 'http://placehold.it/75x75' : @persona.avatar.normal %>
+      <% avatar_pic = @persona.avatar.path.nil? ? 'icon/persona-avatar/persona-small.jpg' : @persona.avatar.normal %>
       <%= link_to image_tag(avatar_pic)+ '<b class="caret"></b>'.html_safe , 
         '#', :class=>'dropdown-toggle', :'data-toggle' => 'dropdown', :id=>'persona-photo-button'%>
       <ul class="dropdown-menu pull-right" role="menu" id="persona-photo-menu" >

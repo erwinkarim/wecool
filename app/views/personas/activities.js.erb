@@ -110,6 +110,11 @@ $('#loading-activities').detach();
 <% end # for unless %>
 
 <% if @activity.nil? || @activity.empty? then %>
+  //show when you joined than fade out
+  join_row = $('<tr/>').append(
+    $('<td/>', {text:'Joined <%= @persona.created_at.localtime.to_formatted_s(:long) %>'} )
+  );
+  handle.append(join_row);
   $('.more-activities').fadeOut();
 <% end %>
 
