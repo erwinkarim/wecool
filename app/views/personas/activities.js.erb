@@ -112,7 +112,14 @@ $('#loading-activities').detach();
 <% if @activity.nil? || @activity.empty? then %>
   //show when you joined than fade out
   join_row = $('<tr/>').append(
-    $('<td/>', {text:'Joined <%= @persona.created_at.localtime.to_formatted_s(:long) %>'} )
+    $('<td/>').append(
+      $('<div/>').append(
+        $('<img />', { src:'<%= asset_path("icon/persona-avatar/persona-normal.jpg") %>', class:'pull-left'} )
+      )
+    )
+  );
+  join_row.find('td').append(
+    $.parseHTML('<div class="span8"><p class="lead">Joined on <%= @persona.created_at.to_date.to_formatted_s(:long) %></p></div>')
   );
   handle.append(join_row);
   $('.more-activities').fadeOut();
