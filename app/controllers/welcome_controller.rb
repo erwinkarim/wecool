@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+	before_filter :check_for_mobile, :only => [:index]
+
   def index
     #show recent 20
     @photos = Photo.find(:all, :limit=> 20, :order => 'id desc')
