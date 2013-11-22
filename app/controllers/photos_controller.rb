@@ -370,7 +370,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     @persona = Persona.find(@photo.persona_id)
     #@exif = EXIFR::JPEG.new(@photo.avatar.path).exif
-    @exif = YAML.load @photo.exif
+    @exif = @photo.exif.nil? ? nil : YAML.load(@photo.exif)
 
     respond_to do |format|
       format.html # view_exif.html.erb

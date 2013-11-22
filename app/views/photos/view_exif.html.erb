@@ -3,30 +3,28 @@
 </div>
 
 <div class="row-fluid">
-  <div class="span9">
-  <div>
-    <%= image_tag @photo.avatar.large  %>
-  </div>
-  <div>
-    <% if @exif.nil? then %>
-      <table class="table">
-        <tr><td>No Exif data</td></tr>
-      </table>
-    <% else %>
-      <dl class="dl-horizontal">
-      <% @exif.to_hash.each_pair do |key,value| %>
-        <dt><strong><%= key %></strong></dt>
-        <dd><%= value.nil? ? 'No value' : value.to_s.html_safe %></dd>
-      <% end %>
+  <div class="span12">
+    <div>
+      <%= image_tag @photo.avatar.large, :class=>'img-polaroid center-image' %>
+    </div>
+    <div>
+      <% if @exif.nil? then %>
+        <p class="lead">No EXIF data</p>
+      <% else %>
+        <dl class="dl-horizontal">
+        <% @exif.to_hash.each_pair do |key,value| %>
+          <dt><strong><%= key %></strong></dt>
+          <dd><%= value.nil? ? 'No value' : value.to_s.html_safe %></dd>
+        <% end %>
 
-      </dl>
-  <% end %>
-  </div>
+        </dl>
+    <% end %>
+    </div>
   </div><!-- span9 -->
 </div><!-- row -->
 
 <div class="row-fluid">
-  <div class="span9 form-actions">
+  <div class="span12 form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
                 photo_view_path(@persona.screen_name, @photo.id), :class => 'btn'  %>
   </div>
