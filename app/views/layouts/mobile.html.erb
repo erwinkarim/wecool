@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Wecool" %></title>
+    <title><%= content_for?(:title) ? 'Sirap - ' + yield(:title) : "Sirap - Where your photos call home" %></title>
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -13,6 +13,8 @@
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag controller_name, :media => "all" %>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
 
     <!-- For third-generation iPad with high-resolution Retina display: -->
     <!-- Size should be 144 x 144 pixels -->
@@ -44,25 +46,91 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Wecool</a>
-          <div class="container nav-collapse">
+          <%= link_to 'Sirap', root_path, :class=>'brand' %>
+          <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" 
+                  data-toggle="dropdown"><i class="icon-globe"></i> Explore<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to '<i class="icon-picture"></i> Photos'.html_safe, photos_path  %></li>
+                  <li><%= link_to '<i class="icon-book"></i> Sets'.html_safe, mediasets_path %></li>
+                  <li><%= link_to '<i class="icon-group"></i> Personas'.html_safe, personas_path %></li>
+                  <li><%= link_to '<i class="icon-tags"></i> Tags'.html_safe, tags_path %></li>
+                </ul>
+              </li>
+							<!-- drop down menu -->
+            <% if persona_signed_in? then %>
+              <ul class="nav pull-right">
+              <li class="dropdown">
+                <!-- for the store-->
+                <%= link_to ('<i class="icon-shopping-cart"></i> ('+ 
+									content_tag(:span, current_persona.carts.where(:order_id => nil).count, :class=> 'cart_count')+ ')' + 
+                  '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
+                    :class => 'dropdown-toggle', :role=> 'button'  %>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to '<i class="icon-shopping-cart"></i> Your Cart / Checkout'.html_safe, 
+                    store_checkout_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-truck"></i> Your Orders'.html_safe, 
+                    store_orders_path(current_persona.screen_name) %></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <%= link_to ('<i class="icon-user"></i> ' + current_persona.screen_name + 
+                  '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
+                    :class => 'dropdown-toggle', :role=> 'button'  %>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to '<i class="icon-picture"></i> My Photos'.html_safe, 
+                    photo_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-book"></i> My Sets'.html_safe, 
+                    mediaset_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-group"></i> My Followers'.html_safe, 
+                    follower_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-tags"></i> My Tags'.html_safe, 
+                    persona_tags_path(current_persona.screen_name) %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to '<i class="icon-user"></i> View Your Page'.html_safe, 
+                    persona_path(current_persona.screen_name) %></li>
+                  <li><%= link_to '<i class="icon-wrench"></i> Edit Your Profile'.html_safe, 
+                    edit_persona_path(current_persona.screen_name) %></li>
+                  <li class="divider"></li>
+                  <li>
+                    <%= link_to '<i class="icon-smile"></i> Update Persona Picture'.html_safe, 
+                      persona_get_profile_pic_path(current_persona.screen_name) %>
+                  </li>
+                  <li><%= link_to '<i class="icon-key"></i> Change Password'.html_safe, 
+                    edit_persona_registration_path %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to '<i class="icon-signout"></i> Sign Out'.html_safe, 
+                    destroy_persona_session_path, :method => :delete %></li>
+                </ul>
+              </li>
+              </ul>
+            <% else %>
+              <!-- inline form -->
+              <%= form_for('persona', :url => persona_session_path, 
+                :html => { :class=> 'navbar-form form-inline pull-right' } ) do |f| %>
+                <%= f.text_field :email, :placeholder => 'email' %>
+                <%= f.password_field :password, :placeholder => 'password' %>
+                <%= f.label :remember_me, :class=> 'checkbox' do %>
+                  <%= f.check_box :remember_me, :class=> 'checkbox' %> <%= 'Remember'.html_safe %>
+                <% end %>
+                <%= f.submit 'Sign In'.html_safe, :class=>'btn' %>
+              <% end %>
+            <% end %>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="margin: auto -20px;">
 			
 			<%= bootstrap_flash %>
 			<%= yield %>
 
       <footer>
-        <p>&copy; Company 2013</p>
+        <p>&copy; Sirap Co. 2012-13 | <%= link_to 'About Us', aboutUs_path %> | <%= link_to 'Terms of Use', termsAndConditions_path %></p>
       </footer>
 
     </div> <!-- /container -->
@@ -70,7 +138,8 @@
     <!-- Javascripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "application", controller_name %>
+    <%= yield :other_javascript %>
 
   </body>
 </html>
