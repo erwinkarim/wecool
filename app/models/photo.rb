@@ -164,11 +164,7 @@ class Photo < ActiveRecord::Base
       #this is not good, need to get better way of doing it
       # read http://www.michael-noll.com/blog/2013/01/18/implementing-real-time-trending-topics-in-storm/
       test = Array.new
-			if Photo.all.empty? then
-				date_range = 1.week.ago
-			else
-				date_range = Photo.where{ persona_id.in persona_range }.pluck(:created_at).max - 2.weeks
-			end
+      date_range = Photo.where{ persona_id.in persona_range }.pluck(:created_at).max - 2.weeks
       #Photo.where{ (created_at.gt date_range ) & (persona_id.in persona_range) }. order(
       #  'created_at desc').map{ |x| test.empty? ? test << [x] :
       #  (test.last.last.created_at.to_date == x.created_at.to_date ? test.last << x : test << [x]) 
