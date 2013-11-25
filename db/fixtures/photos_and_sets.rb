@@ -7,14 +7,14 @@ file_id = 0
 set_order = 1
 
 Dir.foreach(base_dir) do |entry|
-  next if entry == '.' or entry == '..'
+  next if !entry.index(/^\./).nil? 
   Mediaset.seed(:id,
     #  Mediaset(id: integer, title: string, description: text, persona_id: integer, created_at: datetime, 
     #   updated_at: datetime, up_votes: integer, down_votes: integer, featured: boolean, system_visible: boolean)
-    { id:set_id, title:entry, description:'Seed data', persona_id:1, featured:true, system_visible:true}
+    { id:set_id, title:entry, description:'Seed data', persona_id:1, featured:(rand(1..100) > 50 ), system_visible:true}
   )
   Dir.foreach(base_dir + entry) do |file|
-    next if file == '.' or file == '..'
+    next if !file.index(/^\./).nil?
         
     seed_file = File.open(base_dir+entry+file) 
     Photo.seed(:id,
