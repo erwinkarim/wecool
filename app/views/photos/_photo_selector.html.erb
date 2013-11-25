@@ -7,7 +7,7 @@
   </div>
 
   <br />
-  <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
+  <div class="control-group row-fluid endless-photos" id="photo-list" last="<%= Photo.last.nil? ? 0 : Photo.last.id %>" style="overflow-x:scroll; white-space:nowrap;" >
     <div class="last-div endless_scroll_inner_wrap">
     </div>
   </div>
@@ -27,7 +27,7 @@
   };
 
   $.ajax({
-    url: '/photos/get_more/<%= Photo.last.id %>',
+    url: '/photos/get_more/<%= Photo.last.nil? ? 0 : Photo.last.id %>',
     data: getConditions, 
     dataType: 'script'
   });
@@ -56,7 +56,7 @@
       if( $(this).val() != 'ignore' ){
         $('.endless_scroll_inner_wrap').empty();
         $.ajax({
-          url: '/photos/get_more/<%= Photo.last.id %>',
+          url: '/photos/get_more/<%= Photo.last.nil? ? 0 : Photo.last.id %>',
           data: getConditions,
           dataType: 'script'
         });

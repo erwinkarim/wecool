@@ -10,7 +10,7 @@
     </ul>
   </div>
 </div>
-<div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
+<div class="row-fluid endless-photos" last="<%= @photos.empty? ? 0 : @photos.first.id %>" >
   <div class="last-div endless_scroll_inner_wrap"></div>
 </div>
 <br />
@@ -27,7 +27,7 @@
 
     //get the first few photos
     $.ajax({
-      url: '/photos/get_more/<%= @photos.first.id %>', 
+      url: '/photos/get_more/<%= @photos.empty? ? 0 : @photos.first.id %>', 
       data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
       beforeSend: indicator.load('.last-div', 'after'),
       dataType: 'script'
@@ -74,7 +74,7 @@
 
 
       //reset to defaults
-      $('.endless-photos').attr('last', <%= Photo.last.id %>);
+      $('.endless-photos').attr('last', <%= @photos.empty? ? 0 : Photo.last.id %>);
       fetchSize = 'tiny';
 
       //change for each unique tab

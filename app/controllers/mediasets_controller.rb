@@ -48,7 +48,7 @@ class MediasetsController < ApplicationController
       end
     end
 
-    js :params => { :mediaset_id => Mediaset.last.id , :persona_id => @persona.id, 
+    js :params => { :mediaset_id => Mediaset.all.empty? ? 0 : Mediaset.last.id , :persona_id => @persona.id, 
       :has_mediaset => !@persona.mediasets.empty?  }
 
     respond_to do |format|
