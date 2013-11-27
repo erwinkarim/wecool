@@ -1,0 +1,111 @@
+<div class="row-fluid navbar" id="photoSelectorType">
+  <div class="navbar-inner">
+    <ul class="nav" id="photoTypeSelectorTab">
+      <li class="active" id="recentlyFeatured"><a href="#"><i class="icon-star"></i> Featured</a><li>
+      <li class="" id="recentlyTrendy"><%= link_to '<i class="icon-reorder"></i> Trendy'.html_safe, '#' %></li>
+      <% if persona_signed_in? then %>
+        <li id="recentlyTracked"><%= link_to '<i class="icon-screenshot"></i> Following'.html_safe, '#' %></li>
+      <% end %>
+      <li id="recentlyAddedRaw"><%= link_to '<i class="icon-picture"></i> Raw'.html_safe, '#' %><li>
+    </ul>
+  </div>
+</div>
+<div class="row-fluid endless-photos" last="<%= @photos.first.id %>" >
+  <div class="last-div endless_scroll_inner_wrap"></div>
+</div>
+<br />
+<div class="row-fluid text-center">
+  <a name="last-frame"></a>
+  <%= link_to 'Load More Photos', '#last-frame' , :class=>'btn btn-primary btn-large btn-block', :id=>'load-more-photos' %>
+</div>
+<%= content_for :other_javascript do %>
+<script type="text/javascript">
+  $(document).ready( function(){
+    var isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true', 'false'];
+    var theMediaType = 'featured';
+    var fetchSize = 'width980';
+
+    //get the first few photos
+    $.ajax({
+      url: '/photos/get_more/<%= @photos.first.id %>', 
+      data: {size:fetchSize, limit:'20', includeFirst:'true', featured:isFeatured, mediatype:theMediaType}, 
+      beforeSend: indicator.load('.last-div', 'after'),
+      dataType: 'script'
+    });
+   
+    //keep loading until the end
+    $(document).endlessScroll({
+      fireOnce: true,
+      fireDelay: 500, 
+      bottomPixels: 250, 
+      intervalFrequency: 100, 
+      ceaseFireOnEmpty: false, 
+      ceaseFire: function(){
+        return $('.last-div').length ? false : true;
+      }, 
+      loader: '<div class="pull-left">loading...</div>', 
+      callback: function(){
+          $.ajax({
+            url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+            data: { size:fetchSize, featured:isFeatured, mediatype:theMediaType } ,
+            beforeSend: indicator.load('.last-div', 'after'),
+            dataType: 'script'
+          });
+      }, 
+      ceaseFire: function(s){
+        s<5 ? false : true;
+      }
+    });
+
+    //set the minimum height
+    $('.endless-photos').css('min-height', $(window).height() );
+    //handle nav bar
+    $('#photoTypeSelectorTab li').click( function(event){
+      event.preventDefault();
+      $('.active').toggleClass('active');
+      $(this).toggleClass('active');
+
+      //reload the photos
+      //$('.carousel').detach();
+      $('.last-div').empty(); 
+      isFeatured = $('#recentlyFeatured').hasClass('active') ? 'true' : ['true','false'];
+      isTrendy = $('#recentlyTrendy').hasClass('active') ? true : false;
+      isTracked = $('#recentlyTracked').hasClass('active') ? true : false;
+
+
+      //reset to defaults
+      $('.endless-photos').attr('last', <%= Photo.last.id %>);
+
+      //change for each unique tab
+      if (isTracked) {
+        theMediaType = 'tracked';
+      } else if (isFeatured == 'true'){
+        theMediaType = 'featured';
+      } else if (isTrendy) {
+        theMediaType = 'trending' 
+        $('.endless-photos').attr('last', '0');
+      }else {
+        theMediaType = 'photos';  
+      } 
+
+      $.ajax({
+        url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+        data: { size:fetchSize, limit:20, featured:isFeatured, includeFirst:true, mediatype:theMediaType} ,
+				beforeSend: indicator.load('.last-div', 'after'),
+        dataType: 'script'
+      });
+    });
+   
+    //manually load more photos (happens when your screen is too big 
+    $('#load-more-photos').click( function(){
+      $.ajax({
+        url: '/photos/get_more/'+$('.endless-photos').attr('last'), 
+        data: { size:fetchSize,  limit:20, featured:isFeatured, mediatype:theMediaType } ,
+				beforeSend: indicator.load('.last-div', 'after'),
+        dataType: 'script'
+      });
+    });
+
+  });
+</script>
+<% end %>

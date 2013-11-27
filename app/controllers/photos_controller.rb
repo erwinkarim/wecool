@@ -4,6 +4,7 @@ class PhotosController < ApplicationController
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
   before_filter :check_if_reach_quota, :only => [:create]
   before_filter :authenticate_persona!, :only => [:new, :edit, :editor]
+	before_filter :check_for_mobile
 
   #how many free photos you can actually have
   FREE_PHOTO_LIMIT = 1000

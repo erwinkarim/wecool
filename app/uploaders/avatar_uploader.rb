@@ -57,11 +57,31 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   # version :thumb do
-  #   process :scale => [50, 50]
+  #   process :scale => [50, 50] [width,height]
   # end
 
   version :xlarge do 
     process :resize_to_limit => [0, 1000]
+    process :store_dimension
+  end
+
+  version :width1200 do
+    process :resize_to_limit => [1200, 0]
+    process :store_dimension
+  end
+
+  version :width980, :from_version => :width1200 do
+    process :resize_to_limit => [980, 0]
+    process :store_dimension
+  end
+
+  version :width767, :from_version => :width1200 do
+    process :resize_to_limit => [767, 0]
+    process :store_dimension
+  end
+
+  version :width480, :from_version => :width1200 do
+    process :resize_to_limit => [480, 0]
     process :store_dimension
   end
 

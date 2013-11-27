@@ -1,0 +1,46 @@
+var handle = $('<%= @options[:targetDiv] %>');
+var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
+
+<% unless @next_photos.empty? then %>
+  <% @next_photos.each do |photo| 
+      this_persona = Persona.find(photo.persona_id).screen_name
+  %>
+    var photo_element = $('<picture/>').append(
+      $('<source/>', { media:'screen and (min-width:1200px)', src:'<%= photo.avatar.width1200 %>' })
+    ).append(
+      $('<source/>', { media:'screen and (min-width:980px) and (max-width:1199px)', src:'<%= photo.avatar.width980 %>' })
+    ).append(
+      $('<source/>', { media:'screen and (min-width:767px) and (max-width:979px)', src:'<%= photo.avatar.width767 %>' })
+    ).append(
+      $('<source/>', { media:'screen and (min-width:480px) and (max-width:766px)', src:'<%= photo.avatar.width480 %>' })
+    ).append(
+       $('<img/>', { src:'<%= photo.avatar.versions[@options[:size].to_sym] %>' })
+    );
+    
+    var photo_element = $('<a/>', {href:'<%= photo_view_path(this_persona, photo) %>'}).append(
+      photo_element
+    );
+
+
+    handle.append(photo_element);
+  <% end %>
+
+  //update last attribute on ',endless-photo'
+  <% if @options[:mediatype] == 'mediaset' then %>
+     last_id = <%= Mediaset.find(params[:mediaset_id]).mediaset_photos.where(
+      :photo_id => @next_photos.last.id).first.order %>
+  <% elsif ['tagset', 'related'].include? @options[:mediatype] then %>
+    last_id = parseInt($('<%= @options[:photoCountDiv] %>').attr('last')) + <%=  @next_photos.count %>
+  <% else %>
+    last_id = <%= @next_photos.last.id %>
+  <% end %>
+  <% if @options[:direction] == 'forward' then %>
+    $('<%= @options[:photoCountDiv] %>').attr('last', last_id ); 
+  <% else %>
+    $('<%= @options[:photoCountDiv] %>').attr('first', last_id ); 
+  <% end %>
+
+<% end %>
+
+//remove loading indicator if found 
+$('<%= @options[:targetDiv] %>').find('.loading').detach();
