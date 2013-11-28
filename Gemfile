@@ -89,4 +89,4 @@ gem 'foreman'
 gem 'browser'
 
 #payment mechanism
-gem 'spreedly-core-ruby'
+gem 'spreedly'
