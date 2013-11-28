@@ -3,7 +3,7 @@
     <div class="hero-unit">
       <% if @payment_ok then %>
         <h1>Sucess!!</h1>
-        <p>You have been charge <%= number_to_currency @amount_charge %> for your order.</p> 
+        <p>You have been charge <%= number_to_currency @amount_charge.to_f/100 %> for your order.</p> 
       <% else %>
         <h1>Error</h1>
         <p>There was an error in processing your payment</p>

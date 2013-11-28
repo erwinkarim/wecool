@@ -218,14 +218,17 @@ class StoreController < ApplicationController
 
 			#valid the payment here, if ok, go next step where the order has been done
 			#otherwise, if got some other error, check and go back to cofirm_pay action
-			payment_method = SpreedlyCore::PaymentMethod.find(token)
+			#payment_method = SpreedlyCore::PaymentMethod.find(token)
+      env = Spreedly::Environment.new(ENV['SPREEDLYCORE_ENVIRONMENT_KEY'],ENV['SPREEDLYCORE_ACCESS_SECRET'])
+      payment_method = env.find_payment_method(token)
+
 			if payment_method.valid? then
         @amount_charge = Cart.where( 
           :order_id => params[:order_id] 
         ).map{ 
-          |x| Sku.where(:code => x.item_sku).first.base_price * x.quantity 
+          |x| Sku.where(:code => x.item_sku).first.base_price * x.quantity * 100
         }.sum
-        purchase_transaction = payment_method.purchase( @amount_charge ) 
+        purchase_transaction = env.authorize_on_gateway(ENV['SPREEDLYCORE_GATEWAY_TOKEN'], token, @amount_charge ) 
         respond_to do |format|
           if purchase_transaction.succeeded? then 
             @payment_ok = true
