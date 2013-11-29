@@ -1,6 +1,9 @@
 class Cart < ActiveRecord::Base
   belongs_to :persona
 	belongs_to :order
+
+	#has paper trail
+	has_paper_trail
 	
 	#a cart item needs to belong to a persona
 	validates :persona_id, :presence => true

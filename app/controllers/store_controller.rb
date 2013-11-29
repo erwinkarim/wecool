@@ -126,7 +126,7 @@ class StoreController < ApplicationController
 
       #if there orders/carts associated with this coupon, update order/cart status to complete if every coupon
       # in the order has been activited
-      cart = Cart.where( :item_type => 'Coupon', :item_id => @coupon.id).first
+      cart = Cart.where( :item_type => 'coupon', :item_id => @coupon.id).first
       if !cart.nil? then
         cart.update_attribute(:status, 2 )
         cart.update_attribute(:status, 5 )
@@ -190,6 +190,7 @@ class StoreController < ApplicationController
     else
       @current_order = @persona.orders.last
     end
+		@order = @current_order
     @carts = @persona.carts.where( :order_id => @current_order.id)
 
 		respond_to do |format|
@@ -254,7 +255,6 @@ class StoreController < ApplicationController
 				redirect_to store_confirm_pay_path(@persona.screen_name, 
           :order_id => params[:order_id]), :error => payment_method.errors.join('\n')
 			end
-			
     end
   end
 
@@ -295,17 +295,33 @@ class StoreController < ApplicationController
 			else
         screen_name = @persona.screen_name
         order_id = @order.id
-        @carts = Cart.where(:order_id => @order.id )
+        @carts = @order.carts
         @order_activity = Version.where{ 
           (item_type.eq 'Order') & (item_id.eq order_id)
         }.reverse
 
         #get the coupons associated with this order
-        @coupons = Coupon.where(:id => @carts.where( :item_type => 'Coupon').pluck(:item_id) ) 
+        @coupons = Coupon.where(:id => @carts.where( :item_type => 'coupon').pluck(:item_id) ) 
 
 				format.html
-        format.json{ render json: @order }
+        format.json{ render json: @coupons }
 			end
 		end
+	end
+
+	#GET    /store/:persona_id/order_detail/:order_id/:cart_id(.:format)
+	#get details about the cart
+	def cart_detail
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+		@order = @persona.orders.find( params[:order_id] )
+
+		unless @order.nil?
+			@cart = @order.carts.find(params[:cart_id])
+			cart_id = @cart.id
+			@cart_activity = Version.where{ 
+				(item_type.eq 'Cart') & (item_id.eq cart_id)
+			}.reverse
+		end
+
 	end
 end

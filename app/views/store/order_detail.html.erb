@@ -34,7 +34,7 @@
 <%= render "cart_listing" %>
 
 <!-- show associated coupons -->
-<% if !@coupons.empty? then %>
+<% unless @coupons.empty? %>
   <div class="row">
     <div class="span10 offset1">
       <div class="page-header">

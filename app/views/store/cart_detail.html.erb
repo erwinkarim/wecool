@@ -1,0 +1,53 @@
+<h1>Cart Detail</h1>
+
+<!-- cart detail -->
+<div class="row">
+	<div class="span10 offset1">
+		<div class="page-header">
+			<h2>Cart Detail</h2>
+		</div>
+		<div class="row">
+			<div class="span10 offset1">
+				<dl class="dl-horizontal">
+					<dt>Order ID</dt><dd><%= link_to @order.id, store_order_detail_path(@persona.screen_name, @order)  %></dd>
+					<dt>Cart ID </dt><dd><%= @cart.id %></dd>
+					<dt>Status </dt><dd><%= Cart::CART_STATUS_TEXT[@cart.status] %></dd>
+					<dt>Cart Created</dt><dd><%= @cart.created_at.localtime %></dd>
+					<dt>Last Update</dt><dd><%= @cart.updated_at.localtime %><dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Cart action if coupon -->
+
+<!-- cart activity-->
+<div class="row">
+	<div class="span10 offset1">
+		<div class="page-header">
+			<h2>Activity</h2>
+		</div>
+		<div class="row">
+			<div class="span10 offset1">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Activity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cart_activity.each do |activity| %>
+              <tr>
+                <td><%= activity.created_at.localtime %></td>
+                <td><%= activity.event == 'create' ? 'Cart Created' : 
+                  activity.event + ' ' + YAML.load(activity.object_changes).keys.join(',') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+			</div>
+		</div>
+	</div>
+</div>

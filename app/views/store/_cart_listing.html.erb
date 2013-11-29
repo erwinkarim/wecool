@@ -21,7 +21,7 @@
             <% @carts.each do |cart_item| %>
               <% cart_item_sku = Sku.where(:code => cart_item.item_sku).first %>
               <tr>
-                <td><%= cart_item_sku.description %></td>
+                <td><%= link_to cart_item_sku.description, store_cart_detail_path(@persona.screen_name, @order, cart_item) %></td>
                 <td><%= number_to_currency cart_item_sku.base_price %></td>
                 <td><%= cart_item.quantity %></td>
                 <td><%= number_to_currency cart_item_sku.base_price * cart_item.quantity %></td>

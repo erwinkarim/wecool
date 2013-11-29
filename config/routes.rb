@@ -103,6 +103,7 @@ Wecool::Application.routes.draw do
     match '/store/:persona_id/orders' => :orders, :via => :get, :as => 'store_orders'
     match '/store/:persona_id/past_orders' => :past_orders, :via => :get, :as => 'store_past_orders'
     match '/store/:persona_id/order_detail/:order_id' => :order_detail, :via => :get, :as => 'store_order_detail'
+    match '/store/:persona_id/order_detail/:order_id/:cart_id' => :cart_detail, :via => :get, :as => 'store_cart_detail'
   end
 
 	

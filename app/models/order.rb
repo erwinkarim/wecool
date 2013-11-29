@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
   belongs_to :persona
+	has_many :carts
 	validates :persona_id, :presence => true
   attr_accessible :spreedly_token_id, :status
   after_initialize :init
