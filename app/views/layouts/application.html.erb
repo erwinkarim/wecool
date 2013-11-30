@@ -40,7 +40,7 @@
     <!--%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %-->
   </head>
   <body>
-    <div class="navbar navbar-fluid-top">
+    <div class="navbar navbar-inverse navbar-static-top">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -117,13 +117,13 @@
             <% else %>
               <!-- inline form -->
               <%= form_for('persona', :url => persona_session_path, 
-                :html => { :class=> 'navbar-form form-inline pull-right' } ) do |f| %>
+                :html => { :class=> 'navbar-form navbar-inverse-form form-inline pull-right' } ) do |f| %>
                 <%= f.text_field :email, :placeholder => 'email' %>
                 <%= f.password_field :password, :placeholder => 'password' %>
                 <%= f.label :remember_me, :class=> 'checkbox' do %>
                   <%= f.check_box :remember_me, :class=> 'checkbox' %> <%= 'Remember'.html_safe %>
                 <% end %>
-                <%= f.submit 'Sign In'.html_safe, :class=>'btn' %>
+                <%= f.submit 'Sign In'.html_safe, :class=>'btn btn-primary' %>
               <% end %>
             <% end %>
           </div><!--/.nav-collapse -->

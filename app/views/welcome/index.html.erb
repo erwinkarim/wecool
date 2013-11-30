@@ -1,13 +1,17 @@
-<div class="row-fluid">
-  <div class="span12">
 <% if persona_signed_in? then %>
-  <div class="row-fluid header">  
-    <% @focus = 'welcome' %>
-    <%= render "common/personaHeaderBar" %>
+  <div class="row-fluid">  
+		<div class="span12">
+			<% @focus = 'welcome' %>
+			<%= render "common/personaHeaderBar" %>
+		</div>
   </div>
   <% if @myPhotos.empty? then %>
-    <div class="row-fluid well">
-      <h3>You don't have any photos yet. <%= link_to 'Upload some', new_photo_path %>...
+    <div class="row-fluid">
+			<div class="span12">
+				<div class="well">
+				<h3>You don't have any photos yet. <%= link_to 'Upload some', new_photo_path %>...
+				</div>
+			</div>
     </div>
   <% else %>
     <div class="row-fluid">
@@ -71,5 +75,3 @@
 <% else %>
   <%= render "static_page/front" %>
 <% end %>
-  </div>
-</div><!-- div class="row"-->
