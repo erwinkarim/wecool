@@ -333,4 +333,16 @@ class StoreController < ApplicationController
 		end
 
 	end
+ 
+  # GET    /store/:persona_id/coupons 
+  #display the coupons that this guy has
+  def coupons
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+    @coupons = @persona.coupons.reverse
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @coupons }
+    end
+  end
 end

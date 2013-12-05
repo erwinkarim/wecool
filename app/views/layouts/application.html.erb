@@ -81,6 +81,9 @@
                     store_checkout_path(current_persona.screen_name) %></li>
                   <li><%= link_to '<i class="icon-truck"></i> Your Orders'.html_safe, 
                     store_orders_path(current_persona.screen_name) %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to '<i class="icon-qrcode"></i> Your Coupons'.html_safe, 
+                    store_coupons_path(current_persona.screen_name) %></li>
                 </ul>
               </li>
               <li class="dropdown">

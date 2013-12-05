@@ -56,7 +56,7 @@
               <tr>
                 <td><%= Sku.find(coupon.sku_id).description %></td>
                 <td><%= coupon.code %></td>
-                <td><%= coupon.expire_date.nil? ? 'Nil' : coupon.expire_date.localtime %></td>
+                <td><%= coupon.expire_date.nil? ? 'Nil' : coupon.expire_date %></td>
                 <td><%= coupon.redeem_date.nil? ? 
                   link_to('Redeem Now', store_redeem_coupon_path(@persona.screen_name, :redeemCodes => coupon.code), 
                     :class => 'btn btn-primary', :method => :post) : 

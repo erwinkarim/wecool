@@ -1,0 +1,42 @@
+<h1>Coupons</h1>
+
+<div class="row">
+  <div class="span10 offset1">
+    <% if @coupons.empty? then %>
+      <div class="hero-unit">
+        <h2>No Coupons has been purchased yet</h2>
+      </div>
+    <% else %>
+      <div class="page-header">
+        <h2>List of Coupons</h2>
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Expiration Date</th>
+                <th>Action<th>
+              </tr>
+            </thead>
+              <% @coupons.each do |coupon| %> 
+              <tr>
+                <td><%= Sku.find(coupon.sku_id).description %></td>
+                <td><%= coupon.code %></td>
+                <td><%= coupon.expire_date.nil? ? 'Nil' : coupon.expire_date %></td>
+                <td><%= coupon.redeem_date.nil? ? 
+                  link_to('Redeem Now', store_redeem_coupon_path(@persona.screen_name, :redeemCodes => coupon.code), 
+                    :class => 'btn btn-primary', :method => :post) : 
+                  'Redeemed on '+ coupon.redeem_date.to_s %></td>
+              </tr>
+              <% end %>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
