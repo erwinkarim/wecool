@@ -30,7 +30,7 @@
     <div class="row-fluid">
       <div class="well">
         <% if persona_signed_in? && current_persona == @persona then %>
-          You don't have any followers. Why don't you <%= link_to 'explore', personas_path %> and make friends?
+          No followers? <%= link_to 'Explore', personas_path %> and make some!
         <% else %>
           <%= @persona.screen_name %> has no followers
         <% end %>
@@ -46,6 +46,7 @@
     </div>
   <% end %>
 </div>
+<%= content_for :other_javascript do %>
 <script type="text/javascript">
   //load a few for each class
   $.ajax({
@@ -88,3 +89,4 @@
     });
   });
 </script>
+<% end %>
