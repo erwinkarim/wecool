@@ -151,6 +151,7 @@ class Persona < ActiveRecord::Base
   # default is 5, which means 5GB
   def current_storage_size
     #check current active coupons, sum up storage
-    return 5 *1000*1000*1000
+		paid_storage = self.coupons.where{ ( redeem_date.lt DateTime.now) & (expire_date.gt DateTime.now)}.map{ |x| YAML::load(x.sku.power)[:storage] }.sum
+    return (paid_storage + 5) *1000*1000*1000
   end
 end

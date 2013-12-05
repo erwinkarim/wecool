@@ -18,15 +18,6 @@
       You have:-
       <ul>
         <li>You have redeem coupon code <strong>'<%= @coupon.code %>'</strong></li>
-        <% if persona_signed_in? && @persona == current_persona then %>
-          <li>
-            You have extended your premium membership to <strong><%= I18n.l @persona.premiumExpire %></strong>.
-          </li>
-        <% else %>
-          <li>
-            You have given <%= @persona.screen_name %> premium membership to <strong><%= I18n.l @persona.premiumExpire %></strong>.
-          </li>
-        <% end %>
       </ul>
     </p>
   </div>

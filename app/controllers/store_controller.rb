@@ -97,32 +97,41 @@ class StoreController < ApplicationController
     end
 
     #if everything ok then update the coupon to be redeem
-    if !coupon_failure then
+    unless coupon_failure 
 
       #update coupon
       @persona = Persona.where(:screen_name => params[:persona_id]).first
       @coupon.update_attributes({ :persona_id => @persona.id, :redeem_date => DateTime.now } )
-      if @coupon.sku.code = 'member1y' then 
-        duration = 1.year
-      elsif @coupon.sku.code = 'member2y' then
-        duration = 2.year
-      end
 
-      #update persona
-      @persona.update_attributes( { :premium => true })
-      if @persona.premiumSince.nil? then
-        @persona.update_attributes( { :premiumSince => DateTime.now } )
-      end
-      if @persona.premiumExpire.nil? || @persona.premiumExpire < DateTime.now then
-        @persona.update_attributes( {:premiumExpire => DateTime.now + duration })
-      else
-        @persona.update_attributes( { :premiumExpire => @persona.premiumExpire + duration })
-      end
-      @persona.save
+			#get the powers that coupon have and do the necessary adjustments that each coupon gives
+			YAML::load(@coupon.sku.power).each_pair do |key,value|
+				if key == :premium then
+					if @coupon.sku.code = 'member1y' then 
+						duration = 1.year
+					elsif @coupon.sku.code = 'member2y' then
+						duration = 2.year
+					end
 
-      #update persona
-      @persona.photos.update_all(:system_visible => true)
+					#update persona
+					@persona.photos.update_all(:system_visible => true)
 
+					#update persona premiumness
+					@persona.update_attributes( { :premium => true })
+					if @persona.premiumSince.nil? then
+						@persona.update_attributes( { :premiumSince => DateTime.now } )
+					end
+					if @persona.premiumExpire.nil? || @persona.premiumExpire < DateTime.now then
+						@persona.update_attributes( {:premiumExpire => DateTime.now + duration })
+					else
+						@persona.update_attributes( { :premiumExpire => @persona.premiumExpire + duration })
+					end
+					@persona.save
+				elsif key == :storage then
+					#do nothing, storage will be calculated later via persona.storage_usage method
+				elsif key == :duration_when_activated then
+					@coupon.update_attribute( :expire_date, Time.at(DateTime.now.to_f + value) )
+				end
+			end
 
       #if there orders/carts associated with this coupon, update order/cart status to complete if every coupon
       # in the order has been activited
