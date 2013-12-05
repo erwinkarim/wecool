@@ -49,10 +49,10 @@ class Persona < ActiveRecord::Base
     save!
   end
   
-  #calculate bandwith usage for the current calender month (ie; 1st to current day)
-  def bandwidth_usage
-    bandwidth = self.photos.where{ created_at.gt Date.today.at_beginning_of_month }.map{ |p| p.avatar.size }.sum
-    return bandwidth
+  #calculate storage usage for user
+  def storage_usage
+    storage = self.photos.map{ |p| p.avatar.size }.sum
+    return storage
   end
 
   # gather activity of this persona
@@ -79,10 +79,10 @@ class Persona < ActiveRecord::Base
     myScreenName = self.screen_name
     date_length = options[:date_length]
 
-    #check if there's any activity at begin_date - date_length, if no activity, get the most recent date before begin_date
+    #check if there's any activity at begin_date - date_length, 
+    # if no activity, get the most recent date before begin_date
 		# also if there's no activity before the begin date, then just return nil
     if new_options.has_key? :begin_date then
-      #begin_date = (new_options[:begin_date].is_a? Fixnum) ? Time.at(new_options[:begin_date]) : new_options[:begin_date].to_time
 			begin_date = Time.at( new_options[:begin_date].to_i )
 			recent_act = Version.where{ (whodunnit.eq myScreenName) & (created_at.lteq begin_date) & 
         (item_type.eq 'Photo') }.max
@@ -107,8 +107,6 @@ class Persona < ActiveRecord::Base
       if cluster.empty? || cluster.last[:last_activity] + 5.minutes < e.created_at then 
         cluster << { :first_activity => e.created_at, :last_activity => e.created_at , 
           :activities => { 
-              #:item_type => e.item_type, :item_id => [e.item_id],  
-              #:events => [{ :event => theEvent, :count => 1 }] 
               e.item_type.to_sym => { 
                 :id => [e.item_id], :events => { theEvent.to_sym => 1 }, 
                 :handle => [ eval(e.item_type).find(e.item_id) ],   
@@ -149,4 +147,10 @@ class Persona < ActiveRecord::Base
     return cluster.sort_by{ |e| -(e[:first_activity].to_i) }
   end
     
+  #check current storage space
+  # default is 5, which means 5GB
+  def current_storage_size
+    #check current active coupons, sum up storage
+    return 5 *1000*1000*1000
+  end
 end

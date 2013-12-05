@@ -1,4 +1,4 @@
-<% @focus = 'Upgrade Account' %>
+<% @focus = 'Buy Storage' %>
 <%= render "common/personaHeaderBar" %>
 
 <div class="page-header">
@@ -19,36 +19,27 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="span2">-</th>
-          <th class="span5">Normal</th>
-          <th class="span5">Premium</th>
+          <th>Free</th>
+          <th>Small</th>
+          <th>Medium</th>
+          <th>Large</th>
+          <th>Monster</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Photos</td>
-          <td>Up to 1000 photos can be viewed. Olders photos will be kept in case you upgrade later</td>
-          <td>Unlimited Photos</td>
+          <td>5 GB</td>
+          <td>20 GB</td>
+          <td>50 GB</td>
+          <td>100 GB</td>
+          <td>500 GB</td>
         </tr>
         <tr>
-          <td>Photo Size</td>
-          <td>Up to Large Size (800px) can be accessiable. Original size is will be kept in case you upgrade later</td>
-          <td>All sizes is available</td>
-        </tr>
-        <tr>
-          <td>Mediasets</td>
-          <td>Up to 5 can be viewed. Older ones will be kept in case you upgrade later</td>
-          <td>Unlimted mediasets</td>
-        </tr>
-        <tr>
-          <td>Bandwidth</td>
-          <td>300MB per month</td>
-          <td>Unlimited Bandwidth</td>
-        </tr>
-        <tr>
-          <td>Photo Visibility</td>
-          <td>All Photos are always public</td>
-          <td>You can set you photos to be private</td>
+          <td>Free</td>
+          <td>$10.00 / year</td>
+          <td>$20.00 / year</td>
+          <td>$30.00 / year</td>
+          <td>$50.00 / year</td>
         </tr>
       </tbody>
     </table>
@@ -62,12 +53,8 @@
       <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
-          radio_button_tag( 'sku_code', 'member1y') + '1 year ($xx.xx)', 
-          :class=> 'radio controls' 
-        %>
-        <%= label_tag 'duration', 
-          radio_button_tag( 'sku_code', 'member2y', true) + '2 years ($xx.xx)', 
-          :class=> 'radio controls' 
+          select_tag( 'sku_code', options_from_collection_for_select(Sku.where(:id => 3..6), 'code', 'description') ),
+          :class=> 'controls' 
         %>
       </div> 
       <div class="form-actions">
@@ -99,5 +86,17 @@
         <%= button_tag 'Redeem Now', :class => 'btn btn-primary', :type => 'submit' %>
       </div>
     <% end -%>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span8 offset2">
+    <h3>Fine Print</h3>
+    <ul>
+      <li>1GB = 1,000,000 bytes</li>
+      <li>1 year is 1 calander year</li>
+      <li>Multiple coupons can be purchased</li>
+      <li>Size is calculated from sizes of original files only</li>
+    </ul>
   </div>
 </div>

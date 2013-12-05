@@ -22,10 +22,9 @@ class PersonasController < ApplicationController
   def show
     #@persona = Persona.find(params[:id])
     @persona = Persona.find(:all, :conditions => {:screen_name => params[:id] }).first
-    @photos = @persona.photos.find(:all, :order => 'id desc', :conditions => {:featured => true }, :limit => 5)
-    if @photos.empty? then 
-      @photos = @persona.photos.find(:all, :order => 'id desc', :limit => 5)
-    end
+    @storage_usage = @persona.storage_usage
+    @storage_size = @persona.current_storage_size
+
     @following = Persona.find(:all, :conditions => { 
       :id => @persona.followers.where(:tracked_object_type => 'persona').pluck(:tracked_object_id)
     }, :limit => 30)

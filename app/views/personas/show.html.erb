@@ -45,22 +45,27 @@
     </div>
     <div class="row-fluid">
       <h4>Recent Tags</h4>
-      <ul>
-      <% @persona.photos.tag_counts.order('id desc').limit(20).each do |tag| %>
-        <li style="display:inline;">
-          <%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
-        </li>
+      <% if @persona.photos.tag_counts.empty? then %>
+        <div>No tags</div>
+      <% else %>
+        <ul>
+          <% @persona.photos.tag_counts.order('id desc').limit(20).each do |tag| %>
+            <li style="display:inline;">
+              <%= link_to tag.name, persona_show_tag_path(@persona.screen_name, tag.name) %>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
-      </ul>
     </div>
-    <% if persona_signed_in? && @persona == current_persona && !@persona.premium? then %>
+    <% if @persona = current_persona then %>
       <h4>Usage</h4>
       <div class="text-right">
-        <%= number_to_human_size(@bandwidth, :precision => 2) %> of 300 MB
+        <%= number_to_human_size(@storage_usage, :precision => 2, :prefix => :si) %> 
+        of <%= number_to_human_size(@storage_size, :precision => 2, :prefix => :si) %> 
       </div>
       <div class="progress img-polaroid">
-        <% bar_width = @exceed_bandwidth ? '100%' : number_to_percentage(@bandwidth/300.to_f/1024/1024*100, :precision => 0) %>
-        <div class="bar <%= @exceed_bandwidth ? 'bar-danger' : '' %>" style="width: <%= bar_width %>;"></div>
+        <% bar_width = number_to_percentage(@storage_usage.to_f/@storage_size.to_f*100, :precision => 0) %>
+        <div class="bar <%= @storage_usage.to_f/@storage_size > 0.8 ? ( @storage_usage.to_f/@storage_size > 1 ? 'bar-danger' : 'bar-warning') : '' %>" style="width: <%= bar_width %>;"></div>
       </div>
     <% end %>
     <div class="row-fluid">

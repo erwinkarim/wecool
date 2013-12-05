@@ -31,26 +31,23 @@ class PhotosController < ApplicationController
 
   #every time upload, check if can send photos
   def check_if_reach_quota
-    if !current_persona.premium? then
-      @bandwidth = current_persona.bandwidth_usage
-      if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
-        error_msg = 
-            [{ :files => 
-              [{
-                "name" => "Bandwidth exceeded", 
-                "error" => "Bandwidth exceeded",
-                "size" => 1000, 
-                "url" => '',
-                "thumbnail_url" => '/assets/icon/zero-photo/square100.jpg', 
-                "delete_url" => '', 
-                'name' => 'square100.jpg', 
-                "delete_type" => "DELETE",
-              }]
-            }].to_json
-        respond_to do |format|
-          format.html { render :json => error_msg, :content_type => 'text/html', :layout => false }
-          format.json { render :json => error_msg, :status => :unauthorized } 
-        end
+    if current_persona.storage_usage > current_persona.current_storage_size then
+      error_msg = 
+          [{ :files => 
+            [{
+              "name" => "Bandwidth exceeded", 
+              "error" => "Bandwidth exceeded",
+              "size" => 1000, 
+              "url" => '',
+              "thumbnail_url" => '/assets/icon/zero-photo/square100.jpg', 
+              "delete_url" => '', 
+              'name' => 'square100.jpg', 
+              "delete_type" => "DELETE",
+            }]
+          }].to_json
+      respond_to do |format|
+        format.html { render :json => error_msg, :content_type => 'text/html', :layout => false }
+        format.json { render :json => error_msg, :status => :unauthorized } 
       end
     end
   end
@@ -112,11 +109,12 @@ class PhotosController < ApplicationController
     @photo = current_persona.photos.new(params[:photo])
     @persona = current_persona
     if !@persona.premium then
-      @bandwidth = @persona.bandwidth_usage    
-      if @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024*0.8 && @bandwidth < FREE_BANDWIDTH_LIMIT*1024*1024 then
+      @storage_usage = @persona.storage_usage    
+      @storage_size = @persona.current_storage_size*1024*1024*1024
+      if @storage_usage > @storage_size*0.8 && @storage_usage < @storage_size then
         flash[:warning] = 'You are using more than 80% of your monthly quota. <a href="'+
           persona_upgrade_acc_path(@persona.screen_name) + '">Upgrade</a> if you plan to use more space'
-      elsif @bandwidth > FREE_BANDWIDTH_LIMIT*1024*1024 then
+      elsif @storage_usage > @storage_size then
         flash[:error] = 'You have exceeded your monthly quota and you may no longer load ' + 
           'any more photos for this month unless you <a href="' + persona_upgrade_acc_path(@persona.screen_name) +
           '">upgrade</a> to premium'
@@ -152,14 +150,6 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.save
-        #set photos not to be visible of the persona is not a premium user
-        if !current_persona.premium then
-          current_persona.photos.where(:system_visible => true).order('id desc').
-            offset(FREE_PHOTO_LIMIT).each do |p|
-              p.update_attribute(:system_visible, false)
-          end
-        end
-
         @photo.reset_tags
 
         #add the mediasets
