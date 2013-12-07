@@ -254,7 +254,7 @@ class Photo < ActiveRecord::Base
       :mediatype => 'photos', :limit => 10, :includeFirst => false, :author => 0..Persona.last.id, 
       :featured => [true, false], :excludeMediaset => 0,
       :dateRange => 50.years.ago..DateTime.now, :tag => nil, :direction => 'forward',
-      :offset => 0, :theList => [],
+      :offset => 0, :theList => [], :excluded_mediaset_photos => [],
 
       #view options
       :excludeLinks => false, :draggable => false, :dragSortConnect => nil , :enableLinks => true, :size => 'tiny',
@@ -269,13 +269,9 @@ class Photo < ActiveRecord::Base
     end
 
     if options.has_key? :excludeMediaset then
-      if options[:excludeMediaset].empty? then
-        @excluded_mediaset_photos = 0
-      else
-        @excluded_mediaset_photos = Mediaset.find(options[:excludeMediaset]).photos.pluck(:photo_id)
+      if !options[:excludeMediaset].empty? then
+        default_options[:excluded_mediaset_photos] = Mediaset.find(options[:excludeMediaset]).photos.pluck(:photo_id)
       end
-    else
-      @excluded_mediaset_photos = 0
     end
 
     default_options = default_options.merge(options)
@@ -330,15 +326,20 @@ class Photo < ActiveRecord::Base
       feature_range = default_options[:featured]
       date_range = default_options[:dateRange]
       thisPersona = current_persona[:signed_in?] ? current_persona[:current_persona].id : 0 
-      excluded_sets = @excluded_mediaset_photos
+      #excluded_sets = @excluded_mediaset_photos
+      excluded_sets = default_options[:excluded_mediaset_photos]
       persona_photos = Photo.where{ persona_id.eq thisPersona }
       other_photos = Photo.where{ (persona_id.not_eq thisPersona ) & (visible.eq true) }
       if default_options[:direction] == 'forward' then 
         @next_photos = Photo.where{
           (id.in(persona_photos.select{id})) | (id.in(other_photos.select{id}))
         }.group(:id).having{
-          (id.in 0..upper) & (persona_id.in persona_range) & (featured.in default_options[:featured]) &
-          (created_at.in date_range) & (id.not_in excluded_sets) & (system_visible.eq true) 
+          (id.in 0..upper) & 
+					(persona_id.in persona_range) & 
+					(featured.in default_options[:featured]) &
+          (created_at.in date_range) & 
+					(id.not_in excluded_sets) & 
+					(system_visible.eq true) 
         }.order('id desc').limit(default_options[:limit])
       else
         #get default_options[:limit] photos before the last_id
