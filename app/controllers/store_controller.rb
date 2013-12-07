@@ -127,7 +127,7 @@ class StoreController < ApplicationController
 					end
 					@persona.save
 				elsif key == :storage then
-					#do nothing, storage will be calculated later via persona.storage_usage method
+					@persona.check_storage		
 				elsif key == :duration_when_activated then
 					@coupon.update_attribute( :expire_date, Time.at(DateTime.now.to_f + value) )
 				end

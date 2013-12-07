@@ -154,4 +154,23 @@ class Persona < ActiveRecord::Base
 		paid_storage = self.coupons.where{ ( redeem_date.lt DateTime.now) & (expire_date.gt DateTime.now)}.map{ |x| YAML::load(x.sku.power)[:storage] }.sum
     return (paid_storage + 5) *1000*1000*1000
   end
+
+	#check if persona has used more space than it should. if it does, make the older photos invisible
+	# since this is a batch job, consider to do it once a day and then using transaction to mass update the photos
+	def check_storage
+		if current_storage_size / storage_usage > 1 then
+			#cycle through the photos, when reach threshold, start making them invisible
+			# also if is can't view by the system , enable it if within treshold
+			photo_size = 0
+			self.photos.reverse.each do |p| 
+				if photo_size > storage_usage then 
+					p.update_attribute(:system_visble, false) 
+				else
+					photo_size += p.avatar.size 
+					p.system_visible == false ? p.update_attribute(:system_visible, true) : '' 
+				end
+			end
+		end
+	end
+
 end
