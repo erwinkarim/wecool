@@ -161,13 +161,15 @@ class Persona < ActiveRecord::Base
 		if current_storage_size / storage_usage > 1 then
 			#cycle through the photos, when reach threshold, start making them invisible
 			# also if is can't view by the system , enable it if within treshold
-			photo_size = 0
-			self.photos.reverse.each do |p| 
-				if photo_size > storage_usage then 
-					p.update_attribute(:system_visble, false) 
-				else
-					photo_size += p.avatar.size 
-					p.system_visible == false ? p.update_attribute(:system_visible, true) : '' 
+			transaction do 
+				photo_size = 0
+				self.photos.reverse.each do |p| 
+					if photo_size > storage_usage then 
+						p.update_attribute(:system_visble, false) 
+					else
+						photo_size += p.avatar.size 
+						p.system_visible == false ? p.update_attribute(:system_visible, true) : '' 
+					end
 				end
 			end
 		end
