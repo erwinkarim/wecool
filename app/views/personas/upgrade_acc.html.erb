@@ -19,7 +19,10 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
+          <th>Package</th>
           <th>Free</th>
+          <th>Nano</th>
+          <th>Tiny</th>
           <th>Small</th>
           <th>Medium</th>
           <th>Large</th>
@@ -28,19 +31,37 @@
       </thead>
       <tbody>
         <tr>
+          <th>Storage</th>
           <td>5 GB</td>
-          <td>20 GB</td>
+          <td>25 GB</td>
           <td>50 GB</td>
           <td>100 GB</td>
-          <td>500 GB</td>
+          <td>200 GB</td>
+          <td>400 GB</td>
+          <td>800 GB</td>
         </tr>
         <tr>
+          <th>Monthly Rates</th>
           <td>Free</td>
-          <td>$10.00 / year</td>
-          <td>$20.00 / year</td>
-          <td>$30.00 / year</td>
-          <td>$50.00 / year</td>
+          <td>$4.00 / month</td>
+          <td>$8.00 / month</td>
+          <td>$15.00 / month</td>
+          <td>$30.00 / month</td>
+          <td>$60.00 / month</td>
+          <td>$120.00 / month</td>
         </tr>
+        <tr>
+          <th>Yearly Rates</th>
+          <td>Free</td>
+          <td>$40.00 / year</td>
+          <td>$80.00 / year</td>
+          <td>$150.00 / year</td>
+          <td>$300.00 / year</td>
+          <td>$600.00 / year</td>
+          <td>$1,200.00 / year</td>
+        </tr>
+      </tbody>
+    </table>
       </tbody>
     </table>
   </div>
@@ -53,7 +74,7 @@
       <legend>Purchase upgrade options...</legend>  
       <div class="control-group">
         <%= label_tag 'duration', 
-          select_tag( 'sku_code', options_from_collection_for_select(Sku.where(:id => 3..6), 'code', 'description') ),
+          select_tag( 'sku_code', options_from_collection_for_select(Sku.where(:id => 3..14), 'code', 'description') ),
           :class=> 'controls' 
         %>
       </div> 
@@ -99,6 +120,7 @@
       <li>Size is calculated from sizes of original files only</li>
 			<li>When your additional storage purchase expires, the last 5GB of photos will be displayed. 
 				Photos that are outside the free area will be kept at least 1 year in case you want to purchase more storage again</li>
+      <li>We have the right to limit excessive use</li>
     </ul>
   </div>
 </div>
