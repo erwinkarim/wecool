@@ -1,5 +1,7 @@
 
-#load SKUs into DB
+#reset SKUs into DB
+
+Sku.destroy_all
 
 Sku.seed( :id, 
  #{id: integer, code: string, model: string, description: string, created_at: datetime, updated_at: datetime, base_price: decimal} 
