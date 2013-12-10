@@ -30,10 +30,10 @@
           <li><%= link_to '<i class="icon-smile"></i> Update Persona Picture'.html_safe, 
             persona_get_profile_pic_path(@persona.screen_name) %></li>
           <% if !@persona.premium? || @persona.premiumExpire < DateTime.now then %>
-            <li><%= link_to '<i class="icon-bolt"></i> Buy Storage'.html_safe, 
+            <li><%= link_to '<i class="icon-hdd"></i> Buy Storage'.html_safe, 
               persona_upgrade_acc_path(@persona.screen_name) %></li>
           <% else %>
-            <li><%= link_to '<i class="icon-bolt"></i> Extend Your Premium Account'.html_safe, 
+            <li><%= link_to '<i class="icon-hdd"></i> Buy More Storage'.html_safe, 
               persona_upgrade_acc_path(@persona.screen_name) %></li>
           <% end %>
           <li><%= link_to '<i class="icon-shopping-cart"></i> Your Cart (0) </i>'.html_safe, 

@@ -6,7 +6,7 @@
 <div class="row-fluid">
   <div class="span3 well">
     <div class="row-fluid">
-      <h4>About</h4>
+      <h4><i class="icon-user"></i> About</h4>
       <dl>
         <% if persona_signed_in? && current_persona != @persona then %>
           <dt><strong>Tracking:</strong></dt>
@@ -27,9 +27,9 @@
       </dl>
     </div>
     <div class="row-fluid">
-      <h4>Recent Tags</h4>
+      <h4><i class="icon-tags"></i> Recent Tags</h4>
       <% if @persona.photos.tag_counts.empty? then %>
-        <div>No tags</div>
+        <div>None</div>
       <% else %>
         <ul>
           <% @persona.photos.tag_counts.order('id desc').limit(20).each do |tag| %>
@@ -41,7 +41,7 @@
       <% end %>
     </div>
     <% if @persona == current_persona then %>
-      <h4>Usage</h4>
+      <h4><i class="icon-hdd"></i> Usage</h4>
       <div class="text-right">
         <%= number_to_human_size(@storage_usage, :precision => 2, :prefix => :si) %> 
         of <%= number_to_human_size(@storage_size, :precision => 2, :prefix => :si) %> 
@@ -52,7 +52,7 @@
       </div>
     <% end %>
     <div class="row-fluid">
-      <h4>Followers (<%= Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').count %>)</h4>
+      <h4><i class="icon-group"></i> Followers (<%= Follower.where(:tracked_object_id => @persona.id, :tracked_object_type => 'persona').count %>)</h4>
       <div class="row-fluid">
         <% @followers.each do |follower| %>
           <div class="pull-left" style="margin:4px 2px;">
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="row-fluid">
-      <h4>Following (<%= @persona.followers.count %>)</h4>
+      <h4><i class="icon-group"></i> Following (<%= @persona.followers.count %>)</h4>
       <div class="row-fluid">
         <% @following.each do |follower| %>
           <div class="pull-left" style="margin:4px 2px;">
