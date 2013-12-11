@@ -22,7 +22,7 @@ Dir.foreach(base_dir) do |entry|
       # updated_at: datetime, avatar: string, featured: boolean, up_votes: integer, down_votes: integer, 
       # visible: boolean, system_visible: boolean, 
       # taken_at: datetime, md5: string, exif: text, width: integer, height: integer)
-      { id:file_id, title:file.sub(/.jpg/, ''), description:'seed photo', persona_id:1, avatar:seed_file,
+      { id:file_id, title:file.sub(/.jpg/, ''), description:'#seed photo of #' + entry, persona_id:1, avatar:seed_file,
         featured:(rand(1..100) > 70), system_visible:true }
     )
     MediasetPhoto.seed(:id,
@@ -36,3 +36,6 @@ Dir.foreach(base_dir) do |entry|
   set_order = 1
   set_id += 1
 end
+
+#reset tags on the photos
+Photo.where(:id => 0..file_id-1).each{ |x| x.reset_tags} 
