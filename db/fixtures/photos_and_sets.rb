@@ -11,7 +11,8 @@ Dir.foreach(base_dir) do |entry|
   Mediaset.seed(:id,
     #  Mediaset(id: integer, title: string, description: text, persona_id: integer, created_at: datetime, 
     #   updated_at: datetime, up_votes: integer, down_votes: integer, featured: boolean, system_visible: boolean)
-    { id:set_id, title:entry, description:'Seed data', persona_id:1, featured:(rand(1..100) > 50 ), system_visible:true}
+    { id:set_id, title:entry, description:'Seed data featuring ' + entry, persona_id:1, 
+      featured:(rand(1..100) > 50 ), system_visible:true}
   )
   Dir.foreach(base_dir + entry) do |file|
     next if !file.index(/^\./).nil?
@@ -22,8 +23,8 @@ Dir.foreach(base_dir) do |entry|
       # updated_at: datetime, avatar: string, featured: boolean, up_votes: integer, down_votes: integer, 
       # visible: boolean, system_visible: boolean, 
       # taken_at: datetime, md5: string, exif: text, width: integer, height: integer)
-      { id:file_id, title:file.sub(/.jpg/, ''), description:'#seed photo of #' + entry, persona_id:1, avatar:seed_file,
-        featured:(rand(1..100) > 70), system_visible:true }
+      { id:file_id, title:file.sub(/.jpg/, ''), description:'#seed photo of #' + entry, persona_id:1, 
+        avatar:seed_file, featured:(rand(1..100) > 70), system_visible:true }
     )
     MediasetPhoto.seed(:id,
       #MediasetPhoto(id: integer, photo_id: integer, mediaset_id: integer, order: integer, 
