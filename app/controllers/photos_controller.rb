@@ -142,11 +142,6 @@ class PhotosController < ApplicationController
     @photo = current_persona.photos.new(params[:photo])
     @photo.system_visible = true
     @photo.title = @photo.avatar.to_s.split('/').last
-    exif_data = EXIFR::JPEG.new( params[:photo][:avatar].tempfile.path ).exif
-    if !exif_data.nil? then
-      @photo.taken_at = exif_data[:date_time_original]
-    end
-    @photo.exif = exif_data
 
     respond_to do |format|
       if @photo.save

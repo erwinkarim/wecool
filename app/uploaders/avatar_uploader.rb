@@ -46,6 +46,16 @@ class AvatarUploader < CarrierWave::Uploader::Base
     model.width, model.height = `identify -format "%wx%h" #{file.path}`.split(/x/) 
   end
 
+  #store exif data
+  process :store_exif
+  def store_exif
+    exif_data = EXIFR::JPEG.new("`#{file.path}`".gsub(/`/, '')).exif
+    if !exif_data.nil? then
+      model.taken_at = exif_data[:date_time_original]
+    end
+    model.exif = exif_data
+  end
+
   #for height/width better to cache the file first from fog
 	def height
     `identify -format "%h" #{file.path}`.split(/x/).first.to_i
