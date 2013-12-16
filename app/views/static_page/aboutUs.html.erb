@@ -3,37 +3,53 @@
 </div>
 
 <div class="row-fluid">
-  <div class="span10 offset1">
-    <div class="row-fluid">
-      <h2>The Company</h2>
-      <div class="row-fluid">
-        <div class="span6">
-          <p class="lead">
-            We aim to be the best photo management, display and editing website in the world. We aim to please. 
-          </p>
+  <ul class="thumbnails">
+    <li class="span4">
+      <div class="thumbnail">
+        <%= image_tag 'sirap-icon/apple-touch-icon-144x144-precomposed.png' %>
+        <div class="caption">
+          <h3><i class="icon-question"></i> What Sirap.co is</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+          <h3><i class="icon-question"></i> What we do</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="span6">
-          <h3>How are we going to do this?</h3>
-          <p>
-            In one word: <Strong>easy</strong>. We want to make everything, uploading, organizing, showcasing, displaying, sharing dead easy. You just drop in your photos on the upload page to upload your photos. Drag and drop your photos to create your mediaset. Drag the photos around to arrange them in the order to your liking. You can use #hashtags on your photo description and title to assign tags to your photos. 
-          </p>
-          <p>
-            After you have done uploading and tagging your photos, you can add a star to your photo to highlight it. It will automatically show up in the 'featured' page on your page. You can do the same for you mediasets.
-          </p>
-          <p>
-            Take <%= link_to 'the tour', tour_path %> to understand more on how to get around and make the best use of this site
-          </p>
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <%= image_tag 'sirap-icon/sirap-negative-4x.png' %>
+        <div class="caption">
+          <h3>Contact</h3>
+          <dl class="dl-horizontal">
+            <dt><i class="icon-map-marker"></i></dt>
+            <dd>
+              <address>
+                Some Address</br>
+              </address>
+            </dd>
+            <dt><i class="icon-phone"></i></dt>
+            <dd>(+60)3-2222-2222</dd>
+            <dt><i class="icon-envelope"></i></dt>
+            <dd><%= mail_to 'contact@sirap.co' %></dd>
+          </dl>
         </div>
       </div>
-    </div>
-
-    <div class="row-fluid">
-      <h2>The People</h2>
-      <div class="row-fluid">
-        Just Me
+    </li>
+    <li class="span4">
+      <div class="thumbnail">
+        <%= image_tag 'sirap-icon/sirap-bw-4x.png' %>
+        <div class="caption">
+          <h3><i class="icon-calendar"></i> Latest</h3>
+          <p>
+            <h4><i class="icon-calendar-empty"></i> 31 Dec 2013</h4>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </p>
+          <p>
+            <h4><i class="icon-calendar-empty"></i> 02 Jan 2014</h4>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        </div>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
+
