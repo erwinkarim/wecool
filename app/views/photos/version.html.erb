@@ -14,15 +14,23 @@
       <tr>
         <td>
           <ul>
-            <li><%= link_to 'Square50', photo_version_path(@persona.screen_name, @photo.id, :size => 'square50') %></li>
-            <li><%= link_to 'Square100', photo_version_path(@persona.screen_name, @photo.id, :size => 'square100') %></li>
-            <li><%= link_to 'Square200', photo_version_path(@persona.screen_name, @photo.id, :size => 'square200') %></li>
+            <li>
+              <%= link_to 'Square50', photo_version_path(@persona.screen_name, @photo.id, :size => 'square50') %>
+            </li>
+            <li>
+              <%= link_to 'Square100', photo_version_path(@persona.screen_name, @photo.id, :size => 'square100') %>
+            </li>
+            <li>
+              <%= link_to 'Square200', photo_version_path(@persona.screen_name, @photo.id, :size => 'square200') %>
+            </li>
           </ul>
         </td>
         <td>
           <ul>
             <li><%= link_to 'Thumb50', photo_version_path(@persona.screen_name, @photo.id, :size => 'thumb50') %></li>
-            <li><%= link_to 'Thumb100', photo_version_path(@persona.screen_name, @photo.id, :size => 'thumb100') %></li>
+            <li>
+              <%= link_to 'Thumb100', photo_version_path(@persona.screen_name, @photo.id, :size => 'thumb100') %>
+            </li>
           </ul>
         </td>
         <td>
@@ -36,44 +44,29 @@
             <li><%= link_to 'Medium', photo_version_path(@persona.screen_name, @photo.id, :size => 'medium') %></li>
           </ul>
         </td>
-        <% if @persona.premium? then %>
-          <td>
-            <ul>
-              <li><%= link_to 'Large', photo_version_path(@persona.screen_name, @photo.id, :size => 'large') %></li>
-              <li><%= link_to 'X-large', photo_version_path(@persona.screen_name, @photo.id, :size => 'xlarge') %></li>
-            </ul>
-          </td>
-          <td>
-            <ul>
-              <li><%= link_to 'Original', photo_version_path(@persona.screen_name, @photo.id, :size => 'original') %></li>
-            </ul>
-          </td>
-        <% else %>
-          <td >
-            <ul>
-              <li><%= link_to 'Large', photo_version_path(@persona.screen_name, @photo.id, :size => 'large') %></li>
-              <li>X-Large size is available when account is upgraded to premium</li>
-            </ul>
-          </td>
-          <td>
-            This size is available when the account is upgraded to premium
-          </td>
-        <% end %>
+        <td>
+          <ul>
+            <li><%= link_to 'Large', photo_version_path(@persona.screen_name, @photo.id, :size => 'large') %></li>
+            <li><%= link_to 'X-large', photo_version_path(@persona.screen_name, @photo.id, :size => 'xlarge') %></li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>
+              <%= link_to 'Original', photo_version_path(@persona.screen_name, @photo.id, :size => 'original') %>
+            </li>
+          </ul>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
-<% if @persona.premium? || !(['xlarge', 'original'].include? params[:size]) then %>
-  <div class="row-fluid">
-    <%= image_tag @avatar, :style=>'max-width:none;' %>
-  </div>
-  <div class="row-fluid">
-    <%= link_to 'Download this version', photo_download_path(@persona.screen_name, @photo, :size => params[:size]), :method => :post %>
-  </div>
-<% else %>
-  <div class="row-fluid">
-    <p class="lead">
-      The image will be available when the account is <%= link_to 'upgraded', persona_upgrade_acc_path(@persona.screen_name) %> to premium account
-    <p>
-  </div>
-<% end %>
+<div class="row-fluid">
+  <%= image_tag @avatar, :style=>'max-width:none;' %>
+</div>
+<div class="row-fluid">
+  <%= 
+      link_to 'Download this version', 
+        photo_download_path(@persona.screen_name, @photo, :size => params[:size]), :method => :post 
+  %>
+</div>
