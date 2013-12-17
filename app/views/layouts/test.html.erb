@@ -1,9 +1,33 @@
 <html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sirap</title>
     <%= stylesheet_link_tag 'application', :media => 'all' %>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <!-- Size should be 57 x 57 pixels -->
+    <%= favicon_link_tag 'sirap-icon/apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
+    <!-- For all other devices -->
+    <!-- Size should be 32 x 32 pixels -->
+    <%= favicon_link_tag 'sirap-icon/favicon.svg', :rel => 'shortcut icon', :sizes => '32x32' %>
   </head>
   <body>
-		<%= nav_bar :static => :top, :brand => 'Wecool', :responsive => true %>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <!--a class="brand" href="#">Wecool</a-->
+          <%= link_to 'Sirap', root_path, :class=>'brand' %>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span12">
@@ -16,6 +40,12 @@
         <p>&copy; Company 2012-13 | <%= link_to 'About Us', aboutUs_path %> | <%= link_to 'Terms of Use', termsAndConditions_path %></p>
         
       </footer>
+
+      <!-- Javascripts
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <!--%= javascript_include_tag "application" %-->
+      <%= javascript_include_tag "application", controller_name %>
 
     </div> <!-- /container -->
   </body>
