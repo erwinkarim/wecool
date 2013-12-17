@@ -57,7 +57,7 @@
         <% @followers.each do |follower| %>
           <div class="pull-left" style="margin:4px 2px;">
             <%= link_to image_tag(
-              follower.avatar.normal.url.nil? ? 'icon/persona-avatar/persona-small.jpg' : follower.avatar.normal), 
+              follower.avatar.normal.url.nil? ? 'icon/persona-avatar/persona.svg' : follower.avatar.normal, :style => 'height:75px;'), 
               persona_path(follower.screen_name), :title => follower.screen_name, :class=>'row-fluid' %> 
           </div>
         <% end %>
@@ -75,7 +75,7 @@
       <div class="row-fluid">
         <% @following.each do |follower| %>
           <div class="pull-left" style="margin:4px 2px;">
-            <%= link_to image_tag(follower.avatar.normal.url.nil? ? 'icon/persona-avatar/persona-small.jpg' : follower.avatar.normal), 
+            <%= link_to image_tag(follower.avatar.normal.url.nil? ? 'icon/persona-avatar/persona.svg' : follower.avatar.normal, :style => 'height:75px;' ), 
               persona_path(follower.screen_name), :title => follower.screen_name, 
               :class => 'row-fluid' %>
           </div>
