@@ -6,7 +6,16 @@ var handle = $('<%= @options[:handle] %>');
     var frame = $('<div/>', { class:'carousel pull-left img-polaroid', style:'margin:2px;'} );
     frame.append($('<div/>', { class:'carousel-inner' } ) )
     frame.find('.carousel-inner').append( $('<div/>', { class:'carousel-caption'} ) )
-    frame.find('.carousel-inner').append('<%= escape_javascript(link_to image_tag(persona.avatar.url.nil? ? 'icon/persona-avatar/persona-normal.jpg': persona.avatar.large), persona_path(persona.screen_name) ) %> ' );
+    frame.find('.carousel-inner').append('<%= 
+      escape_javascript(
+        link_to(
+          image_tag( 
+            (persona.avatar.url.nil? ? 'icon/persona-avatar/persona.svg': persona.avatar.large), { :style => 'height:150px' }
+          ), 
+          persona_path(persona.screen_name) 
+        )
+      ) 
+    %> ' );
     frame.find('.carousel-caption').append( '<%= escape_javascript( link_to persona.screen_name, persona_path(persona.screen_name) ) %>' );
     handle.append(frame);
   <% end %>
