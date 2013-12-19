@@ -8,13 +8,14 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
       <% if @options[:mediatype] == 'mediaset' and params[:last_id] == '0' then %>
         handle.append(
             $('<div/>', { class:'carousel '+floatHandle, id:'noMorePhoto', style:'margin: 0x 2px 2px 0px; display:<%= @options[:cssDisplay] %>;'}).html(
-              '<%= image_tag 'icon/zero-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+              '<%= image_tag 'icon/zero-photo/zero-photo.svg', :class => 'img-polaroid', :style => 'height:' + @vector_height + ';' %>'
             )
         );
       <% else %>
         handle.append(
             $('<div/>', { class:'carousel '+floatHandle, id:'noMorePhoto', style:'margin: 0x 2px 2px 0px; display:<%= @options[:cssDisplay] %>;'}).html(
-              '<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+              //'<%= image_tag 'icon/last-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+              '<%= image_tag 'icon/last-photo/last-photo.svg', :class => 'img-polaroid', :style => 'height:' + @vector_height + ';' %>'
             )
         );
       <% end %>
@@ -23,7 +24,7 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
     if (handle.find('#noNewerPhoto').length == 0) {
       handle.prepend(
           $('<div/>', { class:'carousel '+floatHandle, id:'noNewerPhoto', style:'margin:0px 2px 2px 0px; display:<%= @options[:cssDisplay] %>; '}).html(
-            '<%= image_tag 'icon/first-photo/'+ @options[:size] +'.jpg', :class => 'img-polaroid' %>'
+            '<%= image_tag 'icon/first-photo/first-photo.svg', :class => 'img-polaroid', :Style => 'height:' + @vector_height + ';' %>'
           )
       );
     }

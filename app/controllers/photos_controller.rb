@@ -396,6 +396,35 @@ class PhotosController < ApplicationController
 
     @options = results[:options]
     @next_photos = results[:photos]
+
+    #set the svg height
+    case @options[:size]
+    when 'width1200'
+      @vector_height = '1200px'
+    when 'xlarge'
+      @vector_height = '1000px'
+    when 'width980'
+      @vector_height = '980px'
+    when 'large'
+      @vector_height = '800px'
+    when 'width767'
+      @vector_height = '767px'
+    when 'width480'
+      @vector_height = '480px'
+    when 'medium'
+      @vector_height = '600px'
+    when 'small'
+      @vector_height = '400px'
+    when 'tiny' || 'square200'
+      @vector_height = '200px'
+    when 'square100' || 'thumb100'
+      @vector_height = '100px'
+    when 'square50' || 'thumb50'
+      @vector_height = '50px'
+    else
+      @vector_height = '512px'
+    end
+
     respond_to do |format|
       format.js
       format.html
