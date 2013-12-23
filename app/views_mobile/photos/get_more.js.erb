@@ -22,7 +22,11 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
     );
 
 
-    handle.append(photo_element);
+    <% if @options[:direction] == 'forward' then %>
+      handle.append(photo_element);
+    <% else %>
+      handle.prepend(photo_element);
+    <% end %>
   <% end %>
 
   //update last attribute on ',endless-photo'
@@ -40,6 +44,30 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
     $('<%= @options[:photoCountDiv] %>').attr('first', last_id ); 
   <% end %>
 
+<% end %>
+
+<% if @next_photos.empty? then %>
+  //append last photos
+
+  <% if @options[:direction] == 'forward' then %>
+    if (handle.find('#noMorePhoto').length == 0) {
+      handle.append( 
+        noPhotosHandle = $.parseHTML(
+          '<%= image_tag 'icon/last-photo/last-photo.svg', :id => 'noMorePhoto' , 
+            :style => 'width: ' + @vector_height + ';' %>'
+        )
+      );
+    }
+  <% else %>
+    if (handle.find('#noNewerPhoto').length == 0) {
+      handle.prepend( 
+        noPhotosHandle = $.parseHTML(
+          '<%= image_tag 'icon/first-photo/first-photo.svg', :id => 'noNewerPhoto' , 
+            :style => 'width: ' + @vector_height + ';' %>'
+        )
+      );
+    }
+  <% end %>
 <% end %>
 
 //remove loading indicator if found 

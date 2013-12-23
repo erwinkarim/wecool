@@ -25,7 +25,7 @@
     //load normal photos
     $.ajax({
       url: '/photos/get_more/' + params['photo_id'],
-      data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
         includeFirst:true, author:params['screen_name'], showIndicators:false, highlight:true, limit:4 ,
         photoFocusID:params['photo_id'] },
       beforeSend: indicator.load('#photostream', 'after'),
@@ -33,7 +33,7 @@
     });
     $.ajax({
       url: '/photos/get_more/' + params['photo_id'],
-      data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
         author:params['screen_name'], showIndicators:false, highlight:true, limit:3, direction:'reverse' },
       dataType: 'script'
     });
@@ -43,14 +43,14 @@
       //load featured photos
       $.ajax({
         url: '/photos/get_more/' + params['photo_id'],
-        data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
           featured:true, includeFirst:true, author:params['screen_name'], mediatype:'featured', showIndicators:false, highlight:true, limit:4, photoFocusID:params['photo_id'] },
         beforeSend: indicator.load('#featuredPhotos', 'after'),
         dataType: 'script'
       });
       $.ajax({
         url: '/photos/get_more/' + params['photo_id'],
-        data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
           featured:true, author:params['screen_name'], mediatype:'featured', showIndicators:false, 
           highlight:true, direction:'reverse', limit:3 },
         dataType: 'script'
@@ -63,7 +63,7 @@
       //load mediaset photos
       $.ajax({
         url: '/photos/get_more/' + $('#mediaset-' + params['mediaset_ids'][i] ).attr('last') ,
-        data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i], 
+        data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i], 
           photoCountDiv:'#mediaset-' + params['mediaset_ids'][i], 
           mediaset_id:params['mediaset_ids'][i],  includeFirst:true, mediatype:'mediaset', showIndicators:false, 
           highlight:true, limit:3, photoFocusID:params['photo_id'] },
@@ -72,7 +72,7 @@
       });
       $.ajax({
         url: '/photos/get_more/' + $('#mediaset-' + params['mediaset_ids'][i] ).attr('last') ,
-        data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i] , 
+        data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i] , 
           photoCountDiv:'#mediaset-' + params['mediaset_ids'][i] , mediaset_id:params['mediaset_ids'][i] ,  
           mediatype:'mediaset', showIndicators:false, highlight:true, limit:3, direction:'reverse' },
         dataType: 'script'
@@ -82,7 +82,7 @@
     //load related photos
     $.ajax({
         url: '/photos/get_more/0',
-        data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
+        data: { size:'square200', showCaption:false, targetDiv:'#related-photos', 
           photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
           focusPhotoID:params['photo_id'] },
         beforeSend: indicator.load('#related-photos', 'after'),
@@ -120,7 +120,7 @@
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#photostream').attr('first'), 
-            data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+            data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
               author:params['screen_name'], showIndicators:false, direction:'reverse' },
             beforeSend: indicator.load('#photostream', 'before'),
             dataType: 'script'
@@ -131,7 +131,7 @@
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#photostream').attr('last'), 
-            data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+            data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
               author:params['screen_name'], showIndicators:false},
             beforeSend: indicator.load('#photostream', 'after'),
             dataType: 'script'
@@ -141,7 +141,7 @@
         $('#loadNewerFeaturedBtn').click( function(){
           $.ajax({
             url: '/photos/get_more/' + $('#featuredPhotos').attr('first'), 
-            data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', 
+            data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', 
               photoCountDiv:'#featuredPhotos', featured:true, author:params['screen_name'], mediatype:'featured', 
               showIndicators:false, direction:'reverse' },
             beforeSend: indicator.load('#featuredPhotos', 'before'),
@@ -153,7 +153,7 @@
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#featuredPhotos').attr('last'), 
-            data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', 
+            data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', 
               photoCountDiv:'#featuredPhotos', featured:true, author:params['screen_name'], mediatype:'featured', 
               showIndicators:false },
             beforeSend: indicator.load('#featuredPhotos', 'after'),
@@ -165,7 +165,7 @@
           $('#loadNewerMediaset-' + v + '-btn').click( function(){
             $.ajax({
               url: '/photos/get_more/' + $('#mediaset-' + v ).attr('first') ,
-              data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + v, 
+              data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + v, 
                 photoCountDiv:'#mediaset-' + v , mediaset_id:v, 
                 mediatype:'mediaset', showIndicators:false, direction:'reverse' },
               beforeSend: indicator.load('#mediaset-' + v, 'before'),
@@ -177,7 +177,7 @@
           $('#loadOlderMediaset-' + v + '-btn').click( function(){
             $.ajax({
               url: '/photos/get_more/' + $('#mediaset-' + v).attr('last') ,
-              data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + v,  
+              data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + v,  
                 photoCountDiv:'#mediaset-' + v,  mediaset_id:v,   
                 mediatype:'mediaset', showIndicators:false },
               beforeSend: indicator.load('#mediaset-' + v,  'after'),
@@ -190,7 +190,7 @@
         $('#loadMoreRelatedBtn').click( function(){
           $.ajax({
               url: '/photos/get_more/' + $('#related-photos').attr('last'),
-              data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
+              data: { size:'square200', showCaption:false, targetDiv:'#related-photos', 
                 photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
                 focusPhotoID:params['photo_id'] },
               beforeSend: indicator.load('#related-photos', 'after'),
@@ -214,33 +214,6 @@
         break;
       }
     });
-
-		//for owners of the photo
-		/*  
-    if ( params['persona_signed_in'] ){
-        //hide all the forms
-        $("#photo-title-form").hide();
-        $("#photo-desc-form").hide();
-        
-        //click event
-        $("#photo-title").click(function (event){
-          $("#photo-title").hide("slow");
-          $("#photo-title-form").show("slow");
-        });
-        $("#photo-title-cancel-btn").click(function (event){
-          $("#photo-title").show("slow");
-          $("#photo-title-form").hide("slow");
-        });
-        $("#photo-desc").click(function (event){
-          $("#photo-desc").hide("slow");
-          $("#photo-desc-form").show("slow"); 
-        });
-        $("#photo-desc-cancel-btn").click(function (event){
-          $("#photo-desc").show("slow");
-          $("#photo-desc-form").hide("slow"); 
-        });
-    };
-    */
 
   }; // Paloma.callbacks['photos']['view'] = function(params){
 
