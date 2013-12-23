@@ -1,0 +1,112 @@
+<% 
+  default_options = { :mode => 'single_photo' } 
+  default_options =  defined?(option).nil? ? default_options : default_options.merge(option) 
+  if default_options[:mode] == 'single_photo' then 
+    photoUrl = photo_view_url(persona.screen_name, photo) 
+  elsif default_options[:mode] == 'persona_photos' then 
+    photoUrl = photo_url(persona.screen_name) 
+  elsif default_options[:mode] == 'mediaset_photos' then 
+    photoUrl = view_sets_url(persona.screen_name, photo.id) 
+  elsif default_options[:mode] == 'mediasets' then
+    photoUrl = mediaset_url(persona.screen_name)
+  end 
+%>
+<ul class="dropdown-menu">
+  <li>
+    <%= form_tag '#', :style => 'padding:3px 20px;' do %>
+      <div class="row-fluid" id="copy-via-display">
+          <%= content_tag :a, '<i class="icon-envelope-alt icon-4x"></i>'.html_safe, 
+            :href => '#share-via-email', :data => { :toggle=> 'modal' }
+          %>
+      </div>
+    <% end %>
+  </li>
+</ul>
+<div>
+  <%= 
+    modal_dialog :id => 'share-via-email', 
+      :header => { :show_close => true, :dismiss => 'modal', :title => 'Share Via Email' },
+      :body => 
+        content_tag( :div, 
+          label_tag('email-share-label', 'Email:',  :class=>'control-label') + 
+            text_field_tag('email-field', nil, :placeholder => 'Type email here', :class=>'span10'), 
+          :class => 'control-group', :id => 'email-control-group' ) + 
+        content_tag( :div, 
+          label_tag('share-via-email-description-label', 'Description:') + 
+            text_area_tag('description-field', nil, :placeholder => 'Type Description Here', :class=> 'span10' ), 
+          :class=>'control-group', :id => 'description-control-group' ) , 
+      :footer => content_tag(:button, 'Cancel', :class => 'btn', :'data-dismiss' => 'modal') + 
+        content_tag(:button, 'Send', :class => 'btn btn-primary', :id => 'share-via-email-exec') 
+  %>
+</div>
+<%= content_for :other_javascript do %>
+<script type="text/javascript">
+$(document).ready( function() {
+  //for the link copy copy to clipboard
+  var clip = new ZeroClipboard( document.getElementById('copyToClip'), {
+    moviePath: '/assets/ZeroClipboard.swf'
+  });
+
+  clip.on('complete', function(client, args){
+    alert('Copied to Clipboard');
+  });
+
+  // for the html Code Copy to clipboard
+  var htmlClip = new ZeroClipboard( document.getElementById('copyHTMLToClip'), {
+    moviePath: '/assets/ZeroClipboard.swf'
+  });
+
+  htmlClip.on('complete', function(client, args){
+    alert('Copied to Clipboard');
+  });
+
+  $('#copyHTMLSize').change( function(){
+    //update text area
+    var tempText = $('#htmlCopyText').val();
+    tempText = tempText.replace(/src=".*"/, 
+      "src=\"<%= "#{request.protocol}#{request.host_with_port}" %>" + $("#copyHTMLSize").val() + "\"" ); 
+    $('#htmlCopyText').val(tempText);
+  });
+
+  $('#copy-link-caret').click( function(){
+    $('#copy-link-display').fadeToggle();
+    $('#copy-link-caret').toggleClass('icon-caret-down');
+    $('#copy-link-caret').toggleClass('icon-caret-right');
+  });
+
+  $('#copy-html-caret').click( function(){
+    $('#copy-html-display').fadeToggle();
+    $('#copy-html-caret').toggleClass('icon-caret-down');
+    $('#copy-html-caret').toggleClass('icon-caret-right');
+  });
+
+  //when share via email send button is clicked
+  $('#share-via-email-exec').click( function(){
+    //check the form
+    var r = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+    if ($('#email-field').val().match(r) == null) { 
+      $('#email-control-group').addClass('warning');
+    } else {
+      $('#email-control-group').removeClass('warning');
+      //if ok, send command to send email
+      shareURL = '<%= photo_share_path(persona.screen_name) %>'; 
+      $.ajax({
+        type: 'POST', 
+        url: shareURL,
+        data: { mode:'email', email:$('#email-field').val(), 
+          description:$('#description-field').val(), 
+          photoList:'<%= escape_javascript(@photoList).html_safe %>', 
+          url:'<%= photoUrl %>' }, 
+        dataType: 'script',
+        success: function(){
+          $('#email-field').val('');
+          //the close the window
+          $('#share-via-email').modal('hide');
+        }
+      });
+
+    }
+  });
+});
+</script>
+<% end %>
