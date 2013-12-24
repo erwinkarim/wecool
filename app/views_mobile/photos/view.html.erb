@@ -173,8 +173,11 @@
         </div>
         <div class="accordion-body collapse in" id="collapseInfo">
           <div class="accordion-inner">
-            <h3><%= @photo.title %> <small>by <%= @persona.screen_name %></small></h3> 
-            <p class="lead"><%= @photo.description %></p>
+            <h3><%= 
+              auto_link( @photo.title + content_tag( :small, 'by @' +  @persona.screen_name) , 
+                Photo::AUTOLINK_DEFAULTS ).html_safe 
+            %></h3>  
+            <p class="lead"><%= auto_link(@photo.description, Photo::AUTOLINK_DEFAULTS).html_safe %></p>
           </div>
         </div>
       </div>
