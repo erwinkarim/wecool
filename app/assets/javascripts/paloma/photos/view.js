@@ -215,33 +215,6 @@
       }
     });
 
-		//for owners of the photo
-		/*  
-    if ( params['persona_signed_in'] ){
-        //hide all the forms
-        $("#photo-title-form").hide();
-        $("#photo-desc-form").hide();
-        
-        //click event
-        $("#photo-title").click(function (event){
-          $("#photo-title").hide("slow");
-          $("#photo-title-form").show("slow");
-        });
-        $("#photo-title-cancel-btn").click(function (event){
-          $("#photo-title").show("slow");
-          $("#photo-title-form").hide("slow");
-        });
-        $("#photo-desc").click(function (event){
-          $("#photo-desc").hide("slow");
-          $("#photo-desc-form").show("slow"); 
-        });
-        $("#photo-desc-cancel-btn").click(function (event){
-          $("#photo-desc").show("slow");
-          $("#photo-desc-form").hide("slow"); 
-        });
-    };
-    */
-
   }; // Paloma.callbacks['photos']['view'] = function(params){
 
 })();
