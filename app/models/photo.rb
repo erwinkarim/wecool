@@ -1,6 +1,6 @@
 require 'carrierwave/orm/activerecord'
 class Photo < ActiveRecord::Base
-  include Twitter::Extractor
+	include Twitter::Extractor
   make_voteable
   acts_as_taggable
   belongs_to :persona
@@ -11,6 +11,8 @@ class Photo < ActiveRecord::Base
   validates :persona_id, :presence => true
   after_initialize :init
   has_paper_trail
+
+	AUTOLINK_DEFAULTS= { :username_url_base => '/personas/', :hashtag_url_base => '/tags/view/' }
 
   include Rails.application.routes.url_helpers
 

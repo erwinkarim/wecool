@@ -158,23 +158,25 @@
           <div class="carousel-caption row-fluid" style="display:none;" >
             <div class="span7" id="photo-title-and-desc">
               <h4 id="photo-title">
-                <%= best_in_place_if current_persona == @persona, @photo, :title, :type => :input, 
-                  :html_attrs => { :size => 80, :style => 'font-size:17.5px', :class => 'span10' } %>
-                <small> by <%= link_to persona_signed_in? && 
-                  current_persona == @persona ? 'you' : @persona.screen_name, persona_path(@persona.screen_name) %>
-                </small>
+                <%= 
+									auto_link( 
+										best_in_place_if(current_persona == @persona, @photo, :title, :type => :input, 
+											:html_attrs => { :size => 80, :style => 'font-size:17.5px', :class => 'span10' }
+										) + 
+										content_tag(:small, ' by @' + @persona.screen_name) , Photo::AUTOLINK_DEFAULTS
+									).html_safe %>
               </h4>
               <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
                 <!--%= simple_format(
                   @photo.description.nil? || @photo.description.empty? ? 'No Description' : 
                     @photo.description, :style=>'padding-bottom:1em;' 
                 ) %-->
-                <%= best_in_place_if current_persona == @persona, @photo, :description, :type => :textarea, 
+                <%= auto_link( best_in_place_if(current_persona == @persona, @photo, :description, :type => :textarea, 
                   :nil => simple_format('No Description, click to add'), :inner_class=> 'row-fluid',
                   :ok_button => 'Update', :cancel_button => 'Cancel', 
                   :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
                   :display_with => :simple_format, :sanitize => false, 
-                  :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }
+                  :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }) , Photo::AUTOLINK_DEFAULTS ).html_safe
                 %>
               </div>
             </div><!-- photo title and description-->
