@@ -157,8 +157,9 @@
             :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
           <div class="carousel-caption row-fluid" style="display:none;" >
             <div class="row-fuild">
-            <table>
-              <tbody class="span12">
+              <div class="span12">
+            <table width="90%">
+              <tbody>
                 <tr>
                   <td>
                     <%= current_persona == @persona ? 
@@ -170,14 +171,13 @@
                     <!-- title -->
                     <h4 id="photo-title">
                       <%= 
-                        auto_link( 
                           best_in_place_if(current_persona == @persona, @photo, :title, :activator => '.edit-title', 
-                            :type => :input, :html_attrs => { 
+                            :type => :input, :display_as => :title_auto_linked , :html_attrs => { 
                               :size => 80, :style => 'font-size:17.5px', :class => 'span10' 
                             }
                           ) + 
-                          content_tag(:small, ' by @' + @persona.screen_name) , Photo::AUTOLINK_DEFAULTS
-                        ).html_safe %>
+                          auto_link( content_tag(:small, ' by @' + @persona.screen_name), Photo::AUTOLINK_DEFAULTS).html_safe
+                      %>
                     </h4>
                   </td>
                   <td colspan="2" class="span3">
@@ -206,17 +206,14 @@
                     <!-- description -->
                     <p>
                     <%= 
-                      auto_link( 
                         best_in_place_if(current_persona == @persona, @photo, :description, 
                           :activator => '.edit-description', :type => :textarea, 
                           :nil => simple_format('No Description, click to add'), :inner_class=> 'row-fluid',
                           :ok_button => 'Update', :cancel_button => 'Cancel', 
                           :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
-                          :display_with => :strip_tags, 
+                          :display_as => :description_auto_linked, 
                           :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }
-                        ) , 
-                        Photo::AUTOLINK_DEFAULTS 
-                      ).html_safe
+                        ) 
                     %>
                     </p>
                   </td>

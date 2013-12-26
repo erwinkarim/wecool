@@ -1,6 +1,7 @@
 require 'carrierwave/orm/activerecord'
 class Photo < ActiveRecord::Base
 	include Twitter::Extractor
+  include Twitter::Autolink
   make_voteable
   acts_as_taggable
   belongs_to :persona
@@ -416,5 +417,15 @@ class Photo < ActiveRecord::Base
     if !self.avatar.nil? then
       self.update_attribute(:md5, Digest::MD5.hexdigest( File.read(path) ) )
     end
+  end
+
+  #display title w/ auto_link on
+  def title_auto_linked
+     return auto_link(self.title, Photo::AUTOLINK_DEFAULTS).html_safe
+  end
+
+  #displya description w/ auto_link on
+  def description_auto_linked
+    return auto_link(self.description, Photo::AUTOLINK_DEFAULTS).html_safe
   end
 end
