@@ -156,103 +156,131 @@
           <%= image_tag @photo.avatar.large, 
             :style=> 'margin-left:auto; margin-right:auto;', :id=>'photo_' + @photo.id.to_s %>
           <div class="carousel-caption row-fluid" style="display:none;" >
-            <div class="span7" id="photo-title-and-desc">
-              <h4 id="photo-title">
-                <%= 
-									auto_link( 
-										best_in_place_if(current_persona == @persona, @photo, :title, :type => :input, 
-											:html_attrs => { :size => 80, :style => 'font-size:17.5px', :class => 'span10' }
-										) + 
-										content_tag(:small, ' by @' + @persona.screen_name) , Photo::AUTOLINK_DEFAULTS
-									).html_safe %>
-              </h4>
-              <div id="photo-desc" class="row-fluid" style="max-height:150px; overflow:auto;">
-                <!--%= simple_format(
-                  @photo.description.nil? || @photo.description.empty? ? 'No Description' : 
-                    @photo.description, :style=>'padding-bottom:1em;' 
-                ) %-->
-                <%= auto_link( best_in_place_if(current_persona == @persona, @photo, :description, :type => :textarea, 
-                  :nil => simple_format('No Description, click to add'), :inner_class=> 'row-fluid',
-                  :ok_button => 'Update', :cancel_button => 'Cancel', 
-                  :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
-                  :display_with => :simple_format, :sanitize => false, 
-                  :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }) , Photo::AUTOLINK_DEFAULTS ).html_safe
-                %>
-              </div>
-            </div><!-- photo title and description-->
-            <div class="span4">
-              <div class="progress">
-                <!-- the voting & featured stuff -->
-                <% total_votes = @photo.up_votes + @photo.down_votes %>
-                <% if total_votes == 0 then %>
-                  <div class="bar bar-info" style="width:100%;"></div>
-                <% else %>
-                  <div class="bar bar-success" style="width:<%= @photo.up_votes.to_f/total_votes * 100 %>%;">
-                  </div>
-                  <div class="bar bar-danger" style="width:<%= @photo.down_votes.to_f/total_votes * 100 %>%;">
-                  </div>
-                <% end %>
-              </div><!-- progress -->
-              <div class="pull-left">
-                <h4><div id="totalVoteBox"><%= pluralize total_votes, 'vote' %></div></h4>
-              </div>
-              <div id="ToVoteAndFeatureBox" class="pull-right">
-                <div class="pull-left">
-                  <h4>
-                    <div id="visibilityBox" style="margin-right:1em;">
-                      <a name="visibilityAnchor"></a>
-                      <% if current_persona == @persona  && current_persona.premium then %>
-                        <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
-                          '"></i>').html_safe %>
-                        <% if @photo.featured then %>
-                          <%= link_to visibilityIcon, '#photo', :'data-toggle'=> 'popover', 
-                            :'data-placement' => 'top', :'data-content' => 'Featured photos is always visible', 
-                            :'data-original-title' => 'Notice' %>
-                        <% else %>
-                          <%= link_to visibilityIcon, photo_toggle_visibility_path(@persona.screen_name, @photo), 
-                            :remote => true, :method => :post
-                          %>
-                        <% end %>
+            <div class="row-fuild">
+            <table>
+              <tbody class="span12">
+                <tr>
+                  <td>
+                    <%= current_persona == @persona ? 
+                          content_tag(:i, '', :class => 'icon-edit icon-2x edit-title', :style=> 'color:white;' ) 
+                        : '' 
+                    %>
+                  </td>
+                  <td class="span9">
+                    <!-- title -->
+                    <h4 id="photo-title">
+                      <%= 
+                        auto_link( 
+                          best_in_place_if(current_persona == @persona, @photo, :title, :activator => '.edit-title', 
+                            :type => :input, :html_attrs => { 
+                              :size => 80, :style => 'font-size:17.5px', :class => 'span10' 
+                            }
+                          ) + 
+                          content_tag(:small, ' by @' + @persona.screen_name) , Photo::AUTOLINK_DEFAULTS
+                        ).html_safe %>
+                    </h4>
+                  </td>
+                  <td colspan="2" class="span3">
+                    <% total_votes = @photo.up_votes + @photo.down_votes %>
+                    <div class="progress">
+                      <% if total_votes == 0 then %>
+                        <div class="bar bar-info" style="width:100%;"></div>
+                      <% else %>
+                        <div class="bar bar-success" style="width:<%= @photo.up_votes.to_f/total_votes * 100 %>%;">
+                        </div>
+                        <div class="bar bar-danger" style="width:<%= @photo.down_votes.to_f/total_votes * 100 %>%;">
+                        </div>
                       <% end %>
                     </div>
-                  </h4>
-                </div>
-                <div>
-                  <h4>
-                    <div id="featuredBox">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <%= current_persona == @persona ? 
+                          content_tag(:i, '', :class => 'icon-edit icon-2x edit-description', 
+                            :style => 'color:white;' ) 
+                        : '' 
+                    %>
+                  </td>
+                  <td id="photo-desc" style="max-height:150px; overflow:auto;" >
+                    <!-- description -->
+                    <p>
+                    <%= 
+                      auto_link( 
+                        best_in_place_if(current_persona == @persona, @photo, :description, 
+                          :activator => '.edit-description', :type => :textarea, 
+                          :nil => simple_format('No Description, click to add'), :inner_class=> 'row-fluid',
+                          :ok_button => 'Update', :cancel_button => 'Cancel', 
+                          :ok_button_class => 'btn btn-primary', :cancel_button_class => 'btn', 
+                          :display_with => :strip_tags, 
+                          :html_attrs => { :style => 'display:block', :cols => 80, :class => 'span12' }
+                        ) , 
+                        Photo::AUTOLINK_DEFAULTS 
+                      ).html_safe
+                    %>
+                    </p>
+                  </td>
+                  <td>
+                    <h4><div id="totalVoteBox"><%= pluralize total_votes, 'vote' %></div></h4>
+                  </td>
+                  <td>
+                    <h4>
+                      <div class="voteBox">
+                      <% if persona_signed_in? then %>
+                        <% if current_persona.voted?(@photo) then %>
+                          Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
+                          <%= link_to 'unvote', photo_unvote_path(@photo,current_persona.screen_name), 
+                            :remote => true, :method => :post %>
+                        <% else %>
+                          <%= link_to '<i class="icon-thumbs-up icon-white"></i>'.html_safe, 
+                            photo_vote_path(@photo, 'up', current_persona.screen_name), 
+                            :remote=>true, :method => :post %>
+                          <%= link_to '<i class="icon-thumbs-down icon-white"></i>'.html_safe, 
+                            photo_vote_path(@photo, 'down', current_persona.screen_name), 
+                            :remote=>true, :method=>:post %>
+                        <% end %>
+                      <% else %>
+                        <p>Login to Vote</p>
+                      <% end %>
+                      </div>
+                      </h4>
+                    </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td id="featuredBox">
+                    <!-- make this featured or not -->
+                    <h4>
                       <% if current_persona == @persona then %>
                         <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
                         <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
-                          photo_toggle_featured_path(@persona.screen_name, @photo), :remote=>true, :method=>:post
+                          photo_toggle_featured_path(@persona.screen_name, @photo), :remote=>true, :method=>:post 
                          %>
                       <% end %>
-                    </div>
-                  </h4>
-                </div>
-                <div>
-                  <h4>
-                    <div class="voteBox">
-                    <% if persona_signed_in? then %>
-                      <% if current_persona.voted?(@photo) then %>
-                        Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
-                        <%= link_to 'unvote', photo_unvote_path(@photo,current_persona.screen_name), 
-                          :remote => true, :method => :post %>
-                      <% else %>
-                        <%= link_to '<i class="icon-thumbs-up icon-white"></i>'.html_safe, 
-                          photo_vote_path(@photo, 'up', current_persona.screen_name), 
-                          :remote=>true, :method => :post %>
-                        <%= link_to '<i class="icon-thumbs-down icon-white"></i>'.html_safe, 
-                          photo_vote_path(@photo, 'down', current_persona.screen_name), 
-                          :remote=>true, :method=>:post %>
-                      <% end %>
-                    <% else %>
-                      <p>Login to Vote</p>
-                    <% end %>
-                    </div>
                     </h4>
+                  </td>
+                  <td id="visibilityBox">
+                    <!-- make this private or not -->
+                    <a name="visibilityAnchor"></a>
+                    <% if current_persona == @persona then %>
+                      <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
+                        '"></i>').html_safe %>
+                      <% if @photo.featured then %>
+                        <%= link_to visibilityIcon, '#photo', :'data-toggle'=> 'popover', 
+                          :'data-placement' => 'top', :'data-content' => 'Featured photos is always visible', 
+                          :'data-original-title' => 'Notice' %>
+                      <% else %>
+                        <%= link_to visibilityIcon, photo_toggle_visibility_path(@persona.screen_name, @photo), 
+                          :remote => true, :method => :post
+                        %>
+                      <% end %>
+                    <% end %>
                   </div>
-                </div>
-              </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </div><!-- row fluid -->
             </div><!-- carousel-caption -->
           </div><!-- active item -->
         </div><!-- corousel-inner -->
