@@ -49,14 +49,18 @@
       }).bind( 'fileuploadsubmit', function (e,data){
         var inputs = data.context.find(':input');
         data.formData = inputs.serializeArray();
-
+      }).bind('fileuploadadded', function(e, data){
+        //toggle picture visibility after the upload template has been rendered
+        $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind('click', function(){
+            var visible_checkbox = $(this).parent().find('.visible');
+            visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
+            if(  visible_checkbox.attr('checked') != null ) {
+              $(this).html( '<i class="icon-eye-close"></i> Private');
+            } else {
+              $(this).html( '<i class="icon-eye-open"></i> Public');
+            };
+          })//bind
       }).bind( 'fileuploadadded', function (e,data) {
-        //toggle picture visibility
-        $('.visible_button').bind('click', function(){
-          var visible_checkbox = $(this).parent().find('.visible');
-          visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
-        });
-
         //detect dupes when file uploaded
         $.each(data.files, function(index, file){
           var reader = new FileReader();
