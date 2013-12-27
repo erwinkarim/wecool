@@ -139,9 +139,14 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     #logger.debug 'Avatar dump:' + params[:photo][:avatar].tempfile.path
+
     @photo = current_persona.photos.new(params[:photo])
     @photo.system_visible = true
     @photo.title = @photo.avatar.to_s.split('/').last
+  
+    if params.has_key? :visible then 
+      @photo.visible = false
+    end
 
     respond_to do |format|
       if @photo.save

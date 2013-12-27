@@ -46,7 +46,18 @@
       // Initialize the jQuery File Upload widget:
       $('#fileupload').fileupload({
         dropZone: $('#dropzone')
+      }).bind( 'fileuploadsubmit', function (e,data){
+        var inputs = data.context.find(':input');
+        data.formData = inputs.serializeArray();
+
       }).bind( 'fileuploadadded', function (e,data) {
+        //toggle picture visibility
+        $('.visible_button').bind('click', function(){
+          var visible_checkbox = $(this).parent().find('.visible');
+          visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
+        });
+
+        //detect dupes when file uploaded
         $.each(data.files, function(index, file){
           var reader = new FileReader();
           reader.onload = function(){
@@ -168,6 +179,7 @@
         });
         $('.duplicate').remove();
       });
+
 
       //drop zone
       $(document).bind('dragover', function (e) {
