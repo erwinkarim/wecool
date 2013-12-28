@@ -15334,7 +15334,22 @@ var performFilters = function(filters, params){
       // Initialize the jQuery File Upload widget:
       $('#fileupload').fileupload({
         dropZone: $('#dropzone')
+      }).bind( 'fileuploadsubmit', function (e,data){
+        var inputs = data.context.find(':input');
+        data.formData = inputs.serializeArray();
+      }).bind('fileuploadadded', function(e, data){
+        //toggle picture visibility after the upload template has been rendered
+        $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind('click', function(){
+            var visible_checkbox = $(this).parent().find('.visible');
+            visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
+            if(  visible_checkbox.attr('checked') != null ) {
+              $(this).html( '<i class="icon-eye-close"></i> Private');
+            } else {
+              $(this).html( '<i class="icon-eye-open"></i> Public');
+            };
+          })//bind
       }).bind( 'fileuploadadded', function (e,data) {
+        //detect dupes when file uploaded
         $.each(data.files, function(index, file){
           var reader = new FileReader();
           reader.onload = function(){
@@ -15383,17 +15398,18 @@ var performFilters = function(filters, params){
                       parentHandle.find('.start').show();
                       //this can cause the cancel button not to work so hide it for now
                       parentHandle.find('.cancel').show();
+                      parentHandle.find('.visibility').show();
                       parentHandle.find('.duplicate-button').hide();
                       parentHandle.find('.duplicate-text').hide();
                       parentHandle.find('.duplicate-cancel').hide();
                       parentHandle.toggleClass('warning');
                       parentHandle.removeClass('duplicate');
                       parentHandle.addClass('template-upload');
-                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideOut(
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideUp(
                         400, function(){
                           $(this).remove();
                           if( $('#duplisting').find('img').length == 0) {
-                            $('#dupzone').slideOut();
+                            $('#dupzone').slideUp();
                           }
                       });
                     })
@@ -15418,8 +15434,11 @@ var performFilters = function(filters, params){
                     })
                   )
                 );
+
                 $('[data-name="' + file.name + '"]').find('.start').hide();
                 $('[data-name="' + file.name + '"]').find('.cancel').hide();
+                $('[data-name="' + file.name + '"]').find('.visibility').hide();
+  
 
                 //disable dups from being upload
                 $('[data-name="' + file.name + '"]').removeClass('template-upload');
@@ -15456,6 +15475,7 @@ var performFilters = function(filters, params){
         });
         $('.duplicate').remove();
       });
+
 
       //drop zone
       $(document).bind('dragover', function (e) {
@@ -15597,7 +15617,7 @@ var performFilters = function(filters, params){
     //load normal photos
     $.ajax({
       url: '/photos/get_more/' + params['photo_id'],
-      data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
         includeFirst:true, author:params['screen_name'], showIndicators:false, highlight:true, limit:4 ,
         photoFocusID:params['photo_id'] },
       beforeSend: indicator.load('#photostream', 'after'),
@@ -15605,7 +15625,7 @@ var performFilters = function(filters, params){
     });
     $.ajax({
       url: '/photos/get_more/' + params['photo_id'],
-      data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+      data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
         author:params['screen_name'], showIndicators:false, highlight:true, limit:3, direction:'reverse' },
       dataType: 'script'
     });
@@ -15615,14 +15635,14 @@ var performFilters = function(filters, params){
       //load featured photos
       $.ajax({
         url: '/photos/get_more/' + params['photo_id'],
-        data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
           featured:true, includeFirst:true, author:params['screen_name'], mediatype:'featured', showIndicators:false, highlight:true, limit:4, photoFocusID:params['photo_id'] },
         beforeSend: indicator.load('#featuredPhotos', 'after'),
         dataType: 'script'
       });
       $.ajax({
         url: '/photos/get_more/' + params['photo_id'],
-        data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
+        data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', photoCountDiv:'#featuredPhotos', 
           featured:true, author:params['screen_name'], mediatype:'featured', showIndicators:false, 
           highlight:true, direction:'reverse', limit:3 },
         dataType: 'script'
@@ -15635,7 +15655,7 @@ var performFilters = function(filters, params){
       //load mediaset photos
       $.ajax({
         url: '/photos/get_more/' + $('#mediaset-' + params['mediaset_ids'][i] ).attr('last') ,
-        data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i], 
+        data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i], 
           photoCountDiv:'#mediaset-' + params['mediaset_ids'][i], 
           mediaset_id:params['mediaset_ids'][i],  includeFirst:true, mediatype:'mediaset', showIndicators:false, 
           highlight:true, limit:3, photoFocusID:params['photo_id'] },
@@ -15644,7 +15664,7 @@ var performFilters = function(filters, params){
       });
       $.ajax({
         url: '/photos/get_more/' + $('#mediaset-' + params['mediaset_ids'][i] ).attr('last') ,
-        data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i] , 
+        data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + params['mediaset_ids'][i] , 
           photoCountDiv:'#mediaset-' + params['mediaset_ids'][i] , mediaset_id:params['mediaset_ids'][i] ,  
           mediatype:'mediaset', showIndicators:false, highlight:true, limit:3, direction:'reverse' },
         dataType: 'script'
@@ -15654,7 +15674,7 @@ var performFilters = function(filters, params){
     //load related photos
     $.ajax({
         url: '/photos/get_more/0',
-        data: { size:'square200', showCaption:false, targetDiv:'#related-photos', 
+        data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
           photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
           focusPhotoID:params['photo_id'] },
         beforeSend: indicator.load('#related-photos', 'after'),
@@ -15692,7 +15712,7 @@ var performFilters = function(filters, params){
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#photostream').attr('first'), 
-            data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+            data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
               author:params['screen_name'], showIndicators:false, direction:'reverse' },
             beforeSend: indicator.load('#photostream', 'before'),
             dataType: 'script'
@@ -15703,7 +15723,7 @@ var performFilters = function(filters, params){
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#photostream').attr('last'), 
-            data: { size:'square200', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
+            data: { size:'square100', showCaption:false, targetDiv:'#photostream', photoCountDiv:'#photostream', 
               author:params['screen_name'], showIndicators:false},
             beforeSend: indicator.load('#photostream', 'after'),
             dataType: 'script'
@@ -15713,7 +15733,7 @@ var performFilters = function(filters, params){
         $('#loadNewerFeaturedBtn').click( function(){
           $.ajax({
             url: '/photos/get_more/' + $('#featuredPhotos').attr('first'), 
-            data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', 
+            data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', 
               photoCountDiv:'#featuredPhotos', featured:true, author:params['screen_name'], mediatype:'featured', 
               showIndicators:false, direction:'reverse' },
             beforeSend: indicator.load('#featuredPhotos', 'before'),
@@ -15725,7 +15745,7 @@ var performFilters = function(filters, params){
           //load more
           $.ajax({
             url: '/photos/get_more/' + $('#featuredPhotos').attr('last'), 
-            data: { size:'square200', showCaption:false, targetDiv:'#featuredPhotos', 
+            data: { size:'square100', showCaption:false, targetDiv:'#featuredPhotos', 
               photoCountDiv:'#featuredPhotos', featured:true, author:params['screen_name'], mediatype:'featured', 
               showIndicators:false },
             beforeSend: indicator.load('#featuredPhotos', 'after'),
@@ -15737,7 +15757,7 @@ var performFilters = function(filters, params){
           $('#loadNewerMediaset-' + v + '-btn').click( function(){
             $.ajax({
               url: '/photos/get_more/' + $('#mediaset-' + v ).attr('first') ,
-              data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + v, 
+              data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + v, 
                 photoCountDiv:'#mediaset-' + v , mediaset_id:v, 
                 mediatype:'mediaset', showIndicators:false, direction:'reverse' },
               beforeSend: indicator.load('#mediaset-' + v, 'before'),
@@ -15749,7 +15769,7 @@ var performFilters = function(filters, params){
           $('#loadOlderMediaset-' + v + '-btn').click( function(){
             $.ajax({
               url: '/photos/get_more/' + $('#mediaset-' + v).attr('last') ,
-              data: { size:'square200', showCaption:false, targetDiv:'#mediaset-' + v,  
+              data: { size:'square100', showCaption:false, targetDiv:'#mediaset-' + v,  
                 photoCountDiv:'#mediaset-' + v,  mediaset_id:v,   
                 mediatype:'mediaset', showIndicators:false },
               beforeSend: indicator.load('#mediaset-' + v,  'after'),
@@ -15762,7 +15782,7 @@ var performFilters = function(filters, params){
         $('#loadMoreRelatedBtn').click( function(){
           $.ajax({
               url: '/photos/get_more/' + $('#related-photos').attr('last'),
-              data: { size:'square200', showCaption:false, targetDiv:'#related-photos', 
+              data: { size:'square100', showCaption:false, targetDiv:'#related-photos', 
                 photoCountDiv:'#related-photos', mediatype:'related', showIndicators:false, limit:7,
                 focusPhotoID:params['photo_id'] },
               beforeSend: indicator.load('#related-photos', 'after'),
