@@ -110,17 +110,18 @@
                       parentHandle.find('.start').show();
                       //this can cause the cancel button not to work so hide it for now
                       parentHandle.find('.cancel').show();
+                      parentHandle.find('.visibility').show();
                       parentHandle.find('.duplicate-button').hide();
                       parentHandle.find('.duplicate-text').hide();
                       parentHandle.find('.duplicate-cancel').hide();
                       parentHandle.toggleClass('warning');
                       parentHandle.removeClass('duplicate');
                       parentHandle.addClass('template-upload');
-                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideOut(
+                      $('#duplisting').find('[data-md5="' + parentHandle.attr('data-md5') +'"]').slideUp(
                         400, function(){
                           $(this).remove();
                           if( $('#duplisting').find('img').length == 0) {
-                            $('#dupzone').slideOut();
+                            $('#dupzone').slideUp();
                           }
                       });
                     })
@@ -145,8 +146,11 @@
                     })
                   )
                 );
+
                 $('[data-name="' + file.name + '"]').find('.start').hide();
                 $('[data-name="' + file.name + '"]').find('.cancel').hide();
+                $('[data-name="' + file.name + '"]').find('.visibility').hide();
+  
 
                 //disable dups from being upload
                 $('[data-name="' + file.name + '"]').removeClass('template-upload');
