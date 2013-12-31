@@ -15,7 +15,7 @@
 
 <div class="row-fluid">
   <div class="span8 offset2">
-    <h3>Select Your Storage Plan</h2>  
+    <h3>Purchase Your Storage Plan Through Paypal...</h2>  
     <table class="table table-bordered table-hover table-center">
       <thead>
         <tr>
@@ -127,28 +127,9 @@
 
 <div class="row-fluid">
   <div class="span8 offset2">
-    <h3>Upgrade Now!!</h3>
-    <%= form_tag store_add_to_cart_path(@persona.screen_name), :class=>'form-horizontal', :id => 'buy_premium_form', :remote => true do -%>
-      <legend>Purchase upgrade options...</legend>  
-      <div class="control-group">
-        <%= label_tag 'duration', 
-          select_tag( 'sku_code', options_from_collection_for_select(Sku.where(:id => 3..14), 'code', 'description') ),
-          :class=> 'controls' 
-        %>
-      </div> 
-      <div class="form-actions">
-				<div id="suggest-purchase">
-					<%= link_to 'No Thanks', root_path , :class=> 'btn' %>
-					<%= button_tag 'Upgrade Now', :class => 'btn btn-primary', :type => 'submit', 
-						:id => 'purchase_premium_btn', :'data-loading-text' => 'Adding to cart...' %>
-				</div>
-				<div id="purchased-thanks" style="display:none">
-					<span>Thanks!, you can 
-						<%= link_to 'checkout', store_checkout_path(@persona.screen_name), :class => 'btn btn primary' %> to activate your premium account </span>
-				</div>
-      </div>
-			
-    <% end -%>
+    <div class="well">
+      <p class="lead"><strong>Important:</strong> Please write your sirap.co screen name (@<%= current_persona.screen_name %>) to 'Note to seller' when paying for expediated processing of your storage coupons</p>
+    </div>
   </div>
 </div>
 
