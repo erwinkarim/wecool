@@ -14,8 +14,13 @@
               <big>
                 <%= check_box_tag 'mediaset[]', mediaset.id, mediaset.photos.include?(photo), 
                   :style => 'display:none;' %> 
-                <%= image_tag ( mediaset.photos.empty? ? 'icon/zero-photo/square50.jpg' : 
-                  mediaset.photos.first.avatar.square50 )%>
+                <%= 
+                  image_tag ( 
+                    mediaset.photos.empty? ? 
+                      'icon/zero-photo/zero-photo.svg' : mediaset.photos.first.avatar.square50) , 
+                    :size => '50x50' 
+                  
+                %>
                 <%= mediaset.title %>
               </big>
             </div>

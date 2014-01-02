@@ -3,7 +3,7 @@
 //update at the mediaset select modal box
 var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.id, true, :style => 'display:none;' ) %>";
 <% if @mediaset.photos.empty? then %>
-  var thePhotoAndTitle = "<%=  escape_javascript(image_tag 'icon/zero-photo/square50.jpg' ) %> <%= @mediaset.title %>"; 
+  var thePhotoAndTitle = "<%=  escape_javascript(image_tag 'icon/zero-photo/zero-photo.svg', :size => '50x50' ) %> <%= @mediaset.title %>"; 
 <% else %>
   var thePhotoAndTitle = "<%=  escape_javascript(image_tag @mediaset.photos.first.avatar.square50) %> <%= @mediaset.title %>"; 
 <% end %>

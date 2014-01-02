@@ -77,7 +77,7 @@
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
 									<li><%= link_to '<i class="icon-hdd"></i> Buy Storage'.html_safe, 
-										persona_upgrade_acc_path(@persona.screen_name) %></li>
+										persona_upgrade_acc_path(current_persona.screen_name) %></li>
 									<li>
 										<a style="vertical-align:center;" >
 											<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin:0px;" >
