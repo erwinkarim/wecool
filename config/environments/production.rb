@@ -56,7 +56,7 @@ Wecool::Application.configure do
   #
 
   # Mail defaults
-  config.action_mailer.default_url_options = { :host => 'fast-reaches-4090.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'sirap.co' }
 
   # Enable threaded mode
   # config.threadsafe!
