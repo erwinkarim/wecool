@@ -20,6 +20,15 @@
           <%= content_tag :a, '<i class="icon-envelope-alt icon-2x"></i>'.html_safe, 
             :href => '#share-via-email', :data => { :toggle=> 'modal' }
           %>
+          <%= content_tag :a, '<i class="icon-facebook-sign icon-2x"></i>'.html_safe,
+            :href => 'https://facebook.com/sharer/sharer.php?u=' +  request.original_url.html_safe, 
+            :target => '_blank'
+          %>
+          <%= content_tag :a, '<i class="icon-twitter icon-2x"></i>'.html_safe,
+            :href => 'https://twitter.com/intent/tweet?text=Check%20this%20out&url=' + 
+              request.original_url.html_safe, :alt => 'Tweet'
+          
+          %>
         </div>
       </div>
     <% end %>
@@ -121,6 +130,10 @@
   %>
 </div>
 <%= content_for :other_javascript do %>
+
+<!-- for twitter -->
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+
 <script type="text/javascript">
 $(document).ready( function() {
   //for the link copy copy to clipboard
