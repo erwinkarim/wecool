@@ -29,6 +29,10 @@
               request.original_url.html_safe, :alt => 'Tweet'
           
           %>
+          <%= content_tag :a, '<i class="icon-google-plus-sign icon-2x"></i>'.html_safe,
+            :href => 'https://plus.google.com/share?url=' + request.original_url.html_safe, 
+            :onclick => "javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+          %>
         </div>
       </div>
     <% end %>
