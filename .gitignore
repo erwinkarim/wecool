@@ -19,3 +19,6 @@
 
 #ignore cache
 /public/carrierwave_cache/*
+
+#ignore environment variable
+/.env
