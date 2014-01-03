@@ -51,7 +51,7 @@
         //bind at each individual photos, ie; visibility and other
         var inputs = data.context.find(':input');
         console.log( $('#fileupload').serializeArray()  + inputs.serializeArray()  );
-        data.formData = inputs.serializeArray() ;  
+        data.formData = inputs.serializeArray().concat( $('#fileupload').serializeArray() ) ;  
       }).bind('fileuploadadded', function(e, data){
         //toggle picture visibility after the upload template has been rendered
         $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind(
