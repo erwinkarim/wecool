@@ -15321,7 +15321,8 @@ var performFilters = function(filters, params){
       $.widget('blueimp.fileupload', $.blueimp.fileupload, {
         options: {
           acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-          processQueue: [ { action: 'md5_check', always:true, acceptFileTypes:'@' } ]
+          processQueue: [ { action: 'md5_check', always:true, acceptFileTypes:'@' } ],
+          maxChunkSize: 524288000
         },
         processActions:{
           md5_check: function(data,options){
@@ -15335,11 +15336,14 @@ var performFilters = function(filters, params){
       $('#fileupload').fileupload({
         dropZone: $('#dropzone')
       }).bind( 'fileuploadsubmit', function (e,data){
+        //bind at each individual photos, ie; visibility and other
         var inputs = data.context.find(':input');
-        data.formData = inputs.serializeArray();
+        console.log( $('#fileupload').serializeArray()  + inputs.serializeArray()  );
+        data.formData = inputs.serializeArray().concat( $('#fileupload').serializeArray() ) ;  
       }).bind('fileuploadadded', function(e, data){
         //toggle picture visibility after the upload template has been rendered
-        $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind('click', function(){
+        $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind(
+          'click', function(){
             var visible_checkbox = $(this).parent().find('.visible');
             visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
             if(  visible_checkbox.attr('checked') != null ) {
@@ -15347,7 +15351,8 @@ var performFilters = function(filters, params){
             } else {
               $(this).html( '<i class="icon-eye-open"></i> Public');
             };
-          })//bind
+          }
+        )//bind
       }).bind( 'fileuploadadded', function (e,data) {
         //detect dupes when file uploaded
         $.each(data.files, function(index, file){

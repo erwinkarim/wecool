@@ -7424,6 +7424,9 @@ div .caption .caption-white {
   color: #d6dbdc;
   text-decoration: none;
 }
+.table-center td {
+  text-align: center;
+}
 /*!
  *  Font Awesome 3.2.1
  *  the iconic font designed for Bootstrap
