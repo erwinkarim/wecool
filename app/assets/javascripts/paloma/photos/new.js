@@ -46,11 +46,38 @@
 
       // Initialize the jQuery File Upload widget:
       $('#fileupload').fileupload({
-        dropZone: $('#dropzone')
+        dropZone: $('#dropzone'),
+				maxRetries: 100,
+				retryTimeout: 500,
+				fail: function (e, data) {
+					// jQuery Widget Factory uses "namespace-widgetname" since version 1.10.0:
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload'), retries = data.context.data('retries') || 0,
+						retry = function () {
+							$.getJSON('server/php/', {file: data.files[0].name})
+								.done(function (result) {
+									var file = result.file;
+									data.uploadedBytes = file && file.size;
+									// clear the previous data:
+									data.data = null;
+									data.submit();
+								})
+								.fail(function () {
+									fu._trigger('fail', e, data);
+								});
+						};
+					if (data.errorThrown !== 'abort' && data.uploadedBytes < data.files[0].size && retries < fu.options.maxRetries) {
+						retries += 1;
+						data.context.data('retries', retries);
+						window.setTimeout(retry, retries * fu.options.retryTimeout);
+						return;
+					}
+					data.context.removeData('retries');
+					$.blueimp.fileupload.prototype.options.fail.call(this, e, data);
+				}
       }).bind( 'fileuploadsubmit', function (e,data){
         //bind at each individual photos, ie; visibility and other
         var inputs = data.context.find(':input');
-        console.log( $('#fileupload').serializeArray()  + inputs.serializeArray()  );
+        //console.log( $('#fileupload').serializeArray()  + inputs.serializeArray()  );
         data.formData = inputs.serializeArray().concat( $('#fileupload').serializeArray() ) ;  
       }).bind('fileuploadadded', function(e, data){
         //toggle picture visibility after the upload template has been rendered
