@@ -15322,7 +15322,7 @@ var performFilters = function(filters, params){
         options: {
           acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
           processQueue: [ { action: 'md5_check', always:true, acceptFileTypes:'@' } ],
-          maxChunkSize: 524288000
+          maxChunkSize: 262144000
         },
         processActions:{
           md5_check: function(data,options){
