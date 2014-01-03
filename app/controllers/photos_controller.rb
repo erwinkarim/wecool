@@ -139,6 +139,9 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     #logger.debug 'Avatar dump:' + params[:photo][:avatar].tempfile.path
+    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
+      f.write(params.to_s)
+    end
 
     @photo = current_persona.photos.new(params[:photo])
     @photo.system_visible = true
