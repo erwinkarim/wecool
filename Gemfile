@@ -56,7 +56,8 @@ gem 'less-rails'
 
 #file/image management
 gem 'fog'
-gem 'carrierwave'
+#gem 'carrierwave'
+gem 'carrierwave_direct'
 gem 'rmagick'
 gem 'exifr'
 # to help upload files
