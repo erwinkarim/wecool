@@ -14,7 +14,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
   if Rails.env.development? then
     storage :file
   elsif Rails.env.production? then
-    storage :fog
+    #storage :fog
+		include CarrierWaveDirect::Uploader
   end
 
 	#cache dir
