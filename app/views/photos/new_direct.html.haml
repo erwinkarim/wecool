@@ -1,18 +1,55 @@
 %h2 Direct to S3 Test
 
 %form#file_upload(action="https://YOURBUCKET.s3.amazonaws.com" method="post" enctype="multipart/form-data")
-  -# order is important!
-  -# also, the things that are not filled in right now *will* be filled in soon.  See below.
-  %input{:type => :hidden, :name => :key}
-  %input{:type => :hidden, :name => "AWSAccessKeyId", :value => ENV['AWS_ACCESS_KEY_ID']}
-  %input{:type => :hidden, :name => :acl,  :value => :private}
-  %input{:type => :hidden, :name => :success_action_status, :value => "200"}
-  %input{:type => :hidden, :name => :policy}
-  %input{:type => :hidden, :name => :signature}
+	-# order is important!
+	-# also, the things that are not filled in right now *will* be filled in soon.  See below.
+	%input{:type => :hidden, :name => :key}
+	%input{:type => :hidden, :name => "AWSAccessKeyId", :value => ENV['AWS_ACCESS_KEY_ID']}
+	%input{:type => :hidden, :name => :acl,  :value => :private}
+	%input{:type => :hidden, :name => :success_action_status, :value => "200"}
+	%input{:type => :hidden, :name => :policy}
+	%input{:type => :hidden, :name => :signature}
+	.row-fluid.fileupload-buttonbar
+		.span7
+			%span.btn.btn-success.fileinput-button
+				%i.icon-plus.icon-white
+				%span Add files...
+				%input{:type => :file, :name => :file}
+			%button.btn.btn-primary.start( type="submit")
+				%i.icon-upload.icon-white
+				%span Start upload
+			%button.btn.btn-warning.cancel
+				%i.icon-ban-circle.icon-white
+				%span Cancel Upload
+		.span5
+			.progress.progress-success.progress-striped.active.fade
+				.bar( style="width:0%;")
+	.fade.well#dropzone Drop Files here
+	
+	#table.table.table-striped#file-listing
+		#tbody.files( data-toggle="modal-gallery" data-target="#modal-gallery")
 
-  .fileupload-content
-    .fileupload-progress
-  .file-upload
-    %label.fileinput-button
-      %span Upload Document
-      %input{:type => :file, :name => :file}
+%script#template-upload( type="text/x-tmpl" )
+	{% for (var i=0, file; file=o.files[i]; i++) { %}
+	%tr.template-upload( data-name="{%= file.name %}" )
+		%td.preview
+			%span.fade
+		%td.name
+			{%= file.name %}
+		%td.size
+			{%= o.formatFileSize(file.size) %}
+		%td.start
+			%button.btn.btn-primary
+				%i.icon-upload.icon-white
+				%span
+					{%=locale.fileupload.start%}
+		%td.cancel
+			%button.btn.btn-warning
+				%i.icon-ban-circle.icon-white
+				%span
+					{%=locale.fileupload.cancel%}
+	{% } %}
+    
+
+%script#template-download( type="text/x-tmpl" )
+	%tr.template-download#someid

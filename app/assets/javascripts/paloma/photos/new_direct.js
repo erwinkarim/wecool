@@ -22,7 +22,7 @@
     $(function() {
       $('#file_upload').fileupload({
         forceIframeTransport: true,    // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
-        autoUpload: true,
+        //autoUpload: true,
         add: function (event, data) {
           $.ajax({
             url: "/documents",
