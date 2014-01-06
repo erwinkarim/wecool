@@ -1,0 +1,18 @@
+%h2 Direct to S3 Test
+
+%form#file_upload(action="https://YOURBUCKET.s3.amazonaws.com" method="post" enctype="multipart/form-data")
+  -# order is important!
+  -# also, the things that are not filled in right now *will* be filled in soon.  See below.
+  %input{:type => :hidden, :name => :key}
+  %input{:type => :hidden, :name => "AWSAccessKeyId", :value => ENV['AWS_ACCESS_KEY_ID']}
+  %input{:type => :hidden, :name => :acl,  :value => :private}
+  %input{:type => :hidden, :name => :success_action_status, :value => "200"}
+  %input{:type => :hidden, :name => :policy}
+  %input{:type => :hidden, :name => :signature}
+
+  .fileupload-content
+    .fileupload-progress
+  .file-upload
+    %label.fileinput-button
+      %span Upload Document
+      %input{:type => :file, :name => :file}

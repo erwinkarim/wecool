@@ -1,0 +1,14 @@
+# generate the policy document that amazon is expecting.
+  def s3_upload_policy_document
+    return @policy if @policy
+    ret = {"expiration" => 5.minutes.from_now.utc.xmlschema,
+      "conditions" =>  [ 
+        {"bucket" =>  YOUR_BUCKET_NAME}, 
+        ["starts-with", "$key", @document.s3_key],
+        {"acl" => "private"},
+        {"success_action_status" => "200"},
+        ["content-length-range", 0, 1048576]
+      ]
+    }
+    @policy = Base64.encode64(ret.to_json).gsub(/\n/,'')
+  end

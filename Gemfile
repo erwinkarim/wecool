@@ -28,6 +28,7 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'twitter-bootstrap-rails', '=2.2.7'
+gem 'haml'
 gem 'font-awesome-rails', '= 3.2.1.3'
 
 # javascript management
@@ -56,8 +57,7 @@ gem 'less-rails'
 
 #file/image management
 gem 'fog'
-#gem 'carrierwave'
-gem 'carrierwave_direct'
+gem 'carrierwave'
 gem 'rmagick'
 gem 'exifr'
 # to help upload files
