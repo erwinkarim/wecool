@@ -631,12 +631,14 @@ class PhotosController < ApplicationController
   end
 
   def create_direct
-    @photo = Photo.new
+    @photo = current_persona.photos.new
+    @photo.system_visible=true
+    @photo.save!
 
     render :json => {
       :policy => s3_upload_policy_document, 
       :signature => s3_upload_signature, 
-      :key => "uploads/#{SecureRandom.uuid}/#{params[:doc][:title]}",
+      :key => "uploads/photo/avatar/#{@photo.id}/#{params[:doc][:title]}",
       :success_action_redirect => photos_url
     }
   end
