@@ -20,12 +20,17 @@
   Paloma.callbacks['photos']['new_direct'] = function(params){
     // Do something here.
     $(function() {
+      $.widget('blueimp.fileupload', $.blueimp.fileupload, {
+      });
       $('#file_upload').fileupload({
-        forceIframeTransport: true,    // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
-        //autoUpload: true,
+        dropZone: $('#dropzone'),
+        // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
+        //forceIframeTransport: true,   
+        autoUpload: true,
+        dataType:'xml',
         add: function (event, data) {
           $.ajax({
-            url: "/documents",
+            url: "/photos_direct",
             type: 'POST',
             dataType: 'json',
             data: {doc: {title: data.files[0].name}},
@@ -33,6 +38,7 @@
             success: function(retdata) {
               // after we created our document in rails, it is going to send back JSON of they key,
               // policy, and signature.  We will put these into our form before it gets submitted to amazon.
+              //$('#file_upload').find('input[name=key]').val(retdata.key);
               $('#file_upload').find('input[name=key]').val(retdata.key);
               $('#file_upload').find('input[name=policy]').val(retdata.policy);
               $('#file_upload').find('input[name=signature]').val(retdata.signature);

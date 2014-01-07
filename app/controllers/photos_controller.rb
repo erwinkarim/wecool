@@ -630,39 +630,45 @@ class PhotosController < ApplicationController
   def new_direct
   end
 
-  def new_create
+  def create_direct
     @photo = Photo.new
 
     render :json => {
       :policy => s3_upload_policy_document, 
       :signature => s3_upload_signature, 
-      :key => 'test',
-      #:success_action_redirect => document_upload_success_document_url(@document)
+      :key => "uploads/#{SecureRandom.uuid}/#{params[:doc][:title]}",
       :success_action_redirect => photos_url
     }
+  end
+
+  # just in case you need to do anything after the document gets uploaded to amazon.
+  # but since we are sending our docs via a hidden iframe, we don't need to show the user a 
+  # thank-you page.
+  def s3_confirm
+    head :ok
   end
 
   # generate the policy document that amazon is expecting.
   def s3_upload_policy_document
     return @policy if @policy
-    ret = {"expiration" => 5.minutes.from_now.utc.xmlschema,
+    ret = {"expiration" => 5.minutes.from_now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
       "conditions" =>  [ 
         {"bucket" =>  ENV['S3_BUCKET_NAME']}, 
-        #["starts-with", "$key", @document.s3_key],
-        ["starts-with", "$key", 'key'],
+        ["starts-with", "$key", 'uploads/'],
         {"acl" => "private"},
-        {"success_action_status" => "200"},
-        ["content-length-range", 0, 1048576]
+        {"success_action_status" => "201"}
       ]
     }
-    @policy = Base64.encode64(ret.to_json).gsub(/\n/,'')
+    @policy = Base64.encode64(ret.to_json).gsub(/\n|\r/,'')
   end
 
   # sign our request by Base64 encoding the policy document.
   def s3_upload_signature
     signature = Base64.encode64(
       OpenSSL::HMAC.digest(
-        OpenSSL::Digest::Digest.new('sha1'), ENV['AWS_SECRET_ACCESS_KEY'], s3_upload_policy_document
+        OpenSSL::Digest::Digest.new('sha1'), 
+        ENV['AWS_SECRET_ACCESS_KEY'], 
+        s3_upload_policy_document
       )
     ).gsub("\n","")
   end
