@@ -19,16 +19,27 @@
 
   Paloma.callbacks['photos']['new_direct'] = function(params){
     // Do something here.
+    var fileUploadErrors = {
+    maxFileSize: 'File is too big',
+    minFileSize: 'File is too small',
+    acceptFileTypes: 'Filetype not allowed',
+    maxNumberOfFiles: 'Max number of files exceeded',
+    uploadedBytes: 'Uploaded bytes exceed file size',
+    emptyResult: 'Empty file upload result'
+    };
+
     $(function() {
       $.widget('blueimp.fileupload', $.blueimp.fileupload, {
       });
-      $('#file_upload').fileupload({
-        dropZone: $('#dropzone'),
+      $('#fileupload').fileupload({
+        dropZone: $('#dropzone'), 
         // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
         //forceIframeTransport: true,   
-        autoUpload: true,
+        //autoUpload: true,
         dataType:'xml',
+        /*
         add: function (event, data) {
+          console.log(data);
           $.ajax({
             url: "/photos_direct",
             type: 'POST',
@@ -48,6 +59,7 @@
 
           data.submit();
         },
+        */
         send: function(e, data) {
           // show a loading spinner because now the form will be submitted to amazon, 
           // and the file will be directly uploaded there, via an iframe in the background. 
@@ -64,6 +76,30 @@
           // hide the loading spinner that we turned on earlier.
           $('#loading').hide();
         },
+      });
+
+      //drop zone
+      $(document).bind('dragover', function (e) {
+        var dropZone = $('#dropzone'),
+            timeout = window.dropZoneTimeout;
+        if (!timeout) {
+            dropZone.addClass('in');
+        } else {
+            clearTimeout(timeout);
+        }
+        if (e.target === dropZone[0]) {
+            dropZone.addClass('hover');
+        } else {
+            dropZone.removeClass('hover');
+        }
+        window.dropZoneTimeout = setTimeout(function () {
+            window.dropZoneTimeout = null;
+          dropZone.removeClass('in hover');
+        }, 100);
+      });
+
+      $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
       });
     });
   }; // Paloma.callbacks['photos']['new_direct'] = function(params){

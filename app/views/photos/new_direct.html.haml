@@ -1,6 +1,6 @@
 %h2 Direct to S3 Test
 
-%form#file_upload(action="http://#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com" method="post" | 
+%form#fileupload(action="http://#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com" method="post" | 
   enctype="multipart/form-data")
   -# order is important!
   -# also, the things that are not filled in right now *will* be filled in soon.  See below.
@@ -25,6 +25,9 @@
     .span5
       .progress.progress-success.progress-striped.active.fade
         .bar( style="width:0%;")
+  .fileupload-loading
+  %br
+
   .fade.well#dropzone Drop Files here
   
   #table.table.table-striped#file-listing
@@ -32,39 +35,35 @@
 
 %script#template-upload( type="text/x-tmpl" )
   {% for (var i=0, file; file=o.files[i]; i++) { %}
-  %tr.template-upload( data-name="{%= file.name %}" )
+  %tr.template-upload.fade( data-name="{%= file.name %}" )
     %td.preview
       %span.fade
     %td.name
       {%= file.name %}
-    %td.size
-      {%= o.formatFileSize(file.size) %}
-      {% if (file.error) { %}
-      %td.error(colspan="2")
-        %span.label.label-important
-          {%=locale.fileupload.error%}
-        {%=local.fileupload.errors[file.error] || file.error %}
-      {% } else if (o.files.valid && !i) { %}
-      %td
-        .progress.progress-success.progress-striped.active
-          .bar(sytle="width:0%;")
-      {% if(!o.options.autoUpload) { %}
-      %td.start
-        %button.btn.btn-primary
-          %i.icon-upload.icon-white
-          %span
-            {%=locale.fileupload.start%}
-      {% } %}
-      {% } else { %}
-      %td(colspan="2")
-      {% } %}
+    %td.size {%= o.formatFileSize(file.size) %}
+    {% if (file.error) { %}
+    %td.error(colspan="2")
+      %span.label.label-important
+        {%= locale.fileupload.error%}
+    {% } else if (o.files.valid && !i) { %}
+    %td
+      .progress.progress-success.progress-striped.active
+        .bar(sytle="width:0%;")
+    %td.start
+      %button.btn.btn-primary
+        %i.icon-upload.icon-white
+        %span
+          {%= locale.fileupload.start %}
+    {% } else { %}
+    %td(colspan="2")
+    {% } %}
     %td.cancel
       %button.btn.btn-warning
         %i.icon-ban-circle.icon-white
         %span
-          {%=locale.fileupload.cancel%}
+          {%= locale.fileupload.cancel %}
     %td.visibility
-      %input.visible( type="checkbox" name="visible[]" value="false" style="display:none;")
+      %input.visible(type="checkbox" name="visible[]" value="false" style="display:none;")
       %button.visible_button.btn.btn-info(type="button")
         %i.icon-eye-open.icon-white
         %span Public
@@ -79,6 +78,9 @@
     %td.name
       %span
         {%=file.name%}
+    %td.size
+      %span
+        {%=o.formatFileSize(file.size) %}
     %td.error(colspan="2")
       %span.label.label-important
         {%=local.fileupload.error%}
