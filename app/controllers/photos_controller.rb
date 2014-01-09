@@ -626,10 +626,25 @@ class PhotosController < ApplicationController
     end 
   end
 
-  #directo upload to s3 test
+	#GET    /photos/:persona_id/new_direct(.:format)
+  #direct upload to s3 test
   def new_direct
   end
 
+	#GET    /photos/:persona_id/gen_s3_data
+	#generate the necessary data to upload directly to amazon S3
+	def gen_s3_data
+    render :json => {
+      :policy => s3_upload_policy_document, 
+      :signature => s3_upload_signature, 
+      :key => "uploads/temp/#{SecureRandom.uuid}/#{params[:doc][:title]}",
+      :success_action_redirect => photos_url
+    }
+	end
+
+	#POST   /photos_direct(.:format) 
+	#after done uploading to S3, create a new carrierwave object to load it from s3, should be very fast since it's all 
+	# in the same area at amazon DC. 
   def create_direct
     @photo = current_persona.photos.new
     @photo.system_visible=true
