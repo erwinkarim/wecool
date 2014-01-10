@@ -629,6 +629,8 @@ class PhotosController < ApplicationController
 	#GET    /photos/:persona_id/new_direct(.:format)
   #direct upload to s3 test
   def new_direct
+    @persona = current_persona
+    js :params => { :persona_id => params[:persona_id] } 
   end
 
 	#GET    /photos/:persona_id/gen_s3_data
@@ -638,7 +640,7 @@ class PhotosController < ApplicationController
       :policy => s3_upload_policy_document, 
       :signature => s3_upload_signature, 
       :key => "uploads/temp/#{SecureRandom.uuid}/#{params[:doc][:title]}",
-      :success_action_redirect => photos_url
+      :success_action_redirect => photos_gen_from_s3_url(params[:persona_id])
     }
 	end
 
@@ -654,15 +656,8 @@ class PhotosController < ApplicationController
       :policy => s3_upload_policy_document, 
       :signature => s3_upload_signature, 
       :key => "uploads/photo/avatar/#{@photo.id}/#{params[:doc][:title]}",
-      :success_action_redirect => photos_url
+      :success_action_redirect => phtotos_gen_from_s3_url(current_persona.screen_name)
     }
-  end
-
-  # just in case you need to do anything after the document gets uploaded to amazon.
-  # but since we are sending our docs via a hidden iframe, we don't need to show the user a 
-  # thank-you page.
-  def s3_confirm
-    head :ok
   end
 
   # generate the policy document that amazon is expecting.
@@ -688,5 +683,13 @@ class PhotosController < ApplicationController
         s3_upload_policy_document
       )
     ).gsub("\n","")
+  end
+
+  #generate a photo object after successfully uploaded to S3
+  # GET    /photos/:persona_id/gen_from_s3
+  def gen_from_s3
+    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
+      f.write(params.to_s)
+    end
   end
 end

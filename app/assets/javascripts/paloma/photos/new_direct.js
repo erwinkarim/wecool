@@ -39,8 +39,8 @@
         dataType:'xml',
         submit: function (event, data) {
           $.ajax({
-            url: "/photos_direct",
-            type: 'POST',
+            url: "/photos/" + params['persona_id'] + "/gen_s3_data" ,
+            type: 'GET',
             dataType: 'json',
             data: {doc: {title: data.files[0].name}},
             async: false,
@@ -65,14 +65,11 @@
         fail: function(e, data) {
           console.log('fail');
           console.log(data);
-        }
-				/*
+        },
         done: function (event, data) {
-					$('.progress').fadeOut(300, function() {
-						$('.bar').css('width', 0)
-					});
+          console.log(data);
+          console.log('sent to s3');
         }
-				*/
       });
 
       //drop zone

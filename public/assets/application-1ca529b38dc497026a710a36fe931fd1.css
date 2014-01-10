@@ -8,7 +8,7 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-/* line 13, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 13, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .fileinput-button {
   position: relative;
   overflow: hidden;
@@ -16,7 +16,7 @@
   margin-right: 4px;
 }
 
-/* line 19, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 19, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .fileinput-button input {
   position: absolute;
   top: 0;
@@ -31,24 +31,24 @@
   cursor: pointer;
 }
 
-/* line 33, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 33, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .fileupload-buttonbar .btn,
 .fileupload-buttonbar .toggle {
   margin-bottom: 5px;
 }
 
-/* line 36, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 36, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .files .progress {
   width: 200px;
 }
 
-/* line 39, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 39, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .progress-animated .bar {
   background: url(/assets/progressbar-cb373a116c7c7be63909c566c169cec1.gif) !important;
   filter: none;
 }
 
-/* line 43, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 43, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .fileupload-loading {
   position: absolute;
   left: 50%;
@@ -58,48 +58,48 @@
   display: none;
 }
 
-/* line 51, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 51, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 .fileupload-processing .fileupload-loading {
   display: block;
 }
 
 /* Fix for IE 6: */
-/* line 56, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 56, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 * html .fileinput-button {
   line-height: 22px;
   margin: 1px -3px 0 0;
 }
 
 /* Fix for IE 7: */
-/* line 62, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+/* line 62, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
 * + html .fileinput-button {
   margin: 1px 0 0 0;
 }
 
 @media (max-width: 480px) {
-  /* line 67, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+  /* line 67, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
   .files .btn span {
     display: none;
   }
 
-  /* line 70, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+  /* line 70, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
   .files .preview * {
     width: 40px;
   }
 
-  /* line 73, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+  /* line 73, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
   .files .name * {
     width: 80px;
     display: inline-block;
     word-wrap: break-word;
   }
 
-  /* line 78, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+  /* line 78, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
   .files .progress {
     width: 20px;
   }
 
-  /* line 81, ../../../.rvm/gems/ruby-1.9.3-p429/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
+  /* line 81, ../../../../usr/local/rvm/gems/ruby-1.9.3-p194/gems/jquery-fileupload-rails-0.4.1/vendor/assets/stylesheets/jquery.fileupload-ui.scss */
   .files .delete {
     width: 60px;
   }
