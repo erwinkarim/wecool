@@ -3,7 +3,7 @@ class PhotosController < ApplicationController
   before_filter :check_if_allowed_to_view, :only => [:view, :download]
   before_filter :check_if_allowed_to_visible, :only => [:toggle_visible]
   before_filter :check_if_reach_quota, :only => [:create]
-  before_filter :authenticate_persona!, :only => [:new, :edit, :editor]
+  before_filter :authenticate_persona!, :only => [:new, :edit, :editor, :new_direct]
 	before_filter :check_for_mobile
 
   #how many free photos you can actually have
@@ -686,10 +686,13 @@ class PhotosController < ApplicationController
   end
 
   #generate a photo object after successfully uploaded to S3
-  # GET    /photos/:persona_id/gen_from_s3
+  # POST    /photos/:persona_id/gen_from_s3
   def gen_from_s3
     File.open(Rails.root + 'param_dump.txt', 'w') do |f|
       f.write(params.to_s)
     end
+		respond_to do |format|
+			format.json { render :json => { :status => 'OK', :location => Hash.from_xml( params[:responseText] )['PostResponse']['Location'] } }
+		end
   end
 end

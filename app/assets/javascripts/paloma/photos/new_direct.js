@@ -59,16 +59,19 @@
         },
         send: function(e, data) {
         },
-				success: function(e, data){
-					console.log(data)
+				done: function(e, data){
+					console.log( data.result);
+					console.log( data.textStatus);
+					console.log( data.jqXHR);
+					$.ajax( '/photos/' + params['persona_id'] + '/gen_from_s3', {
+						type: 'POST',
+						dataType: 'json',
+						data: { responseText:data.jqXHR.responseText }
+					});
 				},
         fail: function(e, data) {
           console.log('fail');
           console.log(data);
-        },
-        done: function (event, data) {
-          console.log(data);
-          console.log('sent to s3');
         }
       });
 
