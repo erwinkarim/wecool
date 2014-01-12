@@ -667,7 +667,7 @@ class PhotosController < ApplicationController
       "conditions" =>  [ 
         {"bucket" =>  ENV['S3_BUCKET_NAME']}, 
         ["starts-with", "$key", 'uploads/'],
-        {"acl" => "private"},
+        {"acl" => "public-read"},
         {"success_action_status" => "201"}
       ]
     }
@@ -691,8 +691,18 @@ class PhotosController < ApplicationController
     File.open(Rails.root + 'param_dump.txt', 'w') do |f|
       f.write(params.to_s)
     end
+	
+		@photo = current_persona.photos.new
+
+		#grab from s3
+		@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
+
 		respond_to do |format|
-			format.json { render :json => { :status => 'OK', :location => Hash.from_xml( params[:responseText] )['PostResponse']['Location'] } }
+			if @photo.save
+				format.json { render :json => @photo.to_jq_upload.to_json, status: :created, location: @photo  }
+			else
+        format.json { render json: @photo.errors, status: :unprocessable_entity }
+			end
 		end
   end
 end
