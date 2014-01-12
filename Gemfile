@@ -92,3 +92,4 @@ gem 'browser'
 
 #payment mechanism
 gem 'spreedly'
+

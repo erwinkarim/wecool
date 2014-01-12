@@ -666,8 +666,8 @@ class PhotosController < ApplicationController
     ret = {"expiration" => 5.minutes.from_now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
       "conditions" =>  [ 
         {"bucket" =>  ENV['S3_BUCKET_NAME']}, 
-        ["starts-with", "$key", 'uploads/'],
-        {"acl" => "public-read"},
+        ["starts-with", "$key", 'uploads/temp'],
+        {"acl" => "private"},
         {"success_action_status" => "201"}
       ]
     }
@@ -692,12 +692,16 @@ class PhotosController < ApplicationController
       f.write(params.to_s)
     end
 	
+		location = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
 		@photo = current_persona.photos.new
+    @photo.system_visible = true
+    @photo.title = URI.decode(location).split('/').last 
 
 		#grab from s3
 		@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
 
 		respond_to do |format|
+  	#	format.json { render :json => { :location => Hash.from_xml(params[:responseText])['PostResponse']['Location'] } }
 			if @photo.save
 				format.json { render :json => @photo.to_jq_upload.to_json, status: :created, location: @photo  }
 			else
