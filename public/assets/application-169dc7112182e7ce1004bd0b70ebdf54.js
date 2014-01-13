@@ -15552,6 +15552,9 @@ var performFilters = function(filters, params){
       });
       $('#fileupload').fileupload({
         dropZone: $('#dropzone'), 
+        imageOrientation:true,
+        previewMaxWidth:300,
+        previewMaxHeight:300,
         // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
         //forceIframeTransport: true,   
         //autoUpload: true,
@@ -15574,20 +15577,46 @@ var performFilters = function(filters, params){
             
           });
 
+          //drop data that is should not be send
+          $('#fileupload').find('input[name=description]').attr('disabled', 'disabled');
+          $('#fileupload').find('input[name=newMediasetTitle]').attr('disabled', 'disabled');
+          $('#fileupload').find('textarea[name=newMediasetDescription]').attr('disabled', 'disabled');
+          $('#fileupload').find('input:checked').each( function(){ 
+            $(this).attr('disabled', 'disabled');
+          });
           //data.submit();
         },
         send: function(e, data) {
         },
-				success: function(e, data){
-					console.log(data)
+				done: function(e, data){
+					console.log( data.result);
+					console.log( data.textStatus);
+					console.log( data.jqXHR);
+          $('#fileupload').find('input[name=description]').removeAttr('disabled');
+          $('#fileupload').find('input[name=newMediasetTitle]').removeAttr('disabled');
+          $('#fileupload').find('textarea[name=newMediasetDescription]').removeAttr('disabled');
+          $('#fileupload').find('input:checked').each( function(){ 
+            $(this).removeAttr('disabled');
+          });
+          var mediasets = $('#fileupload').find('input:checked').each( function(){
+            return $(this).val();
+          });
+					$.ajax( '/photos/' + params['persona_id'] + '/gen_from_s3', {
+						type: 'POST',
+						dataType: 'json',
+						data: { 
+              responseText:data.jqXHR.responseText, 
+              description:$('#description').val() 
+            }
+					}).done( function (data){
+            //find the current upload template and fade it out
+            //console.log(data.files[0].name);
+            $('.files').find('[data-name="' + data.files[0].name + '"]').fadeOut();
+          });
 				},
         fail: function(e, data) {
           console.log('fail');
           console.log(data);
-        },
-        done: function (event, data) {
-          console.log(data);
-          console.log('sent to s3');
         }
       });
 
