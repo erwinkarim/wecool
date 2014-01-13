@@ -692,6 +692,7 @@ class PhotosController < ApplicationController
 		@photo = current_persona.photos.new
     @photo.system_visible = true
     @photo.title = URI.decode(location).split('/').last 
+    @photo.description = params[:description]
 
     File.open(Rails.root + 'param_dump.txt', 'w') do |f|
       f.puts(params.to_s)
