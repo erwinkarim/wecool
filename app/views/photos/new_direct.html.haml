@@ -25,6 +25,13 @@
     .span5
       .progress.progress-success.progress-striped.active.fade
         .bar( style="width:0%;")
+  .row-fluid
+    .span6
+      = text_field_tag :description, '', :placeholder => 'Add Description to each photo. You can use #hashtag or @user_tags', :class => 'input-block-level'
+    .span6
+      = link_to 'Add to mediaset ...', '#addToSetModal', :class => 'btn btn-primary', :role => 'button', 
+        :'data-toggle' => 'modal' 
+      = render :template => "photos/updateMediasetModal", :locals => { :photo => current_persona.photos.new} 
   .fileupload-loading
   %br
 

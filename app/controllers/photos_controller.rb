@@ -688,20 +688,21 @@ class PhotosController < ApplicationController
   #generate a photo object after successfully uploaded to S3
   # POST    /photos/:persona_id/gen_from_s3
   def gen_from_s3
-    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
-      f.write(params.to_s)
-    end
-	
 		location = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
 		@photo = current_persona.photos.new
     @photo.system_visible = true
     @photo.title = URI.decode(location).split('/').last 
 
+    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
+      f.puts(params.to_s)
+    end
+	
 		#grab from s3
-		@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
+		#@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
 
 		respond_to do |format|
-  	#	format.json { render :json => { :location => Hash.from_xml(params[:responseText])['PostResponse']['Location'] } }
+  	#	format.json { render :json => { 
+  	#	  :location => Hash.from_xml(params[:responseText])['PostResponse']['Location'] } }
 			if @photo.save
 				format.json { render :json => @photo.to_jq_upload.to_json, status: :created, location: @photo  }
 			else

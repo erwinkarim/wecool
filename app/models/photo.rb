@@ -26,7 +26,8 @@ class Photo < ActiveRecord::Base
   def to_jq_upload 
     { :files => 
       [{
-        "name" => self.avatar.to_s.split('/').last, 
+        #"name" => self.avatar.to_s.split('/').last, 
+        "name" => self.title,
         "size" => self.avatar.size,
         "url" => self.avatar.url, 
         "thumbnail_url" => self.avatar.tiny.url,
