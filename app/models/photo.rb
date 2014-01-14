@@ -436,10 +436,10 @@ class Photo < ActiveRecord::Base
 	# options
 	def self.generate_from_s3 persona , s3_path, options = {} 
 		photo = persona.photos.new
-		#photo.system_visible = true
+		photo.system_visible = true
 	
 		photo.title = options.has_key? :title ? options[:title] : 'untitled'
-		#photo.description = options.has_key? :description ? options[:description] : nil
+		photo.description = options.has_key? :description ? options[:description] : nil
 
 		photo.remote_avatar_url = s3_path
 	

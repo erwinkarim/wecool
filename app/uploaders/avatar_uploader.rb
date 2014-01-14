@@ -11,12 +11,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Choose what kind of storage to use for this uploader:
   # depends on enviroment
-  #if Rails.env.development? then
-  #  storage :file
-  #elsif Rails.env.production? then
+  if Rails.env.development? then
+    storage :file
+  elsif Rails.env.production? then
     storage :fog
-		#include CarrierWaveDirect::Uploader
-  #end
+  end
 
 	#cache dir
 	#def cache_dir
