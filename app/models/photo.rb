@@ -429,4 +429,22 @@ class Photo < ActiveRecord::Base
   def description_auto_linked
     return auto_link(self.description, Photo::AUTOLINK_DEFAULTS).html_safe
   end
+
+	#create new avatar from s3 path
+	# current_persona = who this photo belongs to
+	# s3_path = the full path of the photo in s3
+	# options
+	def self.generate_from_s3 persona , s3_path, options = {} 
+		photo = persona.photos.new
+		photo.system_visible = true
+	
+		photo.title = options.has_key? :title ? options[:title] : 'untitled'
+		#photo.description = options.has_key? :description ? options[:description] : nil
+
+		photo.remote_avatar_url = s3_path
+	
+		photo.save!
+
+		return photo;
+	end
 end

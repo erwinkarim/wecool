@@ -689,6 +689,7 @@ class PhotosController < ApplicationController
   # POST    /photos/:persona_id/gen_from_s3
   def gen_from_s3
 		location = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
+		@photo = Photo.generate_from_s3( current_persona, location, { :title => 
 		@photo = current_persona.photos.new
     @photo.system_visible = true
     @photo.title = URI.decode(location).split('/').last 
