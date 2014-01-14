@@ -1,8 +1,8 @@
 CarrierWave.configure do |config|
 	#for caching
-  if Rails.env.production? then
+  #if Rails.env.production? then
     config.root = Rails.root.join('tmp') 
-  end
+  #end
   config.cache_dir = 'carrierwave_cache' 
 	
   config.fog_credentials = {
