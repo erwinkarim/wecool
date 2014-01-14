@@ -99,7 +99,20 @@
           console.log('fail');
           console.log(data);
         }
-      });
+      }).bind( 'fileuploadadded', function( e, data) { // $('#fileupload').fileupload({
+        //toggle picture visibility after the upload template has been rendered
+        $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind(
+          'click', function(){
+            var visible_checkbox = $(this).parent().find('.visible');
+            visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
+            if(  visible_checkbox.attr('checked') != null ) {
+              $(this).html( '<i class="icon-eye-close"></i> Private');
+            } else {
+              $(this).html( '<i class="icon-eye-open"></i> Public');
+            };
+          }
+        )//bind
+			});
 
       //drop zone
       $(document).bind('dragover', function (e) {
