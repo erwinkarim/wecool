@@ -630,7 +630,10 @@ class PhotosController < ApplicationController
   #direct upload to s3 test
   def new_direct
     @persona = current_persona
-    js :params => { :persona_id => params[:persona_id] } 
+    js :params => { 
+      :persona_id => params[:persona_id] , 
+      :get_dups_path => photos_get_dups_path(@persona.screen_name ) 
+    }
   end
 
 	#GET    /photos/:persona_id/gen_s3_data

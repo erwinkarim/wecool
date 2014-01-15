@@ -27,11 +27,38 @@
         .bar( style="width:0%;")
   .row-fluid
     .span6
-      = text_field_tag :description, '', :placeholder => 'Add Description to each photo. You can use #hashtag or @user_tags', :class => 'input-block-level'
+      = text_field_tag :description, '', 
+        :placeholder => 'Add Description to each photo. You can use #hashtag or @user_tags', :class => 'input-block-level'
     .span6
       = link_to 'Add to mediaset ...', '#addToSetModal', :class => 'btn btn-primary', :role => 'button', 
         :'data-toggle' => 'modal' 
       = render :template => "photos/updateMediasetModal", :locals => { :photo => current_persona.photos.new} 
+  .row-fluid
+    .span12
+      .accordion#dupzone( style="display:none;")
+        .accordion-group
+          .accordion-heading
+            %a.accordion-toggle#dupzone-chevron( data-toggle="collapse" data-parent="#dupzone" | 
+              href="#dupzone_collapse")
+              %i.icon-chevron-right
+              Duplicate Detected!
+          .accordion-body.collapse#dupzone_collapse
+            .accordion-inner
+              %table
+                %thead
+                  %tr
+                    %th The following photos are already in your account
+                %tbody
+                  %tr
+                    %td#duplisting
+                  %tr 
+                    %td
+                      %button.btn.btn-warning#duplicate-discard-all( type="button")
+                        %i.icon-ban-circle 
+                        Cancel Duplicates
+                      %button.btn.btn-danger#duplicate-upload-all-anyway( type="button")
+                        %i.icon-cloud-upload 
+                        Upload Duplicates Anyway
   .fileupload-loading
   %br
 

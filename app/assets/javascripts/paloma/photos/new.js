@@ -176,6 +176,7 @@
       });
 
       //duplicate listing buttons
+      //discard every duplicate
       $('#duplicate-discard-all').click( function(){
         $('#dupzone').slideUp(400, function() {
           $('.duplicate').remove();
@@ -183,6 +184,7 @@
         });
       });
 
+      //upload anyway every listed duplicates
       $('#duplicate-upload-all-anyway').click( function(){
         $('#dupzone').slideUp( 400, function(){
           $('#duplisting').find('img').remove();
