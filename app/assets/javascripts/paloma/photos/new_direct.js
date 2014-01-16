@@ -67,9 +67,9 @@
           });
 
       }).bind('fileuploaddone', function(e, data){
-        console.log( data.result);
-				console.log( data.textStatus);
-				console.log( data.jqXHR);
+        //console.log( data.result);
+				//console.log( data.textStatus);
+				//console.log( data.jqXHR);
         $('#fileupload').find('input[name=description]').removeAttr('disabled');
         $('#fileupload').find('input[name=newMediasetTitle]').removeAttr('disabled');
         $('#fileupload').find('textarea[name=newMediasetDescription]').removeAttr('disabled');
@@ -81,17 +81,23 @@
         });
 
         //generate the photo from s3 path
+        postData = { 
+          responseText:data.jqXHR.responseText, 
+          description:$('#description').val() 
+        };
+        $('#fileupload').submit( function(){
+          postData.concat( $(this).serializedArray() );
+          return false;
+        });
+
         $.ajax( '/photos/' + params['persona_id'] + '/gen_from_s3', {
           type: 'POST',
           dataType: 'json',
-          data: { 
-            responseText:data.jqXHR.responseText, 
-            description:$('#description').val() 
-          }
+          data: postData
         }).done( function (data){
           //find the current upload template and fade it out
-          //console.log(data.files[0].name);
-          $('.files').find('[data-name="' + data.files[0].name + '"]').fadeOut();
+          $('.files').find('[data-name="' + 
+            data.location.split('/')[data.location.split('/').lenght - 1 ] + '"]').fadeOut();
         });
       }).bind( 'fileuploadfail', function(e, data) {
           console.log('fail');
