@@ -435,14 +435,19 @@ class Photo < ActiveRecord::Base
 	# s3_path = the full path of the photo in s3
 	# options
 	def self.generate_from_s3 persona , s3_path, options = {} 
-		photo = persona.photos.new
-	
-		photo.title = options.has_key? :title ? options[:title] : 'untitled'
-		photo.description = options.has_key? :description ? options[:description] : nil
+    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
+			f.puts("from generate_from_s3 function")
+      f.puts(options.to_s)
+    end
 
+		photo = persona.photos.new( :title => options[:title], :description => options[:description])
+	
 		photo.remote_avatar_url = s3_path
 	
 		photo.save!
+
+		photo.update_setlist options[:mediasets]
+
 		photo.update_attribute :system_visible , true
 
 		return photo;

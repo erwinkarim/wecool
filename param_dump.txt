@@ -1,1 +1,2 @@
-{"responseText"=>"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PostResponse><Location>http://wecool-dev.s3.amazonaws.com/uploads%2Ftemp%2Fa2f7cab2-6807-4c2d-a40a-438aad3d755b%2F2013-Lamborghini-Egoista-Concept-Interior-1-1920x1200.jpg</Location><Bucket>wecool-dev</Bucket><Key>uploads/temp/a2f7cab2-6807-4c2d-a40a-438aad3d755b/2013-Lamborghini-Egoista-Concept-Interior-1-1920x1200.jpg</Key><ETag>\"d86772fdd991626b9b6fb334cefc43a9\"</ETag></PostResponse>", "description"=>"", "controller"=>"photos", "action"=>"gen_from_s3", "persona_id"=>"erwinkarim"}
+from generate_from_s3 function
+{:title=>"2014-Porsche-911-GT3-Static-2-1920x1440.jpg", :description=>"#test", :mediasets=>["7"]}

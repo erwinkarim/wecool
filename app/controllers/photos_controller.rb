@@ -692,19 +692,19 @@ class PhotosController < ApplicationController
   # POST    /photos/:persona_id/gen_from_s3
   def gen_from_s3
 		location = URI.decode(Hash.from_xml( params[:responseText] )['PostResponse']['Location'])
-		Photo.delay.generate_from_s3 current_persona, location , { :title => location.split('/').last, 
-      :description => params[:description] } 
+		@photo = Photo.delay.generate_from_s3 current_persona, location , { :title => location.split('/').last, 
+      :description => params[:description], :mediasets => params[:mediasets] } 
 
-    File.open(Rails.root + 'param_dump.txt', 'w') do |f|
-      f.puts(params.to_s)
-    end
+    #File.open(Rails.root + 'param_dump.txt', 'w') do |f|
+    #  f.puts(params.to_s)
+    #end
 	
 		#grab from s3
 		#:@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
 
 		respond_to do |format|
   		format.json { render :json => { 
-  		  :location => location
+				:location => location
       } }
 			#if @photo.save
 			#	format.json { render :json => @photo.to_jq_upload.to_json, status: :created, location: @photo  }

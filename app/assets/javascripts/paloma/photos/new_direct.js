@@ -81,15 +81,15 @@
         });
 
         //generate the photo from s3 path
+				var mediaset_selected = $('#fileupload').find('input[name="mediaset[]"]:checked').map( function() {
+					return $(this).val();
+				});
         postData = { 
           responseText:data.jqXHR.responseText, 
-          description:$('#description').val() 
+          description:$('#description').val(), 
+					mediasets:$.makeArray(mediaset_selected)
         };
-        $('#fileupload').submit( function(){
-          postData.concat( $(this).serializedArray() );
-          return false;
-        });
-
+				
         $.ajax( '/photos/' + params['persona_id'] + '/gen_from_s3', {
           type: 'POST',
           dataType: 'json',
@@ -100,8 +100,8 @@
             data.location.split('/')[data.location.split('/').lenght - 1 ] + '"]').fadeOut();
         });
       }).bind( 'fileuploadfail', function(e, data) {
-          console.log('fail');
-          console.log(data);
+          //console.log('fail');
+          //console.log(data);
       }).bind( 'fileuploadadded', function( e, data) { // $('#fileupload').fileupload({
         //toggle picture visibility after the upload template has been rendered
         $('#file-listing').find(("[data-name='" + data.files[0].name + "']"  ) ).find('.visible_button').bind(
