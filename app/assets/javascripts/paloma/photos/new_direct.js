@@ -84,10 +84,14 @@
 				var mediaset_selected = $('#fileupload').find('input[name="mediaset[]"]:checked').map( function() {
 					return $(this).val();
 				});
+        var file_handler = data.files[0].name;
+        var isVisible = $('#fileupload').find('[data-name="' + file_handler + '"]').find(
+          '[name="visible[]"]:checked').length > 0 ? false : true;
         postData = { 
           responseText:data.jqXHR.responseText, 
           description:$('#description').val(), 
-					mediasets:$.makeArray(mediaset_selected)
+					mediasets:$.makeArray(mediaset_selected),
+          visible:isVisible 
         };
 				
         $.ajax( '/photos/' + params['persona_id'] + '/gen_from_s3', {
@@ -96,8 +100,7 @@
           data: postData
         }).done( function (data){
           //find the current upload template and fade it out
-          $('.files').find('[data-name="' + 
-            data.location.split('/')[data.location.split('/').lenght - 1 ] + '"]').fadeOut();
+          $('.files').find('[data-name="' + file_handler + '"]').fadeOut();
         });
       }).bind( 'fileuploadfail', function(e, data) {
           //console.log('fail');

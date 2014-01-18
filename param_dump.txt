@@ -1,2 +1,2 @@
 from generate_from_s3 function
-{:title=>"2014-Porsche-911-GT3-Static-2-1920x1440.jpg", :description=>"#test", :mediasets=>["7"]}
+{:title=>"DSC_3552.jpg", :description=>"#privacytest", :mediasets=>nil, :visible=>"true"}

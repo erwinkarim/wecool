@@ -693,7 +693,7 @@ class PhotosController < ApplicationController
   def gen_from_s3
 		location = URI.decode(Hash.from_xml( params[:responseText] )['PostResponse']['Location'])
 		@photo = Photo.delay.generate_from_s3 current_persona, location , { :title => location.split('/').last, 
-      :description => params[:description], :mediasets => params[:mediasets] } 
+      :description => params[:description], :mediasets => params[:mediasets], :visible => params[:visible] } 
 
     #File.open(Rails.root + 'param_dump.txt', 'w') do |f|
     #  f.puts(params.to_s)
