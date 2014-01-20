@@ -440,9 +440,11 @@ class Photo < ActiveRecord::Base
       f.puts(options.to_s)
     end
 
-		photo = persona.photos.new( :title => options[:title], :description => options[:description], :visible => options[:visible])
+		photo = persona.photos.new( :title => options[:title], :description => options[:description], 
+      :visible => options[:visible])
 	
 		photo.remote_avatar_url = s3_path
+    photo.gen_md5 photo.avatar.path
 	
 		photo.save!
 

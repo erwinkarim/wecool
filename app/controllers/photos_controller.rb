@@ -699,9 +699,6 @@ class PhotosController < ApplicationController
     #  f.puts(params.to_s)
     #end
 	
-		#grab from s3
-		#:@photo.remote_avatar_url = Hash.from_xml( params[:responseText] )['PostResponse']['Location'] 
-
 		respond_to do |format|
   		format.json { render :json => { 
 				:location => location
