@@ -446,11 +446,12 @@ class Photo < ActiveRecord::Base
 		photo.remote_avatar_url = s3_path
     photo.gen_md5 photo.avatar.path
 	
-		photo.save!
-
-		photo.update_setlist options[:mediasets]
-
-		photo.update_attribute :system_visible , true
+		photo.save! 
+    
+    #after saving photos, reset tags, update setlist and display to everybody
+    photo.reset_tags
+    photo.update_setlist options[:mediasets]
+    photo.update_attribute :system_visible , true
 
 		return photo;
 	end

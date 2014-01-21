@@ -1,2 +1,2 @@
 from generate_from_s3 function
-{:title=>"004.JPG", :description=>"#test", :mediasets=>nil, :visible=>"true"}
+{:title=>"Penguins.jpg", :description=>"", :mediasets=>nil, :visible=>"true"}
