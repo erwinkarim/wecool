@@ -62,6 +62,9 @@
 							<!-- drop down menu -->
             <% if persona_signed_in? then %>
               <ul class="nav pull-right">
+              <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, 
+                new_photo_path(current_persona.screen_name)  %>
+              </li>
               <li class="dropdown">
                 <!-- for the store-->
                 <%= link_to ('<i class="icon-shopping-cart"></i> ('+ 
@@ -107,6 +110,7 @@
               </li>
               </ul>
             <% else %>
+              <li><%= link_to 'Sign Up'.html_safe, new_persona_registration_path %></li>
               <!-- inline form -->
               <%= form_for('persona', :url => persona_session_path, 
                 :html => { :class=> 'navbar-form form-inline pull-right' } ) do |f| %>
