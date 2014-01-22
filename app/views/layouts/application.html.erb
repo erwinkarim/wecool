@@ -63,7 +63,9 @@
                 </ul>
               </li>
               <% if persona_signed_in? then %>
-                <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, new_photo_path  %></li>
+                <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, 
+                  new_photo_path(current_persona.screen_name)  %>
+                </li>
               <% else %>
                 <li><%= link_to 'Sign Up'.html_safe, new_persona_registration_path %></li>
               <% end %>

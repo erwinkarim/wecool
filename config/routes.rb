@@ -38,7 +38,7 @@ Wecool::Application.routes.draw do
     match '/mediasets/update_attr/:id' => :update_attr, :via => :put, :as => 'mediaset_update_attr'
   end
 
-  resources :photos do
+  resources :photos, except: :new do
     get "upload"
   end
 
@@ -72,7 +72,7 @@ Wecool::Application.routes.draw do
     #match '/photos/download' => :download, :via => :post, :as => 'photo_download'
     match '/photos/:persona_id/dl_test' => :dl_test, :via => :get, :as => 'photos_dl_test'
     match '/photos/:persona_id/get_dups' => :get_dups, :via => :get, :as => 'photos_get_dups'
-    match '/photos/:persona_id/new_direct' => :new_direct, :via => :get, :as => 'photos_new_direct'
+    match '/photos/:persona_id/new_direct' => :new_direct, :via => :get, :as => 'new_photo'
     match '/photos/:persona_id/gen_s3_data' => :gen_s3_data, :via => :get, :as => 'photos_gen_s3_data'
     match '/photos/:persona_id/gen_from_s3' => :gen_from_s3, :via => :post, :as => 'photos_gen_from_s3'
     match '/photos_direct' => :create_direct, :via => :post, :as => 'photos_create_direct'
