@@ -1,12 +1,15 @@
 <div class="row-fluid navbar" id="photoSelectorType">
   <div class="navbar-inner">
     <ul class="nav" id="photoTypeSelectorTab">
-      <li class="active" id="recentlyFeatured"><a href="#"><i class="icon-star"></i> Featured</a><li>
-      <li class="" id="recentlyTrendy"><%= link_to '<i class="icon-reorder"></i> Trendy'.html_safe, '#' %></li>
+      <li class="active" id="recentlyFeatured"><a href="#"><i class="fa fa-star"></i> Featured</a><li>
+      <li class="" id="recentlyTrendy"><%= link_to fa_icon('bar-chart-o', :text => 'Trendy'),
+        '#' %></li>
       <% if persona_signed_in? then %>
-        <li id="recentlyTracked"><%= link_to '<i class="icon-screenshot"></i> Following'.html_safe, '#' %></li>
+        <li id="recentlyTracked"><%= link_to fa_icon('bullseye', :text => 'Following'),
+          '#' %></li>
       <% end %>
-      <li id="recentlyAddedRaw"><%= link_to '<i class="icon-picture"></i> Raw'.html_safe, '#' %><li>
+      <li id="recentlyAddedRaw"><%= link_to fa_icon('picture-o', :text => 'Raw'),
+        '#' %><li>
     </ul>
   </div>
 </div>
