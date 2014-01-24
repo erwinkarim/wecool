@@ -181,7 +181,7 @@ class Photo < ActiveRecord::Base
       }.select( 
         'tags.name, min(taggings.created_at) as first_mention, 
           max(taggings.created_at) as last_mention, count(*) as count' 
-      ).group('tags.name').order('count desc, first_mention desc').having{ 
+      ).group('tags.name, photos.persona_id').order('count desc, first_mention desc').having{ 
         (persona_id.in persona_range) 
       }.offset(default_options[:offset]).limit(default_options[:limit]).map{ 
         |x| {
