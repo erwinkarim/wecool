@@ -54,16 +54,16 @@
             <ul class="nav">
               <li class="dropdown">
                 <a href="#" role="button" class="dropdown-toggle" 
-                  data-toggle="dropdown"><i class="icon-globe"></i> Explore<b class="caret"></b></a>
+                  data-toggle="dropdown"><%= fa_icon 'globe', text: 'Explorer' %><b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to '<i class="icon-picture"></i> Photos'.html_safe, photos_path  %></li>
-                  <li><%= link_to '<i class="icon-book"></i> Sets'.html_safe, mediasets_path %></li>
-                  <li><%= link_to '<i class="icon-group"></i> Personas'.html_safe, personas_path %></li>
-                  <li><%= link_to '<i class="icon-tags"></i> Tags'.html_safe, tags_path %></li>
+                  <li><%= link_to fa_icon('picture-o', text: 'Photos') , photos_path  %></li>
+                  <li><%= link_to fa_icon('book', text: 'Sets'), mediasets_path %></li>
+                  <li><%= link_to fa_icon('group', text: 'Personas') , personas_path %></li>
+                  <li><%= link_to fa_icon('tags', text: 'Tags') , tags_path %></li>
                 </ul>
               </li>
               <% if persona_signed_in? then %>
-                <li><%= link_to '<i class="icon-cloud-upload"></i> Upload'.html_safe, 
+                <li><%= link_to fa_icon('cloud-upload', text:'Upload'),
                   new_photo_path(current_persona.screen_name)  %>
                 </li>
               <% else %>
@@ -74,11 +74,11 @@
               <ul class="nav pull-right">
               <li class="dropdown">
                 <!-- for the store-->
-                <%= link_to ('<i class="icon-shopping-cart"></i> '+ 
-                  '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
+                <%= link_to fa_icon('shopping-cart') + ' ' + fa_icon('caret-down'), '#', 
+                    :'data-toggle' => 'dropdown', 
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
-									<li><%= link_to '<i class="icon-hdd"></i> Buy Storage'.html_safe, 
+									<li><%= link_to fa_icon('hdd-o', :text => 'Buy Storage'), 
 										persona_upgrade_acc_path(current_persona.screen_name) %></li>
 									<li>
 										<a style="vertical-align:center;" >
@@ -86,46 +86,46 @@
 												<input type="hidden" name="cmd" value="_cart">
 												<input type="hidden" name="business" value="erwin@sirap.co">
 												<input type="hidden" name="display" value="1">
-												<i class="icon-shopping-cart"></i> <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_viewcart_LG.gif" 
+												<i class="fa fa-shopping-cart"></i> <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_viewcart_LG.gif" 
 													border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 												<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 											</form>
 										</a>
 									</li>
-                  <li><%= link_to '<i class="icon-truck"></i> Your Orders'.html_safe, 
+                  <li><%= link_to fa_icon('truck', :text => 'Your Orders'), 
                     store_orders_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>
-                  <li><%= link_to '<i class="icon-barcode"></i> Your Coupons'.html_safe, 
+                  <li><%= link_to fa_icon('barcode', :text => 'Your Coupons'),
                     store_coupons_path(current_persona.screen_name) %></li>
                 </ul>
               </li>
               <li class="dropdown">
-                <%= link_to ('<i class="icon-user"></i> ' + current_persona.screen_name + 
-                  '<i class="caret"></i>').html_safe, '#', :'data-toggle' => 'dropdown', 
+                <%= link_to fa_icon( 'user', :text => current_persona.screen_name ) + ' ' +
+                  fa_icon('caret-down') , '#', :'data-toggle' => 'dropdown', 
                     :class => 'dropdown-toggle', :role=> 'button'  %>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to '<i class="icon-picture"></i> My Photos'.html_safe, 
+                  <li><%= link_to fa_icon('picture-o', :text => 'My Photos'), 
                     photo_path(current_persona.screen_name) %></li>
-                  <li><%= link_to '<i class="icon-book"></i> My Sets'.html_safe, 
+                  <li><%= link_to fa_icon('book', :text => 'My Sets'),
                     mediaset_path(current_persona.screen_name) %></li>
-                  <li><%= link_to '<i class="icon-group"></i> My Followers'.html_safe, 
+                  <li><%= link_to fa_icon('group', :text => 'My Followers'),
                     follower_path(current_persona.screen_name) %></li>
-                  <li><%= link_to '<i class="icon-tags"></i> My Tags'.html_safe, 
+                  <li><%= link_to fa_icon('tags', :text => 'My Tags'),
                     persona_tags_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>
-                  <li><%= link_to '<i class="icon-user"></i> View Your Page'.html_safe, 
+                  <li><%= link_to fa_icon('user', :text => 'View Your Page'),
                     persona_path(current_persona.screen_name) %></li>
-                  <li><%= link_to '<i class="icon-wrench"></i> Edit Your Profile'.html_safe, 
+                  <li><%= link_to fa_icon('wrench', :text => 'Edit Your Profile'), 
                     edit_persona_path(current_persona.screen_name) %></li>
                   <li class="divider"></li>
                   <li>
-                    <%= link_to '<i class="icon-smile"></i> Update Persona Picture'.html_safe, 
+                    <%= link_to fa_icon('smile', :text => 'Update Persona Picture'), 
                       persona_get_profile_pic_path(current_persona.screen_name) %>
                   </li>
-                  <li><%= link_to '<i class="icon-key"></i> Change Password'.html_safe, 
+                  <li><%= link_to fa_icon('key', :text => 'Change Password'),
                     edit_persona_registration_path %></li>
                   <li class="divider"></li>
-                  <li><%= link_to '<i class="icon-signout"></i> Sign Out'.html_safe, 
+                  <li><%= link_to fa_icon('sign-out', :text => 'Sign Out'),
                     destroy_persona_session_path, :method => :delete %></li>
                 </ul>
               </li>
