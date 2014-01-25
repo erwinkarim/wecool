@@ -14,22 +14,22 @@
 <ul class="dropdown-menu">
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do %>
-      <label><i class="icon-share-alt"></i> Via...</label>
+      <label><i class="fa fa-share-alt"></i> Via...</label>
       <div class="row-fluid" id="copy-via-display">
         <div class="">
-          <%= content_tag :a, '<i class="icon-envelope-alt icon-2x"></i>'.html_safe, 
+          <%= content_tag :a, '<i class="fa fa-envelope fa-2x"></i>'.html_safe, 
             :href => '#share-via-email', :data => { :toggle=> 'modal' }
           %>
-          <%= content_tag :a, '<i class="icon-facebook-sign icon-2x"></i>'.html_safe,
+          <%= content_tag :a, '<i class="fa fa-facebook fa-2x"></i>'.html_safe,
             :href => 'https://facebook.com/sharer/sharer.php?u=' +  request.original_url.html_safe, 
             :target => '_blank'
           %>
-          <%= content_tag :a, '<i class="icon-twitter icon-2x"></i>'.html_safe,
+          <%= content_tag :a, '<i class="fa fa-twitter fa-2x"></i>'.html_safe,
             :href => 'https://twitter.com/intent/tweet?text=Check%20this%20out&url=' + 
               request.original_url.html_safe, :alt => 'Tweet'
           
           %>
-          <%= content_tag :a, '<i class="icon-google-plus-sign icon-2x"></i>'.html_safe,
+          <%= content_tag :a, '<i class="fa fa-google-plus fa-2x"></i>'.html_safe,
             :href => 'https://plus.google.com/share?url=' + request.original_url.html_safe, 
             :onclick => "javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
           %>
@@ -41,7 +41,7 @@
   <li class="dropdown-submenu">
     <%= form_tag '#', :style => 'padding:3px 20px;'  do -%>
       <div class="control-group">
-        <label><i id="copy-link-caret" class="icon-caret-down"></i> <i class="icon-link"></i> Copy Link</label>
+        <label><i id="copy-link-caret" class="fa fa-caret-down"></i> <i class="fa fa-link"></i> Copy Link</label>
         <div id="copy-link-display">
           <%= text_field_tag 'PermaAddress', 
             photoUrl, 
@@ -58,7 +58,7 @@
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do -%>
       <div class="control-group">
-          <label><i id="copy-html-caret" class="icon-caret-down"></i> <i class="icon-code"></i> Copy HTML</label>
+          <label><i id="copy-html-caret" class="fa fa-caret-down"></i> <i class="fa fa-code"></i> Copy HTML</label>
           <div id="copy-html-display">
             <% 
               if photo.is_a?(ActiveRecord::Relation) || photo.is_a?(Array) then 
@@ -168,14 +168,14 @@ $(document).ready( function() {
 
   $('#copy-link-caret').click( function(){
     $('#copy-link-display').fadeToggle();
-    $('#copy-link-caret').toggleClass('icon-caret-down');
-    $('#copy-link-caret').toggleClass('icon-caret-right');
+    $('#copy-link-caret').toggleClass('fa fa-caret-down');
+    $('#copy-link-caret').toggleClass('fa fa-caret-right');
   });
 
   $('#copy-html-caret').click( function(){
     $('#copy-html-display').fadeToggle();
-    $('#copy-html-caret').toggleClass('icon-caret-down');
-    $('#copy-html-caret').toggleClass('icon-caret-right');
+    $('#copy-html-caret').toggleClass('fa fa-caret-down');
+    $('#copy-html-caret').toggleClass('fa fa-caret-right');
   });
 
   //when share via email send button is clicked

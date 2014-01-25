@@ -19,18 +19,18 @@
         <div class="navbar-inner">
           <ul class="nav" id="photoTypeSelectorTab">
             <li class="photoType <%= params[:view] == 'featured' || !(params.has_key? :view) ? 'active' : '' %>" 
-              id="featured-photos"><a href="#"><i class="icon-star"></i> Featured</a>
+              id="featured-photos"><a href="#"><i class="fa fa-star"></i> Featured</a>
             <li class="photoType <%= params[:view] == 'raw' ? 'active' : '' %>" id="all-photos">
-              <a href="#"><i class="icon-picture"></i> Raw</a></li>
+              <a href="#"><i class="fa fa-picture-o"></i> Raw</a></li>
             <% if persona_signed_in? && current_persona == @persona then %>
               <li>
-                <%= link_to '<i class="icon-cloud-upload"></i>'.html_safe, 
+                <%= link_to fa_icon('cloud-upload'),
                   new_photo_path(current_persona.screen_name) %>
               </li>
             <% end %>
             <li class="dropdown divider-vertical">
               <a href="#" class="dropdown-toggle"
-                data-toggle="dropdown"><i class="icon-share"></i> <b class="caret"></b></a>
+                data-toggle="dropdown"><i class="fa fa-share"></i> <b class="caret"></b></a>
               <%= render :template => 'photos/shareDropdown', 
                 :locals => { :photo => @persona.photos.order('id desc').limit(4), :persona => @persona, 
                   :option => { :mode => 'persona_photos'} } %>

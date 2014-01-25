@@ -10,7 +10,7 @@ indicator.load = function(target, position, css_float, css_display ){
   css_display = typeof css_display !== 'undefined' ? css_display : 'block';
     
 	spin = '<div class="loading" style="float:'+ css_float + '; display:' + css_display + 
-    '"><i class="icon-spinner icon-4x icon-spin"></i></div>';
+    '"><i class="fa fa-spinner fa-4x fa-spin"></i></div>';
   if ($(target).find('.carousel').length == 0) {
     //if there's nothing inside, just append inside
     $(target).append(spin);
@@ -25,7 +25,7 @@ indicator.load = function(target, position, css_float, css_display ){
 
 //indicate loading at tag index page
 indicator.tagLoad = function( target ){
-  spin = '<tr class="loading"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>';
+  spin = '<tr class="loading"><td><i class="fa fa-spinner fa-4x fa-spin"></i></td></tr>';
 
   if( $(target).find('tr').length == 0 ) {
     $(target).append(spin);
