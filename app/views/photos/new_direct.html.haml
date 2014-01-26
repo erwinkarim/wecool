@@ -13,14 +13,14 @@
   .row-fluid.fileupload-buttonbar
     .span7
       %span.btn.btn-success.fileinput-button
-        %i.icon-plus.icon-white
+        %i.fa.fa-plus.fa-white
         %span Add files...
         %input{:type => :file, :name => :file}
       %button.btn.btn-primary.start( type="submit")
-        %i.icon-upload.icon-white
+        %i.fa.fa-upload.fa-white
         %span Start upload
       %button.btn.btn-warning.cancel
-        %i.icon-ban-circle.icon-white
+        %i.fa.fa-ban.fa-white
         %span Cancel Upload
     .span5
       .progress.progress-success.progress-striped.active.fade
@@ -30,7 +30,7 @@
       = text_field_tag :description, '', 
         :placeholder => 'Add Description to each photo. You can use #hashtag or @user_tags', :class => 'input-block-level'
     .span6
-      = link_to 'Add to mediaset ...', '#addToSetModal', :class => 'btn btn-primary', :role => 'button', 
+      = link_to fa_icon('plus' , :text => ' Add to mediaset ...'), '#addToSetModal', :class => 'btn btn-primary', :role => 'button', 
         :'data-toggle' => 'modal' 
       = render :template => "photos/updateMediasetModal", :locals => { :photo => current_persona.photos.new} 
   .row-fluid
@@ -40,7 +40,7 @@
           .accordion-heading
             %a.accordion-toggle#dupzone-chevron( data-toggle="collapse" data-parent="#dupzone" | 
               href="#dupzone_collapse")
-              %i.icon-chevron-right
+              %i.fa.fa-chevron-right
               Duplicate Detected!
           .accordion-body.collapse#dupzone_collapse
             .accordion-inner
@@ -54,10 +54,10 @@
                   %tr 
                     %td
                       %button.btn.btn-warning#duplicate-discard-all( type="button")
-                        %i.icon-ban-circle 
+                        %i.fa.fa-ban
                         Cancel Duplicates
                       %button.btn.btn-danger#duplicate-upload-all-anyway( type="button")
-                        %i.icon-cloud-upload 
+                        %i.fa.fa-cloud-upload 
                         Upload Duplicates Anyway
   .fileupload-loading
   %br
@@ -85,7 +85,7 @@
         .bar(sytle="width:0%;")
     %td.start
       %button.btn.btn-primary
-        %i.icon-upload.icon-white
+        %i.fa.fa-upload.fa-white
         %span
           {%= locale.fileupload.start %}
     {% } else { %}
@@ -93,13 +93,13 @@
     {% } %}
     %td.cancel
       %button.btn.btn-warning
-        %i.icon-ban-circle.icon-white
+        %i.fa.fa-ban.fa-white
         %span
           {%= locale.fileupload.cancel %}
     %td.visibility
       %input.visible(type="checkbox" name="visible[]" value="false" style="display:none;")
       %button.visible_button.btn.btn-info(type="button")
-        %i.icon-eye-open.icon-white
+        %i.fa.fa-eye.fa-white
         %span Public
   {% } %}
     
@@ -133,11 +133,11 @@
     {% } %}
     %td.clear-individual
       %a.btn.btn-warning( data-remote="true" date-method="post" rel="nofollow" href="/photos/{%=file.persona_screen_name %}/clear_from_queue/{%= file.photo_id %}" )
-        %i.icon-eraser.icon-white
+        %i.fa.fa-eraser.fa-white
         %span Clear
     %td.delete
       %button.btn.btn-danger(data-type="{%= file.delete_type %}" data-url="{%= file.delete_url %}")
-        %i.icon-trash.icon-white
+        %i.fa.fa-trash.fa-white
         %span {%=locale.fileupload.destroy %}
       %input( type="checkbox" name="delete" value="1")
   {% } %}

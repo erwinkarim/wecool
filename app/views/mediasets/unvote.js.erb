@@ -16,6 +16,6 @@ theHandle.find('.bar-danger').width('<%= @mediaset.down_votes.to_f / @total_vote
 
 //add voting avenue
 theHandle.find('.voteBox').empty();
-theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=icon-thumbs-up></i>'.html_safe, mediaset_vote_path(@mediaset, "up", current_persona.screen_name), :method => :post, :remote => :true) %>');
+theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=fa fa-thumbs-up></i>'.html_safe, mediaset_vote_path(@mediaset, "up", current_persona.screen_name), :method => :post, :remote => :true) %>');
 theHandle.find('.voteBox').append(' ');
-theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=icon-thumbs-down></i>'.html_safe, mediaset_vote_path(@mediaset, "down", current_persona.screen_name), :method => :post, :remote => :true) %>');
+theHandle.find('.voteBox').append('<%= escape_javascript( link_to '<i class=fa fa-thumbs-down></i>'.html_safe, mediaset_vote_path(@mediaset, "down", current_persona.screen_name), :method => :post, :remote => :true) %>');

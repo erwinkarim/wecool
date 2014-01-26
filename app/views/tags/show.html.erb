@@ -3,12 +3,12 @@
   <% content_for :title, 'Photos with ' + tag + ' tag' %>
   <div class="page-header">
     <h1>
-      Recent photos with <i class="icon-tag"></i><%= tag %>
+      Recent photos with <i class="fa fa-tag"></i><%= tag %>
     </h1>
   </div>
 <% else %>
   <% content_for :title, persona.screen_name + ' with ' + tag + ' tag' %>
-  <% @focus = ('<i class="icon-tag"></i>' + tag ).html_safe %>
+  <% @focus = ('<i class="fa fa-tag"></i>' + tag ).html_safe %>
   <%= render :partial => "common/personaHeaderBar" %>
 <% end %>
 
@@ -16,9 +16,9 @@
   <%= nav_bar do %>
     <ul class="nav" id="photoSelector">
       <li class="active" id="everyPhoto" >
-        <%= link_to '<i class="icon-picture"></i> Everything'.html_safe, '#' %>
+        <%= link_to '<i class="fa fa-picture-o"></i> Everything'.html_safe, '#' %>
       </li>
-      <li id="featuredPhoto"><%= link_to '<i class="icon-star"></i> Featured'.html_safe, '#' %></li>
+      <li id="featuredPhoto"><%= link_to '<i class="fa fa-star"></i> Featured'.html_safe, '#' %></li>
     </ul>
   <% end %>
 </div>

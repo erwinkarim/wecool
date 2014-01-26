@@ -4,7 +4,7 @@ $('#carousel_<%= @photo.id %>').find('.voteBox').append(
     jQuery('<a/>', 
       { href:'<%= escape_javascript( photo_unvote_path( @photo, current_persona.screen_name)) %>', 
         'data-remote':true, 'data-method':'post', rel:'no-follow' } 
-    ).append(jQuery('<i/>', { class:'icon-thumbs-<%= current_persona.up_voted?(@photo) ? "up" : "down" %>'})));
+    ).append(jQuery('<i/>', { class:'fa fa-thumbs-<%= current_persona.up_voted?(@photo) ? "up" : "down" %>'})));
 
 //update vote count
 var votes = parseInt($('#totalVoteBox').text().split('vote')[0]) + 1

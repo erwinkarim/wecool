@@ -10,7 +10,7 @@ var theCheckBox = "<%= escape_javascript (check_box_tag 'mediaset[]', @mediaset.
 $('#newMediasetList').find('tbody').append(
   '<tr><td><div class="pull-left"><big>' + theCheckBox + 
   ' ' + thePhotoAndTitle + 
-  '</big></div><div class="pull-right"><i class="checkbox-icon icon-check-sign icon-2x"></i></div></td></tr>'
+  '</big></div><div class="pull-right"><i class="checkbox-icon fa fa-check-square fa-2x"></i></div></td></tr>'
 );
 
 //remove indicator icon
@@ -24,7 +24,7 @@ var accordionToggle = jQuery('<a/>', {
   href:'#collapse<%= @mediaset.id.to_s %>', class:'accordion-toggle', 
   'data-toggle':'collapse', 'data-parent':'#accordion2', style:'display:inline;'
 }).append(jQuery('<i/>', {
-  class:'icon-chevron-down', 
+  class:'fa fa-chevron-down', 
 }));
 accordionHead.find('h3').append(accordionToggle);
 

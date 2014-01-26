@@ -34,7 +34,7 @@
 						<td class="quantity"><%= best_in_place cart_item,:quantity, :path => store_update_cart_item_path(@persona.screen_name, cart_item.id) %></td>
 						<td class="total_price"><%= number_to_currency sku.base_price * cart_item.quantity %></td>
 						<td>
-							<%= link_to '<i class="icon-ban-circle"></i> Cancel'.html_safe, store_remove_from_cart_path(@persona.screen_name, cart_item.id ), :remote=> true, 
+							<%= link_to '<i class="fa fa-ban"></i> Cancel'.html_safe, store_remove_from_cart_path(@persona.screen_name, cart_item.id ), :remote=> true, 
 								:class => 'btn btn-danger', :method => :post %>
 						</td>
 					</tr>
@@ -53,11 +53,11 @@
 <div class="row">
   <div class="span6 offset1"></div>
   <div class="span2" id="place-order">
-    <%= link_to '<i class="icon-signin"></i> Place Your Order'.html_safe, store_generate_order_path(@persona.screen_name) , 
+    <%= link_to '<i class="fa fa-sign-in"></i> Place Your Order'.html_safe, store_generate_order_path(@persona.screen_name) , 
 			:class=>'btn btn-primary pull-right', :remote => true, :method => :post %>
   </div>
 	<div class="span6 pull-right" style="display:none" id="goto-payment">
-		Thank you, you order has been generated. <%= link_to '<i class="icon-credit-card"></i> Proceed to Payment'.html_safe, store_confirm_pay_path(@persona.screen_name), 
+		Thank you, you order has been generated. <%= link_to '<i class="fa fa-credit-card"></i> Proceed to Payment'.html_safe, store_confirm_pay_path(@persona.screen_name), 
 			:class=>'btn btn-primary' %> to complete the order
   </div>
 </div>
