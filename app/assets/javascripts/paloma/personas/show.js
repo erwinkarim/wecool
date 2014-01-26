@@ -42,7 +42,7 @@
 				e.preventDefault();
 
         $('#recent-activity-body').append(
-          $.parseHTML('<tr id="loading-activities"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>')
+          $.parseHTML('<tr id="loading-activities"><td><i class="fa fa-spinner fa-4x fa-spin"></i></td></tr>')
         );
 				get_activity();
 			});

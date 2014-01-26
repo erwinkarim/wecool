@@ -1,6 +1,6 @@
 <div>
 <h2 class="page-header">
-  <i class="icon-cloud-upload"></i> Upload photo here
+  <i class="fa fa-cloud-upload"></i> Upload photo here
 </h2>
 </div>
 <% if persona_signed_in? then %>
@@ -11,21 +11,21 @@
       <div class="span7">
         <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-success fileinput-button">
-          <i class="icon-plus icon-white"></i>
+          <i class="fa fa-plus fa-white"></i>
           <span>Add files...</span>
           <%= f.file_field :avatar %>
         </span>
         <button type="submit" class="btn btn-primary start">
-          <i class="icon-upload icon-white"></i>
+          <i class="fa fa-upload fa-white"></i>
           <span>Start upload</span>
         </button>
         <button type="reset" class="btn btn-warning cancel">
-          <i class="icon-ban-circle icon-white"></i>
+          <i class="fa fa-ban fa-white"></i>
           <span>Cancel upload</span>
         </button>
         <div class="btn-group">
           <button type="button" class="btn btn-warning clear">
-            <i class="icon-eraser icon-white"></i>
+            <i class="fa fa-eraser fa-white"></i>
             <span>Clear uploaded</span>
           </button>
           <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
@@ -34,7 +34,7 @@
           <ul class="dropdown-menu">
             <li>
               <button type="button" class="btn btn-link delete">
-                 <i class="icon-trash"></i>
+                 <i class="fa fa-trash"></i>
                  <span>Delete</span>
               </button>
             </li>
@@ -66,7 +66,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#dupzone" 
-            href="#dupzone_collapse"> <i class="icon-chevron-right" 
+            href="#dupzone_collapse"> <i class="fa fa-chevron-right" 
             id="dupzone-chevron"></i> Duplicate Detected!  </a>
 				</div>
 				<div id="dupzone_collapse" class="accordion-body collapse">
@@ -80,10 +80,10 @@
 								<tr>
 									<td>
 										<button id="duplicate-discard-all" type="button" class="btn btn-warning">
-                      <i class="icon-ban-circle"></i> Cancel Duplicates
+                      <i class="fa fa-ban-circle"></i> Cancel Duplicates
                     </button>
 										<button id="duplicate-upload-all-anyway" type="button" class="btn btn-danger">
-                      <i class="icon-cloud-upload"></i> Upload Duplicates Anyway
+                      <i class="fa fa-cloud-upload"></i> Upload Duplicates Anyway
                     </button>
 									</td>
 								</tr>
@@ -125,7 +125,7 @@
     </td>
     <td class="start">{% if (!o.options.autoUpload) { %}
       <button class="btn btn-primary">
-        <i class="icon-upload icon-white"></i>
+        <i class="fa fa-upload fa-white"></i>
         <span>{%=locale.fileupload.start%}</span>
       </button>
       {% } %}</td>
@@ -134,14 +134,14 @@
     {% } %}
     <td class="cancel">{% if (!i) { %}
       <button class="btn btn-warning">
-        <i class="icon-ban-circle icon-white"></i>
+        <i class="fa fa-ban fa-white"></i>
         <span>{%=locale.fileupload.cancel%}</span>
       </button>
       {% } %}</td>
     <td class="visibility">
       <input class="visible" type="checkbox" name="visible[]" value="false" style="display:none;" /> 
       <button class="visible_button btn btn-info" type="button">
-        <i class="icon-eye-open icon-white"></i>
+        <i class="fa fa-eye-open fa-white"></i>
         <span>Public</span>
       </button>
     </td>
@@ -170,13 +170,13 @@
         {% } %}
       <td class="clear-individual">
         <a class="btn btn-warning" data-remote="true" data-method="post" rel="nofollow" href="/photos/{%=file.persona_screen_name %}/clear_from_queue/{%= file.photo_id %}">
-          <i class="icon-eraser icon-white"></i>
+          <i class="fa fa-eraser fa-white"></i>
           <span>Clear</span>
         </a>
       </td>
       <td class="delete">
         <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-          <i class="icon-trash icon-white"></i>
+          <i class="fa fa-trash fa-white"></i>
           <span>{%=locale.fileupload.destroy%}</span>
         </button>
         <input type="checkbox" name="delete" value="1">

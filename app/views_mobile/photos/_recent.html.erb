@@ -1,12 +1,12 @@
 <div class="row-fluid navbar" id="photoSelectorType">
   <div class="navbar-inner">
     <ul class="nav" id="photoTypeSelectorTab">
-      <li class="active" id="recentlyFeatured"><a href="#"><i class="icon-star icon-4x"></i></a><li>
-      <li class="" id="recentlyTrendy"><%= link_to '<i class="icon-reorder icon-4x"></i>'.html_safe, '#' %></li>
+      <li class="active" id="recentlyFeatured"><a href="#"><i class="fa fa-star fa-4x"></i></a><li>
+      <li class="" id="recentlyTrendy"><%= link_to '<i class="fa fa-bar-chart-o fa-4x"></i>'.html_safe, '#' %></li>
       <% if persona_signed_in? then %>
-        <li id="recentlyTracked"><%= link_to '<i class="icon-screenshot icon-4x"></i>'.html_safe, '#' %></li>
+        <li id="recentlyTracked"><%= link_to '<i class="fa fa-bullseye fa-4x"></i>'.html_safe, '#' %></li>
       <% end %>
-      <li id="recentlyAddedRaw"><%= link_to '<i class="icon-picture icon-4x"></i>'.html_safe, '#' %><li>
+      <li id="recentlyAddedRaw"><%= link_to '<i class="fa fa-picture-o fa-4x"></i>'.html_safe, '#' %><li>
     </ul>
   </div>
 </div>
