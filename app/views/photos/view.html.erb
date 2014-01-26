@@ -11,14 +11,14 @@
           <!-- infomation  dropdown menu -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" 
-              data-toggle="dropdown"><i class="icon-picture"></i> Photo<b class="caret"></b></a>
+              data-toggle="dropdown"><i class="fa fa-picture-o"></i> Photo<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><%= link_to 'Other Versions', photo_version_path(@persona.screen_name, @photo.id) %></li>
                 <li><%= link_to 'Exif Data', photo_view_exif_path(@persona.screen_name, @photo.id) %></li>
                 <% if persona_signed_in? && current_persona.id == @persona.id then %>
                   <li><%= link_to 'Add/Remove to Mediaset', '#addToSetModal', :'data-toggle'=>'modal' %></li>
                   <li class="divider"></li>
-                  <li><%= link_to '<i class="icon-remove"></i> Delete this photo'.html_safe, photo_path(@photo), 
+                  <li><%= link_to '<i class="fa fa-times"></i> Delete this photo'.html_safe, photo_path(@photo), 
                     :method => 'delete', 
                     :data => { :confirm => t('.confirm', 
                       :default => t("helpers.links.confirm", :default => 'Are you sure?'))
@@ -32,19 +32,19 @@
           <% if persona_signed_in? && current_persona.id == @persona.id then %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-                id="editMenu"><i class="icon-edit"></i> Edit<b class="caret"></b></a>
+                id="editMenu"><i class="fa fa-edit"></i> Edit<b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to '<i class="icon-undo"></i> Rotate Counter-Clockwise'.html_safe, 
+                <li><%= link_to '<i class="fa fa-undo"></i> Rotate Counter-Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
                     :current_version => 'large'), :method => :post, :remote => true %>
                 </li>
-                <li><%= link_to '<i class="icon-repeat"></i> Rotate Clockwise'.html_safe, 
+                <li><%= link_to '<i class="fa fa-repeat"></i> Rotate Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'right', 
                     :current_version => 'large'), :method => :post, :remote => true %>
                 </li>
                 <li class="divider"></li>
                 <li>
-                  <%= link_to '<i class="icon-pencil"></i> Launch Editor'.html_safe, 
+                  <%= link_to '<i class="fa fa-pencil"></i> Launch Editor'.html_safe, 
                     photo_editor_path(@persona.screen_name, @photo.id) %>
                 </li>
               </ul>
@@ -54,14 +54,14 @@
           <!-- dropdown menu for sharing -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" 
-              data-toggle="dropdown"><i class="icon-share"></i> Share<b class="caret"></b></a>
+              data-toggle="dropdown"><i class="fa fa-share"></i> Share<b class="caret"></b></a>
             <%= render :template => 'photos/shareDropdown', :locals => { :photo => @photo, :persona => @persona }  %>
           </li>
           <!-- end of dropdown menu for sharing -->
 					<!-- dropdown menu for exif data -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-              id="infoMenu"><i class="icon-info"></i> Extra Info<b class="caret"></b></a>
+              id="infoMenu"><i class="fa fa-info"></i> Extra Info<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li>
 								<% if @exif.nil? then %>
@@ -71,7 +71,7 @@
                     <div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Taken On">
-													<i class="icon-calendar"></i>
+													<i class="fa fa-calendar"></i>
 												</span> 
 												<%= text_field_tag 'taken', 
 													@exif[:date_time_original].nil? ? 
@@ -82,7 +82,7 @@
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Location">
-													<i class="icon-map-marker"></i>
+													<i class="fa fa-map-marker"></i>
 												</span>
 												<%= text_field_tag 'model', @exif[:gps_latitude_ref].nil?  ? 
 													'No Data' : @exif[:gps_latitude_ref] + ' ' + @exif[:gps_latitude].to_f.round(4).to_s + ' ' + 
@@ -90,35 +90,35 @@
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Camera Model">
-													<i class="icon-camera"></i>
+													<i class="fa fa-camera"></i>
 												</span>
 												<%= text_field_tag 'model', @exif[:model].nil?  ? 
 													'No Data' : @exif[:model], :disabled => true %>
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Aperture">
-													<i class="icon-circle-blank"></i>
+													<i class="fa fa-circle-o"></i>
 												</span>
 												<%= text_field_tag 'aperture', @exif[:f_number].nil? ? 'No Data' : 
 													'f/'+@exif[:f_number].to_f.to_s , :disabled => true %>
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Shutter speed">
-													<i class="icon-eye-open"></i>
+													<i class="fa fa-eye"></i>
 												</span>
 												<%= text_field_tag 'shutter', @exif[:exposure_time].nil? ? 'No Data' : 
 													@exif[:exposure_time].to_s + 's' , :disabled => true %>
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="Lens Focal Length">
-													<i class="icon-resize-horizontal"></i>
+													<i class="fa fa-arrows-h"></i>
 												</span>
 												<%= text_field_tag 'focal-length', @exif[:focal_length].nil? ? 'No Data' :
 													@exif[:focal_length].to_f.to_s + ' mm' , :disabled => true %>
 											</div>
 											<div class="input-prepend">
 												<span class="add-on" data-toggle="tooltip" title="ISO speed">
-													<i class="icon-film"></i>
+													<i class="fa fa-film"></i>
 												</span>
 												<%= text_field_tag 'iso', @exif[:iso_speed_ratings].nil? ? 
 													'No Data' : 'ISO ' + @exif[:iso_speed_ratings].to_s , :disabled => true %>
@@ -145,7 +145,7 @@
       <!-- picture description -->
       <% if persona_signed_in? && current_persona.id == @persona.id then %>
         <div class="carousel-indicators">
-          <%= link_to '<i class="icon-undo icon-2x"></i>'.html_safe, 
+          <%= link_to '<i class="fa fa-undo fa-2x"></i>'.html_safe, 
             photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
               :current_version => 'large'), :method => :post, :remote => true 
           %>
@@ -163,7 +163,7 @@
                 <tr>
                   <td>
                     <%= current_persona == @persona ? 
-                          content_tag(:i, '', :class => 'icon-edit icon-2x edit-title', :style=> 'color:white;' ) 
+                          content_tag(:i, '', :class => 'fa fa-edit fa-2x edit-title', :style=> 'color:white;' ) 
                         : '' 
                     %>
                   </td>
@@ -197,7 +197,7 @@
                 <tr>
                   <td>
                     <%= current_persona == @persona ? 
-                          content_tag(:i, '', :class => 'icon-edit icon-2x edit-description', 
+                          content_tag(:i, '', :class => 'fa fa-edit fa-2x edit-description', 
                             :style => 'color:white;' ) 
                         : '' 
                     %>
@@ -225,14 +225,14 @@
                       <div class="voteBox">
                       <% if persona_signed_in? then %>
                         <% if current_persona.voted?(@photo) then %>
-                          Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
+                          Voted <i class="fa fa-thumbs-<%= current_persona.up_voted?(@photo) ? 'up' : 'down' %>"></i> - 
                           <%= link_to 'unvote', photo_unvote_path(@photo,current_persona.screen_name), 
                             :remote => true, :method => :post %>
                         <% else %>
-                          <%= link_to '<i class="icon-thumbs-up icon-white"></i>'.html_safe, 
+                          <%= link_to '<i class="fa fa-thumbs-up fa-white"></i>'.html_safe, 
                             photo_vote_path(@photo, 'up', current_persona.screen_name), 
                             :remote=>true, :method => :post %>
-                          <%= link_to '<i class="icon-thumbs-down icon-white"></i>'.html_safe, 
+                          <%= link_to '<i class="fa fa-thumbs-down fa-white"></i>'.html_safe, 
                             photo_vote_path(@photo, 'down', current_persona.screen_name), 
                             :remote=>true, :method=>:post %>
                         <% end %>
@@ -249,7 +249,7 @@
                     <!-- make this featured or not -->
                     <h4>
                       <% if current_persona == @persona then %>
-                        <% theStar = @photo.featured ? 'icon-star' : 'icon-star-empty' %>
+                        <% theStar = @photo.featured ? 'fa fa-star' : 'fa fa-star-o' %>
                         <%= link_to ('<i class="isFeatured '+ theStar +'"></i>').html_safe, 
                           photo_toggle_featured_path(@persona.screen_name, @photo), :remote=>true, :method=>:post 
                          %>
@@ -260,7 +260,7 @@
                     <!-- make this private or not -->
                     <a name="visibilityAnchor"></a>
                     <% if current_persona == @persona then %>
-                      <% visibilityIcon = ('<i class="icon-eye-' + (@photo.visible? ? 'open' : 'close') + 
+                      <% visibilityIcon = ('<i class="fa fa-eye' + (@photo.visible? ? '' : '-slash') + 
                         '"></i>').html_safe %>
                       <% if @photo.featured then %>
                         <%= link_to visibilityIcon, '#photo', :'data-toggle'=> 'popover', 
@@ -297,7 +297,7 @@
           <!-- show which mediasets this photo belongs to -->
         <div class="accordion-heading">
           <h3>
-            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapseDefault', 
+            <%= link_to '<i class="fa fa-chevron-down"></i>'.html_safe, '#collapseDefault', 
               :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
               :style=>'display:inline;'  %><%= link_to 'Photos by '+@persona.screen_name, 
                 photo_path(@persona.screen_name, :view=>'raw') %>
@@ -322,7 +322,7 @@
         <div class="accordion-group">
           <div class="accordion-heading">
             <h3>
-              <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
+              <%= link_to '<i class="fa fa-chevron-down"></i>'.html_safe, '#collapsedFeatured', 
                 :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>"#accordion2", 
                 :style=>'display:inline;'  %><%= link_to 'Featured photos by '+@persona.screen_name, 
                   photo_path(@persona.screen_name) %>
@@ -348,7 +348,7 @@
         <div class="accordion-group">  
           <div class="accordion-heading">
             <h3>
-            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse'+mediaset.id.to_s, 
+            <%= link_to '<i class="fa fa-chevron-down"></i>'.html_safe, '#collapse'+mediaset.id.to_s, 
               :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
               :style=>'display:inline;' %><%= link_to mediaset.title, view_sets_path(@persona.screen_name, mediaset) %>
             </h3>
@@ -378,7 +378,7 @@
         <div class="accordion-group">  
           <div class="accordion-heading">
             <h3>
-            <%= link_to '<i class="icon-chevron-down"></i>'.html_safe, '#collapse_related',
+            <%= link_to '<i class="fa fa-chevron-down"></i>'.html_safe, '#collapse_related',
               :class=>'accordion-toggle', :'data-toggle'=>'collapse', :'data-parent'=>'#accordion2', 
               :style=>'display:inline;' %><%= link_to 'Related Photos', tag_related_path(@photo) %>
             </h3>

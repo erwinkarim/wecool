@@ -110,7 +110,7 @@
 				//add title and description of the photo
 
 				//add visibility button if picture owner
-        if( $('.isFeatured').hasClass('icon-star') ){
+        if( $('.isFeatured').hasClass('fa-star') ){
           $('#visibilityBox').find('a').popover();
         }
         

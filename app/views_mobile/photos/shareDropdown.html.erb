@@ -15,7 +15,7 @@
   <li>
     <%= form_tag '#', :style => 'padding:3px 20px;' do %>
       <div class="row-fluid" id="copy-via-display">
-          <%= content_tag :a, '<i class="icon-envelope-alt icon-4x"></i>'.html_safe, 
+          <%= content_tag :a, '<i class="fa fa-envelope fa-4x"></i>'.html_safe, 
             :href => '#share-via-email', :data => { :toggle=> 'modal' }
           %>
       </div>
@@ -70,14 +70,14 @@ $(document).ready( function() {
 
   $('#copy-link-caret').click( function(){
     $('#copy-link-display').fadeToggle();
-    $('#copy-link-caret').toggleClass('icon-caret-down');
-    $('#copy-link-caret').toggleClass('icon-caret-right');
+    $('#copy-link-caret').toggleClass('fa fa-caret-down');
+    $('#copy-link-caret').toggleClass('fa fa-caret-right');
   });
 
   $('#copy-html-caret').click( function(){
     $('#copy-html-display').fadeToggle();
-    $('#copy-html-caret').toggleClass('icon-caret-down');
-    $('#copy-html-caret').toggleClass('icon-caret-right');
+    $('#copy-html-caret').toggleClass('fa fa-caret-down');
+    $('#copy-html-caret').toggleClass('fa fa-caret-right');
   });
 
   //when share via email send button is clicked

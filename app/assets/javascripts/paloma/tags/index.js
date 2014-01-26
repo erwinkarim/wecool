@@ -19,7 +19,6 @@
 
   Paloma.callbacks['tags']['index'] = function(params){
     // Do something here.
-    console.log('got called');
     $(document).ready( function(){
       $('#tagsResults').css('min-height', $(window).height()); 
       var sendParams = { mode: 'recent' } 

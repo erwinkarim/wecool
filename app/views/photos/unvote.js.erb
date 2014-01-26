@@ -1,9 +1,9 @@
 
 var voteBox = $('#carousel_<%= @photo.id %>').find('.voteBox');
 voteBox.empty();
-voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
+voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "up", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'fa fa-thumbs-up'})));
 voteBox.append(' ');
-voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "down", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
+voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(@photo, "down", current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', rel:'nofollow' }).append(jQuery('<i/>', {class:'fa fa-thumbs-down'})));
 
 //update vote count
 var votes = parseInt($('#totalVoteBox').text().split('vote')[0]) - 1

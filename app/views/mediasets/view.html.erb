@@ -33,8 +33,8 @@
       <% if persona_signed_in? && current_persona == @persona then %>
         <!-- Set this mediaset as featured or not -->
         <div class="featuredBox pull-left span6">
-          <%= link_to ('<i class="isFeatured icon-star' + 
-            (@mediaset.featured ? '' : '-empty') + '"></i>').html_safe, 
+          <%= link_to ('<i class="isFeatured fa fa-star' + 
+            (@mediaset.featured ? '' : '-o') + '"></i>').html_safe, 
             mediaset_toggle_featured_path(@mediaset), :method => :post, :remote => true %>
         </div>
       <% end %>
@@ -42,13 +42,13 @@
         <div class="voteBox pull-right span6" style="text-align:right">
           <% if current_persona.voted?(@mediaset) then %>
             <!-- vote on this mediaset -->
-            Voted <i class="icon-thumbs-<%= current_persona.up_voted?(@mediaset) ? 'up' : 'down'  %>"></i> - 
+            Voted <i class="fa fa-thumbs-<%= current_persona.up_voted?(@mediaset) ? 'up' : 'down'  %>"></i> - 
             <%= link_to 'Unvote', mediaset_unvote_path(@mediaset, current_persona.screen_name), 
               :remote => true, :method => :post %>
           <% else %>
-            <%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
+            <%= link_to fa_icon('thumbs-up'), 
               mediaset_vote_path(@mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post %>
-            <%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, 
+            <%= link_to fa_icon('thumbs-down'),
               mediaset_vote_path(@mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post %>
           <% end %>
         </div>
@@ -63,15 +63,16 @@
   <div class="navbar-inner">
     <ul class="nav" id="mediaset-menu">
       <li class="active view-mode" id="mediaset-show-all-photos" ><a href="#" 
-        data-role="button"><i class="icon-book"></i> All Photos</a></li>
-      <li class="view-mode" id="mediaset-show-featured-photos"><a href="#" ><i class="icon-star"></i> Featured Only</a></li>
+        data-role="button"><i class="fa fa-book"></i> All Photos</a></li>
+      <li class="view-mode" id="mediaset-show-featured-photos"><a href="#" ><i class="fa fa-star"></i> Featured Only</a></li>
       <% if persona_signed_in? && current_persona.screen_name == params[:persona_id] then %>
         <li class="dropdown divider-vertical">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book"></i><b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-book"></i><b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to '<i class="icon-edit"></i> Edit'.html_safe, edit_mediaset_path(params[:persona_id], params[:id]) %></li>
+              <li><%= link_to fa_icon('edit', :text => 'Edit'),
+								edit_mediaset_path(params[:persona_id], params[:id]) %></li>
               <li class="divider"></li>
-              <li><%= link_to '<i class="icon-remove"></i> Delete'.html_safe,
+              <li><%= link_to fa_icon('times', :text => 'Delete'),
                 mediaset_path(@mediaset),
                 :method => 'delete',
                 :data => { :confirm => t('.confirm', 
@@ -81,7 +82,7 @@
       <% end %>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle"
-          data-toggle="dropdown"><i class="icon-share"></i> <b class="caret"></b></a>
+          data-toggle="dropdown"><i class="fa fa-share"></i> <b class="caret"></b></a>
         <%= render :template => 'photos/shareDropdown', 
           :locals => { :photo => @mediaset, :persona => @persona, :option => { :mode => 'mediaset_photos' } } %>
       </li>

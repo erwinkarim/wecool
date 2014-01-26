@@ -2,24 +2,24 @@
   <div class="span12">
     <%= nav_bar do %>
       <% menu_group do %>
-				<%= drop_down '<i class="icon-save icon-4x"></i>'.html_safe do %>
+				<%= drop_down '<i class="fa fa-save fa-4x"></i>'.html_safe do %>
           <!-- 
             this is harder than i thought
 					<%= menu_item 'Replace current photo' ,'#', :id => 'photo-replace-current' %>
           -->
-					<%= menu_item '<i class="icon-cloud-upload"></i> Upload as a new photo'.html_safe, '#', 
+					<%= menu_item '<i class="fa fa-cloud-upload"></i> Upload as a new photo'.html_safe, '#', 
             :id => 'photo-upload-new' %>
           <%= drop_down_divider %>
-          <%= menu_item '<i class="icon-download-alt"></i> Download'.html_safe, '#', :id =>'photo-download' %>
+          <%= menu_item '<i class="fa fa-download"></i> Download'.html_safe, '#', :id =>'photo-download' %>
 				<% end %>
-        <%= menu_item '<i class="icon-crop icon-4x"></i>'.html_safe , '#', :id => 'crop'  %>
+        <%= menu_item '<i class="fa fa-crop fa-4x"></i>'.html_safe , '#', :id => 'crop'  %>
         <!--
           deal with this when website is launched
           rotation  + crop is harder than i thought
-        <%= menu_item '<i class="icon-rotate-left icon-4x"></i>'.html_safe , '#', :id => 'rotate-left' %>
-        <%= menu_item '<i class="icon-rotate-right icon-4x"></i>'.html_safe, '#', :id => 'rotate-right' %>
+        <%= menu_item '<i class="fa fa-rotate-left fa-4x"></i>'.html_safe , '#', :id => 'rotate-left' %>
+        <%= menu_item '<i class="fa fa-rotate-right fa-4x"></i>'.html_safe, '#', :id => 'rotate-right' %>
         -->
-        <%= drop_down '<i class="icon-sun icon-4x"></i>'.html_safe do %>
+        <%= drop_down '<i class="fa fa-sun-o fa-4x"></i>'.html_safe do %>
             <li style="padding:3px 20px;">
               <div class="row-fluid slider" id="brightness-slider" style="margin:10px 0px;"></div>
 							<div class="row-fluid">
@@ -27,7 +27,7 @@
 							</div>
             </li>
         <% end %>
-        <%= drop_down '<i class="icon-adjust icon-4x"></i>'.html_safe do %> 
+        <%= drop_down '<i class="fa fa-adjust fa-4x"></i>'.html_safe do %> 
           <li style="padding:3px 20px;">
             <div class="slider" id="contrast-slider" style="margin: 10px 0px;"></div>
 						<div class="row-fluid">
@@ -36,7 +36,7 @@
             </li>
         <% end %>
 				<%= menu_divider %>
-				<%= menu_item '<i class="icon-arrow-left icon-4x"></i>'.html_safe, photo_view_path(@persona.screen_name, @photo) , :id => 'back' %>
+				<%= menu_item '<i class="fa fa-arrow-left fa-4x"></i>'.html_safe, photo_view_path(@persona.screen_name, @photo) , :id => 'back' %>
       <% end %>
     <% end %>
   </div>
@@ -52,16 +52,16 @@
       <%= select 'ratio', 'size', ['1x1','3x2', '4x3', '5x3', '5x4', '12x5', '16x9', '16x10'], 
         {}, {:disabled => 'disabled'} %>
       <div class="btn-group" data-toggle="buttons-radio" id="crop-orientation">
-        <%= button_tag '<i class="icon-picture"></i> Landscape'.html_safe, :type => 'button', 
+        <%= button_tag '<i class="fa fa-picture-o"></i> Landscape'.html_safe, :type => 'button', 
           :id => 'crop-landscape', :class => 'btn active', :disabled=>true %>
-        <%= button_tag '<i class="icon-user"></i> Portrait'.html_safe, :type => 'button', 
+        <%= button_tag '<i class="fa fa-user"></i> Portrait'.html_safe, :type => 'button', 
           :id => 'crop-potrait', :class => 'btn' , :disabled=>true%>
       </div>
     </form>
   <% end %>
 </div>
 <div class="row-fluid" id="loading">
-	<i class="icon-spinner icon-4x icon-spin"></i>
+	<i class="fa fa-spinner fa-4x fa-spin"></i>
 </div>
 <div class="row-fluid" id="canvas-area">
   <!--% img = ::Magick::Image::read(@photo.avatar.large.url).first %-->

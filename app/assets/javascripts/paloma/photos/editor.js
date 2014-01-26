@@ -82,14 +82,14 @@
     //enable or disable buttons in the main menu
     theCanvas.toggleMainMenu = function(){
       //toggle main menu functions (enable or disable them)
-      $('.icon-sun').parent().toggleClass('disabled');
-      $('.icon-adjust').parent().toggleClass('disabled');
-      $('.icon-rotate-right').parent().toggleClass('disabled');
-      $('.icon-rotate-left').parent().toggleClass('disabled');
-      $('.icon-save').parent().toggleClass('disabled');
+      $('.fa-sun-o').parent().toggleClass('disabled');
+      $('.fa-adjust').parent().toggleClass('disabled');
+      $('.fa-rotate-right').parent().toggleClass('disabled');
+      $('.fa-rotate-left').parent().toggleClass('disabled');
+      $('.fa-save').parent().toggleClass('disabled');
 
       //check if the crop-submenu is closed and the check box is checked, then uncheck it
-      if ( !$('icon-crop').parent().parent().hasClass('active') && 
+      if ( !$('fa-crop').parent().parent().hasClass('active') && 
         $('#crop-submenu form input:checked').length != 0 ){
         //console.log('clicked');
         $('#crop-constraint-check').click();

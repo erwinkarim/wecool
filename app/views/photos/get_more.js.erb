@@ -56,7 +56,7 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
         carousel.append(
           $('<div/>', { class:'carousel-indicators' }).append(
             $('<a/>', { href:'<%= photo_transform_path( this_persona, photo, 'rotate', :direction => 'left', :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', rel:'nofollow' }).append(
-              $('<i/>', { class:'icon-undo icon-2x' } )
+              $('<i/>', { class:'fa fa-undo fa-2x' } )
             )
           )
         );
@@ -95,23 +95,23 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
         caption.find('.caption-vote').append(jQuery('<a/>', 
           {href:'<%= photo_toggle_featured_path(current_persona.screen_name, photo) %>', 'data-remote':'true', 
             'data-method':'post'}).append(jQuery('<i/> ', 
-            {class:'isFeatured <%= photo.featured ? 'icon-star' : 'icon-star-empty' %>'}))); 
+            {class:'isFeatured <%= photo.featured ? 'fa fa-star' : 'fa fa-star-o' %>'}))); 
         caption.find('.caption-vote').find('a').append(' ');
       <% end %>
       var voteBox = jQuery('<div/>', {class:'pull-right voteBox'});
       <% if persona_signed_in? && !current_persona.voted?(photo) then %>
         voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "up", 
           current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
-          rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-up'})));
+          rel:'nofollow' }).append(jQuery('<i/>', {class:'fa fa-thumbs-up'})));
         voteBox.append(' ');
         voteBox.append(jQuery('<a/>', { href:'<%= escape_javascript photo_vote_path(photo, "down", 
           current_persona.screen_name) %>', 'data-remote':true, 'data-method':'post', 
-          rel:'nofollow' }).append(jQuery('<i/>', {class:'icon-thumbs-down'})));
+          rel:'nofollow' }).append(jQuery('<i/>', {class:'fa fa-thumbs-down'})));
       <% elsif persona_signed_in? && current_persona.voted?(photo) then %>
         voteBox.append(jQuery('<a/>', {
           href:'<%= escape_javascript photo_unvote_path(photo, current_persona.screen_name) %>',
           'data-remote':true, 'data-method':'post', rel:'nofollow'}).append(jQuery('<i/>', { 
-            class:'icon-thumbs-<%= current_persona.up_voted?(photo) ? "up" : "down" %>'} )
+            class:'fa fa-thumbs-<%= current_persona.up_voted?(photo) ? "up" : "down" %>'} )
           )
         );
       <% end %>

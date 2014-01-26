@@ -1,16 +1,16 @@
-$('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('icon-star');
-$('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('icon-star-empty');
+$('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('fa-star');
+$('#carousel_<%= @photo.id %>').find('.isFeatured').toggleClass('fa-star-o');
 
 var visibilityHandle = $('#visibilityBox');
 
 //ensure that the photo is visible
-if ( $('#visibilityBox').find('i').hasClass('icon-eye-close') ) {
-  $('#visibilityBox').find('i').toggleClass('icon-eye-close');
-  $('#visibilityBox').find('i').toggleClass('icon-eye-open');
+if ( $('#visibilityBox').find('i').hasClass('fa-eye-slash') ) {
+  $('#visibilityBox').find('i').toggleClass('fa-eye-slash');
+  $('#visibilityBox').find('i').toggleClass('fa-eye');
 }
 
 //se
-if ( $('#carousel_<%= @photo.id %>').find('.isFeatured').hasClass('icon-star-empty') ) {
+if ( $('#carousel_<%= @photo.id %>').find('.isFeatured').hasClass('fa-star-o') ) {
   //rebuilt the icon list
   visibilityHandle.find('a').removeAttr('data-toggle');  
   visibilityHandle.find('a').removeAttr('data-placement');  

@@ -112,9 +112,9 @@
             var visible_checkbox = $(this).parent().find('.visible');
             visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
             if(  visible_checkbox.attr('checked') != null ) {
-              $(this).html( '<i class="icon-eye-close"></i> Private');
+              $(this).html( '<i class="fa fa-eye-slash"></i> Private');
             } else {
-              $(this).html( '<i class="icon-eye-open"></i> Public');
+              $(this).html( '<i class="fa fa-eye"></i> Public');
             };
           }
         )//bind
@@ -162,7 +162,7 @@
                 $('[data-name="' + file.name + '"]').find('.start').after(
                   $('<td/>', { class:'duplicate-button' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-danger'}
-                    ).html('<i class="icon-upload"></i> Upload Anyway').click( function(){
+                    ).html('<i class="fa fa-upload"></i> Upload Anyway').click( function(){
                       parentHandle = $(this).parent().parent();
                       parentHandle.find('.progress').show();
                       parentHandle.find('.start').show();
@@ -190,7 +190,7 @@
                 $('[data-name="' + file.name + '"]').find('.cancel').after(
                   $('<td/>', { class:'duplicate-cancel' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-warning'}
-                    ).html('<i class="icon-ban-circle"></i> Cancel').click(function(){
+                    ).html('<i class="fa fa-ban"></i> Cancel').click(function(){
                       //cancel individual uploads
                       parentHandle = $(this).parent().parent();
                       parentHandle.slideUp(500);

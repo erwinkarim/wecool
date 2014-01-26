@@ -20,7 +20,7 @@ var handle= $('.endless_scroll_inner_wrap');
 
     <% if persona_signed_in? && current_persona == persona then %>
       featuredVoteBox.find('.featuredBox').append('<%= 
-        link_to ('<i class="icon-star'+ (mediaset.featured ? '' : '-empty') +' isFeatured"></i>').html_safe, 
+        link_to ('<i class="fa fa-star'+ (mediaset.featured ? '' : '-o') +' isFeatured"></i>').html_safe, 
         mediaset_toggle_featured_path(mediaset),  :remote=>true, :method=>:post 
       %>');
     <% end %>
@@ -28,16 +28,16 @@ var handle= $('.endless_scroll_inner_wrap');
     <% if persona_signed_in? then %>
       <% if persona.voted?(mediaset) then %>
         featuredVoteBox.find('.voteBox').append('<%= 
-          ('Voted <i class="icon-thumbs-up"></i> - ' + 
+          ('Voted <i class="fa fa-thumbs-up"></i> - ' + 
           link_to( 'Unvote', mediaset_unvote_path(mediaset, current_persona.screen_name), 
           :remote => true, :method => :post ) ).html_safe 
         %>');
       <% else %>
-        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-up"></i>'.html_safe, 
+        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="fa fa-thumbs-up"></i>'.html_safe, 
           mediaset_vote_path(mediaset, 'up', current_persona.screen_name), :remote => true, :method => :post 
         %>');
         featuredVoteBox.find('.voteBox').append(' ');
-        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="icon-thumbs-down"></i>'.html_safe, 
+        featuredVoteBox.find('.voteBox').append('<%= link_to '<i class="fa fa-thumbs-down"></i>'.html_safe, 
           mediaset_vote_path(mediaset, 'down', current_persona.screen_name), :remote => true, :method => :post 
         %>');
       <% end %>

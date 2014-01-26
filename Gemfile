@@ -29,7 +29,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'twitter-bootstrap-rails', '=2.2.7'
 gem 'haml'
-gem 'font-awesome-rails', '= 3.2.1.3'
+gem 'font-awesome-rails', '= 4.0.3.1'
 
 # javascript management
 gem 'paloma'

@@ -26,7 +26,7 @@
             </div>
             <div class="pull-right"> 
               <i class="checkbox-icon <%= mediaset.photos.include?(photo) ? 
-                'icon-check-sign icon-2x' : '' %>"></i>
+                'fa fa-check-square fa-2x' : '' %>"></i>
             </div> 
           </td></tr>
         <% end %>
@@ -117,8 +117,9 @@
   
       $('.mediasetSelectionRow').click( function() {
         $(this).find('input:checkbox').prop('checked', !$(this).find('input:checkbox').prop('checked') )
-        $(this).find('.checkbox-icon').toggleClass('icon-check-sign');
-        $(this).find('.checkbox-icon').toggleClass('icon-2x');
+        $(this).find('.checkbox-icon').toggleClass('fa');
+        $(this).find('.checkbox-icon').toggleClass('fa-check-square');
+        $(this).find('.checkbox-icon').toggleClass('fa-2x');
       });
   });
 </script>
