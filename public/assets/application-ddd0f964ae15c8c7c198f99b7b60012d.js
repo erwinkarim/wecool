@@ -12503,7 +12503,7 @@ indicator.load = function(target, position, css_float, css_display ){
   css_display = typeof css_display !== 'undefined' ? css_display : 'block';
     
 	spin = '<div class="loading" style="float:'+ css_float + '; display:' + css_display + 
-    '"><i class="icon-spinner icon-4x icon-spin"></i></div>';
+    '"><i class="fa fa-spinner fa-4x fa-spin"></i></div>';
   if ($(target).find('.carousel').length == 0) {
     //if there's nothing inside, just append inside
     $(target).append(spin);
@@ -12518,7 +12518,7 @@ indicator.load = function(target, position, css_float, css_display ){
 
 //indicate loading at tag index page
 indicator.tagLoad = function( target ){
-  spin = '<tr class="loading"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>';
+  spin = '<tr class="loading"><td><i class="fa fa-spinner fa-4x fa-spin"></i></td></tr>';
 
   if( $(target).find('tr').length == 0 ) {
     $(target).append(spin);
@@ -13891,7 +13891,7 @@ var performFilters = function(filters, params){
 				e.preventDefault();
 
         $('#recent-activity-body').append(
-          $.parseHTML('<tr id="loading-activities"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>')
+          $.parseHTML('<tr id="loading-activities"><td><i class="fa fa-spinner fa-4x fa-spin"></i></td></tr>')
         );
 				get_activity();
 			});
@@ -14074,7 +14074,7 @@ var performFilters = function(filters, params){
 				e.preventDefault();
 
         $('#recent-activity-body').append(
-          $.parseHTML('<tr id="loading-activities"><td><i class="icon-spinner icon-4x icon-spin"></i></td></tr>')
+          $.parseHTML('<tr id="loading-activities"><td><i class="fa fa-spinner fa-4x fa-spin"></i></td></tr>')
         );
 				get_activity();
 			});
@@ -14856,14 +14856,14 @@ var performFilters = function(filters, params){
     //enable or disable buttons in the main menu
     theCanvas.toggleMainMenu = function(){
       //toggle main menu functions (enable or disable them)
-      $('.icon-sun').parent().toggleClass('disabled');
-      $('.icon-adjust').parent().toggleClass('disabled');
-      $('.icon-rotate-right').parent().toggleClass('disabled');
-      $('.icon-rotate-left').parent().toggleClass('disabled');
-      $('.icon-save').parent().toggleClass('disabled');
+      $('.fa-sun-o').parent().toggleClass('disabled');
+      $('.fa-adjust').parent().toggleClass('disabled');
+      $('.fa-rotate-right').parent().toggleClass('disabled');
+      $('.fa-rotate-left').parent().toggleClass('disabled');
+      $('.fa-save').parent().toggleClass('disabled');
 
       //check if the crop-submenu is closed and the check box is checked, then uncheck it
-      if ( !$('icon-crop').parent().parent().hasClass('active') && 
+      if ( !$('fa-crop').parent().parent().hasClass('active') && 
         $('#crop-submenu form input:checked').length != 0 ){
         //console.log('clicked');
         $('#crop-constraint-check').click();
@@ -15347,9 +15347,9 @@ var performFilters = function(filters, params){
             var visible_checkbox = $(this).parent().find('.visible');
             visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
             if(  visible_checkbox.attr('checked') != null ) {
-              $(this).html( '<i class="icon-eye-close"></i> Private');
+              $(this).html( '<i class="fa fa-eye-slash"></i> Private');
             } else {
-              $(this).html( '<i class="icon-eye-open"></i> Public');
+              $(this).html( '<i class="fa fa-eye"></i> Public');
             };
           }
         )//bind
@@ -15397,7 +15397,7 @@ var performFilters = function(filters, params){
                 $('[data-name="' + file.name + '"]').find('.start').after(
                   $('<td/>', { class:'duplicate-button' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-danger'}
-                    ).html('<i class="icon-upload"></i> Upload Anyway').click( function(){
+                    ).html('<i class="fa fa-upload"></i> Upload Anyway').click( function(){
                       parentHandle = $(this).parent().parent();
                       parentHandle.find('.progress').show();
                       parentHandle.find('.start').show();
@@ -15425,7 +15425,7 @@ var performFilters = function(filters, params){
                 $('[data-name="' + file.name + '"]').find('.cancel').after(
                   $('<td/>', { class:'duplicate-cancel' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-warning'}
-                    ).html('<i class="icon-ban-circle"></i> Cancel').click(function(){
+                    ).html('<i class="fa fa-ban"></i> Cancel').click(function(){
                       //cancel individual uploads
                       parentHandle = $(this).parent().parent();
                       parentHandle.slideUp(500);
@@ -15506,11 +15506,11 @@ var performFilters = function(filters, params){
 
 			//dup zone accordion characteristics
 			$('#dupzone_collapse').on('hide', function(){
-				$('#dupzone-chevron').toggleClass('icon-chevron-down');
-				$('#dupzone-chevron').toggleClass('icon-chevron-right');
+				$('#dupzone-chevron').toggleClass('fa-chevron-down');
+				$('#dupzone-chevron').toggleClass('fa-chevron-right');
 			}).on('show', function(){
-				$('#dupzone-chevron').toggleClass('icon-chevron-down');
-				$('#dupzone-chevron').toggleClass('icon-chevron-right');
+				$('#dupzone-chevron').toggleClass('fa-chevron-down');
+				$('#dupzone-chevron').toggleClass('fa-chevron-right');
 			});
 
       $(document).bind('drop dragover', function (e) {
@@ -15633,9 +15633,9 @@ var performFilters = function(filters, params){
             var visible_checkbox = $(this).parent().find('.visible');
             visible_checkbox.attr('checked', !visible_checkbox.attr('checked')); 
             if(  visible_checkbox.attr('checked') != null ) {
-              $(this).html( '<i class="icon-eye-close"></i> Private');
+              $(this).html( '<i class="fa fa-eye-slash"></i> Private');
             } else {
-              $(this).html( '<i class="icon-eye-open"></i> Public');
+              $(this).html( '<i class="fa fa-eye"></i> Public');
             };
           }
         )//bind
@@ -15683,7 +15683,7 @@ var performFilters = function(filters, params){
                 $('[data-name="' + file.name + '"]').find('.start').after(
                   $('<td/>', { class:'duplicate-button' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-danger'}
-                    ).html('<i class="icon-upload"></i> Upload Anyway').click( function(){
+                    ).html('<i class="fa fa-upload"></i> Upload Anyway').click( function(){
                       parentHandle = $(this).parent().parent();
                       parentHandle.find('.progress').show();
                       parentHandle.find('.start').show();
@@ -15711,7 +15711,7 @@ var performFilters = function(filters, params){
                 $('[data-name="' + file.name + '"]').find('.cancel').after(
                   $('<td/>', { class:'duplicate-cancel' } ).append(
                     $('<button/>', { type:'button', class:'btn btn-warning'}
-                    ).html('<i class="icon-ban-circle"></i> Cancel').click(function(){
+                    ).html('<i class="fa fa-ban"></i> Cancel').click(function(){
                       //cancel individual uploads
                       parentHandle = $(this).parent().parent();
                       parentHandle.slideUp(500);
@@ -15978,7 +15978,7 @@ var performFilters = function(filters, params){
 				//add title and description of the photo
 
 				//add visibility button if picture owner
-        if( $('.isFeatured').hasClass('icon-star') ){
+        if( $('.isFeatured').hasClass('fa-star') ){
           $('#visibilityBox').find('a').popover();
         }
         
@@ -16143,7 +16143,6 @@ var performFilters = function(filters, params){
 
   Paloma.callbacks['tags']['index'] = function(params){
     // Do something here.
-    console.log('got called');
     $(document).ready( function(){
       $('#tagsResults').css('min-height', $(window).height()); 
       var sendParams = { mode: 'recent' } 
