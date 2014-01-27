@@ -11,7 +11,7 @@
               <%= link_to 'Following '+ @persona.screen_name +  ' - Unfollow',
                 follower_untrack_path('persona', @persona), :remote=> true, :method=> :post %>
             <% else %>
-              <%= link_to 'Follow photos by ' + @persona.screen_name, 
+              <%= link_to fa_icon('bullseye', :text => 'Follow ' + @persona.screen_name), 
                 follower_track_path('persona', @persona ), :remote=>true, :method => :post %>
             <% end %>
           </li>
