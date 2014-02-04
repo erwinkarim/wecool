@@ -18,3 +18,4 @@
 //= require best_in_place
 //= require paloma
 //= require spark-md5
+//
