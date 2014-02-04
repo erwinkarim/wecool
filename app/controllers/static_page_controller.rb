@@ -23,4 +23,9 @@ class StaticPageController < ApplicationController
 	def online_editing
 	end
 
+	#  POST   /static/feedback(.:format) 
+	#get feedback data, post an email to feedback@sirap.co
+	def get_feeback
+	end
+
 end

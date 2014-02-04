@@ -120,6 +120,7 @@ Wecool::Application.routes.draw do
 		match '/static/aboutUs' => :aboutUs, :via => :get, :as => 'aboutUs'
 		match '/static/termsAndConditions' => :termsAndConditions, :via => :get, :as => 'termsAndConditions'
 		match '/static/browser_unsupported' => :browser_unsupported, :via => :get, :as => 'browser_unsupported'
+		match '/static/feedback' => :feedback, :via => :post, :as => 'get_feedback'
 	end
 
 

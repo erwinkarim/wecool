@@ -19,3 +19,26 @@
 //= require paloma
 //= require spark-md5
 //
+
+$(document).ready( function(){
+	$('#feedback_box').find('a').popover(
+		{
+			html: true,
+			content: function(){
+				var theContent = $('<form/>', { href:'#' } ).append(
+					$('<label/>', { text:'We appreciate your feedback. Please tell us know how we can improve this site for you.' })
+				).append(
+					$('<input/>', { type:"hidden", value:window.location.pathname })
+				).append(
+					$('<textarea/>', { cols:30, rows:5 } )
+				).append(
+					$('<button/>', { type:'button', class:'btn btn-primary', text:'Send' })
+				);
+				return theContent;
+			}
+		}
+	).bind('click', function(){
+		$(this).parent().toggleClass('span2');
+		$(this).parent().toggleClass('span3');
+	});
+});
