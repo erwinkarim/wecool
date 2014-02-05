@@ -1,0 +1,5 @@
+$('#sending-feedback').remove();
+$('#feedback-box-form').fadeOut(400, function(){
+  $(this).after( $('<div/>', {text:'thanks! we have send your comments to our reps' }) );
+  $('#feedback-box').find('.popover').css('top', -1 * $('#feedback-box').find('.popover').height() - 6 + 'px' );
+});

@@ -21,23 +21,42 @@
 //
 
 $(document).ready( function(){
-	$('#feedback_box').find('a').popover(
+	$('#feedback-box').find('a').popover(
 		{
 			html: true,
 			content: function(){
-				var theContent = $('<form/>', { href:'#' } ).append(
-					$('<label/>', { text:'We appreciate your feedback. Please tell us know how we can improve this site for you.' })
-				).append(
-					$('<input/>', { type:"hidden", value:window.location.pathname })
-				).append(
-					$('<textarea/>', { cols:30, rows:5 } )
-				).append(
-					$('<button/>', { type:'button', class:'btn btn-primary', text:'Send' })
-				);
+				var theContent = $('<form/>', 
+          { 
+            action:'/static/feedback', 'data-remote':true, id:'feedback-box-form', style:'z-index:1;', 
+            method:'post' 
+          } 
+        ).append( 
+          $('<label/>', { 
+            text:'We appreciate your feedback. Please tell us know how we can improve this site for you.' 
+          })
+        ).append(
+          $('<input/>', { name:'source-page', type:"hidden", value:window.location.pathname })
+        ).append(
+          $('<textarea/>', { name:'comment', cols:30, rows:5 } )
+        ).append(
+          $('<button/>', 
+            { type:'submit', class:'btn btn-primary', id:'send-feedback-btn', text:'Send' }
+          ).bind( 'click', function(){
+            $('#feedback-box-form').fadeTo( 'fast', 0.33).after(
+              $('<i/>', {
+                class:'fa fa-spinner fa-4x fa-spin', id:'sending-feedback', 
+                style:'position:absolute; top:50%; left:50%; z-index:2; margin-left:-24px; margin-top:-27px;' 
+              })
+            )
+          })
+        ).after(
+          $('<div/>', { test:'test' })
+        );
 				return theContent;
 			}
 		}
-	).bind('click', function(){
+	).bind('click', function(event){
+    event.preventDefault();
 		$(this).parent().toggleClass('span2');
 		$(this).parent().toggleClass('span3');
 	});

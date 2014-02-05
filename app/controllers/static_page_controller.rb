@@ -25,7 +25,13 @@ class StaticPageController < ApplicationController
 
 	#  POST   /static/feedback(.:format) 
 	#get feedback data, post an email to feedback@sirap.co
-	def get_feeback
+	def feedback
+    if !params['comment'].empty? then
+      #collect feedback and send it out to email.
+      #also if, the guy is logged in, send out confirmation on the feedback
+      options = { :comment => params['comment'], :from => persona_signed_in? ? current_persona.email : '' } 
+      AppMailer.feedback(options).deliver
+    end
 	end
 
 end

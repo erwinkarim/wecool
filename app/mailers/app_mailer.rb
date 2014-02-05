@@ -21,4 +21,13 @@ class AppMailer < Devise::Mailer
       format.html { render :layout => 'mail' }
     end
   end
+
+  def feedback option={}
+    @default_options = { :from => 'Anon <anon@sirap.co>', :comments => '' , :url => '/' }
+    @default_options = @default_options.merge option
+
+    mail( :to => 'feedback@sirap.co', :subject => 'customer feedback', :from => @default_options[:from]) do |format|
+      format.html { render :layout => 'mail' }
+    end
+  end
 end
