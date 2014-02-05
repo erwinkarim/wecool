@@ -1,5 +1,13 @@
 $('#sending-feedback').remove();
 $('#feedback-box-form').fadeOut(400, function(){
-  $(this).after( $('<div/>', {text:'thanks! we have send your comments to our reps' }) );
-  $('#feedback-box').find('.popover').css('top', -1 * $('#feedback-box').find('.popover').height() - 6 + 'px' );
+  $(this).after( $('<div/>', {text:'thanks! we have send your comments to our reps' }).append(
+			$('<br/>')
+		).append(
+			$('<button/>', { class:'btn btn-primary', type:'button', text:'OK' }).bind('click', function(event){
+				$('#feedback-box').find('a').click();
+			})
+		)
+	)
+	
+  $('#feedback-box').find('.popover').css('top', -1 * $('#feedback-box').find('.popover').height() - 6 + 'px' )
 });

@@ -8996,13 +8996,29 @@ transform:rotate(90deg);
 }
 
 #front-panel-2{
-  background-image: url(/assets/front/stone-41832bad110c89eb32260c214f1a3d05.jpg) 
+  background-image: url(/assets/front/stone-41832bad110c89eb32260c214f1a3d05.jpg); 
 }
 
 #front-panel-3{
-  background-image: url(/assets/front/sand-9a5f80400fb2eedefaae5d06ce0478ba.jpg) 
+  background-image: url(/assets/front/sand-9a5f80400fb2eedefaae5d06ce0478ba.jpg) ;
 }
 
 #front-panel-4{
-  background-image: url(/assets/front/starhill-8ac750e9c3fce646b4f471a31355c1ac.jpg) 
+  background-image: url(/assets/front/starhill-8ac750e9c3fce646b4f471a31355c1ac.jpg) ;
+}
+
+#feedback-box{
+  position:fixed; 
+  bottom:0px; 
+  right:0px; 
+  background:rgba(255,255,255,.65) ;
+  font-size:1.5em;
+  text-align:center;
+	padding: 2px 0px;
+}
+
+#feedback-box a{
+	color:black;
+	font-family: 'Roboto';
+	font-weight: 100;
 }

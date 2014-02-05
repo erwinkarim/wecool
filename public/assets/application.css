@@ -8996,13 +8996,29 @@ transform:rotate(90deg);
 }
 
 #front-panel-2{
-  background-image: url(/assets/front/stone.jpg) 
+  background-image: url(/assets/front/stone.jpg); 
 }
 
 #front-panel-3{
-  background-image: url(/assets/front/sand.jpg) 
+  background-image: url(/assets/front/sand.jpg) ;
 }
 
 #front-panel-4{
-  background-image: url(/assets/front/starhill.jpg) 
+  background-image: url(/assets/front/starhill.jpg) ;
+}
+
+#feedback-box{
+  position:fixed; 
+  bottom:0px; 
+  right:0px; 
+  background:rgba(255,255,255,.65) ;
+  font-size:1.5em;
+  text-align:center;
+	padding: 2px 0px;
+}
+
+#feedback-box a{
+	color:black;
+	font-family: 'Roboto';
+	font-weight: 100;
 }

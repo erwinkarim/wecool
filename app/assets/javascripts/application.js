@@ -32,7 +32,7 @@ $(document).ready( function(){
           } 
         ).append( 
           $('<label/>', { 
-            text:'We appreciate your feedback. Please tell us know how we can improve this site for you.' 
+            text:'We appreciate your feedback. Please tell us know how we can improve sirap.co for you.' 
           })
         ).append(
           $('<input/>', { name:'source-page', type:"hidden", value:window.location.pathname })
