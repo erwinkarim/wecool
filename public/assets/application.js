@@ -17038,6 +17038,8 @@ var performFilters = function(filters, params){
 //
 
 $(document).ready( function(){
+
+  //for the feedback box popup
 	$('#feedback-box').find('a').popover(
 		{
 			html: true,
@@ -17052,12 +17054,18 @@ $(document).ready( function(){
             text:'We appreciate your feedback. Please tell us know how we can improve sirap.co for you.' 
           })
         ).append(
-          $('<input/>', { name:'source-page', type:"hidden", value:window.location.pathname })
+          $('<input/>', { name:'url', type:"hidden", value:document.URL })
         ).append(
-          $('<textarea/>', { name:'comment', cols:30, rows:5 } )
+          $('<textarea/>', { name:'comment', cols:30, rows:5 } ).on('keyup', function(){
+            if ( $(this).val() == "" ) {
+              $('#send-feedback-btn').attr('disabled','disabled');
+            } else {
+              $('#send-feedback-btn').removeAttr('disabled');
+            };
+          })
         ).append(
           $('<button/>', 
-            { type:'submit', class:'btn btn-primary', id:'send-feedback-btn', text:'Send' }
+            { type:'submit', class:'btn btn-primary', id:'send-feedback-btn', text:'Send', disabled:'disabled' }
           ).bind( 'click', function(){
             $('#feedback-box-form').fadeTo( 'fast', 0.33).after(
               $('<i/>', {
