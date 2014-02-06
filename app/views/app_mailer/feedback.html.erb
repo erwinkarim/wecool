@@ -1,9 +1,17 @@
 <div class="row-fluid">
   <div class="span10 offset1">
-    <p> comment from customer </p>
+    <p>
+      <strong>URL:</strong><%= @default_options[:url] %>
+    </p>
+    <p> Comments/feedback from customer: </p>
     <p>
       <%= @default_options[:comment] %>
     </p>
+    <% if @default_options.has_key? :screen_name then %>
+      <p>
+        From <%= link_to @default_options[:screen_name] , persona_url(@default_options[:screen_name] ) %>
+      </p>
+    <% end %>
   </div>
 </div>
 

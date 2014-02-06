@@ -29,9 +29,10 @@ class StaticPageController < ApplicationController
     if !params['comment'].empty? then
       #collect feedback and send it out to email.
       #also if, the guy is logged in, send out confirmation on the feedback
-      options = { :comment => params['comment']} 
+      options = { :comment => params['comment'], :url => params['url'] } 
       if persona_signed_in? then
-        options[:form] = current_persona.email
+        options[:from] = current_persona.email
+        options[:screen_name] = current_persona.screen_name
       end
       AppMailer.feedback(options).deliver
     end
