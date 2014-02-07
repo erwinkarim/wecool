@@ -55,9 +55,15 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
       <% if persona_signed_in? && current_persona.screen_name == this_persona && @options[:showIndicators] then %>
         carousel.append(
           $('<div/>', { class:'carousel-indicators' }).append(
-            $('<a/>', { href:'<%= photo_transform_path( this_persona, photo, 'rotate', :direction => 'left', :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', rel:'nofollow' }).append(
-              $('<i/>', { class:'fa fa-undo fa-2x' } )
-            )
+            $('<a/>', { href:'<%= photo_transform_path( this_persona, photo, 'rotate', :direction => 'left', 
+              :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', 
+              rel:'nofollow' }).bind('ajax:before', function(){
+                $(this).closest('.carousel').find('img').fadeTo(400, 0.5).after( $('<i/>', 
+                  { class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%' } )
+                );
+              }).append(
+                $('<i/>', { class:'fa fa-undo fa-2x' } )
+              )
           )
         );
       <% end %>
@@ -65,11 +71,13 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
         escape_javascript(
           if @options[:enableLinks] then
             link_to image_tag( photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid', 
-              :id=> 'photo_' + photo.id.to_s, :value => photo.id, :taken_at => photo.taken_at.to_i ), photo_path
+              :id=> 'photo_' + photo.id.to_s, :value => photo.id, :taken_at => photo.taken_at.to_i, 
+              :style => 'z-index:1;' ), photo_path
           else
             image_tag(
               photo.avatar.versions[@options[:size].to_sym], :class=>'img-polaroid', 
-              :id => 'photo_'+photo.id.to_s, :value => photo.id , :taken_at => photo.taken_at.to_i
+              :id => 'photo_'+photo.id.to_s, :value => photo.id , :taken_at => photo.taken_at.to_i, 
+              :style => 'z-index:1;'
             )
           end
         ) 
