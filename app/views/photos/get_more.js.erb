@@ -59,7 +59,7 @@ var floatHandle = '<%= @options[:float] ? "pull-left" : "" %>';
               :current_version => @options[:size] ) %>', 'data-method':'post', 'data-remote':'true', 
               rel:'nofollow' }).bind('ajax:before', function(){
                 $(this).closest('.carousel').find('img').fadeTo(400, 0.5).after( $('<i/>', 
-                  { class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%' } )
+                  { class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px;' } )
                 );
               }).bind('ajax:complete', function(){
                 $(this).closest('.carousel').find('img').fadeTo(400, 1);
