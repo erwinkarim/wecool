@@ -36,11 +36,11 @@
               <ul class="dropdown-menu">
                 <li><%= link_to '<i class="fa fa-undo"></i> Rotate Counter-Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'left', 
-                    :current_version => 'large'), :method => :post, :remote => true %>
+                    :current_version => 'large'), :method => :post, :remote => true, :id => 'rotate-left' %>
                 </li>
                 <li><%= link_to '<i class="fa fa-repeat"></i> Rotate Clockwise'.html_safe, 
                   photo_transform_path(@persona.screen_name, @photo.id, 'rotate', :direction => 'right', 
-                    :current_version => 'large'), :method => :post, :remote => true %>
+                    :current_version => 'large'), :method => :post, :remote => true, :id => 'rotate-right' %>
                 </li>
                 <li class="divider"></li>
                 <li>
