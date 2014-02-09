@@ -91,17 +91,22 @@
 
     //for normal users 
     $(document).ready(function(){
+				var add_spinner = function(){
+					$(document).find('.active').find('img').fadeTo(400, 0.5).after( $('<i/>', 
+						{ class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px; ' } )
+					);
+				};
+				var remove_spinner = function(){
+					$(document).find('.active').find('img').fadeTo(400, 1);
+					$(document).find('.active').find('.fa-spinner').remove();
+				};
+
         //hide the caption and control, appear on mouse hover
         $('.carousel-caption').hide();
         $('.carousel-control').hide();
-        $('.carousel-indicators').hide().bind('ajax:before', function(){
-					$(this).closest('.carousel').find('img').fadeTo(400, 0.5).after( $('<i/>', 
-						{ class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px; ' } )
-					);
-				}).bind('ajax:complete', function(){
-					$(this).closest('.carousel').find('img').fadeTo(400, 1);
-					$(this).closest('.carousel').find('.fa-spinner').remove();
-				});
+        $('.carousel-indicators').hide().bind('ajax:before', add_spinner).bind('ajax:complete', remove_spinner);
+        $('#rotate-left').bind('ajax:before', add_spinner).bind('ajax:complete', remove_spinner);
+        $('#rotate-right').bind('ajax:before', add_spinner).bind('ajax:complete', remove_spinner);
         $('.carousel').hover(
           function(){ 
             $('.carousel-caption').fadeIn('slow');
