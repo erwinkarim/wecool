@@ -94,7 +94,14 @@
         //hide the caption and control, appear on mouse hover
         $('.carousel-caption').hide();
         $('.carousel-control').hide();
-        $('.carousel-indicators').hide();
+        $('.carousel-indicators').hide().bind('ajax:before', function(){
+					$(this).closest('.carousel').find('img').fadeTo(400, 0.5).after( $('<i/>', 
+						{ class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px; ' } )
+					);
+				}).bind('ajax:complete', function(){
+					$(this).closest('.carousel').find('img').fadeTo(400, 1);
+					$(this).closest('.carousel').find('.fa-spinner').remove();
+				});
         $('.carousel').hover(
           function(){ 
             $('.carousel-caption').fadeIn('slow');
