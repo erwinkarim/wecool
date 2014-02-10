@@ -93,8 +93,14 @@
     $(document).ready(function(){
 				var add_spinner = function(){
 					$(document).find('.active').find('img').fadeTo(400, 0.5).after( $('<i/>', 
-						{ class:'fa fa-spinner fa-spin fa-4x', style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px; ' } )
+						{ class:'fa fa-spinner fa-spin fa-4x', 
+              style:'z:index-2; position:absolute; top:50%; left:50%; margin-left:-25px; margin-top:-28px; ' } 
+            )
 					);
+          if($('#editMenu').parent().hasClass('open') ){
+            $('#editMenu').dropdown('toggle');
+          };
+          
 				};
 				var remove_spinner = function(){
 					$(document).find('.active').find('img').fadeTo(400, 1);
