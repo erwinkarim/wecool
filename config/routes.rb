@@ -1,12 +1,8 @@
 Wecool::Application.routes.draw do
 
-  #get "static_page/tour"
-
-  #get "trackers/track"
-  #get "trackers/untrack"
-
   devise_for :personas
   resources :personas do
+    resources :jobs, :only => [:index]
   end
 
   controller :personas do

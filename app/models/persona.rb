@@ -24,6 +24,7 @@ class Persona < ActiveRecord::Base
   has_many :coupons, :dependent => :destroy
   has_many :carts, :dependent => :destroy
   has_many :orders, :dependent => :destroy
+  has_many :jobs, :dependent => :destroy
 
 	#allow for voting
   make_voter

@@ -62,7 +62,9 @@ class Photo < ActiveRecord::Base
       @photo.write(self.avatar.versions[version.to_sym].path)
       #rewrite the original and recreate the rest
       #don't forget to run /script/delayed_job start or else this won't work
-      self.delay.rebuild_original_after_transform('rotate', { :degree => degree })
+      delayed_job = self.delay.rebuild_original_after_transform('rotate', { :degree => degree })
+      job = Persona.find(self.persona_id).jobs.new(:job_id => delayed_job.id) 
+      job.save!
     end
 
     #don't forget to save

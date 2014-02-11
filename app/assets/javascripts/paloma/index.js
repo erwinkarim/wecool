@@ -6,3 +6,5 @@
 //= require ./photos/_manifest.js
 //= require ./tags/_manifest.js
 //= require ./store/_manifest.js
+
+//= require ./jobs/_manifest.js

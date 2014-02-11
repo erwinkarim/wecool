@@ -692,8 +692,11 @@ class PhotosController < ApplicationController
   # POST    /photos/:persona_id/gen_from_s3
   def gen_from_s3
 		location = URI.decode(Hash.from_xml( params[:responseText] )['PostResponse']['Location'])
-		@photo = Photo.delay.generate_from_s3 current_persona, location , { :title => location.split('/').last, 
+		delayed_job = Photo.delay.generate_from_s3 current_persona, location , { :title => location.split('/').last, 
       :description => params[:description], :mediasets => params[:mediasets], :visible => params[:visible] } 
+
+    job = Persona.where(:screen_name => params[:persona_id]).first.jobs.new(:job_id => delayed_job.id)
+    job.save!
 
     #File.open(Rails.root + 'param_dump.txt', 'w') do |f|
     #  f.puts(params.to_s)

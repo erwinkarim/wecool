@@ -1,0 +1,22 @@
+- content_for :title, @persona.screen_name + ' pending jobs' 
+- @focus = 'pending jobs' 
+= render "common/personaHeaderBar" 
+
+.row-fluid
+  .span10.offset1
+    - if @jobs.empty? then
+      .well No pending jobs
+    - else
+      %table.table.table-striped
+        %caption Pending Jobs
+        %thead
+          %tr
+            %th id
+            %th object
+        %tbody
+          - @jobs.each do |job|
+            %tr
+              %td 
+                = job.id
+              %td
+                = job.handler 
