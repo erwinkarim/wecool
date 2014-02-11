@@ -22,7 +22,7 @@
               %td 
                 = job.id
               %td
-                = YAML::load(job.handler).object 
+                = generate_obj_link(YAML::load(job.handler).object)
               %td
                 = YAML::load(job.handler).method_name
               %td
