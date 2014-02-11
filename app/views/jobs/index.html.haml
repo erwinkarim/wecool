@@ -13,10 +13,19 @@
           %tr
             %th id
             %th object
+            %th method
+            %th created
+            %th attempts
         %tbody
           - @jobs.each do |job|
             %tr
               %td 
                 = job.id
               %td
-                = job.handler 
+                = YAML::load(job.handler).object 
+              %td
+                = YAML::load(job.handler).method_name
+              %td
+                = job.run_at
+              %td
+                = job.attempts
