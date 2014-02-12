@@ -4,28 +4,15 @@
 
 .row-fluid
   .span10.offset1
-    - if @jobs.empty? then
-      .well No pending jobs
-    - else
-      %table.table.table-striped
-        %caption Pending Jobs
-        %thead
-          %tr
-            %th id
-            %th object
-            %th method
-            %th created
-            %th attempts
-        %tbody
-          - @jobs.each do |job|
-            %tr
-              %td 
-                = job.id
-              %td
-                = generate_obj_link(YAML::load(job.handler).object)
-              %td
-                = YAML::load(job.handler).method_name
-              %td
-                = job.run_at
-              %td
-                = job.attempts
+    %table.table.table-striped#jobs-table(style="display:none;")
+      %caption Currently Pending Jobs
+      %thead
+        %tr
+          %th ID 
+          %th Object
+          %th method
+          %th Started
+      %tbody
+    #loading-jobs
+      %i.fa.fa-spinner.fa-4x.fa-spin
+        

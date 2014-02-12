@@ -1,0 +1,14 @@
+
+.row-fluid
+  .span10.offset1
+    %table.table.table-striped
+      %caption Jobs before #{ params[:job_id] }
+      %thead
+        %tr
+          %th Job ID
+          %th Object
+      %tbody
+        - @jobs.each do |job|
+          %tr
+            %td #{ job.id }
+            %td #{ job.handler }

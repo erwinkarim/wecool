@@ -1,0 +1,9 @@
+$(document).ready( function(){
+  $('#jobs-table').show();
+  $('#loading-jobs').hide();
+
+  //start populate the tables
+  <%= @jobs.each do |job| %>
+    console.log('<%= job %>');
+  <% end %>
+});
