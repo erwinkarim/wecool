@@ -18,7 +18,14 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @jobs }
+      format.json { 
+        render :json => @jobs.map{ 
+          |x| { 
+            :id => x.id, :object_lnk => ApplicationHelper::generate_obj_link(YAML::load(x.handler).object),  
+            :method_name => YAML::load(x.handler).method_name, :started => x.run_at 
+          }
+        }
+      }
       format.js
     end
   end
