@@ -1,13 +1,13 @@
 module ApplicationHelper
+  include ActionView::Helpers::UrlHelper
 	include Twitter::Autolink
 
-	def self.generate_obj_link object
+	def self.generate_obj_url object
 		if object.instance_of? Photo then
-			return link_to( 'Photo', photo_view_path(Persona.find(object.persona_id).screen_name, object.id))
-		elsif object.instance_of? Persona then
-			return link_to('Persona', persona_path(Persona.where(:screen_name => object.screen_name).first) )
+			return Rails.application.routes.url_helpers.photo_view_path(Persona.find(object.persona_id).screen_name, object.id) 
+			return Rails.application.routes.url_helpers.persona_path(Persona.where(:screen_name => object.screen_name).first) 
 		else
-			return object
+			return nil
 		end
 	end
 end

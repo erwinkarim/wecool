@@ -21,7 +21,8 @@ class JobsController < ApplicationController
       format.json { 
         render :json => @jobs.map{ 
           |x| { 
-            :id => x.id, :object_lnk => ApplicationHelper::generate_obj_link(YAML::load(x.handler).object),  
+            :id => x.id, :type => YAML::load(x.handler).object.to_s,  
+            :url => ApplicationHelper::generate_obj_url(YAML::load(x.handler).object),  
             :method_name => YAML::load(x.handler).method_name, :started => x.run_at 
           }
         }

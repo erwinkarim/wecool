@@ -25,7 +25,12 @@
           $('<tr/>').append(
             $('<td/>', { text:data[i].id })
           ).append(
-            $('<td/>', { text:data[i].object_lnk })
+            (data[i].url==null) ? 
+              $('<td/>', { text:data[i].type })
+            :
+              $('<td/>').append(
+                $('<a/>', { text:data[i].type, href:data[i].url })
+              )
           ).append(
             $('<td/>', { text:data[i].method_name })
           ).append(
@@ -43,7 +48,8 @@
           success: function(data, textStatus, jqXHR){
             //check if got data or not
             if(data.length==0){
-              console.log('no data');
+              $('#loading-jobs').hide('slow');
+              $('#zero-jobs-display').show();
             } else {
               $('#jobs-table').show();
               $('#loading-jobs').hide();
@@ -54,6 +60,26 @@
           }
         }
       );
+
+      $('#refresh-jobs-list').bind('click', function(){
+        $('#refresh-jobs-list').addClass('fa-spin');
+        $.ajax( window.location.pathname + '/100/get_more', 
+          {
+            dataType:'json',
+            success: function(data, textStatus, jqXHR){
+              //clear the table and repopulate the data
+              if(data.length==0){
+                $('#jobs-table').hide();
+                $('#zero-jobs-display').show();
+              } else {
+                $('#jobs-table').find('tbody').empty();
+                populate_table(data);
+              }
+              $('#refresh-jobs-list').removeClass('fa-spin');
+            }
+          }
+        );
+      });
     });
   }; // Paloma.callbacks['jobs']['index'] = function(params){
 })();

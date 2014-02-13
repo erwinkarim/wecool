@@ -5,7 +5,10 @@
 .row-fluid
   .span10.offset1
     %table.table.table-striped#jobs-table(style="display:none;")
-      %caption Currently Pending Jobs
+      %caption 
+        Currently Pending Jobs
+        %button.btn.btn-primary(type="button")
+          %i#refresh-jobs-list.fa.fa-refresh
       %thead
         %tr
           %th ID 
@@ -15,4 +18,5 @@
       %tbody
     #loading-jobs
       %i.fa.fa-spinner.fa-4x.fa-spin
-        
+    .well#zero-jobs-display(style="display:none;")
+      No Pending Jobs
