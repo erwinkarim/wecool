@@ -3,7 +3,9 @@ Wecool::Application.routes.draw do
   devise_for :personas
   resources :personas do
     resources :jobs, :only => [:index] do
-      get 'get_more'
+			collection do
+				get 'get_more'
+			end 
     end
   end
 

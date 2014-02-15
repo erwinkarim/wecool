@@ -5,16 +5,21 @@ class JobsController < ApplicationController
   def index
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id }).reverse
+		@last_id = Delayed::Job.last.id + 1
   end
 
-  #GET    /personas/:persona_id/jobs/:job_id/get_more
+  #GET    /personas/:persona_id/jobs/get_more
   #get olders jobs from :job_id
   def get_more
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     current_job_id = params[:job_id]
-    @jobs = Delayed::Job.where( :id => 
-      @persona.jobs.where{ job_id.lt current_job_id }.reverse[0..9].map{ |x| x.job_id }
-    ).reverse
+		if params.has_key? :job_id then
+			@jobs = Delayed::Job.where( :id => 
+				@persona.jobs.where{ job_id.lt current_job_id }.reverse[0..9].map{ |x| x.job_id }
+			).reverse
+		else
+			@jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id }).reverse
+		end
 
     respond_to do |format|
       format.html

@@ -21,7 +21,7 @@
     // Do something here.
     var populate_table = function(data){
       for(var i = 0; i<data.length; i++){
-        $('#jobs-table').find('tbody').append(
+        $('#jobs-table').find('tbody').prepend(
           $('<tr/>').append(
             $('<td/>', { text:data[i].id })
           ).append(
@@ -42,7 +42,7 @@
 
     $(document).ready( function(){
       //start loading past jobs
-      $.ajax( window.location.pathname + '/100/get_more', 
+      $.ajax( window.location.pathname + '/get_more', 
         {
           dataType:'json',
           success: function(data, textStatus, jqXHR){
@@ -53,7 +53,6 @@
             } else {
               $('#jobs-table').show();
               $('#loading-jobs').hide();
-              console.log(data);
               
               populate_table(data);
             }
@@ -62,8 +61,9 @@
       );
 
       $('#refresh-jobs-list').bind('click', function(){
-        $('#refresh-jobs-list').addClass('fa-spin');
-        $.ajax( window.location.pathname + '/100/get_more', 
+        $('#refresh-jobs-list').find('i').addClass('fa-spin');
+				console.log('refresh-jobs-list fired');
+        $.ajax( window.location.pathname + '/get_more', 
           {
             dataType:'json',
             success: function(data, textStatus, jqXHR){
@@ -75,11 +75,23 @@
                 $('#jobs-table').find('tbody').empty();
                 populate_table(data);
               }
-              $('#refresh-jobs-list').removeClass('fa-spin');
+							$('#refresh-jobs-list').find('i').removeClass('fa-spin');
             }
           }
         );
       });
+			
+			$('#get-more-jobs').on('ajax:before', function(){
+				console.log('ajax:before fired');
+				$('#get-more-jobs-row').before(
+					$('<tr/>', { id:'get-more-spinner' }).append(
+						$('<td/>', { colspan:4, style:'text-align:center;'} ).append(
+							$('<i/>', {class:'fa fa-spinner fa-4x fa-spin'})
+						)
+					)
+				);
+				
+			});			
     });
   }; // Paloma.callbacks['jobs']['index'] = function(params){
 })();
