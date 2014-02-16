@@ -4,7 +4,7 @@ class JobsController < ApplicationController
   #show last 10 pending jobs by params[:persona_id]
   def index
     @persona = Persona.where(:screen_name => params[:persona_id]).first
-    @jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id }).reverse
+    @jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id })
 		@last_id = Delayed::Job.last.id + 1
   end
 
@@ -18,7 +18,7 @@ class JobsController < ApplicationController
 				@persona.jobs.where{ job_id.lt current_job_id }.reverse[0..9].map{ |x| x.job_id }
 			).reverse
 		else
-			@jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id }).reverse
+			@jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id })
 		end
 
     respond_to do |format|

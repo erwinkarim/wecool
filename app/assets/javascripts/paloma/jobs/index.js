@@ -62,7 +62,6 @@
 
       $('#refresh-jobs-list').bind('click', function(){
         $('#refresh-jobs-list').find('i').addClass('fa-spin');
-				console.log('refresh-jobs-list fired');
         $.ajax( window.location.pathname + '/get_more', 
           {
             dataType:'json',
@@ -72,8 +71,10 @@
                 $('#jobs-table').hide();
                 $('#zero-jobs-display').show();
               } else {
+								var getMoreHandle = $('#jobs-table').find('tbody').find('#get-more-jobs-row').detach();
                 $('#jobs-table').find('tbody').empty();
                 populate_table(data);
+								$('#jobs-table').find('tbody').append(getMoreHandle);
               }
 							$('#refresh-jobs-list').find('i').removeClass('fa-spin');
             }
@@ -82,7 +83,6 @@
       });
 			
 			$('#get-more-jobs').on('ajax:before', function(){
-				console.log('ajax:before fired');
 				$('#get-more-jobs-row').before(
 					$('<tr/>', { id:'get-more-spinner' }).append(
 						$('<td/>', { colspan:4, style:'text-align:center;'} ).append(
