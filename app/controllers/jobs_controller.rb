@@ -5,7 +5,7 @@ class JobsController < ApplicationController
   def index
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @jobs = Delayed::Job.where( :id => @persona.jobs.reverse[0..9].map{ |x| x.job_id })
-		@last_id = Delayed::Job.last.id + 1
+		@last_id = Delayed::Job.last.nil? ? 0 : Delayed::Job.last.id + 1
   end
 
   #GET    /personas/:persona_id/jobs/get_more
