@@ -16504,7 +16504,7 @@ var performFilters = function(filters, params){
     // Do something here.
     var populate_table = function(data){
       for(var i = 0; i<data.length; i++){
-        $('#jobs-table').find('tbody').append(
+        $('#jobs-table').find('tbody').prepend(
           $('<tr/>').append(
             $('<td/>', { text:data[i].id })
           ).append(
@@ -16525,7 +16525,7 @@ var performFilters = function(filters, params){
 
     $(document).ready( function(){
       //start loading past jobs
-      $.ajax( window.location.pathname + '/100/get_more', 
+      $.ajax( window.location.pathname + '/get_more', 
         {
           dataType:'json',
           success: function(data, textStatus, jqXHR){
@@ -16536,7 +16536,6 @@ var performFilters = function(filters, params){
             } else {
               $('#jobs-table').show();
               $('#loading-jobs').hide();
-              console.log(data);
               
               populate_table(data);
             }
@@ -16545,8 +16544,8 @@ var performFilters = function(filters, params){
       );
 
       $('#refresh-jobs-list').bind('click', function(){
-        $('#refresh-jobs-list').addClass('fa-spin');
-        $.ajax( window.location.pathname + '/100/get_more', 
+        $('#refresh-jobs-list').find('i').addClass('fa-spin');
+        $.ajax( window.location.pathname + '/get_more', 
           {
             dataType:'json',
             success: function(data, textStatus, jqXHR){
@@ -16555,14 +16554,27 @@ var performFilters = function(filters, params){
                 $('#jobs-table').hide();
                 $('#zero-jobs-display').show();
               } else {
+								var getMoreHandle = $('#jobs-table').find('tbody').find('#get-more-jobs-row').detach();
                 $('#jobs-table').find('tbody').empty();
                 populate_table(data);
+								$('#jobs-table').find('tbody').append(getMoreHandle);
               }
-              $('#refresh-jobs-list').removeClass('fa-spin');
+							$('#refresh-jobs-list').find('i').removeClass('fa-spin');
             }
           }
         );
       });
+			
+			$('#get-more-jobs').on('ajax:before', function(){
+				$('#get-more-jobs-row').before(
+					$('<tr/>', { id:'get-more-spinner' }).append(
+						$('<td/>', { colspan:4, style:'text-align:center;'} ).append(
+							$('<i/>', {class:'fa fa-spinner fa-4x fa-spin'})
+						)
+					)
+				);
+				
+			});			
     });
   }; // Paloma.callbacks['jobs']['index'] = function(params){
 })();
