@@ -1,4 +1,4 @@
-
+require Rails.root + 'app/models/job'
 namespace :persona do
   desc 'Check storage usage'
   task :check_storage_use => :environment do
@@ -11,6 +11,7 @@ end
 
 namespace :jobs do
 	desc 'Clean up entries in Jobs table thats not in Delayed::Job'
-	task :clean_jobs_table do
+	task :clean_jobs_table => :environment do
+		Job.cleanup
 	end
 end
