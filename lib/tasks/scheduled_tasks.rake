@@ -8,3 +8,9 @@ namespace :persona do
     Persona.all.each{ |x| x.check_storage }
   end
 end
+
+namespace :jobs do
+	desc 'Clean up entries in Jobs table thats not in Delayed::Job'
+	task :clean_jobs_table do
+	end
+end

@@ -16504,7 +16504,7 @@ var performFilters = function(filters, params){
     // Do something here.
     var populate_table = function(data){
       for(var i = 0; i<data.length; i++){
-        $('#jobs-table').find('tbody').prepend(
+        $('#get-more-jobs-row').before(
           $('<tr/>').append(
             $('<td/>', { text:data[i].id })
           ).append(
@@ -16521,6 +16521,9 @@ var performFilters = function(filters, params){
           )
         );
       }
+      $('#get-more-jobs').attr('data-job-id', 
+        Math.min.apply( Math, data.map( function(o) { return o.id }) )
+      );
     };
 
     $(document).ready( function(){
@@ -16556,8 +16559,10 @@ var performFilters = function(filters, params){
               } else {
 								var getMoreHandle = $('#jobs-table').find('tbody').find('#get-more-jobs-row').detach();
                 $('#jobs-table').find('tbody').empty();
-                populate_table(data);
 								$('#jobs-table').find('tbody').append(getMoreHandle);
+                populate_table(data);
+                console.log(
+                );
               }
 							$('#refresh-jobs-list').find('i').removeClass('fa-spin');
             }
@@ -16565,7 +16570,19 @@ var performFilters = function(filters, params){
         );
       });
 			
-			$('#get-more-jobs').on('ajax:before', function(){
+			$('#get-more-jobs').on('click', function(event){
+        event.preventDefault();
+        $.ajax( $(this).attr('href'), {
+          data:{ 'job-id': $(this).attr('data-job-id')  },
+          dataType:'json'
+        }).done(function( data, textStatus, jqXHR){
+          //add new data
+          if(data.length != 0){ 
+            populate_table(data);
+            $('#get-more-jobs').attr('data-job-id', data[data.length-1].id);
+          }
+        });
+      }).on('ajax:before', function(){
 				$('#get-more-jobs-row').before(
 					$('<tr/>', { id:'get-more-spinner' }).append(
 						$('<td/>', { colspan:4, style:'text-align:center;'} ).append(
@@ -16573,8 +16590,7 @@ var performFilters = function(filters, params){
 						)
 					)
 				);
-				
-			});			
+      });
     });
   }; // Paloma.callbacks['jobs']['index'] = function(params){
 })();
