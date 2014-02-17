@@ -1,3 +1,12 @@
-$(document).ready( function(){
-	$('#get-more-spinner').remove();
-});
+$('#get-more-spinner').remove();
+
+//populate jobs table
+<% @jobs.each do |job| %>
+$('#get-more-jobs-row').before(
+  $('<tr/>').append(
+    $('<td/>', { text:<%= job.id %>, colspan:4 })
+  )
+);
+<% end %>
+
+$('#jobs-list').attr('last_id', '<%= @jobs.empty? ? 0 : @jobs.last.id %>');
