@@ -15,9 +15,10 @@
           %th Object
           %th method
           %th Started
+          %th Attempts
       %tbody
         %tr#get-more-jobs-row
-          %td(colspan=4 style="text-align:center")
+          %td(colspan=5 style="text-align:center")
             =link_to 'Get More ...',get_more_persona_jobs_path(params[:persona_id]), :class => 'btn btn-primary', :id => 'get-more-jobs', :data => { :'job-id' => @jobs.empty? ? 0 : @jobs.first.id }
     #loading-jobs
       %i.fa.fa-spinner.fa-4x.fa-spin
