@@ -16518,6 +16518,8 @@ var performFilters = function(filters, params){
             $('<td/>', { text:data[i].method_name })
           ).append(
             $('<td/>', { text:data[i].started })
+          ).append(
+            $('<td/>', { text:data[i].attempts })
           )
         );
       }
@@ -16572,24 +16574,25 @@ var performFilters = function(filters, params){
 			
 			$('#get-more-jobs').on('click', function(event){
         event.preventDefault();
+				$('#get-more-jobs-row').before(
+					$('<tr/>', { id:'get-more-spinner' }).append(
+						$('<td/>', { colspan:5, style:'text-align:center;'} ).append(
+							$('<i/>', {class:'fa fa-spinner fa-4x fa-spin'})
+						)
+					)
+				);
         $.ajax( $(this).attr('href'), {
           data:{ 'job-id': $(this).attr('data-job-id')  },
           dataType:'json'
         }).done(function( data, textStatus, jqXHR){
           //add new data
+          $('#get-more-spinner').remove();
           if(data.length != 0){ 
             populate_table(data);
             $('#get-more-jobs').attr('data-job-id', data[data.length-1].id);
           }
         });
       }).on('ajax:before', function(){
-				$('#get-more-jobs-row').before(
-					$('<tr/>', { id:'get-more-spinner' }).append(
-						$('<td/>', { colspan:4, style:'text-align:center;'} ).append(
-							$('<i/>', {class:'fa fa-spinner fa-4x fa-spin'})
-						)
-					)
-				);
       });
     });
   }; // Paloma.callbacks['jobs']['index'] = function(params){
