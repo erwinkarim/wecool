@@ -47,6 +47,7 @@
 
     $(document).ready( function(){
       //start loading past jobs
+			//TODO: auto refresh jobs table
       $.ajax( window.location.pathname + '/get_more', 
         {
           dataType:'json',
@@ -65,6 +66,7 @@
         }
       );
 
+			//setup refresh buttons
 			$('.refresh-jobs-list').click(function(){
 				//$('.refresh-jobs-list').find('i').addClass('fa-spin');
 				$(this).find('i').addClass('fa-spin');
@@ -90,6 +92,7 @@
 				);
 			});
 			
+			//setup get more jobs button
 			$('#get-more-jobs').on('click', function(event){
         event.preventDefault();
 				$('#get-more-jobs-row').before(
@@ -112,6 +115,7 @@
         });
       }).on('ajax:before', function(){
       });
-    });
+
+    }); // $(document).ready( function(){
   }; // Paloma.callbacks['jobs']['index'] = function(params){
 })();
