@@ -3,24 +3,27 @@
 = render "common/personaHeaderBar" 
 
 .row-fluid#jobs-list(last_id=@last_id)
-  .span10.offset1
-    %table.table.table-striped#jobs-table(style="display:none;")
-      %caption 
-        Currently Pending Jobs
-        %button#refresh-jobs-list.btn.btn-primary(type="button")
-          %i.fa.fa-refresh
-      %thead
-        %tr
-          %th ID 
-          %th Object
-          %th method
-          %th Started
-          %th Attempts
-      %tbody
-        %tr#get-more-jobs-row
-          %td(colspan=5 style="text-align:center")
-            =link_to 'Get More ...',get_more_persona_jobs_path(params[:persona_id]), :class => 'btn btn-primary', :id => 'get-more-jobs', :data => { :'job-id' => @jobs.empty? ? 0 : @jobs.first.id }
-    #loading-jobs
-      %i.fa.fa-spinner.fa-4x.fa-spin
-    .well#zero-jobs-display(style="display:none;")
-      No Pending Jobs
+	.span10.offset1
+		%table.table.table-striped#jobs-table(style="display:none;")
+			%caption 
+				Currently Pending Jobs
+				%button.refresh-jobs-list.btn.btn-primary(type="button")
+					%i.fa.fa-refresh
+			%thead
+				%tr
+					%th ID 
+					%th Object
+					%th method
+					%th Started
+					%th Attempts
+			%tbody
+				%tr#get-more-jobs-row
+					%td(colspan=5 style="text-align:center")
+						=link_to 'Get More ...',get_more_persona_jobs_path(params[:persona_id]), :class => 'btn btn-primary', 
+							:id => 'get-more-jobs', :data => { :'job-id' => @jobs.empty? ? 0 : @jobs.first.id }
+						#loading-jobs
+							%i.fa.fa-spinner.fa-4x.fa-spin
+		.well#zero-jobs-display(style="display:none;") 
+			No Pending Jobs
+			%button.refresh-jobs-list.btn.btn-primary(type="button")
+				%i.fa.fa-refresh
