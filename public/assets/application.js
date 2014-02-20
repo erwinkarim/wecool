@@ -16548,29 +16548,30 @@ var performFilters = function(filters, params){
         }
       );
 
-      $('#refresh-jobs-list').bind('click', function(){
-        $('#refresh-jobs-list').find('i').addClass('fa-spin');
-        $.ajax( window.location.pathname + '/get_more', 
-          {
-            dataType:'json',
-            success: function(data, textStatus, jqXHR){
-              //clear the table and repopulate the data
-              if(data.length==0){
-                $('#jobs-table').hide();
-                $('#zero-jobs-display').show();
-              } else {
+			$('.refresh-jobs-list').click(function(){
+				//$('.refresh-jobs-list').find('i').addClass('fa-spin');
+				$(this).find('i').addClass('fa-spin');
+				$.ajax( window.location.pathname + '/get_more', 
+					{
+						dataType:'json',
+						success: function(data, textStatus, jqXHR){
+							//clear the table and repopulate the data
+							if(data.length==0){
+								$('#jobs-table').hide();
+								$('#zero-jobs-display').show();
+							} else {
+								$('#jobs-table').show();
+								$('#zero-jobs-display').hide();
 								var getMoreHandle = $('#jobs-table').find('tbody').find('#get-more-jobs-row').detach();
-                $('#jobs-table').find('tbody').empty();
+								$('#jobs-table').find('tbody').empty();
 								$('#jobs-table').find('tbody').append(getMoreHandle);
-                populate_table(data);
-                console.log(
-                );
-              }
-							$('#refresh-jobs-list').find('i').removeClass('fa-spin');
-            }
-          }
-        );
-      });
+								populate_table(data);
+							}
+							$('.refresh-jobs-list').find('i').removeClass('fa-spin');
+						}
+					}
+				);
+			});
 			
 			$('#get-more-jobs').on('click', function(event){
         event.preventDefault();
