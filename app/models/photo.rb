@@ -46,29 +46,36 @@ class Photo < ActiveRecord::Base
       self.avatar.retrieve_from_cache! self.avatar.cache_name
     end
 
-    if version == 'all' then
-      @path = self.avatar.path 
-    else
-      @path = self.avatar.versions[version.to_sym].path
-    end
+    #if version == 'all' then
+    #  @path = self.avatar.path 
+    #else
+    #  @path = self.avatar.versions[version.to_sym].path
+    #end
 
-    @photo = Magick::Image.read(@path).first
-    @photo.rotate!(degree)
+    #@photo = Magick::Image.read(@path).first
+    #@photo.rotate!(degree)
 
-    if version == 'all' then
-      @photo.write(self.avatar.path)
-      self.avatar.recreate_versions!
-    else
-      @photo.write(self.avatar.versions[version.to_sym].path)
+    #if version == 'all' then
+    #  @photo.write(self.avatar.path)
+    #  self.avatar.recreate_versions!
+    #else
+    #  @photo.write(self.avatar.versions[version.to_sym].path)
       #rewrite the original and recreate the rest
       #don't forget to run /script/delayed_job start or else this won't work
-      delayed_job = self.delay.rebuild_original_after_transform('rotate', { :degree => degree, :exclude => [version.to_sym] })
-      job = Persona.find(self.persona_id).jobs.new(:job_id => delayed_job.id) 
-      job.save!
-    end
+    #  delayed_job = self.delay.rebuild_original_after_transform('rotate', { :degree => degree})
+    #  job = Persona.find(self.persona_id).jobs.new(:job_id => delayed_job.id) 
+    #  job.save!
+    #end
 
-    #don't forget to save
-    self.save!
+		#rotate the original and redispay everything
+		trans_photo = Magick::Image.read(self.avatar.path).first
+		trans_photo.rotate!(degree)
+
+		trans_photo.write(self.avatar.path)
+		self.avatar.recreate_versions!
+		
+    #don't to store it back to amazon s3
+    self.avatar.store!
   end
   
   def rebuild_original_after_transform( command, options={})

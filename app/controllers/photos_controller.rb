@@ -516,19 +516,29 @@ class PhotosController < ApplicationController
     @photo = @persona.photos.find(params[:photo_id])
 
     if persona_signed_in? && current_persona.screen_name == params[:persona_id] then
-      if params.has_key? :current_version then
-        version = params[:current_version]
-      else
-        version = 'all'
-      end
-      if params[:method] == 'rotate' then
-        #rotate the picture
-        if params[:direction] == 'left' then
-          @photo.rotate(-90, version)
-        elsif params[:direction] == 'right' then
-          @photo.rotate(90, version)
-        end
-      end    
+			#this cause confusion, rewrite everything
+      #if params.has_key? :current_version then
+      #  version = params[:current_version]
+      #else
+      #  version = 'all'
+      #end
+      #if params[:method] == 'rotate' then
+      #  #rotate the picture
+      #  if params[:direction] == 'left' then
+      #    @photo.rotate(-90, version)
+      #  elsif params[:direction] == 'right' then
+      #    @photo.rotate(90, version)
+      #  end
+      #end    
+
+			if params[:method] == 'rotate' then
+				#rotate the picture
+				if params[:direction] == 'left' then
+					@photo.rotate(-90)
+				else
+					@photo.rotate(90)
+				end
+			end
     end
   
     respond_to do |format|
