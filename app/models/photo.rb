@@ -70,12 +70,12 @@ class Photo < ActiveRecord::Base
 		#rotate the original and redispay everything
 		trans_photo = Magick::Image.read(self.avatar.path).first
 		trans_photo.rotate!(degree)
-
 		trans_photo.write(self.avatar.path)
+
+		#this might not work in s3
+    self.avatar.store!
 		self.avatar.recreate_versions!
 		
-    #don't to store it back to amazon s3
-    self.avatar.store!
   end
   
   def rebuild_original_after_transform( command, options={})
