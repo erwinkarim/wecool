@@ -38,22 +38,25 @@ class Photo < ActiveRecord::Base
       }]
     }
   end
-  
-  def rotate (degree, version = 'all')
+ 
+  #rotate the photo. if large file, better just put this in the delayed job  
+  def rotate (degree, version = 'original')
     #cache the photo first
     if !self.avatar.cached? then
       self.avatar.cache_stored_file!
       self.avatar.retrieve_from_cache! self.avatar.cache_name
     end
 
-    #if version == 'all' then
-    #  @path = self.avatar.path 
-    #else
-    #  @path = self.avatar.versions[version.to_sym].path
-    #end
+    if version == 'original' then
+      path = self.avatar.path 
+    else
+      path = self.avatar.versions[version.to_sym].path
+    end
 
-    #@photo = Magick::Image.read(@path).first
-    #@photo.rotate!(degree)
+		#rotate the original and redispay everything
+    photo = Magick::Image.read(path).first
+    photo.rotate!(degree)
+		photo.write(path)
 
     #if version == 'all' then
     #  @photo.write(self.avatar.path)
@@ -67,14 +70,11 @@ class Photo < ActiveRecord::Base
     #  job.save!
     #end
 
-		#rotate the original and redispay everything
-		trans_photo = Magick::Image.read(self.avatar.path).first
-		trans_photo.rotate!(degree)
-		trans_photo.write(self.avatar.path)
-
 		#this might not work in s3
     self.avatar.store!
-		self.avatar.recreate_versions!
+    if version == 'original' then 
+      self.avatar.recreate_versions!
+    end
 		
   end
   
