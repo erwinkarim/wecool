@@ -1,4 +1,12 @@
-var origSource = $('#carousel_<%= @photo.id %>').find('img').attr('src').split('?')[0];
 
-$('#carousel_<%= @photo.id %>').find('img').attr('src', origSource + '?' + Math.random());
+var origSource = $('#carousel_<%= @photo.id %>');
+
+$(document).ready(function(){
+	//rotate the picture
+	<% if @transform_path.has_key? :rotate then %> 
+		origSource.find('img').css('transform', 'rotate(<%= @transform_path[:rotate] %>deg)');
+		origSource.height() > origSource.width() ) ? origSource.css('margin', '0px '+ (origSource.height() - origSource.width()) / 2 + 'px') : origSource.css('margin', (origSource.width() - origSource.height()) / 2 + 'px 0px');
+	<% end %>
+});
+
 

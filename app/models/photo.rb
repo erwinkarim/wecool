@@ -5,7 +5,7 @@ class Photo < ActiveRecord::Base
   make_voteable
   acts_as_taggable
   belongs_to :persona
-  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible, :taken_at, :md5, :exif
+  attr_accessible :description, :title, :avatar, :featured, :visible, :system_visible, :taken_at, :md5, :exif, :transform_factor
   mount_uploader :avatar,AvatarUploader
   has_many :mediaset_photos, :dependent => :destroy
   has_many :mediasets, :through => :mediaset_photos
@@ -40,6 +40,9 @@ class Photo < ActiveRecord::Base
   end
  
   #rotate the photo. if large file, better just put this in the delayed job  
+	#
+	#in heroku, this function is slow and expensive. so better just do it in delayed mode and
+	# live rotation is done by jquery
   def rotate (degree, version = 'original')
     #cache the photo first
     if !self.avatar.cached? then

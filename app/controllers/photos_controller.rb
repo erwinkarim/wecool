@@ -511,9 +511,11 @@ class PhotosController < ApplicationController
   end
 
   #  POST /photos/:persona_id/transform/:photo_id/:method?arg1=val1&arg2=val2....argn=valn
+	# send transform jobs in the background. live transfrom is done via jquery
   def transform
     @persona = Persona.where(:screen_name => params[:persona_id]).first
     @photo = @persona.photos.find(params[:photo_id])
+		@transform_path = @photo.transform_factor.nil? ? {} : YAML::load(@photo.transform_factor)
 
     if persona_signed_in? && current_persona.screen_name == params[:persona_id] then
       #version = (params.has_key? :current_version ? params[:current_version] : 'original')
@@ -522,16 +524,20 @@ class PhotosController < ApplicationController
         version = params[:current_version]
         #rotate the picture
         if params[:direction] == 'left' then
-          @photo.rotate(-90, version)
+          #@photo.rotate(-90, version)
           @photo.delay.rotate(-90)
+					@transform_path[:rotate] = (@transform_path.has_key? :rotate) ? (@transform_path[:rotate] - 90 < 0 ? 270 : @transform_path[:rotate] - 90) : 270
         elsif params[:direction] == 'right' then
-          @photo.rotate(90, version)
+          #@photo.rotate(90, version)
+					@transform_path[:rotate] = @transform_path.has_key? :rotate ? (@transform_path[:rotate] + 90 > 359 ? 0 : @transform_path[:rotate] + 90) : 90
           @photo.delay.rotate(90)
         end
       end    
 
     end
-  
+
+		@photo.save!
+ 
     respond_to do |format|
       format.html
       format.js
