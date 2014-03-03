@@ -525,11 +525,15 @@ class PhotosController < ApplicationController
         #rotate the picture
         if params[:direction] == 'left' then
           #@photo.rotate(-90, version)
+					@transform_path[:rotate] = (@transform_path.has_key? :rotate) ? 
+            (@transform_path[:rotate] - 90 < 0 ? 270 : @transform_path[:rotate] - 90) : 270
+          @photo.update_attribute(:transform_factor, @transform_path.to_yaml)
           @photo.delay.rotate(-90)
-					@transform_path[:rotate] = (@transform_path.has_key? :rotate) ? (@transform_path[:rotate] - 90 < 0 ? 270 : @transform_path[:rotate] - 90) : 270
         elsif params[:direction] == 'right' then
           #@photo.rotate(90, version)
-					@transform_path[:rotate] = @transform_path.has_key? :rotate ? (@transform_path[:rotate] + 90 > 359 ? 0 : @transform_path[:rotate] + 90) : 90
+					@transform_path[:rotate] = @transform_path.has_key? :rotate ? 
+            (@transform_path[:rotate] + 90 > 359 ? 0 : @transform_path[:rotate] + 90) : 90
+          @photo.update_attribute(:transform_factor, @transform_path.to_yaml)
           @photo.delay.rotate(90)
         end
       end    

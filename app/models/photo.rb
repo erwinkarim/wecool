@@ -78,6 +78,8 @@ class Photo < ActiveRecord::Base
     if version == 'original' then 
       self.avatar.recreate_versions!
     end
+
+    #reset transform_path
 		
   end
   
