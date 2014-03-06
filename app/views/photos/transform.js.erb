@@ -2,15 +2,21 @@
 var origSource = $('#carousel_<%= @photo.id %>');
 
 $(document).ready(function(){
-  console.log('rotate photo');
 	//rotate the picture
 	<% if @transform_path.has_key? :rotate then %> 
 		origSource.find('img').css('transform', 'rotate(<%= @transform_path[:rotate] %>deg)');
-		if ( origSource.height() > origSource.width() ){
-      origSource.css('padding', '0px '+ (origSource.height() - origSource.width()) / 2 + 'px') 
-    } else { 
-      origSource.css('padding', (origSource.width() - origSource.height()) / 2 + 'px 0px');
-    }
+
+		<% if @transform_path[:rotate] == 90 || @transform_path[:rotate] == 270 then %>
+			//expand the padding if going sideways
+			if ( origSource.height() > origSource.width() ){
+				origSource.css('padding', '0px '+ (origSource.height() - origSource.width()) / 2 + 'px') 
+			} else { 
+				origSource.css('padding', (origSource.width() - origSource.height()) / 2 + 'px 0px');
+			}
+		<% else %>
+			//reset the padding to originals
+			origSource.css('padding', '0px');
+		<% end %>
 	<% end %>
 });
 
