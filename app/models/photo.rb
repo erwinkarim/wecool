@@ -42,7 +42,9 @@ class Photo < ActiveRecord::Base
   #rotate the photo. if large file, better just put this in the delayed job  
 	#
 	#in heroku, this function is slow and expensive. so better just do it in delayed mode and
-	# live rotation is done by jquery
+	# live rotation is done by jquery/css
+	#
+	# need to rethink this. make it fast but yet very accurate
   def rotate (degree, version = 'original')
     #cache the photo first
     if !self.avatar.cached? then
