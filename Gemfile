@@ -82,6 +82,7 @@ gem 'best_in_place'
 #background jobs
 gem 'delayed_job'
 gem 'delayed_job_active_record'
+gem 'hirefire'
 gem 'daemons'
 
 #process management 
