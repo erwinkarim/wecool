@@ -75,6 +75,7 @@ Wecool::Application.routes.draw do
     match '/photos/:persona_id/new' => :new_direct, :via => :get, :as => 'new_photo'
     match '/photos/:persona_id/gen_s3_data' => :gen_s3_data, :via => :get, :as => 'photos_gen_s3_data'
     match '/photos/:persona_id/gen_from_s3' => :gen_from_s3, :via => :post, :as => 'photos_gen_from_s3'
+		match '/photos/:persona_id/transform_exp/:id' => :transform_exp, :via => :get, :as => 'photos_transform_exp'
     match '/photos_direct' => :create_direct, :via => :post, :as => 'photos_create_direct'
   end
 

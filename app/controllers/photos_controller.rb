@@ -724,4 +724,14 @@ class PhotosController < ApplicationController
 			#end
 		end
   end
+
+	# GET    /photos/:persona_id/transform_exp/:id
+	def transform_exp
+		@persona = Persona.where( :screen_name => params[:persona_id]).first
+		@photo = @persona.photos.find(params[:id])
+
+		respond_to do |format|
+			format.html
+		end
+	end
 end
